@@ -9,22 +9,84 @@ namespace VT
 		public List<Agent> agents = new List<Agent> ();
 		public Dictionary<string, Topic> topics = new Dictionary<string, Topic> ();
 		public ThreePartsControl threePartsControl;
+		public ExpressionsControl expressionsControl;
+		private float start = 0.0f;
+		//ms;
+		private float objective = 8.0f;
+		//ms
+		private int sceneOffset = 0;
+
+		public float Start {
+			get {
+				return this.start;
+			}
+			set {
+				start = value;
+			}
+		}
+
+		public float Objective {
+			get {
+				return this.objective;
+			}
+			set {
+				objective = value;
+			}
+		}
+
+
 
 		// Use this for initialization
 		public Scene ()
 		{
-
 		}
+
+		private string currentTopicName;
 
 		public void changeTopic (string topicName)
 		{
+			start = 0.0f;
 			if (!topics.ContainsKey (topicName)) {
 				return;
 			}
-
+			currentTopicName = topicName;
 			var topic = topics [topicName];
-			threePartsControl.SetAndShow (topic.Inputs [0].message, topic.Inputs [1].message, topic.Inputs [2].message, topic.Inputs [0].onClick, topic.Inputs [1].onClick, topic.Inputs [2].onClick);
+			threePartsControl.SetAndShow (topic);
+			expressionsControl.SetAndShow (topic);
+		}
 
+		public void TimeOutTopic (string topicName)
+		{
+			start = 0.0f;
+			if (!topics.ContainsKey (topicName)) {
+				return;
+			}
+			currentTopicName = topicName;
+			var topic = topics [topicName];
+			expressionsControl.SetAndShow (topic);
+		}
+
+		public string CurrentTopicName {
+			get {
+				return this.currentTopicName;
+			}
+			set {
+				currentTopicName = value;
+			}
+		}
+
+		public void updateScene (float delta)
+		{
+			start += delta;
+			if (start >= objective && sceneOffset + 2 >= topics[currentTopicName].Lines.Count && currentTopicName != "timeTopic" && currentTopicName != "exit1Topic" && currentTopicName != "exit2Topic" && currentTopicName != "exit3Topic" && currentTopicName != "exit4Topic") {
+				TimeOutTopic ("timeTopic");
+			} else if (start >= objective && sceneOffset + 2 >= topics[currentTopicName].Lines.Count && (currentTopicName == "timeTopic" || currentTopicName == "exit1Topic" || currentTopicName == "exit2Topic" || currentTopicName == "exit3Topic" || currentTopicName == "exit4Topic")) { 
+				Application.Quit ();
+			} else if (start >= objective && sceneOffset + 2 < topics[currentTopicName].Lines.Count) {
+				expressionsControl.UpdateControl ();
+				start = 0.0f;
+				sceneOffset += 2;
+			}
 		}
 			
 	}

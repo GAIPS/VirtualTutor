@@ -7,40 +7,32 @@ namespace VT
 	public class ThreePartsControl : IControl
 	{
 		private Control control;
-		private string messageLeft;
-		private string messageTop;
-		private string messageRight;
-		private VoidFunc left, top, right;
+		private Topic currentTopic;
 	
 		public ThreePartsControl(GameObject prefab){
 			control = new Control ();
 			control.prefab = prefab;
 		} 
-		public void Set(string messageLeft,string messageTop,string messageRight, VoidFunc left, VoidFunc top, VoidFunc right){
-			this.messageLeft = messageLeft;
-			this.messageTop = messageTop;
-			this.messageRight = messageRight;
-			this.left = left;
-			this.top = top;
-			this.right = right;
+		public void Set(Topic currentTopic){
+			this.currentTopic = currentTopic;
 		}
 		public ShowResult Show(){
 			var ret = control.Show ();
 			if(ret == ShowResult.FIRST || ret == ShowResult.OK){
 				var hooks = control.instance.GetComponent<ThreePartsHooks> ();
 				if (hooks) {
-					hooks.ContentLeft = messageLeft;
-					hooks.ContentTop = messageTop;
-					hooks.ContentRight = messageRight;
-					hooks.onLeft = left;
-					hooks.onTop = top;
-					hooks.onRight = right;
+					hooks.ContentLeft =currentTopic.Inputs[0].message;
+					hooks.ContentTop = currentTopic.Inputs[1].message;
+					hooks.ContentRight = currentTopic.Inputs[2].message;
+					hooks.onLeft = currentTopic.Inputs [0].onClick;
+					hooks.onTop = currentTopic.Inputs[1].onClick;
+					hooks.onRight = currentTopic.Inputs[2].onClick;
 				}
 			}
 			return ret;
 		}
-		public ShowResult SetAndShow(string messageLeft,string messageTop,string messageRight, VoidFunc left, VoidFunc top, VoidFunc right){
-			this.Set (messageLeft,messageTop,messageRight, left, top, right);
+		public ShowResult SetAndShow(Topic currentTopic){
+			this.Set (currentTopic);
 			return Show ();
 		}
 		public void Disable(){

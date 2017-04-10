@@ -7,16 +7,18 @@ namespace VT
 {
 	public class Agent
 	{
-		private string name = string.Empty;
-
-		public string Name {
+		private bool isLeft = true;
+		public bool IsLeft {
 			get {
-				return this.name;
+				return this.isLeft;
 			}
 			set {
-				name = value;
+				isLeft = value;
 			}
 		}
+
+
+
 
 		public enum EmotionType
 		{

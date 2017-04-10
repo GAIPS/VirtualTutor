@@ -11,6 +11,7 @@ namespace VT
 			public string message;
 
 			public VoidFunc onClick;
+		
 
 			public Input (string message, VoidFunc onClick)
 			{
@@ -21,7 +22,14 @@ namespace VT
 
 		private List<Line> lines = new List<Line> ();
 		private Input[] inputs;
-
+		public List<Line> Lines {
+			get {
+				return this.lines;
+			}
+			set {
+				lines = value;
+			}
+		}
 		public Input[] Inputs {
 			get {
 				return this.inputs;
@@ -42,14 +50,6 @@ namespace VT
 			lines = l;
 		}
 
-		public List<Line> Lines {
-			get {
-				return this.lines;
-			}
-			set {
-				lines = value;
-			}
-		}
 
 		public override string ToString ()
 		{
@@ -57,7 +57,7 @@ namespace VT
 			log+="[Topic: ]\n";
 			log += "Lines: \n";
 			foreach (Line l in Lines) {
-				log += l.Content + "by: " + l.Speaker.Name;
+				log += l.Content + "by: " + l.Speaker.IsLeft;
 			
 			}
 			log += "options: \n";
