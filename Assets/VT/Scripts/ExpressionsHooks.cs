@@ -20,6 +20,14 @@ namespace VT
 		private Image rightImage = null;
 		[SerializeField]
 		private Image leftImage = null;
+		[SerializeField]
+		private GameObject rightLine;
+		[SerializeField]
+		private GameObject leftLine;
+		[SerializeField]
+		private GameObject leftImageObject;
+		[SerializeField]
+		private GameObject rightImageObject;
 	
 
 		public string LeftContent {

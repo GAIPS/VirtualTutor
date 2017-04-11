@@ -11,6 +11,13 @@ public class ThreePartsHooks : Hooks {
 		private Text topicTextTop = null;
 		[SerializeField]
 		private Text topicTextRight = null;
+		[SerializeField]
+		private GameObject topicLeft;
+		[SerializeField]
+		private GameObject topicRight;
+		[SerializeField]
+		private GameObject topicTop;
+
 		public VoidFunc onLeft;
 		public VoidFunc onTop;
 		public VoidFunc onRight;
