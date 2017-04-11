@@ -11,9 +11,7 @@ namespace VT
 		public ThreePartsControl threePartsControl;
 		public ExpressionsControl expressionsControl;
 		private float start = 0.0f;
-		//ms;
-		private float objective = 8.0f;
-		//ms
+		private float objective = 10.0f;
 		private int sceneOffset = 0;
 
 		public float Start {
@@ -34,9 +32,6 @@ namespace VT
 			}
 		}
 
-
-
-		// Use this for initialization
 		public Scene ()
 		{
 		}

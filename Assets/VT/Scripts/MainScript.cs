@@ -414,6 +414,8 @@ namespace VT
 			demoScene.topics.Add ("exit4Topic", exit4Topic);
 
 			//TimeOutDefault
+			happy.CurrentEmotion = Agent.EmotionType.IMPATIENT;
+			grumpy.CurrentEmotion = Agent.EmotionType.IMPATIENT;
 			Line l46 = new Line ("Bom, eu acho que ele não quer falar connosco.", grumpy);
 			Line l47 = new Line ("De certeza que se fartou da tua atitude.", happy);
 			Line l48 = new Line ("Sim, porque toda a gente adora a tua personalidade.", grumpy);

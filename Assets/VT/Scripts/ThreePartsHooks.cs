@@ -50,7 +50,9 @@ public class ThreePartsHooks : Hooks {
 					this.topicTextRight.text = value;
 			}
 		}
-		
+
+		public void DisableContentTop(){
+		}
 
  }
 }

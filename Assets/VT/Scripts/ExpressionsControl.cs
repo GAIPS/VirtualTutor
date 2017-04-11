@@ -54,6 +54,7 @@ namespace VT
 						hooks.RightSprite = hooks.RightSprites [(int)currentTopic.Lines [lineOffset].Speaker.CurrentEmotion];
 						hooks.LeftSprite = hooks.LeftSprites [(int)currentTopic.Lines [lineOffset+1].Speaker.CurrentEmotion];
 					}
+				
 				}
 			}
 			return ret;
