@@ -10,6 +10,11 @@ namespace VT
 
 		public GameObject threeOptionsPrefab;
 		public GameObject ExpressionsPrefab;
+		public GameObject coursesPrefab;
+		public GameObject coursePrefab;
+		public GameObject calendar1Prefab;
+		public GameObject calendar2Prefab;
+		public GameObject calendar3Prefab;
 		private Scene myScene;
 		// Use this for initialization
 		void Start ()
@@ -24,7 +29,13 @@ namespace VT
 			Scene demoScene = new Scene ();
 			ThreePartsControl control = new ThreePartsControl (threeOptionsPrefab);
 			ExpressionsControl expControl = new ExpressionsControl (ExpressionsPrefab);
-			StartDemoScene (control, expControl, demoScene);
+			CoursesControl coursesControl = new CoursesControl (coursesPrefab);
+			CourseControl courseControl = new CourseControl (coursePrefab);
+			Calendar1Control calendar1Control = new Calendar1Control (calendar1Prefab);
+			Calendar2Control calendar2Control = new Calendar2Control (calendar2Prefab);
+			Calendar3Control calendar3Control = new Calendar3Control (calendar3Prefab);
+
+			StartDemoScene (control, expControl,coursesControl,courseControl,calendar1Control,calendar2Control,calendar3Control, demoScene);
 			myScene = demoScene;
 		}
 
@@ -35,10 +46,15 @@ namespace VT
 		void SceneUpdate(Scene demoScene){
 			demoScene.updateScene (Time.deltaTime);
 		}
-		void StartDemoScene (ThreePartsControl control, ExpressionsControl expControl, Scene demoScene)
+		void StartDemoScene (ThreePartsControl control, ExpressionsControl expControl,CoursesControl coursesControl,CourseControl courseControl, Calendar1Control calendar1Control, Calendar2Control calendar2Control,Calendar3Control calendar3Control, Scene demoScene)
 		{
 			demoScene.threePartsControl = control;
 			demoScene.expressionsControl = expControl;
+			demoScene.coursesControl = coursesControl;
+			demoScene.courseControl = courseControl;
+			demoScene.calendar1Control = calendar1Control;
+			demoScene.calendar2Control = calendar2Control;
+			demoScene.calendar3Control = calendar3Control;
 		
 			//Make topics
 			demoScene.agents.Add (new Agent ());
@@ -118,7 +134,7 @@ namespace VT
 			newInfo.Add (l7);
 			newInfo.Add (l8);
 			Topic.Input[] inputs1 = {new Topic.Input ("ok", () => {
-					Debug.Log ("Abre number cenas para meter nota do teste");
+				demoScene.OpenCourses();
 				}), new Topic.Input ("empty", () => {
 				}), new Topic.Input ("empty", () => {
 				})
@@ -136,12 +152,12 @@ namespace VT
 			Line lEmpty = new Line ("empty", grumpy);
 
 			Topic.Input[] inputs3 = { new Topic.Input ("Plano de estudo? Parece-me bem.", () => {
-					Debug.Log ("abrir plano de estudo");
+				demoScene.OpenCalendar();
 				}),
 				new Topic.Input ("Quero ser avisado mais cedo", () => {
 					happy.CurrentEmotion = Agent.EmotionType.SHY;
 					grumpy.CurrentEmotion = Agent.EmotionType.ANGRY;
-					//				demoScene.changeTopic ("warnTestTopic");
+						demoScene.changeTopic ("warnTestTopic");
 				}), new Topic.Input ("E que tal...", () => {
 					Debug.Log ("Em acabamentos");
 				})
@@ -175,7 +191,7 @@ namespace VT
 			Line l15 = new Line ("Ok, com isto vais ser relembrado antes e ter mais tempo para estudar.", happy);
 			Line l16 = new Line ("Continuo a achar que um plano  de estudo era uma boa ideia.", grumpy);
 			Topic.Input[] inputs4 = { new Topic.Input ("Plano de estudo? Parece-me bem.", () => {
-					Debug.Log ("abrir plano de estudo");
+				demoScene.OpenCalendar();
 				}), new Topic.Input ("Obrigado", () => {
 					happy.CurrentEmotion = Agent.EmotionType.SMILING;
 					grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
@@ -209,7 +225,7 @@ namespace VT
 			expected.Add (l21);
 			expected.Add (lEmpty);
 			Topic.Input[] inputs5 = {new Topic.Input ("Vamos fazer um plano de estudo", () => {
-					Debug.Log ("abre plano");
+				demoScene.OpenCalendar();
 				}), new Topic.Input ("Quero ser avisado mais cedo", () => {
 					happy.CurrentEmotion = Agent.EmotionType.SHY;
 					grumpy.CurrentEmotion = Agent.EmotionType.ANGRY;
@@ -252,7 +268,7 @@ namespace VT
 				demoScene.changeTopic ("help");
 				}), new Topic.Input ("empty", () => {
 				}), new Topic.Input ("Deixem-me corrigir uma coisa", () => {
-					Debug.Log ("Abre o plano");
+				demoScene.OpenCalendar();
 				})
 			};
 			List<Line> fewTime = new List<Line> ();
@@ -293,8 +309,7 @@ namespace VT
 					demoScene.changeTopic ("help");
 				}), new Topic.Input ("empty", () => {
 				}), new Topic.Input ("Deixem-me corrigir uma coisa.", () => {
-					Debug.Log ("abre o plano");
-				})
+				demoScene.OpenCalendar();				})
 			};
 			List<Line> enoughTime = new List<Line> ();
 			enoughTime.Add (l32);
@@ -436,7 +451,7 @@ namespace VT
 			Line l52 = new Line("Bom, não queres falar sobre isso, ok.",happy);
 			Line l53 = new Line ("Acho que um plano de estudo era uma boa ideia.", grumpy);
 			Topic.Input[] notAnswTestInputs = { new Topic.Input ("Vamos fazer um plano de estudo!", () => {
-					Debug.Log ("Abrir plano de estudo");
+				demoScene.OpenCalendar();
 				}), new Topic.Input ("empty", () => {
 				}), new Topic.Input ("Obrigado", () => {
 					happy.CurrentEmotion = Agent.EmotionType.SMILING;

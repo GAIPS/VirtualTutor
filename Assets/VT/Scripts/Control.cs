@@ -58,5 +58,13 @@ namespace VT
 		{
 			return instance != null && instance.activeSelf;
 		}
+
+		public void Enable(){
+			if (instance == null)
+				return;
+			if (!IsVisible ())
+				instance.SetActive (true);
+		}
+		
 	}
 }

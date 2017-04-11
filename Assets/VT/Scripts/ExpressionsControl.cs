@@ -12,6 +12,7 @@ namespace VT
 		private Control control;
 		private Topic currentTopic;
 		private int lineOffset = 0;
+
 		public int LineOffset {
 			get {
 				return this.lineOffset;
@@ -45,14 +46,14 @@ namespace VT
 						hooks.RightSprites = new List<Sprite> ();
 					if (currentTopic.Lines [lineOffset].Speaker.IsLeft) {
 						hooks.LeftContent = currentTopic.Lines [LineOffset].Content;
-						hooks.RightContent = currentTopic.Lines [lineOffset+1].Content;
-						hooks.LeftSprite = hooks.LeftSprites [(int)currentTopic.Lines[lineOffset].Speaker.CurrentEmotion];
-						hooks.RightSprite = hooks.RightSprites [(int)currentTopic.Lines[lineOffset+1].Speaker.CurrentEmotion];
+						hooks.RightContent = currentTopic.Lines [lineOffset + 1].Content;
+						hooks.LeftSprite = hooks.LeftSprites [(int)currentTopic.Lines [lineOffset].Speaker.CurrentEmotion];
+						hooks.RightSprite = hooks.RightSprites [(int)currentTopic.Lines [lineOffset + 1].Speaker.CurrentEmotion];
 					} else if (!currentTopic.Lines [lineOffset].Speaker.IsLeft) {
 						hooks.RightContent = currentTopic.Lines [lineOffset].Content;
-						hooks.LeftContent = currentTopic.Lines [lineOffset+1].Content;
+						hooks.LeftContent = currentTopic.Lines [lineOffset + 1].Content;
 						hooks.RightSprite = hooks.RightSprites [(int)currentTopic.Lines [lineOffset].Speaker.CurrentEmotion];
-						hooks.LeftSprite = hooks.LeftSprites [(int)currentTopic.Lines [lineOffset+1].Speaker.CurrentEmotion];
+						hooks.LeftSprite = hooks.LeftSprites [(int)currentTopic.Lines [lineOffset + 1].Speaker.CurrentEmotion];
 					}
 				
 				}
@@ -60,7 +61,9 @@ namespace VT
 			return ret;
 			
 		}
-		public void UpdateControl(){
+
+		public void UpdateControl ()
+		{
 			lineOffset += 2;
 			Show ();
 		}
@@ -84,6 +87,11 @@ namespace VT
 		public bool IsVisible ()
 		{
 			return control.IsVisible ();
+		}
+
+		public void Enable ()
+		{
+			control.Enable ();
 		}
 
 	}
