@@ -66,7 +66,12 @@ namespace VT
 			return ret;
 			
 		}
-
+		public void Flush(){
+			if (hooks && started) {
+				hooks.LeftLine.SetActive (false);
+				hooks.RightLine.SetActive (false);
+			}
+		}
 		public void UpdateControl (float delta)
 		{
 			start += delta;
@@ -79,21 +84,18 @@ namespace VT
 						if (l.Speaker.IsLeft) {
 							hooks.LeftLine.SetActive (true);
 							hooks.LeftContent = l.Content;
+							hooks.LeftSprite = hooks.LeftSprites [(int)l.Speaker.CurrentEmotion];
 						} else {
 							hooks.RightLine.SetActive (true);
 							hooks.RightContent = l.Content;
+							hooks.RightSprite = hooks.RightSprites [(int)l.Speaker.CurrentEmotion];
 						}
 					} 
 				}
 			}
 			Show ();
 		}
-
-		public void UpdateOffset ()
-		{
-			//	lineOffset += 2;
-		}
-
+			
 		public ShowResult SetAndShow (Topic currentTopic)
 		{
 			this.Set (currentTopic);
@@ -119,6 +121,15 @@ namespace VT
 		{
 			control.Enable ();
 		}
-
+		public float Start {
+			get {
+				return this.start;
+			}
+			set {
+				start = value;
+			}
+		}
+	
 	}
+
 }

@@ -16,8 +16,6 @@ namespace VT
 		public Calendar2Control calendar2Control;
 		public Calendar3Control calendar3Control;
 		private float start = 0.0f;
-		private float objective = 5.0f;
-		private int sceneOffset = 0;
 		private float test1Value;
 		private float test2Value;
 
@@ -30,14 +28,6 @@ namespace VT
 			}
 		}
 
-		public float Objective {
-			get {
-				return this.objective;
-			}
-			set {
-				objective = value;
-			}
-		}
 
 		public Scene ()
 		{
@@ -47,7 +37,7 @@ namespace VT
 
 		public void OpenCourses ()
 		{
-
+			expressionsControl.Flush ();
 			start = 11.0f;
 			coursesControl.SetAndShow (() => {
 				OpenCourse ();
@@ -60,24 +50,28 @@ namespace VT
 
 			courseControl.SetAndShow (() => {
 				start = 0.0f;
+				expressionsControl.Start = 0.0f;
 				if (test2Value < 8.5) {
-					agents[0].CurrentEmotion = Agent.EmotionType.CRYING;
-					agents[1].CurrentEmotion = Agent.EmotionType.CRYING;
+					agents [0].CurrentEmotion = Agent.EmotionType.CRYING;
+					agents [1].CurrentEmotion = Agent.EmotionType.CRYING;
 					currentTopicName = "badTestTopic";
 					var topic2 = topics [currentTopicName];
 					threePartsControl.SetAndShow (topic2);
 					expressionsControl.SetAndShow (topic2);
 					coursesControl.Disable ();
 					courseControl.Disable ();
+
 				} else if (test2Value >= 8.5 && test2Value < 9.5) {
 					agents [0].CurrentEmotion = Agent.EmotionType.SAD;
 					agents [1].CurrentEmotion = Agent.EmotionType.SAD;
 					currentTopicName = "belowAvgTopic";
 					var topic2 = topics [currentTopicName];
+
 					threePartsControl.SetAndShow (topic2);
 					expressionsControl.SetAndShow (topic2);
 					coursesControl.Disable ();
 					courseControl.Disable ();
+
 				} else if (test2Value >= 9.5 && test2Value < 15.0) {
 					agents [0].CurrentEmotion = Agent.EmotionType.LIKES;
 					agents [1].CurrentEmotion = Agent.EmotionType.SMILING;
@@ -87,15 +81,17 @@ namespace VT
 					expressionsControl.SetAndShow (topic2);
 					coursesControl.Disable ();
 					courseControl.Disable ();
+
 				} else if (test2Value >= 15.0) {
 					agents [0].CurrentEmotion = Agent.EmotionType.LIKES;
 					agents [1].CurrentEmotion = Agent.EmotionType.LIKES;
-					currentTopicName ="greatTest";
+					currentTopicName = "greatTest";
 					var topic2 = topics [currentTopicName];
 					threePartsControl.SetAndShow (topic2);
 					expressionsControl.SetAndShow (topic2);
 					coursesControl.Disable ();
 					courseControl.Disable ();
+				
 				}
 					
 			}, () => {
@@ -107,16 +103,22 @@ namespace VT
 			},
 				(string value) => {
 					test2Value = float.Parse (value);
-				},()=>{},()=>{});
+				}, () => {
+			}, () => {
+			});
 		
 		}
-		public void UpdateExpressions(float delta){
+
+		public void UpdateExpressions (float delta)
+		{
 			expressionsControl.UpdateControl (delta);
 		}
-			
+
 		public void OpenCalendar ()
 		{
-			start = 11.0f;
+			expressionsControl.Flush ();
+			start = 0.0f;
+			expressionsControl.Start = 0.0f;
 			calendar1Control.SetAndShow (() => {
 				SaveCalendar ();
 			});	
@@ -133,8 +135,7 @@ namespace VT
 		{
 
 			calendar3Control.SetAndShow (() => {
-
-				start = 0.0f;
+				
 				currentTopicName = "enoughPlan";
 				var topic3 = topics [currentTopicName];
 				threePartsControl.SetAndShow (topic3);
@@ -144,6 +145,8 @@ namespace VT
 				calendar3Control.Disable ();
 				coursesControl.Disable ();
 				courseControl.Disable ();
+				start = 0.0f;
+				expressionsControl.Start = 0.0f;
 
 
 			});
@@ -152,7 +155,7 @@ namespace VT
 		public void changeTopic (string topicName)
 		{
 			start = 0.0f;
-			objective = 5.0f;
+			expressionsControl.Start = 0.0f;
 			if (!topics.ContainsKey (topicName)) {
 				return;
 			}
@@ -164,8 +167,10 @@ namespace VT
 
 		public void TimeOutTopic (string topicName)
 		{
+			agents[0].CurrentEmotion = Agent.EmotionType.IMPATIENT;
+			agents[1].CurrentEmotion = Agent.EmotionType.IMPATIENT;
 			start = 0.0f;
-			objective = 10.0f;
+			expressionsControl.Start = 0.0f;
 			if (!topics.ContainsKey (topicName)) {
 				return;
 			}
@@ -186,19 +191,14 @@ namespace VT
 		public void updateScene (float delta)
 		{
 			start += delta;
-			if (start >= objective && sceneOffset + 2 >= topics [currentTopicName].Lines.Count && currentTopicName != "timeTopic" && currentTopicName != "exit1Topic" && currentTopicName != "exit2Topic" && currentTopicName != "exit3Topic" && currentTopicName != "exit4Topic" && currentTopicName != "badTestTopic") {
+//
+			if (start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 2.0f && currentTopicName != "timeTopic" && currentTopicName != "exit1Topic" && currentTopicName != "exit2Topic" && currentTopicName != "exit3Topic" && currentTopicName != "exit4Topic" && currentTopicName != "badTestTopic") {
 				TimeOutTopic ("timeTopic");
-			} else if (start >= objective && sceneOffset + 2 >= topics [currentTopicName].Lines.Count && (currentTopicName == "timeTopic" || currentTopicName == "exit1Topic" || currentTopicName == "exit2Topic" || currentTopicName == "exit3Topic" || currentTopicName == "exit4Topic")) { 
+			} else if (start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 2.0f && (currentTopicName == "timeTopic" || currentTopicName == "exit1Topic" || currentTopicName == "exit2Topic" || currentTopicName == "exit3Topic" || currentTopicName == "exit4Topic")) {
 				Application.Quit ();
-			} else if (start >= objective && sceneOffset + 2 >= topics [currentTopicName].Lines.Count && currentTopicName == "badTestTopic") {
+			} else if (start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 2.0f && currentTopicName == "badTestTopic") {
+//				 
 				changeTopic ("noAnswTest");
-			}
-			 else if (start >= objective && sceneOffset + 2 < topics [currentTopicName].Lines.Count) {
-//				expressionsControl.UpdateControl ();
-			expressionsControl.UpdateOffset();
-			start = 0.0f;
-				sceneOffset += 2;
-
 			}
 		}
 			

@@ -13,9 +13,9 @@ namespace VT
 		[SerializeField]
 		private Text rightText = null;
 		[SerializeField]
-		private List<Sprite> leftExpressions = null;
+		private List<Sprite> leftExpressions= null;
 		[SerializeField]
-		private List<Sprite> rightExpressions = null;
+		private List<Sprite> rightExpressions= null;
 		[SerializeField]
 		private Image rightImage = null;
 		[SerializeField]
