@@ -12,6 +12,10 @@ namespace VT
 		private VoidFunc onNewRubber;
 		private VoidFunc onOldPlus;
 		private VoidFunc onNewPlus;
+		private StringFunc onOldInput;
+		private StringFunc onNewInput;
+		private VoidFunc onOldSend;
+		private VoidFunc onNewSend;
 
 		public CourseControl (GameObject prefab)
 		{
@@ -19,13 +23,18 @@ namespace VT
 			control.prefab = prefab;
 		}
 
-		public void Set (VoidFunc onConfirm, VoidFunc onOldRubber, VoidFunc onNewRubber, VoidFunc onOldPlus, VoidFunc onNewPlus)
+		public void Set (VoidFunc onConfirm, VoidFunc onOldRubber, VoidFunc onNewRubber, VoidFunc onOldPlus, VoidFunc onNewPlus, StringFunc onOldInput, StringFunc onNewInput,VoidFunc onOldSend, VoidFunc onNewSend)
 		{
 			this.onConfirm = onConfirm;
 			this.onOldRubber = onOldRubber;
 			this.onNewRubber = onNewRubber;
 			this.onOldPlus = onOldPlus;
 			this.onNewPlus = onNewPlus;
+			this.onOldInput = onOldInput;
+			this.onNewInput = onNewInput;
+			this.onNewSend = onNewSend;
+			this.onOldSend = onOldSend;
+	
 
 		}
 
@@ -40,12 +49,16 @@ namespace VT
 					hooks.onNewRubber = this.onNewRubber;
 					hooks.onOldPlus = this.onOldPlus;
 					hooks.onNewPlus = this.onNewPlus;
+					hooks.onNewInput = this.onNewInput;
+					hooks.onOldInput = this.onOldInput;
+					hooks.sendNewGrade = this.onNewSend;
+					hooks.sendOldgrade = this.onOldSend;
 				}
 			}
 			return ret;
 		}
-		public ShowResult SetAndShow(VoidFunc onConfirm, VoidFunc onOldRubber, VoidFunc onNewRubber, VoidFunc onOldPlus, VoidFunc onNewPlus){
-			this.Set (onConfirm, onOldRubber, onNewRubber, onOldPlus, onNewPlus);
+		public ShowResult SetAndShow(VoidFunc onConfirm, VoidFunc onOldRubber, VoidFunc onNewRubber, VoidFunc onOldPlus, VoidFunc onNewPlus, StringFunc onOldInput, StringFunc onNewInput, VoidFunc onOldSend, VoidFunc onNewSend){
+			this.Set (onConfirm, onOldRubber, onNewRubber, onOldPlus, onNewPlus,onOldInput,onNewInput,onOldSend,onNewSend);
 			return Show ();
 		}
 		public void Destroy(){

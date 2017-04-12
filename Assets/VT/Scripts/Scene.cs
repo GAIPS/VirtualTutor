@@ -18,6 +18,8 @@ namespace VT
 		private float start = 0.0f;
 		private float objective = 10.0f;
 		private int sceneOffset = 0;
+		private float test1Value;
+		private float test2Value;
 
 		public float Start {
 			get {
@@ -58,18 +60,54 @@ namespace VT
 
 			courseControl.SetAndShow (() => {
 				start = 0.0f;
-
-				currentTopicName = "badTestTopic";
-				var topic2 = topics [currentTopicName];
-				threePartsControl.SetAndShow (topic2);
-				expressionsControl.SetAndShow (topic2);
-				coursesControl.Disable ();
-				courseControl.Disable ();
+				if (test2Value < 8.5) {
+					agents[0].CurrentEmotion = Agent.EmotionType.CRYING;
+					agents[1].CurrentEmotion = Agent.EmotionType.CRYING;
+					currentTopicName = "badTestTopic";
+					var topic2 = topics [currentTopicName];
+					threePartsControl.SetAndShow (topic2);
+					expressionsControl.SetAndShow (topic2);
+					coursesControl.Disable ();
+					courseControl.Disable ();
+				} else if (test2Value >= 8.5 && test2Value < 9.5) {
+					agents [0].CurrentEmotion = Agent.EmotionType.SAD;
+					agents [1].CurrentEmotion = Agent.EmotionType.SAD;
+					currentTopicName = "belowAvgTopic";
+					var topic2 = topics [currentTopicName];
+					threePartsControl.SetAndShow (topic2);
+					expressionsControl.SetAndShow (topic2);
+					coursesControl.Disable ();
+					courseControl.Disable ();
+				} else if (test2Value >= 9.5 && test2Value < 15.0) {
+					agents [0].CurrentEmotion = Agent.EmotionType.LIKES;
+					agents [1].CurrentEmotion = Agent.EmotionType.SMILING;
+					currentTopicName = "expectedTest";
+					var topic2 = topics [currentTopicName];
+					threePartsControl.SetAndShow (topic2);
+					expressionsControl.SetAndShow (topic2);
+					coursesControl.Disable ();
+					courseControl.Disable ();
+				} else if (test2Value >= 15.0) {
+					agents [0].CurrentEmotion = Agent.EmotionType.LIKES;
+					agents [1].CurrentEmotion = Agent.EmotionType.LIKES;
+					currentTopicName ="greatTest";
+					var topic2 = topics [currentTopicName];
+					threePartsControl.SetAndShow (topic2);
+					expressionsControl.SetAndShow (topic2);
+					coursesControl.Disable ();
+					courseControl.Disable ();
+				}
+					
 			}, () => {
 			}, () => {
 			}, () => {
 			}, () => {
-			});
+			}, (string value) => {
+				test1Value =	float.Parse (value);
+			},
+				(string value) => {
+					test2Value = float.Parse (value);
+				},()=>{},()=>{});
 		
 		}
 
@@ -78,7 +116,7 @@ namespace VT
 			start = 11.0f;
 			calendar1Control.SetAndShow (() => {
 				SaveCalendar ();
-			});
+			});	
 		}
 
 		public void SaveCalendar ()

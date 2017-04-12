@@ -209,8 +209,7 @@ namespace VT
 			demoScene.topics.Add ("warnTestTopic", warnTestTopic);
 
 //			//expected
-//			happy.CurrentEmotion = Agent.EmotionType.LIKES;
-//			grumpy.CurrentEmotion = Agent.EmotionType.SMILING;
+//			
 			//colocar quando tiver link
 			Line l17 = new Line ("Parabéns, foi uma boa nota.", happy);
 			Line l18 = new Line ("Acho que podes melhorar um pouco.", grumpy);
