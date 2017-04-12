@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 namespace VT
 {
@@ -42,9 +43,11 @@ namespace VT
 		void Update ()
 		{
 			SceneUpdate (myScene);	
+
 		}
 		void SceneUpdate(Scene demoScene){
 			demoScene.updateScene (Time.deltaTime);
+			demoScene.UpdateExpressions (Time.deltaTime);
 		}
 		void StartDemoScene (ThreePartsControl control, ExpressionsControl expControl,CoursesControl coursesControl,CourseControl courseControl, Calendar1Control calendar1Control, Calendar2Control calendar2Control,Calendar3Control calendar3Control, Scene demoScene)
 		{
@@ -66,15 +69,16 @@ namespace VT
 			//Hello
 			happy.CurrentEmotion = Agent.EmotionType.SMILING;
 			grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
-			Line l1 = new Line ("Olá, em que te posso ajudar hoje?", happy);
-			Line l2 = new Line ("Podes?No singular? Eu nunca faço nada,é?", grumpy);
-			Line l3 = new Line ("Ooooook, desculpa. Em que é que PODEMOS te ajudar hoje?", happy);
-			Line l4 = new Line ("Pronto, assim já gosto mais. Egocêntrico.", grumpy);
+			Line l1 = new Line ("Olá, em que te posso ajudar hoje?", happy,0.0f,4.5f);
+			Line l2 = new Line ("Podes?No singular? Eu nunca faço nada,é?", grumpy,2.0f,5.0f);
+			Line l3 = new Line ("Ooooook, desculpa. Em que é que PODEMOS te ajudar hoje?", happy,6.5f,10.0f);
+			Line l4 = new Line ("Pronto, assim já gosto mais. Egocêntrico.", grumpy,7.0f,12.0f);
 			List<Line> lines = new List<Line> ();
 			lines.Add (l1);
 			lines.Add (l2);
 			lines.Add (l3);
 			lines.Add (l4);
+			lines = lines.OrderBy (l => l.Start).ToList ();
 			Topic.Input[] inputs = {
 				new Topic.Input (
 					"lembrem-me de...", () => {

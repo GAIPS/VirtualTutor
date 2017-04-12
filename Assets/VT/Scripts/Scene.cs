@@ -16,7 +16,7 @@ namespace VT
 		public Calendar2Control calendar2Control;
 		public Calendar3Control calendar3Control;
 		private float start = 0.0f;
-		private float objective = 10.0f;
+		private float objective = 5.0f;
 		private int sceneOffset = 0;
 		private float test1Value;
 		private float test2Value;
@@ -110,7 +110,10 @@ namespace VT
 				},()=>{},()=>{});
 		
 		}
-
+		public void UpdateExpressions(float delta){
+			expressionsControl.UpdateControl (delta);
+		}
+			
 		public void OpenCalendar ()
 		{
 			start = 11.0f;
@@ -149,7 +152,7 @@ namespace VT
 		public void changeTopic (string topicName)
 		{
 			start = 0.0f;
-			objective = 10.0f;
+			objective = 5.0f;
 			if (!topics.ContainsKey (topicName)) {
 				return;
 			}
@@ -189,10 +192,13 @@ namespace VT
 				Application.Quit ();
 			} else if (start >= objective && sceneOffset + 2 >= topics [currentTopicName].Lines.Count && currentTopicName == "badTestTopic") {
 				changeTopic ("noAnswTest");
-			} else if (start >= objective && sceneOffset + 2 < topics [currentTopicName].Lines.Count) {
-				expressionsControl.UpdateControl ();
-				start = 0.0f;
+			}
+			 else if (start >= objective && sceneOffset + 2 < topics [currentTopicName].Lines.Count) {
+//				expressionsControl.UpdateControl ();
+			expressionsControl.UpdateOffset();
+			start = 0.0f;
 				sceneOffset += 2;
+
 			}
 		}
 			

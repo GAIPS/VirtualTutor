@@ -73,5 +73,23 @@ namespace VT
 			get{ return this.rightExpressions; }
 			set{ this.rightExpressions = value; }
 		}
+		public GameObject RightLine {
+			get {
+				return this.rightLine;
+			}
+			set {
+				rightLine = value;
+			}
+		}
+
+		public GameObject LeftLine {
+			get {
+				return this.leftLine;
+			}
+			set {
+				leftLine = value;
+			}
+		}
+		
 	}
 }

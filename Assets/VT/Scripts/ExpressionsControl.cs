@@ -11,7 +11,11 @@ namespace VT
 	{
 		private Control control;
 		private Topic currentTopic;
+		private float start = 0.0f;
 		private int lineOffset = 0;
+		private int whatLine;
+		private bool started;
+		private ExpressionsHooks hooks;
 
 		public int LineOffset {
 			get {
@@ -35,26 +39,27 @@ namespace VT
 		}
 
 		public ShowResult Show ()
-		{
+		{	
+			started = true;
 			var ret = control.Show ();
 			if (ret == ShowResult.FIRST || ret == ShowResult.OK) {
-				var hooks = control.instance.GetComponent<ExpressionsHooks> ();
+				hooks = control.instance.GetComponent<ExpressionsHooks> ();
 				if (hooks) {
 					if (hooks.LeftSprites == null)
 						hooks.LeftSprites = new List<Sprite> ();
 					if (hooks.RightSprites == null)
 						hooks.RightSprites = new List<Sprite> ();
-					if (currentTopic.Lines [lineOffset].Speaker.IsLeft) {
-						hooks.LeftContent = currentTopic.Lines [LineOffset].Content;
-						hooks.RightContent = currentTopic.Lines [lineOffset + 1].Content;
-						hooks.LeftSprite = hooks.LeftSprites [(int)currentTopic.Lines [lineOffset].Speaker.CurrentEmotion];
-						hooks.RightSprite = hooks.RightSprites [(int)currentTopic.Lines [lineOffset + 1].Speaker.CurrentEmotion];
-					} else if (!currentTopic.Lines [lineOffset].Speaker.IsLeft) {
-						hooks.RightContent = currentTopic.Lines [lineOffset].Content;
-						hooks.LeftContent = currentTopic.Lines [lineOffset + 1].Content;
-						hooks.RightSprite = hooks.RightSprites [(int)currentTopic.Lines [lineOffset].Speaker.CurrentEmotion];
-						hooks.LeftSprite = hooks.LeftSprites [(int)currentTopic.Lines [lineOffset + 1].Speaker.CurrentEmotion];
-					}
+//					if (currentTopic.Lines [lineOffset].Speaker.IsLeft) {
+//						hooks.LeftContent = currentTopic.Lines [LineOffset].Content;
+//						hooks.RightContent = currentTopic.Lines [lineOffset + 1].Content;
+//						hooks.LeftSprite = hooks.LeftSprites [(int)currentTopic.Lines [lineOffset].Speaker.CurrentEmotion];
+//						hooks.RightSprite = hooks.RightSprites [(int)currentTopic.Lines [lineOffset + 1].Speaker.CurrentEmotion];
+//					} else if (!currentTopic.Lines [lineOffset].Speaker.IsLeft) {
+//						hooks.RightContent = currentTopic.Lines [lineOffset].Content;
+//						hooks.LeftContent = currentTopic.Lines [lineOffset + 1].Content;
+//						hooks.RightSprite = hooks.RightSprites [(int)currentTopic.Lines [lineOffset].Speaker.CurrentEmotion];
+//						hooks.LeftSprite = hooks.LeftSprites [(int)currentTopic.Lines [lineOffset + 1].Speaker.CurrentEmotion];
+//					}
 				
 				}
 			}
@@ -62,10 +67,31 @@ namespace VT
 			
 		}
 
-		public void UpdateControl ()
+		public void UpdateControl (float delta)
 		{
-			lineOffset += 2;
+			start += delta;
+			//lineOffset += 2;
+			if (hooks && started) {
+				hooks.LeftLine.SetActive (false);
+				hooks.RightLine.SetActive (false);
+				foreach (Line l in currentTopic.Lines) {
+					if (l.Start <= start && l.End > start) {
+						if (l.Speaker.IsLeft) {
+							hooks.LeftLine.SetActive (true);
+							hooks.LeftContent = l.Content;
+						} else {
+							hooks.RightLine.SetActive (true);
+							hooks.RightContent = l.Content;
+						}
+					} 
+				}
+			}
 			Show ();
+		}
+
+		public void UpdateOffset ()
+		{
+			//	lineOffset += 2;
 		}
 
 		public ShowResult SetAndShow (Topic currentTopic)
