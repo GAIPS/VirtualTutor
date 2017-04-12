@@ -87,6 +87,7 @@ namespace VT
 				return;
 			oldInput.SetActive (true);
 			oldSendButton.SetActive (true);
+			oldAddition.SetActive (false);
 			onOldPlus ();
 		}
 

@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-namespace VT{
 
-public class ThreePartsHooks : Hooks {
+namespace VT
+{
+
+	public class ThreePartsHooks : Hooks
+	{
 		[SerializeField]
 		private Text topicTextLeft = null;
 		[SerializeField]
@@ -21,15 +24,21 @@ public class ThreePartsHooks : Hooks {
 		public VoidFunc onLeft;
 		public VoidFunc onTop;
 		public VoidFunc onRight;
-		public void UILeft(){
+
+		public void UILeft ()
+		{
 			if (onLeft != null)
 				onLeft ();
 		}
-		public void UITop(){
+
+		public void UITop ()
+		{
 			if (onTop != null)
 				onTop ();
 		}
-		public void UIRight(){
+
+		public void UIRight ()
+		{
 			if (onRight != null)
 				onRight ();
 		}
@@ -37,29 +46,35 @@ public class ThreePartsHooks : Hooks {
 		public string ContentLeft {
 			get{ return this.topicTextLeft.text; }
 			set {
-				if (!string.IsNullOrEmpty (value) && !value.Equals (this.topicTextLeft.text))
+				if (!string.IsNullOrEmpty (value)) {
 					this.topicTextLeft.text = value;
+					topicLeft.SetActive (true);
+				} else if (string.IsNullOrEmpty (value))
+					topicLeft.SetActive (false);
 			}
 		}
 
-			public string ContentTop {
+		public string ContentTop {
 			get{ return this.topicTextTop.text; }
 			set {
-				if (!string.IsNullOrEmpty (value) && !value.Equals (this.topicTextTop.text))
+				if (!string.IsNullOrEmpty (value)) {
+					topicTop.SetActive (true);
 					this.topicTextTop.text = value;
+				} else if (string.IsNullOrEmpty (value))
+					topicTop.SetActive (false);
 			}
 		}
 
-				public string ContentRight {
+		public string ContentRight {
 			get{ return this.topicTextRight.text; }
 			set {
-				if (!string.IsNullOrEmpty (value) && !value.Equals (this.topicTextRight.text))
+				if (!string.IsNullOrEmpty (value)) {
+					topicRight.SetActive (true);
 					this.topicTextRight.text = value;
+				} else if (string.IsNullOrEmpty (value))
+					topicRight.SetActive (false);
 			}
 		}
 
-		public void DisableContentTop(){
-		}
-
- }
+	}
 }

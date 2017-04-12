@@ -116,7 +116,7 @@ namespace VT
 					grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
 					demoScene.changeTopic ("Hello");
 				}),
-				new Topic.Input ("empty", () => {
+				new Topic.Input ("", () => {
 					Debug.Log ("top");
 				}),
 				new Topic.Input ("fechem a aplicação por favor", () => {
@@ -135,8 +135,8 @@ namespace VT
 			newInfo.Add (l8);
 			Topic.Input[] inputs1 = {new Topic.Input ("ok", () => {
 				demoScene.OpenCourses();
-				}), new Topic.Input ("empty", () => {
-				}), new Topic.Input ("empty", () => {
+				}), new Topic.Input ("", () => {
+				}), new Topic.Input ("", () => {
 				})
 			};
 			Topic newInfoTopic = new Topic (newInfo, inputs1);
@@ -149,7 +149,7 @@ namespace VT
 			Line l9 = new Line ("Ora bolas!", happy);
 			Line l10 = new Line ("Devias ter estudado mais...", grumpy);
 			Line l11 = new Line ("Podemos sempre fazer um plano de estudo, o que achas?", happy);
-			Line lEmpty = new Line ("empty", grumpy);
+			Line lEmpty = new Line ("", grumpy);
 
 			Topic.Input[] inputs3 = { new Topic.Input ("Plano de estudo? Parece-me bem.", () => {
 				demoScene.OpenCalendar();
@@ -201,7 +201,6 @@ namespace VT
 					Debug.Log ("Em acabamentos");
 				})
 			};
-
 			List<Line> warnTest = new List<Line> ();
 			warnTest.Add (l15);
 			warnTest.Add (l16);
@@ -228,7 +227,7 @@ namespace VT
 				}), new Topic.Input ("Quero ser avisado mais cedo", () => {
 					happy.CurrentEmotion = Agent.EmotionType.SHY;
 					grumpy.CurrentEmotion = Agent.EmotionType.ANGRY;
-					//				demoScene.changeTopic ("warnTestTopic");
+						demoScene.changeTopic ("warnTestTopic");
 				}), new Topic.Input ("E que tal...", () => {
 					Debug.Log ("Em acabamentos");
 				})
@@ -265,7 +264,7 @@ namespace VT
 					grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
 
 				demoScene.changeTopic ("help");
-				}), new Topic.Input ("empty", () => {
+				}), new Topic.Input ("", () => {
 				}), new Topic.Input ("Deixem-me corrigir uma coisa", () => {
 				demoScene.OpenCalendar();
 				})
@@ -306,7 +305,7 @@ namespace VT
 					happy.CurrentEmotion = Agent.EmotionType.SMILING;
 					grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
 					demoScene.changeTopic ("help");
-				}), new Topic.Input ("empty", () => {
+				}), new Topic.Input ("", () => {
 				}), new Topic.Input ("Deixem-me corrigir uma coisa.", () => {
 				demoScene.OpenCalendar();				})
 			};
@@ -347,7 +346,7 @@ namespace VT
 					happy.CurrentEmotion = Agent.EmotionType.DOMINANT;
 					grumpy.CurrentEmotion = Agent.EmotionType.DOMINANT;
 					demoScene.changeTopic ("exit1Topic");
-				}), new Topic.Input ("empty", () => {
+				}), new Topic.Input ("", () => {
 				}), new Topic.Input ("Isso é muito cedo", () => {
 					happy.CurrentEmotion = Agent.EmotionType.SHY;
 					grumpy.CurrentEmotion = Agent.EmotionType.SUBMISSIVE;
@@ -390,11 +389,11 @@ namespace VT
 			exit1.Add (l41);
 //			//nao vai haver inputs just close window
 			Topic.Input[] emptyInputs = {
-				new Topic.Input ("empty", () => {
+				new Topic.Input ("", () => {
 				}),
-				new Topic.Input ("empty", () => {
+				new Topic.Input ("", () => {
 				}),
-				new Topic.Input ("empty", () => {
+				new Topic.Input ("", () => {
 				})
 			};
 
@@ -451,7 +450,7 @@ namespace VT
 			Line l53 = new Line ("Acho que um plano de estudo era uma boa ideia.", grumpy);
 			Topic.Input[] notAnswTestInputs = { new Topic.Input ("Vamos fazer um plano de estudo!", () => {
 				demoScene.OpenCalendar();
-				}), new Topic.Input ("empty", () => {
+				}), new Topic.Input ("", () => {
 				}), new Topic.Input ("Obrigado", () => {
 					happy.CurrentEmotion = Agent.EmotionType.SMILING;
 					grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;

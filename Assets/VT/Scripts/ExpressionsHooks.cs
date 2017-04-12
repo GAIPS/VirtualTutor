@@ -15,7 +15,7 @@ namespace VT
 		[SerializeField]
 		private List<Sprite> leftExpressions = null;
 		[SerializeField]
-		private List<Sprite> rightExpressions= null;
+		private List<Sprite> rightExpressions = null;
 		[SerializeField]
 		private Image rightImage = null;
 		[SerializeField]
@@ -28,22 +28,29 @@ namespace VT
 		private GameObject leftImageObject;
 		[SerializeField]
 		private GameObject rightImageObject;
-	
+
 
 		public string LeftContent {
 			get{ return this.leftText.text; }
 			set {
-				if (!string.IsNullOrEmpty (value) && !value.Equals (this.leftText.text))
+				if (!string.IsNullOrEmpty (value)) {
+					leftImageObject.SetActive (true);
 					this.leftText.text = value;
-			}
+				} else if (string.IsNullOrEmpty (value))
+					leftImageObject.SetActive (false);
 				
+				
+			}
 		}
 
 		public string RightContent {
 			get{ return this.rightText.text; }
 			set {
-				if (!string.IsNullOrEmpty (value) && !value.Equals (this.rightText.text))
+				if (!string.IsNullOrEmpty (value)) {
+					rightImageObject.SetActive (true);
 					this.rightText.text = value;
+				} else if (string.IsNullOrEmpty (value))
+					rightImageObject.SetActive (false);
 			}
 		}
 
