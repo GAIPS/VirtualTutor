@@ -158,9 +158,11 @@ namespace VT
 					happy.CurrentEmotion = Agent.EmotionType.SHY;
 					grumpy.CurrentEmotion = Agent.EmotionType.ANGRY;
 						demoScene.changeTopic ("warnTestTopic");
-				}), new Topic.Input ("E que tal...", () => {
-					Debug.Log ("Em acabamentos");
-				})
+				}), new Topic.Input ("Estou bem, obrigado", () => {
+					happy.CurrentEmotion = Agent.EmotionType.SMILING;
+					grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+
+					demoScene.changeTopic ("help");				})
 			};
 	
 			List<Line> badTest = new List<Line> ();
@@ -228,8 +230,11 @@ namespace VT
 					happy.CurrentEmotion = Agent.EmotionType.SHY;
 					grumpy.CurrentEmotion = Agent.EmotionType.ANGRY;
 						demoScene.changeTopic ("warnTestTopic");
-				}), new Topic.Input ("E que tal...", () => {
-					Debug.Log ("Em acabamentos");
+			}), new Topic.Input ("Obrigado", () => {
+					happy.CurrentEmotion = Agent.EmotionType.SMILING;
+					grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+
+					demoScene.changeTopic ("help");
 				})
 			};
 
