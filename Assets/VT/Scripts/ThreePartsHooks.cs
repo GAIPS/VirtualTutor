@@ -21,6 +21,8 @@ namespace VT
 		[SerializeField]
 		private GameObject topicTop;
 
+        
+
 		public VoidFunc onLeft;
 		public VoidFunc onTop;
 		public VoidFunc onRight;
@@ -47,10 +49,10 @@ namespace VT
 			get{ return this.topicTextLeft.text; }
 			set {
 				if (!string.IsNullOrEmpty (value)) {
-					this.topicTextLeft.text = value;
-					topicLeft.SetActive (true);
+                    show(topicLeft);
+                    this.topicTextLeft.text = value;
 				} else if (string.IsNullOrEmpty (value))
-					topicLeft.SetActive (false);
+                    hide(topicLeft);
 			}
 		}
 
@@ -58,10 +60,10 @@ namespace VT
 			get{ return this.topicTextTop.text; }
 			set {
 				if (!string.IsNullOrEmpty (value)) {
-					topicTop.SetActive (true);
+                    show(topicTop);
 					this.topicTextTop.text = value;
-				} else if (string.IsNullOrEmpty (value))
-					topicTop.SetActive (false);
+                } else if (string.IsNullOrEmpty (value))
+                    hide(topicTop);
 			}
 		}
 
@@ -69,12 +71,36 @@ namespace VT
 			get{ return this.topicTextRight.text; }
 			set {
 				if (!string.IsNullOrEmpty (value)) {
-					topicRight.SetActive (true);
+                    show(topicRight);
 					this.topicTextRight.text = value;
 				} else if (string.IsNullOrEmpty (value))
-					topicRight.SetActive (false);
+                    hide(topicRight);
 			}
-		}
+        }
+
+        protected void show(GameObject ballon) {
+            if (!ballon) {
+                return;
+            }
+            var animator = ballon.GetComponent<Animator>();
+            if (animator) {
+                animator.SetBool("Showing", true);
+            } else {
+                ballon.SetActive(true);
+            }
+        }
+
+        protected void hide(GameObject ballon) {
+            if (!ballon) {
+                return;
+            }
+            var animator = ballon.GetComponent<Animator>();
+            if (animator) {
+                animator.SetBool("Showing", false);
+            } else {
+                ballon.SetActive(false);
+            }
+        }
 
 	}
 }
