@@ -37,7 +37,6 @@ namespace VT
 
 		public void OpenCourses ()
 		{
-			expressionsControl.Flush ();
 			start = 11.0f;
 			coursesControl.SetAndShow (() => {
 				OpenCourse ();
@@ -116,7 +115,6 @@ namespace VT
 
 		public void OpenCalendar ()
 		{
-			expressionsControl.Flush ();
 			start = 0.0f;
 			expressionsControl.Start = 0.0f;
 			calendar1Control.SetAndShow (() => {
