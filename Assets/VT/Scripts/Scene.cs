@@ -35,7 +35,6 @@ namespace VT
 
 		public void OpenCourses ()
 		{
-			start = 11.0f;
 			coursesControl.SetAndShow (() => {
 				OpenCourse ();
 				start = 0.0f;
@@ -183,11 +182,11 @@ namespace VT
 		{
 			start += delta;
 //
-			if (start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 2.0f && currentTopicName != "timeTopic" && currentTopicName != "exit1Topic" && currentTopicName != "exit2Topic" && currentTopicName != "exit3Topic" && currentTopicName != "exit4Topic" && currentTopicName != "badTestTopic") {
+			if (start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 5.0f && currentTopicName != "timeTopic" && currentTopicName != "exit1Topic" && currentTopicName != "exit2Topic" && currentTopicName != "exit3Topic" && currentTopicName != "exit4Topic" && currentTopicName != "badTestTopic") {
 				TimeOutTopic ("timeTopic");
-			} else if (start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 2.0f && (currentTopicName == "timeTopic" || currentTopicName == "exit1Topic" || currentTopicName == "exit2Topic" || currentTopicName == "exit3Topic" || currentTopicName == "exit4Topic")) {
+			} else if (start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 5.0f && (currentTopicName == "timeTopic" || currentTopicName == "exit1Topic" || currentTopicName == "exit2Topic" || currentTopicName == "exit3Topic" || currentTopicName == "exit4Topic")) {
 				Application.Quit ();
-			} else if (start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 2.0f && currentTopicName == "badTestTopic") {
+			} else if (start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 5.0f && currentTopicName == "badTestTopic") {
 				changeTopic ("noAnswTest");
 			}
             expressionsControl.update (delta);

@@ -36,6 +36,13 @@ namespace VT
 		{
 			lineOffset = 0;
 			this.currentTopic = currentTopic;
+			activeTopLine = null;
+			activeBottomLine = null;
+			if (hooks) {
+				hooks.LeftContent = null;
+				hooks.RightContent = null;
+			}
+
 		}
 
 		public ShowResult Show ()
@@ -51,24 +58,15 @@ namespace VT
 						hooks.RightSprites = new List<Sprite> ();
 					if (hooks.Audios == null)
 						hooks.Audios = new List<AudioClip> ();
-//					if (currentTopic.Lines [lineOffset].Speaker.IsLeft) {
-//						hooks.LeftContent = currentTopic.Lines [LineOffset].Content;
-//						hooks.RightContent = currentTopic.Lines [lineOffset + 1].Content;
-//						hooks.LeftSprite = hooks.LeftSprites [(int)currentTopic.Lines [lineOffset].Speaker.CurrentEmotion];
-//						hooks.RightSprite = hooks.RightSprites [(int)currentTopic.Lines [lineOffset + 1].Speaker.CurrentEmotion];
-//					} else if (!currentTopic.Lines [lineOffset].Speaker.IsLeft) {
-//						hooks.RightContent = currentTopic.Lines [lineOffset].Content;
-//						hooks.LeftContent = currentTopic.Lines [lineOffset + 1].Content;
-//						hooks.RightSprite = hooks.RightSprites [(int)currentTopic.Lines [lineOffset].Speaker.CurrentEmotion];
-//						hooks.LeftSprite = hooks.LeftSprites [(int)currentTopic.Lines [lineOffset + 1].Speaker.CurrentEmotion];
-//					}
+
+				
 				
 				}
 			}
 			return ret;
 			
 		}
-			
+				
 
 		private Line activeTopLine;
 		private Line activeBottomLine;
