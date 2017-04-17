@@ -87,7 +87,7 @@ namespace VT
 					happy.CurrentEmotion = Agent.EmotionType.CRYING;
 					grumpy.CurrentEmotion = Agent.EmotionType.CRYING;
 					demoScene.changeTopic ("nonDeveloped");
-				}),
+				},1.0f),
 				new Topic.Input (
 					"gostaria de falar de ...",
 					() => {
@@ -95,7 +95,7 @@ namespace VT
 						happy.CurrentEmotion = Agent.EmotionType.CRYING;
 						grumpy.CurrentEmotion = Agent.EmotionType.CRYING;
 						demoScene.changeTopic ("nonDeveloped");					
-					}),
+					},2.5f),
 				new Topic.Input (
 					"tenho uma nova informação",
 					() => {
@@ -104,7 +104,7 @@ namespace VT
 						grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
 						demoScene.changeTopic ("newInfoTopic");
 					}
-				)
+				,4.0f)
 			};
 			Topic hello = new Topic (lines, inputs);
 			demoScene.topics.Add ("Hello", hello);

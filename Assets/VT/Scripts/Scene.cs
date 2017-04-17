@@ -190,6 +190,7 @@ namespace VT
 				changeTopic ("noAnswTest");
 			}
             expressionsControl.update (delta);
+            threePartsControl.update(delta);
 		}
 			
 	}

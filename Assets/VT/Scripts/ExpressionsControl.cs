@@ -12,19 +12,10 @@ namespace VT
 		private Control control;
 		private Topic currentTopic;
 		private float start = 0.0f;
-		private int lineOffset = 0;
-		private int whatLine;
 		private bool started;
 		private ExpressionsHooks hooks;
 
-		public int LineOffset {
-			get {
-				return this.lineOffset;
-			}
-			set {
-				lineOffset = value;
-			}
-		}
+		
 
 		public ExpressionsControl (GameObject prefab)
 		{
@@ -34,7 +25,6 @@ namespace VT
 
 		public void Set (Topic currentTopic)
 		{
-			lineOffset = 0;
 			this.currentTopic = currentTopic;
 			activeTopLine = null;
 			activeBottomLine = null;
