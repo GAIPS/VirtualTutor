@@ -15,9 +15,9 @@ namespace VT
 		public CourseControl courseControl;
 		public Calendar2Control calendar2Control;
 		public Calendar3Control calendar3Control;
-		private float start = 0.0f;
-		private float test1Value;
-		private float test2Value;
+        private float start = 0.0f;
+
+        private string currentTopicName;
 
 		public float Start {
 			get {
@@ -33,8 +33,6 @@ namespace VT
 		{
 		}
 
-		private string currentTopicName;
-
 		public void OpenCourses ()
 		{
 			start = 11.0f;
@@ -45,12 +43,12 @@ namespace VT
 		}
 
 		public void OpenCourse ()
-		{
-
+        {
+            float evaluationResult = 10;
 			courseControl.SetAndShow (() => {
 				start = 0.0f;
 				expressionsControl.Start = 0.0f;
-				if (test2Value < 8.5) {
+				if (evaluationResult < 8.5) {
 					agents [0].CurrentEmotion = Agent.EmotionType.CRYING;
 					agents [1].CurrentEmotion = Agent.EmotionType.CRYING;
 					currentTopicName = "badTestTopic";
@@ -60,7 +58,7 @@ namespace VT
 					coursesControl.Disable ();
 					courseControl.Disable ();
 
-				} else if (test2Value >= 8.5 && test2Value < 9.5) {
+				} else if (evaluationResult >= 8.5 && evaluationResult < 9.5) {
 					agents [0].CurrentEmotion = Agent.EmotionType.SAD;
 					agents [1].CurrentEmotion = Agent.EmotionType.SAD;
 					currentTopicName = "belowAvgTopic";
@@ -71,7 +69,7 @@ namespace VT
 					coursesControl.Disable ();
 					courseControl.Disable ();
 
-				} else if (test2Value >= 9.5 && test2Value < 15.0) {
+				} else if (evaluationResult >= 9.5 && evaluationResult < 15.0) {
 					agents [0].CurrentEmotion = Agent.EmotionType.LIKES;
 					agents [1].CurrentEmotion = Agent.EmotionType.SMILING;
 					currentTopicName = "expectedTest";
@@ -81,7 +79,7 @@ namespace VT
 					coursesControl.Disable ();
 					courseControl.Disable ();
 
-				} else if (test2Value >= 15.0) {
+				} else if (evaluationResult >= 15.0) {
 					agents [0].CurrentEmotion = Agent.EmotionType.LIKES;
 					agents [1].CurrentEmotion = Agent.EmotionType.LIKES;
 					currentTopicName = "greatTest";
@@ -98,19 +96,14 @@ namespace VT
 			}, () => {
 			}, () => {
 			}, (string value) => {
-				test1Value =	float.Parse (value);
+//				test1Value =	float.Parse (value);
 			},
 				(string value) => {
-					test2Value = float.Parse (value);
+					evaluationResult = float.Parse (value);
 				}, () => {
 			}, () => {
 			});
 		
-		}
-
-		public void UpdateExpressions (float delta)
-		{
-			expressionsControl.UpdateControl (delta);
 		}
 
 		public void OpenCalendar ()
@@ -186,7 +179,7 @@ namespace VT
 			}
 		}
 
-		public void updateScene (float delta)
+		public void update (float delta)
 		{
 			start += delta;
 //
@@ -195,9 +188,9 @@ namespace VT
 			} else if (start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 2.0f && (currentTopicName == "timeTopic" || currentTopicName == "exit1Topic" || currentTopicName == "exit2Topic" || currentTopicName == "exit3Topic" || currentTopicName == "exit4Topic")) {
 				Application.Quit ();
 			} else if (start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 2.0f && currentTopicName == "badTestTopic") {
-//				 
 				changeTopic ("noAnswTest");
 			}
+            expressionsControl.update (delta);
 		}
 			
 	}

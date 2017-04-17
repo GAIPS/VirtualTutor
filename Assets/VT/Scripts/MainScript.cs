@@ -17,50 +17,48 @@ namespace VT
 		public GameObject calendar2Prefab;
 		public GameObject calendar3Prefab;
 		private Scene myScene;
+
+        private bool playing = true;
+
 		// Use this for initialization
 		void Start ()
 		{
 			
-			if (!threeOptionsPrefab) {
+            if (threeOptionsPrefab == null || ExpressionsPrefab == null
+                || coursesPrefab == null || coursePrefab == null
+                || calendar1Prefab == null || calendar2Prefab == null
+                || calendar3Prefab == null) {
+                Debug.LogWarning("Some prefabs are null");
 				return;
 			}
-			if (!ExpressionsPrefab) {
-				return;
-			}
-			Scene demoScene = new Scene ();
-			ThreePartsControl control = new ThreePartsControl (threeOptionsPrefab);
-			ExpressionsControl expControl = new ExpressionsControl (ExpressionsPrefab);
-			CoursesControl coursesControl = new CoursesControl (coursesPrefab);
-			CourseControl courseControl = new CourseControl (coursePrefab);
-			Calendar1Control calendar1Control = new Calendar1Control (calendar1Prefab);
-			Calendar2Control calendar2Control = new Calendar2Control (calendar2Prefab);
-			Calendar3Control calendar3Control = new Calendar3Control (calendar3Prefab);
 
-			StartDemoScene (control, expControl, coursesControl, courseControl, calendar1Control, calendar2Control, calendar3Control, demoScene);
+			Scene demoScene = new Scene ();
+            demoScene.threePartsControl = new ThreePartsControl (threeOptionsPrefab);
+            demoScene.expressionsControl = new ExpressionsControl (ExpressionsPrefab);
+            demoScene.coursesControl = new CoursesControl (coursesPrefab);
+            demoScene.courseControl = new CourseControl (coursePrefab);
+            demoScene.calendar1Control = new Calendar1Control (calendar1Prefab);
+            demoScene.calendar2Control = new Calendar2Control (calendar2Prefab);
+            demoScene.calendar3Control = new Calendar3Control (calendar3Prefab);
+
+			PopulateScene (demoScene);
 			myScene = demoScene;
 		}
 
 		void Update ()
 		{
-			SceneUpdate (myScene);	
+            if (Input.GetKeyUp(KeyCode.Space)) {
+                playing = !playing;
+            }
+
+            if (playing) {
+                myScene.update(Time.deltaTime);
+            }
 
 		}
 
-		void SceneUpdate (Scene demoScene)
+		void PopulateScene (Scene demoScene)
 		{
-			demoScene.updateScene (Time.deltaTime);
-			demoScene.UpdateExpressions (Time.deltaTime);
-		}
-
-		void StartDemoScene (ThreePartsControl control, ExpressionsControl expControl, CoursesControl coursesControl, CourseControl courseControl, Calendar1Control calendar1Control, Calendar2Control calendar2Control, Calendar3Control calendar3Control, Scene demoScene)
-		{
-			demoScene.threePartsControl = control;
-			demoScene.expressionsControl = expControl;
-			demoScene.coursesControl = coursesControl;
-			demoScene.courseControl = courseControl;
-			demoScene.calendar1Control = calendar1Control;
-			demoScene.calendar2Control = calendar2Control;
-			demoScene.calendar3Control = calendar3Control;
 		
 			//Make topics
 			demoScene.agents.Add (new Agent ());

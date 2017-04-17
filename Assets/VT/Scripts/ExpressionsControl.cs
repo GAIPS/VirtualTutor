@@ -73,7 +73,7 @@ namespace VT
 		private Line activeTopLine;
 		private Line activeBottomLine;
 
-		public void UpdateControl (float delta)
+		public void update (float delta)
 		{
 			start += delta;
 			//lineOffset += 2;
