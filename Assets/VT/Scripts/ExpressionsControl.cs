@@ -65,6 +65,8 @@ namespace VT {
 			
         }
 
+        private Line activeTopLine;
+        private Line activeBottomLine;
 
 		public void update (float delta)
 		{
