@@ -32,6 +32,8 @@ namespace VT
 		private List<AudioClip> audios = null;
 		[SerializeField]
 		private AudioSource audioSource;
+		[SerializeField]
+		private List<AudioClip> audiosFemale = null;
 
 		public string LeftContent {
 			get{ return this.leftText.text; }
@@ -83,6 +85,15 @@ namespace VT
 			}
 			set {
 				audios = value;
+			}
+		}
+
+		public List<AudioClip> AudiosFemale {
+			get {
+				return this.audiosFemale;
+			}
+			set {
+				audiosFemale = value;
 			}
 		}
 

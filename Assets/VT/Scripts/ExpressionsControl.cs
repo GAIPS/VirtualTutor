@@ -58,6 +58,8 @@ namespace VT
 						hooks.RightSprites = new List<Sprite> ();
 					if (hooks.Audios == null)
 						hooks.Audios = new List<AudioClip> ();
+					if (hooks.AudiosFemale == null)
+						hooks.AudiosFemale = new List<AudioClip> ();
 
 				
 				
@@ -76,8 +78,6 @@ namespace VT
 			start += delta;
 			//lineOffset += 2;
 			if (hooks && started) {
-//				hooks.LeftLine.SetActive (false);
-//				hooks.RightLine.SetActive (false);
 				if (activeTopLine != null && activeTopLine.End <= start) {
 					hooks.LeftContent = null;
 				}
@@ -94,7 +94,7 @@ namespace VT
 								hooks.LeftContent = l.Content;
 								hooks.LeftSprite = hooks.LeftSprites [(int)l.Speaker.CurrentEmotion];
 								if (!hooks.AudioSource.isPlaying) {
-									hooks.AudioSource.clip = hooks.Audios [(int)l.Speaker.CurrentEmotion];
+									hooks.AudioSource.clip = hooks.AudiosFemale [(int)l.Speaker.CurrentEmotion];
 									hooks.AudioSource.Play ();
 								}
 								activeTopLine = l;
