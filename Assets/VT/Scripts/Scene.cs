@@ -44,64 +44,66 @@ namespace VT
 		public void OpenCourse ()
         {
             float evaluationResult = 10;
-			courseControl.SetAndShow (() => {
-				start = 0.0f;
-				expressionsControl.Start = 0.0f;
-				if (evaluationResult < 8.5) {
-					agents [0].CurrentEmotion = Agent.EmotionType.CRYING;
-					agents [1].CurrentEmotion = Agent.EmotionType.CRYING;
-					currentTopicName = "badTestTopic";
-					var topic2 = topics [currentTopicName];
-					threePartsControl.SetAndShow (topic2);
-					expressionsControl.SetAndShow (topic2);
-					coursesControl.Disable ();
-					courseControl.Disable ();
+			courseControl.SetAndShow (
+                () => {
+    				start = 0.0f;
+    				expressionsControl.Start = 0.0f;
+    				if (evaluationResult < 8.5) {
+    					agents [0].CurrentEmotion = Agent.EmotionType.CRYING;
+    					agents [1].CurrentEmotion = Agent.EmotionType.CRYING;
+    					currentTopicName = "badTestTopic";
+    					var topic2 = topics [currentTopicName];
+    					threePartsControl.SetAndShow (topic2);
+    					expressionsControl.SetAndShow (topic2);
+    					coursesControl.Disable ();
+    					courseControl.Disable ();
 
-				} else if (evaluationResult >= 8.5 && evaluationResult < 9.5) {
-					agents [0].CurrentEmotion = Agent.EmotionType.SAD;
-					agents [1].CurrentEmotion = Agent.EmotionType.SAD;
-					currentTopicName = "belowAvgTopic";
-					var topic2 = topics [currentTopicName];
+    				} else if (evaluationResult >= 8.5 && evaluationResult < 9.5) {
+    					agents [0].CurrentEmotion = Agent.EmotionType.SAD;
+    					agents [1].CurrentEmotion = Agent.EmotionType.SAD;
+    					currentTopicName = "belowAvgTopic";
+    					var topic2 = topics [currentTopicName];
 
-					threePartsControl.SetAndShow (topic2);
-					expressionsControl.SetAndShow (topic2);
-					coursesControl.Disable ();
-					courseControl.Disable ();
+    					threePartsControl.SetAndShow (topic2);
+    					expressionsControl.SetAndShow (topic2);
+    					coursesControl.Disable ();
+    					courseControl.Disable ();
 
-				} else if (evaluationResult >= 9.5 && evaluationResult < 15.0) {
-					agents [0].CurrentEmotion = Agent.EmotionType.LIKES;
-					agents [1].CurrentEmotion = Agent.EmotionType.SMILING;
-					currentTopicName = "expectedTest";
-					var topic2 = topics [currentTopicName];
-					threePartsControl.SetAndShow (topic2);
-					expressionsControl.SetAndShow (topic2);
-					coursesControl.Disable ();
-					courseControl.Disable ();
+    				} else if (evaluationResult >= 9.5 && evaluationResult < 15.0) {
+    					agents [0].CurrentEmotion = Agent.EmotionType.LIKES;
+    					agents [1].CurrentEmotion = Agent.EmotionType.SMILING;
+    					currentTopicName = "expectedTest";
+    					var topic2 = topics [currentTopicName];
+    					threePartsControl.SetAndShow (topic2);
+    					expressionsControl.SetAndShow (topic2);
+    					coursesControl.Disable ();
+    					courseControl.Disable ();
 
-				} else if (evaluationResult >= 15.0) {
-					agents [0].CurrentEmotion = Agent.EmotionType.LIKES;
-					agents [1].CurrentEmotion = Agent.EmotionType.LIKES;
-					currentTopicName = "greatTest";
-					var topic2 = topics [currentTopicName];
-					threePartsControl.SetAndShow (topic2);
-					expressionsControl.SetAndShow (topic2);
-					coursesControl.Disable ();
-					courseControl.Disable ();
-				
-				}
-					
-			}, () => {
-			}, () => {
-			}, () => {
-			}, () => {
-			}, (string value) => {
-//				test1Value =	float.Parse (value);
-			},
-				(string value) => {
-					evaluationResult = float.Parse (value);
-				}, () => {
-			}, () => {
-			});
+    				} else if (evaluationResult >= 15.0) {
+    					agents [0].CurrentEmotion = Agent.EmotionType.LIKES;
+    					agents [1].CurrentEmotion = Agent.EmotionType.LIKES;
+    					currentTopicName = "greatTest";
+    					var topic2 = topics [currentTopicName];
+    					threePartsControl.SetAndShow (topic2);
+    					expressionsControl.SetAndShow (topic2);
+    					coursesControl.Disable ();
+    					courseControl.Disable ();
+    				
+    				}
+    					
+    			}, 
+                () => {},
+                () => {},
+                () => {},
+                () => {},
+                (string value) => {
+        //			test1Value =	float.Parse (value);
+        		},
+    			(string value) => {
+    				evaluationResult = float.Parse (value);
+    			}, () => {	},
+                () => {	}
+            );
 		
 		}
 
