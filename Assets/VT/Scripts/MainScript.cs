@@ -4,105 +4,109 @@ using UnityEngine;
 using System;
 using System.Linq;
 
-namespace VT {
-    public class MainScript : MonoBehaviour {
-        public bool playSplashScreen = true;
-        public GameObject splashScreenPrefab;
-        public GameObject threeOptionsPrefab;
-        public GameObject ExpressionsPrefab;
-        public GameObject coursesPrefab;
-        public GameObject coursePrefab;
-        public GameObject calendar1Prefab;
-        public GameObject calendar2Prefab;
-        public GameObject calendar3Prefab;
-        private Scene scene;
+namespace VT
+{
+	public class MainScript : MonoBehaviour
+	{
+		public bool playSplashScreen = true;
+		public GameObject splashScreenPrefab;
+		public GameObject threeOptionsPrefab;
+		public GameObject ExpressionsPrefab;
+		public GameObject coursesPrefab;
+		public GameObject coursePrefab;
+		public GameObject calendar1Prefab;
+		public GameObject calendar2Prefab;
+		public GameObject calendar3Prefab;
+		private Scene scene;
 
-        private bool playing = false;
+		private bool playing = false;
 
-        // Use this for initialization
-        void Start() {
+		// Use this for initialization
+		void Start ()
+		{
 
-            if (splashScreenPrefab != null && playSplashScreen) {
-                SplashScreenControl splashScreenControl = new SplashScreenControl(splashScreenPrefab);
-                splashScreenControl.SetAndShow(() => {
-                        playing = true;
-                        splashScreenControl.Destroy();
-                    });
-            } else {
-                playing = true;
-            }
+			if (splashScreenPrefab != null && playSplashScreen) {
+				SplashScreenControl splashScreenControl = new SplashScreenControl (splashScreenPrefab);
+				splashScreenControl.SetAndShow (() => {
+					playing = true;
+					splashScreenControl.Destroy ();
+				});
+			} else {
+				playing = true;
+			}
 			
-            if (threeOptionsPrefab == null || ExpressionsPrefab == null
-                || coursesPrefab == null || coursePrefab == null
-                || calendar1Prefab == null || calendar2Prefab == null
-                || calendar3Prefab == null) {
-                Debug.LogWarning("Some prefabs are null");
-                return;
-            }
+			if (threeOptionsPrefab == null || ExpressionsPrefab == null
+			             || coursesPrefab == null || coursePrefab == null
+			             || calendar1Prefab == null || calendar2Prefab == null
+			             || calendar3Prefab == null) {
+				Debug.LogWarning ("Some prefabs are null");
+				return;
+			}
 
-            scene = new Scene();
-            scene.threePartsControl = new ThreePartsControl(threeOptionsPrefab);
-            scene.expressionsControl = new ExpressionsControl(ExpressionsPrefab);
-            scene.coursesControl = new CoursesControl(coursesPrefab);
-            scene.courseControl = new CourseControl(coursePrefab);
-            scene.calendar1Control = new Calendar1Control(calendar1Prefab);
-            scene.calendar2Control = new Calendar2Control(calendar2Prefab);
-            scene.calendar3Control = new Calendar3Control(calendar3Prefab);
+			scene = new Scene ();
+			scene.threePartsControl = new ThreePartsControl (threeOptionsPrefab);
+			scene.expressionsControl = new ExpressionsControl (ExpressionsPrefab);
+			scene.coursesControl = new CoursesControl (coursesPrefab);
+			scene.courseControl = new CourseControl (coursePrefab);
+			scene.calendar1Control = new Calendar1Control (calendar1Prefab);
+			scene.calendar2Control = new Calendar2Control (calendar2Prefab);
+			scene.calendar3Control = new Calendar3Control (calendar3Prefab);
 
-            PopulateScene(scene);
+			PopulateScene (scene);
 
-            //start
-            scene.changeTopic("Hello");
-        }
+			//start
+			scene.changeTopic ("Hello");
+		}
 
-        void Update() {
-            if (Input.GetKeyUp(KeyCode.Space)) {
-                playing = !playing;
-            }
-            if (playing) {
-                scene.update(Time.deltaTime);
-            }
-        }
+		void Update ()
+		{
+			if (Input.GetKeyUp (KeyCode.Space)) {
+				playing = !playing;
+			}
+			if (playing) {
+				scene.update (Time.deltaTime);
+			}
+		}
 
-        void PopulateScene(Scene demoScene) {
+		void PopulateScene (Scene demoScene)
+		{
 		
-            Agent happy = new Agent();
-            Agent grumpy = new Agent();
-            grumpy.IsLeft = false;
+			Agent happy = new Agent ();
+			Agent grumpy = new Agent ();
+			grumpy.IsLeft = false;
 
-            demoScene.agents.Add(happy);
-            demoScene.agents.Add(grumpy);
-            //Hello
-            happy.CurrentEmotion = Agent.EmotionType.SMILING;
-            grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
-            Line l1 = new Line("Olá, em que te posso ajudar hoje?", happy, 0.0f, 8.0f);
-            Line l2 = new Line("Podes?No singular? Eu nunca faço nada,é?",
-                       grumpy,
-                       4.0f,
-                       12.0f);
-            Line l3 = new Line("Ooooook, desculpa. Em que é que PODEMOS te ajudar hoje?",
-                       happy,
-                       12.5f,
-                       20.5f);
-            Line l4 = new Line("Pronto, assim já gosto mais. Egocêntrico.",
-                       grumpy,
-                       16.5f,
-                       24.5f);
-            List<Line> lines = new List<Line>();
-            lines.Add(l1);
-            lines.Add(l2);
-            lines.Add(l3);
-            lines.Add(l4);
-            lines = lines.OrderBy(l => l.Start).ToList();
-            Topic.Input[] inputs =
-            {
+			demoScene.agents.Add (happy);
+			demoScene.agents.Add (grumpy);
+			//Hello
+			happy.CurrentEmotion = Agent.EmotionType.SMILING;
+			grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+			Line l1 = new Line ("Olá, em que te posso ajudar hoje?", happy, 0.0f, 8.0f);
+			Line l2 = new Line ("Podes?No singular? Eu nunca faço nada,é?",
+				                   grumpy,
+				                   4.0f,
+				                   12.0f);
+			Line l3 = new Line ("Ooooook, desculpa. Em que é que PODEMOS te ajudar hoje?",
+				                   happy,
+				                   12.5f,
+				                   20.5f);
+			Line l4 = new Line ("Pronto, assim já gosto mais. Egocêntrico.",
+				                   grumpy,
+				                   16.5f,
+				                   24.5f);
+			List<Line> lines = new List<Line> ();
+			lines.Add (l1);
+			lines.Add (l2);
+			lines.Add (l3);
+			lines.Add (l4);
+			lines = lines.OrderBy (l => l.Start).ToList ();
+			Topic.Input[] inputs = {
                 new Topic.Input(
                     "lembrem-me de...", () => {
 						
                         happy.CurrentEmotion = Agent.EmotionType.CRYING;
                         grumpy.CurrentEmotion = Agent.EmotionType.CRYING;
                         demoScene.changeTopic("nonDeveloped");
-                    }, 1.0f), 
+                    }, 1.5f), 
                 new Topic.Input(
                     "gostaria de falar de ...",
                     () => {
@@ -110,7 +114,7 @@ namespace VT {
                         happy.CurrentEmotion = Agent.EmotionType.CRYING;
                         grumpy.CurrentEmotion = Agent.EmotionType.CRYING;
                         demoScene.changeTopic("nonDeveloped");					
-                    }, 2.5f), 
+                    }, 3.0f), 
                 new Topic.Input(
                     "tenho uma nova informação",
                     () => {
@@ -118,7 +122,7 @@ namespace VT {
                         happy.CurrentEmotion = Agent.EmotionType.SMILING;
                         grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
                         demoScene.changeTopic("newInfoTopic");
-                    }, 4.0f) 
+                    }, 4.5f) 
             };
             Topic hello = new Topic(lines, inputs);
             demoScene.topics.Add("Hello", hello);
@@ -144,10 +148,10 @@ namespace VT {
                     }),
                 new Topic.Input("", () => {
                         Debug.Log("top");
-                    }),
+                    },1.5f),
                 new Topic.Input("fechem a aplicação por favor", () => {
                         Debug.Log("right");
-                    }
+                    },3.0f
                 )
             };
             Topic nonDeveloped = new Topic(nDLines, inputs2);
@@ -165,7 +169,7 @@ namespace VT {
             Topic.Input[] inputs1 =
             {new Topic.Input("ok", () => {
                         demoScene.OpenCourses();
-                    }), new Topic.Input("", () => {
+                    },1.5f), new Topic.Input("", () => {
                     }), new Topic.Input("", () => {
                     })
             };
@@ -187,17 +191,17 @@ namespace VT {
             Topic.Input[] inputs3 =
                 { new Topic.Input("Plano de estudo? Parece-me bem.", () => {
                             demoScene.OpenCalendar();
-                        }),
+                        },1.5f),
                     new Topic.Input("Quero ser avisado mais cedo", () => {
                             happy.CurrentEmotion = Agent.EmotionType.SHY;
                             grumpy.CurrentEmotion = Agent.EmotionType.ANGRY;
                             demoScene.changeTopic("warnTestTopic");
-                        }), new Topic.Input("Estou bem, obrigado", () => {
+                        },3.0f), new Topic.Input("Estou bem, obrigado", () => {
                             happy.CurrentEmotion = Agent.EmotionType.SMILING;
                             grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
 
                             demoScene.changeTopic("help");
-                        })
+                        },4.5f)
                 };
 	
             List<Line> badTest = new List<Line>();
@@ -242,14 +246,14 @@ namespace VT {
             Topic.Input[] inputs4 =
             { new Topic.Input("Plano de estudo? Parece-me bem.", () => {
                         demoScene.OpenCalendar();
-                    }), new Topic.Input("Obrigado", () => {
+                    },1.5f), new Topic.Input("Obrigado", () => {
                         happy.CurrentEmotion = Agent.EmotionType.SMILING;
                         grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
 
                         demoScene.changeTopic("help");
-                    }), new Topic.Input("E que tal...", () => {
+                    },3.0f), new Topic.Input("E que tal...", () => {
                         Debug.Log("Em acabamentos");
-                    })
+                    },4.5f)
             };
             List<Line> warnTest = new List<Line>();
             warnTest.Add(l15);
@@ -285,16 +289,16 @@ namespace VT {
             Topic.Input[] inputs5 =
             {new Topic.Input("Vamos fazer um plano de estudo", () => {
                         demoScene.OpenCalendar();
-                    }), new Topic.Input("Quero ser avisado mais cedo", () => {
+                    },1.5f), new Topic.Input("Quero ser avisado mais cedo", () => {
                         happy.CurrentEmotion = Agent.EmotionType.SHY;
                         grumpy.CurrentEmotion = Agent.EmotionType.ANGRY;
                         demoScene.changeTopic("warnTestTopic");
-                    }), new Topic.Input("Obrigado", () => {
+                    },3.0f), new Topic.Input("Obrigado", () => {
                         happy.CurrentEmotion = Agent.EmotionType.SMILING;
                         grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
 
                         demoScene.changeTopic("help");
-                    })
+                    },4.5f)
             };
 
             Topic expectedTest = new Topic(expected, inputs5);
@@ -337,10 +341,10 @@ namespace VT {
                         grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
 
                         demoScene.changeTopic("help");
-                    }), new Topic.Input("", () => {
-                    }), new Topic.Input("Deixem-me corrigir uma coisa", () => {
+                    },1.5f), new Topic.Input("", () => {
+                    },3.0f), new Topic.Input("Deixem-me corrigir uma coisa", () => {
                         demoScene.OpenCalendar();
-                    })
+                    },4.5f)
             };
             List<Line> fewTime = new List<Line>();
             fewTime.Add(l26);
@@ -390,10 +394,10 @@ namespace VT {
                         happy.CurrentEmotion = Agent.EmotionType.SMILING;
                         grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
                         demoScene.changeTopic("help");
-                    }), new Topic.Input("", () => {
-                    }), new Topic.Input("Deixem-me corrigir uma coisa.", () => {
+                    },1.5f), new Topic.Input("", () => {
+                    },3.0f), new Topic.Input("Deixem-me corrigir uma coisa.", () => {
                         demoScene.OpenCalendar();
-                    })
+                    },4.5f)
             };
             List<Line> enoughTime = new List<Line>();
             enoughTime.Add(l32);
@@ -408,15 +412,15 @@ namespace VT {
 			Line l35 = new Line ("Agora já acertas o nós", grumpy, 4.0f, 12.0f);
 			Topic.Input[] inputs8 = { new Topic.Input ("queria falar de...", () => {
 					Debug.Log ("In development");
-				}), new Topic.Input ("Não,Obrigado", () => {
+				},1.5f), new Topic.Input ("Não,Obrigado", () => {
 					happy.CurrentEmotion = Agent.EmotionType.SMILING;
 					grumpy.CurrentEmotion = Agent.EmotionType.SMILING;
 					demoScene.changeTopic ("twoDaysTopic");
-				}), new Topic.Input ("tenho nova informação", () => {
+				},3.0f), new Topic.Input ("tenho nova informação", () => {
 					happy.CurrentEmotion = Agent.EmotionType.SMILING;
 					grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
 					demoScene.changeTopic ("newInfoTopic");
-				})
+				},4.5f)
 			};
 			List<Line> moreHelp = new List<Line> ();
 			moreHelp.Add (l34);
@@ -432,12 +436,12 @@ namespace VT {
 					happy.CurrentEmotion = Agent.EmotionType.DOMINANT;
 					grumpy.CurrentEmotion = Agent.EmotionType.DOMINANT;
 					demoScene.changeTopic ("exit1Topic");
-				}), new Topic.Input ("", () => {
-				}), new Topic.Input ("Isso é muito cedo", () => {
+				},1.5f), new Topic.Input ("", () => {
+				},3.0f), new Topic.Input ("Isso é muito cedo", () => {
 					happy.CurrentEmotion = Agent.EmotionType.SHY;
 					grumpy.CurrentEmotion = Agent.EmotionType.SUBMISSIVE;
 					demoScene.changeTopic ("tooEarly");
-				})
+				},4.5f)
 			};
 			List<Line> twodays = new List<Line> ();
 			twodays.Add (l36);
@@ -452,15 +456,15 @@ namespace VT {
 					happy.CurrentEmotion = Agent.EmotionType.DOMINANT;
 					grumpy.CurrentEmotion = Agent.EmotionType.DOMINANT;
 					demoScene.changeTopic ("exit2Topic");
-				}), new Topic.Input ("7 dias", () => {
+				},1.5f), new Topic.Input ("7 dias", () => {
 					happy.CurrentEmotion = Agent.EmotionType.DOMINANT;
 					grumpy.CurrentEmotion = Agent.EmotionType.DOMINANT;
 					demoScene.changeTopic ("exit3Topic");
-				}), new Topic.Input ("Ainda não sei", () => {
+				},3.0f), new Topic.Input ("Ainda não sei", () => {
 					happy.CurrentEmotion = Agent.EmotionType.SURPRISED;
 					grumpy.CurrentEmotion = Agent.EmotionType.IMPATIENT;
 					demoScene.changeTopic ("exit4Topic");
-				})
+				},4.5f)
 			};
 			List<Line> early = new List<Line> ();
 			early.Add (l38);
@@ -536,12 +540,12 @@ namespace VT {
 			Line l53 = new Line ("Acho que um plano de estudo era uma boa ideia.", grumpy, 4.0f, 12.0f);
 			Topic.Input[] notAnswTestInputs = { new Topic.Input ("Vamos fazer um plano de estudo!", () => {
 					demoScene.OpenCalendar ();
-				}), new Topic.Input ("", () => {
-				}), new Topic.Input ("Obrigado", () => {
+				},1.5f), new Topic.Input ("", () => {
+				},3.0f), new Topic.Input ("Obrigado", () => {
 					happy.CurrentEmotion = Agent.EmotionType.SMILING;
 					grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
 					demoScene.changeTopic ("help");
-				})
+				},4.5f)
 			};
 
             List<Line> noAnswerTest = new List<Line>();
