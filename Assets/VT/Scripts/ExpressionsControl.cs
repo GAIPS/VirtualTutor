@@ -41,55 +41,57 @@ namespace VT {
 
         }
 
-        public ShowResult Show() {	
-            started = true;
-            var ret = control.Show();
-            if (ret == ShowResult.FIRST || ret == ShowResult.OK) {
-                hooks = control.instance.GetComponent<ExpressionsHooks>();
-                if (hooks) {
-                    if (hooks.LeftSprites == null)
-                        hooks.LeftSprites = new List<Sprite>();
-                    if (hooks.RightSprites == null)
-                        hooks.RightSprites = new List<Sprite>();
-                    if (hooks.Audios == null)
-                        hooks.Audios = new List<AudioClip>();
-                }
-            }
-            return ret;
+		public ShowResult Show ()
+		{	
+			started = true;
+			var ret = control.Show ();
+			if (ret == ShowResult.FIRST || ret == ShowResult.OK) {
+				hooks = control.instance.GetComponent<ExpressionsHooks> ();
+				if (hooks) {
+					if (hooks.LeftSprites == null)
+						hooks.LeftSprites = new List<Sprite> ();
+					if (hooks.RightSprites == null)
+						hooks.RightSprites = new List<Sprite> ();
+					if (hooks.Audios == null)
+						hooks.Audios = new List<AudioClip> ();
+					if (hooks.AudiosFemale == null)
+						hooks.AudiosFemale = new List<AudioClip> ();
+
+				
+				
+				}
+			}
+			return ret;
 			
         }
 
 
-        private Line activeTopLine;
-        private Line activeBottomLine;
-
-        public void update(float delta) {
-            start += delta;
-            //lineOffset += 2;
-            if (hooks && started) {
-//				hooks.LeftLine.SetActive (false);
-//				hooks.RightLine.SetActive (false);
-                if (activeTopLine != null && activeTopLine.End <= start) {
-                    hooks.LeftContent = null;
-                }
-                if (activeBottomLine != null && activeBottomLine.End <= start) {
-                    hooks.RightContent = null;
-                }
-                foreach (Line l in currentTopic.Lines) {
-                    if (activeTopLine == l || activeBottomLine == l) {
-                        continue;
-                    }
-                    if (l.Start <= start && l.End > start) {
-                        if (l.Speaker.IsLeft) {
+		public void update (float delta)
+		{
+			start += delta;
+			//lineOffset += 2;
+			if (hooks && started) {
+				if (activeTopLine != null && activeTopLine.End <= start) {
+					hooks.LeftContent = null;
+				}
+				if (activeBottomLine != null && activeBottomLine.End <= start) {
+					hooks.RightContent = null;
+				}
+				foreach (Line l in currentTopic.Lines) {
+					if (activeTopLine == l || activeBottomLine == l) {
+						continue;
+					}
+					if (l.Start <= start && l.End > start) {
+							if (l.Speaker.IsLeft) {
 //							hooks.LeftLine.SetActive (true);
-                            hooks.LeftContent = l.Content;
-                            hooks.LeftSprite = hooks.LeftSprites[(int)l.Speaker.CurrentEmotion];
-                            if (!hooks.AudioSource.isPlaying) {
-                                hooks.AudioSource.clip = hooks.Audios[(int)l.Speaker.CurrentEmotion];
-                                hooks.AudioSource.Play();
-                            }
-                            activeTopLine = l;
-                        } else {
+								hooks.LeftContent = l.Content;
+								hooks.LeftSprite = hooks.LeftSprites [(int)l.Speaker.CurrentEmotion];
+								if (!hooks.AudioSource.isPlaying) {
+									hooks.AudioSource.clip = hooks.AudiosFemale [(int)l.Speaker.CurrentEmotion];
+									hooks.AudioSource.Play ();
+								}
+								activeTopLine = l;
+							} else {
 //							hooks.RightLine.SetActive (true);
                             hooks.RightContent = l.Content;
                             hooks.RightSprite = hooks.RightSprites[(int)l.Speaker.CurrentEmotion];

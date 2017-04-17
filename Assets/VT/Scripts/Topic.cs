@@ -11,13 +11,21 @@ namespace VT
 			public string message;
 
 			public VoidFunc onClick;
-		
+          
 
 			public Input (string message, VoidFunc onClick)
 			{
 				this.message = message;
 				this.onClick = onClick;
+                this.start = 0.0f;
 			}
+            public float start;
+
+            public Input (string message, VoidFunc onClick, float start){
+                this.message = message;
+                this.onClick = onClick;
+                this.start = start;
+            }
 		}
 
 		private List<Line> lines = new List<Line> ();
