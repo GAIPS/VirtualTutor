@@ -103,9 +103,9 @@ namespace VT
 				new Topic.Input (
 					"lembrem-me de...", () => {
 						
-					happy.CurrentEmotion = Agent.EmotionType.CRYING;
+						happy.CurrentEmotion = Agent.EmotionType.SMILING;
 					grumpy.CurrentEmotion = Agent.EmotionType.CRYING;
-					demoScene.changeTopic ("nonDeveloped");
+					demoScene.changeTopic ("reminder");
 				}, 1.5f), 
 				new Topic.Input (
 					"gostaria de falar de ...",
@@ -158,39 +158,38 @@ namespace VT
 
 			//new Info?
 			Line l7 = new Line ("Uma nova informação? Está bem mas despacha-te.",
-				                   grumpy,
-				                   0.0f,
-				                   8.0f);
+				          grumpy,
+				          0.0f,
+				          8.0f);
 			Line l8 = new Line ("Não sejas assim", happy, 4.0f, 12.0f);
 			List<Line> newInfo = new List<Line> ();
 			newInfo.Add (l7);
 			newInfo.Add (l8);
-			Topic.Input[] inputs1 = {new Topic.Input("ok", () => {
-				grumpy.CurrentEmotion = Agent.EmotionType.IMPATIENT;
-				happy.CurrentEmotion = Agent.EmotionType.SUBMISSIVE;
-				demoScene.changeTopic("onActivity");
-                        demoScene.OpenCourses();
-                    },1.5f), new Topic.Input("", () => {
-                    }), new Topic.Input("", () => {
-                    })
-            };
-            Topic newInfoTopic = new Topic(newInfo, inputs1);
-            demoScene.topics.Add("newInfoTopic", newInfoTopic);
+			Topic.Input[] inputs1 = {new Topic.Input ("ok", () => {
+					grumpy.CurrentEmotion = Agent.EmotionType.IMPATIENT;
+					happy.CurrentEmotion = Agent.EmotionType.SUBMISSIVE;
+					demoScene.changeTopic ("onActivity");
+					demoScene.OpenCourses ();
+				}, 1.5f), new Topic.Input ("", () => {
+				}), new Topic.Input ("", () => {
+				})
+			};
+			Topic newInfoTopic = new Topic (newInfo, inputs1);
+			demoScene.topics.Add ("newInfoTopic", newInfoTopic);
 
-            // Bad test
+			// Bad test
 //			happy.CurrentEmotion = Agent.EmotionType.CRYING; para por quando houver passagem
 //			grumpy.CurrentEmotion = Agent.EmotionType.CRYING;
 //
-            Line l9 = new Line("Ora bolas!", happy, 0.0f, 8.0f);
-            Line l10 = new Line("Devias ter estudado mais...", grumpy, 4.0f, 12.0f);
-            Line l11 = new Line("Podemos sempre fazer um plano de estudo, o que achas?",
-                        happy,
-                        12.5f,
-                        20.5f);
-            Line l56 = new Line("Talvez consigas subir a nota", grumpy, 16.5f, 24.5f);
+			Line l9 = new Line ("Ora bolas!", happy, 0.0f, 8.0f);
+			Line l10 = new Line ("Devias ter estudado mais...", grumpy, 4.0f, 12.0f);
+			Line l11 = new Line ("Podemos sempre fazer um plano de estudo, o que achas?",
+				                    happy,
+				                    12.5f,
+				                    20.5f);
+			Line l56 = new Line ("Talvez consigas subir a nota", grumpy, 16.5f, 24.5f);
 
-            Topic.Input[] inputs3 =
-                { new Topic.Input("Plano de estudo? Parece-me bem.", () => {
+			Topic.Input[] inputs3 = { new Topic.Input("Plano de estudo? Parece-me bem.", () => {
 				grumpy.CurrentEmotion = Agent.EmotionType.IMPATIENT;
 				happy.CurrentEmotion = Agent.EmotionType.SUBMISSIVE;
 				demoScene.changeTopic("onActivity");
@@ -576,7 +575,35 @@ namespace VT
 			Topic onActivity = new Topic(onActivityList,emptyInputs);
 			demoScene.topics.Add("onActivity",onActivity);
 
+			Line l61 = new Line ("Qualquer coisa que precisares, não contes com ele",grumpy,4.0f,12.0f);
+			List<Line> returnlist = new List<Line>();
+			returnlist.Add(l34);
+			returnlist.Add(l61);
+			Topic returnTopic = new Topic(returnlist,emptyInputs);
+			demoScene.topics.Add("returnTopic",returnTopic);
 
+			Line l62 = new Line ("A única informação que temos é que tens uma avaliação daqui a duas semanas",happy,0.0f,8.0f);
+			Line l63 = new Line ("Para te lembrarmos de mais coisas tens de nos ajudar com mais informação", grumpy,4.0f,12.0f);
+			Line l64 = new Line ("Pára de fazer as pessoas sentirem-se mal, não tarda és apagado", happy,12.5f,20.5f);
+			Line l65 = new Line ("Sigh...Nunca me deixas fazer nada, anjinho", grumpy,16.5f,24.5f);
+			List<Line> remindList = new List<Line>();
+			remindList.Add(l62);
+			remindList.Add(l63);
+			remindList.Add(l64);
+			remindList.Add(l65);
+			Topic.Input[] remindInputs = { new Topic.Input("Obrigado pela informação", ()=>{
+				happy.CurrentEmotion = Agent.EmotionType.SMILING;
+				grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+				demoScene.changeTopic("returnTopic", Scene.ShowOption.HEAD);
+			},1.5f), new Topic.Input("",()=>{}), new Topic.Input("Tenho uma nova informação",()=>{
+				happy.CurrentEmotion = Agent.EmotionType.SMILING;
+				grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+				demoScene.changeTopic ("newInfoTopic");
+			}, 4.5f) 
+			};
+			Topic reminder = new Topic(remindList,remindInputs);
+			demoScene.topics.Add("reminder",reminder);
+				
 				
 	
         }
