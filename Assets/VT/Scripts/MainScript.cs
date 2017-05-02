@@ -80,16 +80,16 @@ namespace VT
 			//Hello
 			happy.CurrentEmotion = Agent.EmotionType.SMILING;
 			grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
-			Line l1 = new Line ("Olá, em que te posso ajudar hoje?", happy, 0.0f, 8.0f);
-			Line l2 = new Line ("Podes?No singular? Eu nunca faço nada,é?",
+			Line l1 = new Line ("Olá, é bom ver-te depois destes 2 dias.", happy, 0.0f, 8.0f);
+			Line l2 = new Line ("Eu pensava que ele não vinha",
 				          grumpy,
 				          4.0f,
 				          12.0f);
-			Line l3 = new Line ("Ooooook, desculpa. Em que é que PODEMOS te ajudar hoje?",
+			Line l3 = new Line ("Em que te podemos ajudar hoje?",
 				          happy,
 				          12.5f,
 				          20.5f);
-			Line l4 = new Line ("Pronto, assim já gosto mais. Egocêntrico.",
+			Line l4 = new Line ("Lembro-te que tens uma avaliação daqui a 2 semanas.",
 				          grumpy,
 				          16.5f,
 				          24.5f);
