@@ -35,7 +35,7 @@ namespace VT
 
 		public enum ShowOption
 		{
-BOTH,
+			BOTH,
 			HEAD,
 			OPTIONS
 
@@ -66,7 +66,7 @@ BOTH,
 						coursesControl.Disable ();
 						courseControl.Disable ();
 
-					} else if (evaluationResult >= 8.5 && evaluationResult < 9.5) {
+					} else if (evaluationResult >= 8.5 && evaluationResult < 11) {
 						agents [0].CurrentEmotion = Agent.EmotionType.SAD;
 						agents [1].CurrentEmotion = Agent.EmotionType.SAD;
 						currentTopicName = "belowAvgTopic";
@@ -77,7 +77,7 @@ BOTH,
 						coursesControl.Disable ();
 						courseControl.Disable ();
 
-					} else if (evaluationResult >= 9.5 && evaluationResult < 15.0) {
+					} else if (evaluationResult >= 11 && evaluationResult < 16.0) {
 						agents [0].CurrentEmotion = Agent.EmotionType.LIKES;
 						agents [1].CurrentEmotion = Agent.EmotionType.SMILING;
 						currentTopicName = "expectedTest";
@@ -87,7 +87,7 @@ BOTH,
 						coursesControl.Disable ();
 						courseControl.Disable ();
 
-					} else if (evaluationResult >= 15.0) {
+					} else if (evaluationResult >= 16.0) {
 						agents [0].CurrentEmotion = Agent.EmotionType.LIKES;
 						agents [1].CurrentEmotion = Agent.EmotionType.LIKES;
 						currentTopicName = "greatTest";
