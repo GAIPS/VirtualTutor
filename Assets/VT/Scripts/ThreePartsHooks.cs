@@ -15,18 +15,27 @@ namespace VT
 		[SerializeField]
 		private Text topicTextRight = null;
 		[SerializeField]
+		private Text topicTextExtra = null;
+		[SerializeField]
 		private GameObject topicLeft;
 		[SerializeField]
 		private GameObject topicRight;
 		[SerializeField]
 		private GameObject topicTop;
-
+		[SerializeField]
+		private GameObject topicExtra;
         
 
 		public VoidFunc onLeft;
 		public VoidFunc onTop;
 		public VoidFunc onRight;
+		public VoidFunc onExtra;
 
+		public void UIExtra()
+		{
+			if (onExtra != null)
+				onExtra ();
+		}
 		public void UILeft ()
 		{
 			if (onLeft != null)
@@ -77,6 +86,16 @@ namespace VT
                     hide(topicRight);
 			}
         }
+
+		public string ContentExtra {
+			get{ return this.topicTextExtra.text; }
+			set{if (!string.IsNullOrEmpty (value)) {
+					show (topicExtra);
+					this.topicTextExtra.text = value;
+				} else if (string.IsNullOrEmpty (value))
+					hide (topicExtra);
+			}
+		}
 
         protected void show(GameObject ballon) {
             if (!ballon) {

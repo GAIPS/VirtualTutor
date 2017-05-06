@@ -21,20 +21,26 @@ namespace VT {
 
         public ShowResult Show() {
             started = true;
-            var ret = control.Show();
-            if (ret == ShowResult.FIRST || ret == ShowResult.OK) {
-                hooks = control.instance.GetComponent<ThreePartsHooks>();
-                if (hooks) {
-                    hooks.ContentLeft = currentTopic.Inputs[0].message;
-                    hooks.ContentTop = currentTopic.Inputs[1].message;
-                    hooks.ContentRight = currentTopic.Inputs[2].message;
-                    hooks.onLeft = currentTopic.Inputs[0].onClick;
-                    hooks.onTop = currentTopic.Inputs[1].onClick;
-                    hooks.onRight = currentTopic.Inputs[2].onClick;
-                }
-            }
-            return ret;
-        }
+			var ret = control.Show ();
+			if (ret == ShowResult.FIRST || ret == ShowResult.OK) {
+				hooks = control.instance.GetComponent<ThreePartsHooks> ();
+				if (hooks) {
+					hooks.ContentLeft = currentTopic.Inputs [0].message;
+					hooks.ContentTop = currentTopic.Inputs [1].message;
+					hooks.ContentRight = currentTopic.Inputs [2].message;
+					hooks.onLeft = currentTopic.Inputs [0].onClick;
+					hooks.onTop = currentTopic.Inputs [1].onClick;
+					hooks.onRight = currentTopic.Inputs [2].onClick;
+					if (currentTopic.Inputs.Length == 4) {
+						hooks.ContentExtra = currentTopic.Inputs [3].message;
+						hooks.onExtra = currentTopic.Inputs[3].onClick;
+					
+					}
+				}
+			}
+				return ret;
+			
+		}
 
         public void update(float delta) {
             start += delta;
