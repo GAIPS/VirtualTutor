@@ -16,6 +16,11 @@ namespace VT
 		public Calendar2Control calendar2Control;
 		public Calendar3Control calendar3Control;
 		private float start = 0.0f;
+		public Evaluation test1 = new Evaluation ("teste 1", "20/03/2017", 4, 4, "12.0");
+		public Evaluation project1 = new Evaluation ("projecto 1", "04/04/2017", 3, 4, "16.0");
+		public ImportantDate revision = new ImportantDate ("revisão", "08/04/2017", 1, 3, true);
+		public Evaluation test2 = new Evaluation ("teste 2", "07/05/2017", 4, 4, "");
+		public Evaluation test3 = new Evaluation ("teste 3", "22/06/2017", 4, 4, "");
 
 		private string currentTopicName;
 
@@ -116,7 +121,14 @@ namespace VT
 				}, () => {
 			},
 				() => {
-				}
+				}, () => {
+			}, () => {
+			}, () => {
+			}, (string value) => {
+			}, (bool value) => {
+				revision.Done = value;
+			}, test1, project1, revision, test2, test3
+
 			);
 		
 		}

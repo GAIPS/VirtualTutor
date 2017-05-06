@@ -16,6 +16,16 @@ namespace VT
 		private StringFunc onNewInput;
 		private VoidFunc onOldSend;
 		private VoidFunc onNewSend;
+		private VoidFunc onCheck2Plus;
+		private VoidFunc onCheck2Rubber;
+		private VoidFunc sendCheck2Grade;
+		private StringFunc onCheck2Input;
+		private BoolFunc toggle;
+		private Checkpoint checkpoint1;
+		private Checkpoint checkpoint2;
+		private Checkpoint checkpoint3;
+		private Checkpoint checkpoint4;
+		private Checkpoint checkpoint5;
 
 		public CourseControl (GameObject prefab)
 		{
@@ -23,7 +33,7 @@ namespace VT
 			control.prefab = prefab;
 		}
 
-		public void Set (VoidFunc onConfirm, VoidFunc onOldRubber, VoidFunc onNewRubber, VoidFunc onOldPlus, VoidFunc onNewPlus, StringFunc onOldInput, StringFunc onNewInput,VoidFunc onOldSend, VoidFunc onNewSend)
+		public void Set (VoidFunc onConfirm, VoidFunc onOldRubber, VoidFunc onNewRubber, VoidFunc onOldPlus, VoidFunc onNewPlus, StringFunc onOldInput, StringFunc onNewInput,VoidFunc onOldSend, VoidFunc onNewSend, VoidFunc onCheck2Plus, VoidFunc onCheck2Rubber, VoidFunc sendCheck2Grade, StringFunc onCheck2Input, BoolFunc toggle, Checkpoint checkpoint1, Checkpoint checkpoint2, Checkpoint checkpoint3, Checkpoint checkpoint4, Checkpoint checkpoint5)
 		{
 			this.onConfirm = onConfirm;
 			this.onOldRubber = onOldRubber;
@@ -34,7 +44,16 @@ namespace VT
 			this.onNewInput = onNewInput;
 			this.onNewSend = onNewSend;
 			this.onOldSend = onOldSend;
-	
+			this.onCheck2Plus = onCheck2Plus;
+			this.onCheck2Rubber = onCheck2Rubber;
+			this.sendCheck2Grade = sendCheck2Grade;
+			this.onCheck2Input = onCheck2Input;
+			this.toggle = toggle;
+			this.checkpoint1 = checkpoint1;
+			this.checkpoint2 = checkpoint2;
+			this.checkpoint3 = checkpoint3;
+			this.checkpoint4 = checkpoint4;
+			this.checkpoint5 = checkpoint5;
 
 		}
 
@@ -53,12 +72,22 @@ namespace VT
 					hooks.onOldInput = this.onOldInput;
 					hooks.sendNewGrade = this.onNewSend;
 					hooks.sendOldgrade = this.onOldSend;
+					hooks.onCheck2Plus = this.onCheck2Plus;
+					hooks.onCheck2Rubber = this.onCheck2Rubber;
+					hooks.sendCheck2Grade = this.sendCheck2Grade;
+					hooks.onCheck2Input = this.onCheck2Input;
+					hooks.CheckPoint2DateText = this.checkpoint2.Date;
+					hooks.CheckPoint3Date = this.checkpoint3.Date;
+					hooks.Checkpoint5Date = this.checkpoint5.Date;
+					hooks.OldDate = this.checkpoint1.Date;
+					hooks.NewDate = this.checkpoint4.Date;
+					hooks.toggle = this.toggle;
 				}
 			}
 			return ret;
 		}
-		public ShowResult SetAndShow(VoidFunc onConfirm, VoidFunc onOldRubber, VoidFunc onNewRubber, VoidFunc onOldPlus, VoidFunc onNewPlus, StringFunc onOldInput, StringFunc onNewInput, VoidFunc onOldSend, VoidFunc onNewSend){
-			this.Set (onConfirm, onOldRubber, onNewRubber, onOldPlus, onNewPlus,onOldInput,onNewInput,onOldSend,onNewSend);
+		public ShowResult SetAndShow(VoidFunc onConfirm, VoidFunc onOldRubber, VoidFunc onNewRubber, VoidFunc onOldPlus, VoidFunc onNewPlus, StringFunc onOldInput, StringFunc onNewInput, VoidFunc onOldSend, VoidFunc onNewSend, VoidFunc onCheck2Plus, VoidFunc onCheck2Rubber, VoidFunc sendCheck2Grade, StringFunc onCheck2Input, BoolFunc toggle, Checkpoint checkpoint1, Checkpoint checkpoint2, Checkpoint checkpoint3, Checkpoint checkpoint4, Checkpoint checkpoint5){
+			this.Set (onConfirm, onOldRubber, onNewRubber, onOldPlus, onNewPlus,onOldInput,onNewInput,onOldSend,onNewSend, onCheck2Plus, onCheck2Rubber,sendCheck2Grade,onCheck2Input,toggle,checkpoint1,checkpoint2,checkpoint3,checkpoint4,checkpoint5);
 			return Show ();
 		}
 		public void Destroy(){
