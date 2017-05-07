@@ -14,6 +14,7 @@ namespace VT
 		public Calendar1Control calendar1Control;
 		public CourseControl courseControl;
 		public Calendar2Control calendar2Control;
+		public DiscussControl discussControl;
 		public Calendar3Control calendar3Control;
 		private float start = 0.0f;
 		public Evaluation test1 = new Evaluation ("teste 1", "20/03/2017", 4, 4, "12.0");
@@ -141,7 +142,22 @@ namespace VT
 				SaveCalendar ();
 			});	
 		}
+		public void OpenList(){
+			start = 0.0f;
+			expressionsControl.Start = 0.0f;
+			discussControl.SetAndShow ("Tema1", "Tema2", "Tema3", () => {
+				changeTopic ("nonDeveloped");
+				discussControl.Disable();
+			}, () => {
+				Debug.Log("ping");
+				discussControl.Disable();
+				changeTopic ("nonDeveloped");
 
+			}, () => {
+				changeTopic ("nonDeveloped");
+				discussControl.Disable();
+			});
+		}
 		public void SaveCalendar ()
 		{
 			calendar2Control.SetAndShow (() => {

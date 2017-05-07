@@ -9,6 +9,7 @@ namespace VT
 	public class MainScript : MonoBehaviour
 	{
 		public bool playSplashScreen = true;
+
 		public GameObject splashScreenPrefab;
 		public GameObject threeOptionsPrefab;
 		public GameObject ExpressionsPrefab;
@@ -17,6 +18,7 @@ namespace VT
 		public GameObject calendar1Prefab;
 		public GameObject calendar2Prefab;
 		public GameObject calendar3Prefab;
+		public GameObject discussPrefab;
 		private Scene scene;
 
 		private bool playing = false;
@@ -51,6 +53,7 @@ namespace VT
 			scene.calendar1Control = new Calendar1Control (calendar1Prefab);
 			scene.calendar2Control = new Calendar2Control (calendar2Prefab);
 			scene.calendar3Control = new Calendar3Control (calendar3Prefab);
+			scene.discussControl = new DiscussControl (discussPrefab);
 
 			PopulateScene (scene);
 
@@ -628,7 +631,7 @@ namespace VT
 				grumpy.CurrentEmotion = Agent.EmotionType.DOMINANT;
 				demoScene.changeTopic("tips");
 			},4.5f),new Topic.Input("Mais...",()=>{
-				//ChangeTopic to list
+				demoScene.OpenList();
 			},6.0f)
 				};
 			Topic talkAbout = new Topic(talkAboutList,talkInputs);
@@ -644,15 +647,15 @@ namespace VT
 					happy.CurrentEmotion = Agent.EmotionType.SMILING;
 					grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
 					demoScene.changeTopic("returnTopic");
-				},1.5f), new Topic.Input("Mais...",()=>{
-					//ChangeTopic to list
-				},3.0f)
+				},1.5f), new Topic.Input("",()=>{}), new Topic.Input("Mais...",()=>{
+				demoScene.OpenList();
+				})
 			};
 			Topic pastTopic = new Topic(pastTestList,pastInputs);
 			demoScene.topics.Add("pastTopic",pastTopic);
 
 			Line l72 = new Line ("Sabemos que tiveste um teste com 12 e um projeto com 16",grumpy,0.0f,8.0f);
-			Line l73 = new Line ("Também sabemos que foste a uma revisão de prova", grumpy,4.0f,12.0f);
+			Line l73 = new Line ("Também sabemos que foste a uma revisão de prova", happy,4.0f,12.0f);
 			Line l74 = new Line ("As coisas estão a ir bem, possivelmente o teu próximo teste será melhor",happy,12.5f,20.5f);
 			Line l75 = new Line ("Mas não te esqueças de continuar o trabalho",grumpy,16.5f,24.5f);
 			List<Line> balanceList = new List<Line>();

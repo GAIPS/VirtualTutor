@@ -36,6 +36,8 @@ namespace VT {
 						hooks.onExtra = currentTopic.Inputs[3].onClick;
 					
 					}
+					if (currentTopic.Inputs.Length < 4)
+						hooks.ContentExtra = "";
 				}
 			}
 				return ret;
