@@ -57,6 +57,8 @@ namespace VT
 		private Text checkPoint3Date = null;
 		[SerializeField]
 		private GameObject Checkpoint3Check;
+		[SerializeField]
+		private bool checkPoint3Value;
 
 		public VoidFunc onConfirm;
 		public VoidFunc onOldPlus;
@@ -273,6 +275,14 @@ namespace VT
 			set {
 				if (!string.IsNullOrEmpty (value) && !value.Equals (this.checkPoint2GradeText.text))
 					this.checkPoint2GradeText.text = value;
+			}
+		}
+		public bool CheckPoint3Value {
+			get {
+				return this.checkPoint3Value;
+			}
+			set {
+				checkPoint3Value = value;
 			}
 		}
 	}

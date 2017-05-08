@@ -33,7 +33,7 @@ namespace VT
 			control.prefab = prefab;
 		}
 
-		public void Set (VoidFunc onConfirm, VoidFunc onOldRubber, VoidFunc onNewRubber, VoidFunc onOldPlus, VoidFunc onNewPlus, StringFunc onOldInput, StringFunc onNewInput,VoidFunc onOldSend, VoidFunc onNewSend, VoidFunc onCheck2Plus, VoidFunc onCheck2Rubber, VoidFunc sendCheck2Grade, StringFunc onCheck2Input, BoolFunc toggle, Checkpoint checkpoint1, Checkpoint checkpoint2, Checkpoint checkpoint3, Checkpoint checkpoint4, Checkpoint checkpoint5)
+		public void Set (VoidFunc onConfirm, VoidFunc onOldRubber, VoidFunc onNewRubber, VoidFunc onOldPlus, VoidFunc onNewPlus, StringFunc onOldInput, StringFunc onNewInput, VoidFunc onOldSend, VoidFunc onNewSend, VoidFunc onCheck2Plus, VoidFunc onCheck2Rubber, VoidFunc sendCheck2Grade, StringFunc onCheck2Input, BoolFunc toggle, Checkpoint checkpoint1, Checkpoint checkpoint2, Checkpoint checkpoint3, Checkpoint checkpoint4, Checkpoint checkpoint5)
 		{
 			this.onConfirm = onConfirm;
 			this.onOldRubber = onOldRubber;
@@ -54,6 +54,7 @@ namespace VT
 			this.checkpoint3 = checkpoint3;
 			this.checkpoint4 = checkpoint4;
 			this.checkpoint5 = checkpoint5;
+
 
 		}
 
@@ -82,24 +83,48 @@ namespace VT
 					hooks.OldDate = this.checkpoint1.Date;
 					hooks.NewDate = this.checkpoint4.Date;
 					hooks.toggle = this.toggle;
+					var checkpoint1Test = checkpoint1 as Evaluation;
+					if (checkpoint1Test != null) {
+						hooks.OldGradeText = checkpoint1Test.Score;
+					}
+					var checkPoint2Test = checkpoint2 as Evaluation;
+					if (checkPoint2Test != null) {
+						hooks.CheckPoint2GradeText = checkPoint2Test.Score;
+					}
+
+					var checkPoint3Box = checkpoint3 as CheckBoxPoint;
+					if (checkPoint3Box != null){
+						hooks.CheckPoint3Value = checkPoint3Box.Done;						
+					}
+
 				}
 			}
 			return ret;
 		}
-		public ShowResult SetAndShow(VoidFunc onConfirm, VoidFunc onOldRubber, VoidFunc onNewRubber, VoidFunc onOldPlus, VoidFunc onNewPlus, StringFunc onOldInput, StringFunc onNewInput, VoidFunc onOldSend, VoidFunc onNewSend, VoidFunc onCheck2Plus, VoidFunc onCheck2Rubber, VoidFunc sendCheck2Grade, StringFunc onCheck2Input, BoolFunc toggle, Checkpoint checkpoint1, Checkpoint checkpoint2, Checkpoint checkpoint3, Checkpoint checkpoint4, Checkpoint checkpoint5){
-			this.Set (onConfirm, onOldRubber, onNewRubber, onOldPlus, onNewPlus,onOldInput,onNewInput,onOldSend,onNewSend, onCheck2Plus, onCheck2Rubber,sendCheck2Grade,onCheck2Input,toggle,checkpoint1,checkpoint2,checkpoint3,checkpoint4,checkpoint5);
+
+		public ShowResult SetAndShow (VoidFunc onConfirm, VoidFunc onOldRubber, VoidFunc onNewRubber, VoidFunc onOldPlus, VoidFunc onNewPlus, StringFunc onOldInput, StringFunc onNewInput, VoidFunc onOldSend, VoidFunc onNewSend, VoidFunc onCheck2Plus, VoidFunc onCheck2Rubber, VoidFunc sendCheck2Grade, StringFunc onCheck2Input, BoolFunc toggle, Checkpoint checkpoint1, Checkpoint checkpoint2, Checkpoint checkpoint3, Checkpoint checkpoint4, Checkpoint checkpoint5)
+		{
+			this.Set (onConfirm, onOldRubber, onNewRubber, onOldPlus, onNewPlus, onOldInput, onNewInput, onOldSend, onNewSend, onCheck2Plus, onCheck2Rubber, sendCheck2Grade, onCheck2Input, toggle, checkpoint1, checkpoint2, checkpoint3, checkpoint4, checkpoint5);
 			return Show ();
 		}
-		public void Destroy(){
+
+		public void Destroy ()
+		{
 			control.Destroy ();
 		}
-		public void Disable(){
+
+		public void Disable ()
+		{
 			control.Disable ();
 		}
-		public bool IsVisible(){
-			return control.IsVisible();
+
+		public bool IsVisible ()
+		{
+			return control.IsVisible ();
 		}
-		public void Enable(){
+
+		public void Enable ()
+		{
 			control.Enable ();
 		}
 	}
