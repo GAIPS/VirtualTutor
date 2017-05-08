@@ -145,7 +145,7 @@ namespace VT
 		public void OpenList(){
 			start = 0.0f;
 			expressionsControl.Start = 0.0f;
-			discussControl.SetAndShow ("Tema1", "Tema2", "Tema3", () => {
+			discussControl.SetAndShow ("Reconsiderar planos de estudo", "Marcar avaliação", "Desistir da Cadeira", () => {
 				changeTopic ("nonDeveloped");
 				discussControl.Disable();
 			}, () => {
