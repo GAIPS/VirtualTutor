@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace VT
 {
-	public class ImportantDate :Checkpoint
+	public class CheckBoxPoint :Checkpoint
 	{
 
 		private bool done;
-		public ImportantDate(string name, string date, int effort, int importance, bool done){
+		public CheckBoxPoint(string name, string date, int effort, int importance, bool done){
 			this.Name = name;
 			this.Date = date;
 			this.Effort = effort;
