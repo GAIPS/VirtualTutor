@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 namespace VT
@@ -54,8 +54,6 @@ namespace VT
 			this.checkpoint3 = checkpoint3;
 			this.checkpoint4 = checkpoint4;
 			this.checkpoint5 = checkpoint5;
-
-
 		}
 
 		public ShowResult Show ()
