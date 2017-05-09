@@ -106,8 +106,8 @@ namespace VT
 				new Topic.Input (
 					"lembrem-me de...", () => {
 						
-						happy.CurrentEmotion = Agent.EmotionType.SMILING;
-						grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+					happy.CurrentEmotion = Agent.EmotionType.SMILING;
+					grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
 					demoScene.changeTopic ("reminder");
 				}, 1.5f), 
 				new Topic.Input (
@@ -152,7 +152,7 @@ namespace VT
 					Debug.Log ("top");
 				}, 1.5f),
 				new Topic.Input ("fechem a aplicação por favor", () => {
-					Debug.Log ("right");
+					Application.Quit();
 				}, 3.0f
 				)
 			};
@@ -187,162 +187,159 @@ namespace VT
 			Line l9 = new Line ("Ora bolas!", happy, 0.0f, 8.0f);
 			Line l10 = new Line ("Devias ter estudado mais...", grumpy, 4.0f, 12.0f);
 			Line l11 = new Line ("Podemos sempre fazer um plano de estudo, o que achas?",
-				                    happy,
-				                    12.5f,
-				                    20.5f);
+				           happy,
+				           12.5f,
+				           20.5f);
 			Line l56 = new Line ("Talvez consigas subir a nota", grumpy, 16.5f, 24.5f);
 
-			Topic.Input[] inputs3 = { new Topic.Input("Plano de estudo? Parece-me bem.", () => {
-				grumpy.CurrentEmotion = Agent.EmotionType.IMPATIENT;
-				happy.CurrentEmotion = Agent.EmotionType.SUBMISSIVE;
-				demoScene.changeTopic("onActivity");
-                            demoScene.OpenCalendar();
-                        },1.5f),
-                    new Topic.Input("Quero ser avisado mais cedo", () => {
-                            happy.CurrentEmotion = Agent.EmotionType.SHY;
-                            grumpy.CurrentEmotion = Agent.EmotionType.ANGRY;
-                            demoScene.changeTopic("warnTestTopic");
-                        },3.0f), new Topic.Input("Estou bem, obrigado", () => {
-                            happy.CurrentEmotion = Agent.EmotionType.SMILING;
-                            grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+			Topic.Input[] inputs3 = { new Topic.Input ("Plano de estudo? Parece-me bem.", () => {
+					grumpy.CurrentEmotion = Agent.EmotionType.IMPATIENT;
+					happy.CurrentEmotion = Agent.EmotionType.SUBMISSIVE;
+					demoScene.changeTopic ("onActivity");
+					demoScene.OpenCalendar ();
+				}, 1.5f),
+				new Topic.Input ("Quero ser avisado mais cedo", () => {
+					happy.CurrentEmotion = Agent.EmotionType.SHY;
+					grumpy.CurrentEmotion = Agent.EmotionType.ANGRY;
+					demoScene.changeTopic ("warnTestTopic");
+				}, 3.0f), new Topic.Input ("Estou bem, obrigado", () => {
+					happy.CurrentEmotion = Agent.EmotionType.SMILING;
+					grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
 
-                            demoScene.changeTopic("help");
-				},4.5f)
-                };
+					demoScene.changeTopic ("help");
+				}, 4.5f)
+			};
 	
-            List<Line> badTest = new List<Line>();
-            badTest.Add(l9);
-            badTest.Add(l10);
-            badTest.Add(l11);
-            badTest.Add(l56);
-            Topic badTestTopic = new Topic(badTest, inputs3);
-            demoScene.topics.Add("badTestTopic", badTestTopic);
+			List<Line> badTest = new List<Line> ();
+			badTest.Add (l9);
+			badTest.Add (l10);
+			badTest.Add (l11);
+			badTest.Add (l56);
+			Topic badTestTopic = new Topic (badTest, inputs3);
+			demoScene.topics.Add ("badTestTopic", badTestTopic);
 
-            //Below Average
+			//Below Average
 //			happy.CurrentEmotion = Agent.EmotionType.SAD;
 //			grumpy.CurrentEmotion = Agent.EmotionType.SAD;
-            //colar quando houver mudança
-            Line l12 = new Line("Devias ter estudado mais", grumpy, 0.0f, 8.0f);
-            Line l13 = new Line("Oh, este não correu tão bem quanto estávamos à espera",
-                        happy,
-                        4.0f,
-                        12.0f);
-            Line l14 = new Line("Para superar esta barreira,  acho boa ideia fazermos um plano de estudo, o que achas?",
-                        happy,
-                        12.5f,
-                        20.5f);
-            List<Line> belowAvg = new List<Line>();
-            belowAvg.Add(l12);
-            belowAvg.Add(l13);
-            belowAvg.Add(l14);
-            belowAvg.Add(l56);
-            Topic belowAvgTopic = new Topic(belowAvg, inputs3);
-            demoScene.topics.Add("belowAvgTopic", belowAvgTopic);
+			//colar quando houver mudança
+			Line l12 = new Line ("Devias ter estudado mais", grumpy, 0.0f, 8.0f);
+			Line l13 = new Line ("Oh, este não correu tão bem quanto estávamos à espera",
+				           happy,
+				           4.0f,
+				           12.0f);
+			Line l14 = new Line ("Para superar esta barreira,  acho boa ideia fazermos um plano de estudo, o que achas?",
+				           happy,
+				           12.5f,
+				           20.5f);
+			List<Line> belowAvg = new List<Line> ();
+			belowAvg.Add (l12);
+			belowAvg.Add (l13);
+			belowAvg.Add (l14);
+			belowAvg.Add (l56);
+			Topic belowAvgTopic = new Topic (belowAvg, inputs3);
+			demoScene.topics.Add ("belowAvgTopic", belowAvgTopic);
 
 //			//mudar data de testes mais cedo
 
-            Line l15 = new Line("Ok, com isto vais ser relembrado antes e ter mais tempo para estudar.",
-                        happy,
-                        0.0f,
-                        8.0f);
-            Line l16 = new Line("Continuo a achar que um plano  de estudo era uma boa ideia.",
-                        grumpy,
-                        4.0f,
-                        12.0f);
-            Topic.Input[] inputs4 =
-            { new Topic.Input("Plano de estudo? Parece-me bem.", () => {
-                        demoScene.OpenCalendar();
-                    },1.5f), new Topic.Input("Obrigado", () => {
-                        happy.CurrentEmotion = Agent.EmotionType.SMILING;
-                        grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+			Line l15 = new Line ("Ok, com isto vais ser relembrado antes e ter mais tempo para estudar.",
+				           happy,
+				           0.0f,
+				           8.0f);
+			Line l16 = new Line ("Continuo a achar que um plano  de estudo era uma boa ideia.",
+				           grumpy,
+				           4.0f,
+				           12.0f);
+			Topic.Input[] inputs4 = { new Topic.Input ("Plano de estudo? Parece-me bem.", () => {
+					demoScene.OpenCalendar ();
+				}, 1.5f), new Topic.Input ("Obrigado", () => {
+					happy.CurrentEmotion = Agent.EmotionType.SMILING;
+					grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
 
-                        demoScene.changeTopic("help");
-                    },3.0f), new Topic.Input("E que tal...", () => {
-				demoScene.OpenList();
-                    },4.5f)
-            };
-            List<Line> warnTest = new List<Line>();
-            warnTest.Add(l15);
-            warnTest.Add(l16);
-            Topic warnTestTopic = new Topic(warnTest, inputs4);
-            demoScene.topics.Add("warnTestTopic", warnTestTopic);
+					demoScene.changeTopic ("help");
+				}, 3.0f), new Topic.Input ("E que tal...", () => {
+					demoScene.OpenList ();
+				}, 4.5f)
+			};
+			List<Line> warnTest = new List<Line> ();
+			warnTest.Add (l15);
+			warnTest.Add (l16);
+			Topic warnTestTopic = new Topic (warnTest, inputs4);
+			demoScene.topics.Add ("warnTestTopic", warnTestTopic);
 
 //			//expected
 //			
-            //colocar quando tiver link
-            Line l17 = new Line("Parabéns, foi uma boa nota.", happy, 0.0f, 8.0f);
-            Line l18 = new Line("Acho que podes melhorar um pouco.",
-                        grumpy,
-                        4.0f,
-                        12.0f);
-            Line l19 = new Line("Sim mas não lhe tires a vitória", happy, 12.5f, 20.5f);
-            Line l20 = new Line("Não comeces, só acho que se o trabalho for um bocadinho aumentado a nota é capaz de subir",
-                        grumpy,
-                        16.5f,
-                        24.5f);
-            Line l21 = new Line("Tudo bem, mas ainda assim é muito bom.",
-                        happy,
-                        25.0f,
-                        33.0f);
-            Line l57 = new Line("Continua o bom trabalho", grumpy, 29.0f, 37.0f);
-            List<Line> expected = new List<Line>();
-            expected.Add(l17);
-            expected.Add(l18);
-            expected.Add(l19);
-            expected.Add(l20);
-            expected.Add(l21);
-            expected.Add(l57);
-            Topic.Input[] inputs5 =
-            {new Topic.Input("Vamos fazer um plano de estudo", () => {
-                        demoScene.OpenCalendar();
-                    },1.5f), new Topic.Input("Quero ser avisado mais cedo", () => {
-                        happy.CurrentEmotion = Agent.EmotionType.SHY;
-                        grumpy.CurrentEmotion = Agent.EmotionType.ANGRY;
-                        demoScene.changeTopic("warnTestTopic");
-                    },3.0f), new Topic.Input("Obrigado", () => {
-                        happy.CurrentEmotion = Agent.EmotionType.SMILING;
-                        grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+			//colocar quando tiver link
+			Line l17 = new Line ("Parabéns, foi uma boa nota.", happy, 0.0f, 8.0f);
+			Line l18 = new Line ("Acho que podes melhorar um pouco.",
+				           grumpy,
+				           4.0f,
+				           12.0f);
+			Line l19 = new Line ("Sim mas não lhe tires a vitória", happy, 12.5f, 20.5f);
+			Line l20 = new Line ("Não comeces, só acho que se o trabalho for um bocadinho aumentado a nota é capaz de subir",
+				           grumpy,
+				           16.5f,
+				           24.5f);
+			Line l21 = new Line ("Tudo bem, mas ainda assim é muito bom.",
+				           happy,
+				           25.0f,
+				           33.0f);
+			Line l57 = new Line ("Continua o bom trabalho", grumpy, 29.0f, 37.0f);
+			List<Line> expected = new List<Line> ();
+			expected.Add (l17);
+			expected.Add (l18);
+			expected.Add (l19);
+			expected.Add (l20);
+			expected.Add (l21);
+			expected.Add (l57);
+			Topic.Input[] inputs5 = {new Topic.Input ("Vamos fazer um plano de estudo", () => {
+					demoScene.OpenCalendar ();
+				}, 1.5f), new Topic.Input ("Quero ser avisado mais cedo", () => {
+					happy.CurrentEmotion = Agent.EmotionType.SHY;
+					grumpy.CurrentEmotion = Agent.EmotionType.ANGRY;
+					demoScene.changeTopic ("warnTestTopic");
+				}, 3.0f), new Topic.Input ("Obrigado", () => {
+					happy.CurrentEmotion = Agent.EmotionType.SMILING;
+					grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
 
-                        demoScene.changeTopic("help");
-                    },4.5f)
-            };
+					demoScene.changeTopic ("help");
+				}, 4.5f)
+			};
 
-            Topic expectedTest = new Topic(expected, inputs5);
-            demoScene.topics.Add("expectedTest", expectedTest);
+			Topic expectedTest = new Topic (expected, inputs5);
+			demoScene.topics.Add ("expectedTest", expectedTest);
 
 //			//Muito bom
 //			happy.CurrentEmotion = Agent.EmotionType.LIKES;
 //			grumpy.CurrentEmotion = Agent.EmotionType.LIKES;
-            //Colocar quando der
-            Line l22 = new Line("Wow parabéns que óptima nota!", happy, 0.0f, 8.0f);
-            Line l23 = new Line("Sim, espetacular.", grumpy, 4.0f, 12.0f);
-            Line l24 = new Line("O quê ? Não há nenhum comentariozinho?",
-                        happy,
-                        12.5f,
-                        20.5f);
-            Line l25 = new Line("sigh...", grumpy, 16.5f, 24.5f);
-            List<Line> great = new List<Line>();
-            great.Add(l22);
-            great.Add(l23);
-            great.Add(l24);
-            great.Add(l25);
-            Topic greatTest = new Topic(great, inputs5);
-            demoScene.topics.Add("greatTest", greatTest);
+			//Colocar quando der
+			Line l22 = new Line ("Wow parabéns que óptima nota!", happy, 0.0f, 8.0f);
+			Line l23 = new Line ("Sim, espetacular.", grumpy, 4.0f, 12.0f);
+			Line l24 = new Line ("O quê ? Não há nenhum comentariozinho?",
+				                    happy,
+				                    12.5f,
+				                    20.5f);
+			Line l25 = new Line ("sigh...", grumpy, 16.5f, 24.5f);
+			List<Line> great = new List<Line> ();
+			great.Add (l22);
+			great.Add (l23);
+			great.Add (l24);
+			great.Add (l25);
+			Topic greatTest = new Topic (great, inputs5);
+			demoScene.topics.Add ("greatTest", greatTest);
 
 //			//Horas a menos
 //			happy.CurrentEmotion = Agent.EmotionType.SAD;
 //			grumpy.CurrentEmotion = Agent.EmotionType.ANGRY;
-            //Colocar quando der
-            Line l26 = new Line("Não sei se só isto é boa ideia, tens a certeza?",
-                        happy,
-                        0.0f,
-                        8.0f);
-            Line l27 = new Line("Apenas essas horas é capaz de correr mal.",
-                        grumpy,
-                        4.0f,
-                        12.0f);
-            Topic.Input[] inputs6 =
-            { new Topic.Input("Tenho a certeza", () => {
+			//Colocar quando der
+			Line l26 = new Line ("Não sei se só isto é boa ideia, tens a certeza?",
+				                    happy,
+				                    0.0f,
+				                    8.0f);
+			Line l27 = new Line ("Apenas essas horas é capaz de correr mal.",
+				                    grumpy,
+				                    4.0f,
+				                    12.0f);
+			Topic.Input[] inputs6 = { new Topic.Input("Tenho a certeza", () => {
                         happy.CurrentEmotion = Agent.EmotionType.SMILING;
                         grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
 
@@ -666,13 +663,38 @@ namespace VT
 			Topic balance = new Topic (balanceList,pastInputs);
 			demoScene.topics.Add("balance",balance);
 
-			Line l76 = new Line ("Que dicas dar?",happy,0.0f,8.0f);
-			Line l77 = new Line("Não sei, o inútil do programador não está inspirado",grumpy,4.0f,12.0f);
+			Line l76 = new Line ("Faz um plano de estudo e cumpre-o.",happy,0.0f,8.0f);
+			Line l77 = new Line("Não deixes o tempo passar só porque as avaliações ainda estão distantes",grumpy,4.0f,12.0f);
 			List<Line> tipsList = new List<Line>();
 			tipsList.Add(l76);
 			tipsList.Add(l77);
 			Topic tips = new Topic (tipsList,pastInputs);
 			demoScene.topics.Add("tips",tips);
+
+			Line l78 = new Line("Ao desistires da cadeira deixaremos de te ajudar nela para ajudar de outras",happy,0.0f,8.0f);
+			Line l79 = new Line("Não há vergonha nenhuma nisso se não estiveres a conseguir gerir o teu tempo",grumpy,4.0f,12.0f);
+			Line l80 = new Line("É isso que queres?",happy,12.5f,20.5f);
+			List<Line> quitList = new List<Line>();
+			quitList.Add(l78);
+			quitList.Add(l79);
+			quitList.Add(l80);
+			Topic.Input[] quitInputs = { new Topic.Input("Sim, por favor", ()=>{
+				demoScene.changeTopic("help");
+			}), new Topic.Input("",()=>{}),new Topic.Input("Talvez não",()=>{
+				demoScene.OpenList();
+			})};
+			Topic quit = new Topic(quitList,quitInputs);
+			demoScene.topics.Add("quit",quit);
+
+			Line l81 = new Line ("Se precisares mesmo, falaremos com o teu tutor",happy,0.0f,8.0f);
+			Line l82 = new Line("Enviaremos um e-mail com a tua situação",grumpy,4.0f,12.0f);
+			Line l83 = new Line("É isto que queres?",grumpy,12.5f,20.5f);
+			List<Line> contactList = new List<Line>();
+			contactList.Add(l81);
+			contactList.Add(l82);
+			contactList.Add(l83);
+			Topic contact = new Topic(contactList,quitInputs);
+			demoScene.topics.Add("contact",contact);
     }
 }
 }

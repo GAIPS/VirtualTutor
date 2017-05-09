@@ -145,15 +145,16 @@ namespace VT
 		public void OpenList(){
 			start = 0.0f;
 			expressionsControl.Start = 0.0f;
-			discussControl.SetAndShow ("Reconsiderar planos de estudo", "Marcar avaliação", "Desistir da Cadeira", () => {
-				changeTopic ("nonDeveloped");
+			discussControl.SetAndShow ("Reconsiderar planos de estudo", "Desistir da Cadeira", "Contactar o Tutor Real", () => {
+				changeTopic ("onActivity");
+				OpenCalendar();
 				discussControl.Disable();
 			}, () => {
 				discussControl.Disable();
-				changeTopic ("nonDeveloped");
+				changeTopic ("quit");
 
 			}, () => {
-				changeTopic ("nonDeveloped");
+				changeTopic ("contact");
 				discussControl.Disable();
 			});
 		}
