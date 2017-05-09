@@ -207,7 +207,7 @@ namespace VT
                             grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
 
                             demoScene.changeTopic("help");
-                        },4.5f)
+				},4.5f)
                 };
 	
             List<Line> badTest = new List<Line>();
@@ -258,7 +258,7 @@ namespace VT
 
                         demoScene.changeTopic("help");
                     },3.0f), new Topic.Input("E que tal...", () => {
-                        Debug.Log("Em acabamentos");
+				demoScene.OpenList();
                     },4.5f)
             };
             List<Line> warnTest = new List<Line>();
@@ -584,7 +584,7 @@ namespace VT
 			List<Line> returnlist = new List<Line>();
 			returnlist.Add(l34);
 			returnlist.Add(l61);
-			Topic returnTopic = new Topic(returnlist,emptyInputs);
+			Topic returnTopic = new Topic(returnlist,inputs);
 			demoScene.topics.Add("returnTopic",returnTopic);
 
 			Line l62 = new Line ("A única informação que temos é que tens uma avaliação daqui a duas semanas",happy,0.0f,8.0f);
@@ -599,7 +599,7 @@ namespace VT
 			Topic.Input[] remindInputs = { new Topic.Input("Obrigado pela informação", ()=>{
 				happy.CurrentEmotion = Agent.EmotionType.SMILING;
 				grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
-				demoScene.changeTopic("returnTopic", Scene.ShowOption.HEAD);
+				demoScene.changeTopic("returnTopic");
 			},1.5f), new Topic.Input("",()=>{}), new Topic.Input("Tenho uma nova informação",()=>{
 				happy.CurrentEmotion = Agent.EmotionType.SMILING;
 				grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;

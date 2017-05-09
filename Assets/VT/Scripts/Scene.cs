@@ -149,7 +149,6 @@ namespace VT
 				changeTopic ("nonDeveloped");
 				discussControl.Disable();
 			}, () => {
-				Debug.Log("ping");
 				discussControl.Disable();
 				changeTopic ("nonDeveloped");
 
