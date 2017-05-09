@@ -28,7 +28,7 @@ namespace VT
 			this.button3Text = button3Text;
 			this.onOne = onOne;
 			this.onTwo = onTwo;
-			this.onThree = onTwo;
+			this.onThree = onThree;
 		}
 		public ShowResult Show()
 		{
