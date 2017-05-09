@@ -12,5 +12,6 @@ namespace VT
 	public delegate void VoidFunc();
 
 	public delegate void GameObjectFunc(GameObject gameObj);
+	public delegate void FloatFunc(float value);
 }
 

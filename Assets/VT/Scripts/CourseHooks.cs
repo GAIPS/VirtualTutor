@@ -59,6 +59,11 @@ namespace VT
 		private GameObject Checkpoint3Check;
 		[SerializeField]
 		private bool checkPoint3Value;
+		[SerializeField]
+		private Slider EasySlider;
+		[SerializeField]
+		private Slider LikeSlider;
+	
 
 		public VoidFunc onConfirm;
 		public VoidFunc onOldPlus;
@@ -74,6 +79,8 @@ namespace VT
 		public VoidFunc sendNewGrade;
 		public VoidFunc sendCheck2Grade;
 		public BoolFunc toggle;
+		public FloatFunc EaseSlider;
+		public FloatFunc onLikeSlider;
 
 		public void UIConfirm ()
 		{
@@ -81,7 +88,10 @@ namespace VT
 				return;
 			onConfirm ();
 		}
-
+		public void UILikeSlider(float value){
+			value = LikeSlider.value;
+			onLikeSlider (value);
+		}
 		public void UISendOldGrade ()
 		{
 			if (sendOldgrade == null)
@@ -182,7 +192,11 @@ namespace VT
 			onOldInput (value);
 			OldGradeText = value;
 		}
+		public void UIEaseSlider(float value){
+			value = EasySlider.value;
+			EaseSlider (value);
 
+		}
 		public void UICheck2Input (string value)
 		{
 			onCheck2Input (value);

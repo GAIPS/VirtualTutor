@@ -16,6 +16,8 @@ namespace VT
 		public Calendar2Control calendar2Control;
 		public DiscussControl discussControl;
 		public Calendar3Control calendar3Control;
+		private float like;
+		private float know;
 		private float start = 0.0f;
 		public Evaluation test1 = new Evaluation ("teste 1", "20/03/2017", 4, 4, "12.0");
 		public Evaluation project1 = new Evaluation ("projecto 1", "04/04/2017", 3, 4, "16.0");
@@ -62,7 +64,7 @@ namespace VT
 				() => {
 					start = 0.0f;
 					expressionsControl.Start = 0.0f;
-					if (evaluationResult < 8.5) {
+					if (evaluationResult < 8.5|| (evaluationResult< 10.0 && like>3.0 && know>3.0)||(like<2&&know<2&&evaluationResult<6.0)) {
 						agents [0].CurrentEmotion = Agent.EmotionType.CRYING;
 						agents [1].CurrentEmotion = Agent.EmotionType.CRYING;
 						currentTopicName = "badTestTopic";
@@ -72,7 +74,7 @@ namespace VT
 						coursesControl.Disable ();
 						courseControl.Disable ();
 
-					} else if (evaluationResult >= 8.5 && evaluationResult < 11) {
+					} else if ((evaluationResult >= 8.5 && evaluationResult < 11)||(evaluationResult>7.0&&evaluationResult<11&&like<2.0&&know<2.0)||(like>3&&know>3&&evaluationResult>=9.5&&evaluationResult<12)) {
 						agents [0].CurrentEmotion = Agent.EmotionType.SAD;
 						agents [1].CurrentEmotion = Agent.EmotionType.SAD;
 						currentTopicName = "belowAvgTopic";
@@ -83,7 +85,7 @@ namespace VT
 						coursesControl.Disable ();
 						courseControl.Disable ();
 
-					} else if (evaluationResult >= 11 && evaluationResult < 16.0) {
+					} else if ((evaluationResult >= 11 && evaluationResult < 16.0)||(evaluationResult>9.5&&evaluationResult<14&& like<2&&know<2)||(like>3&&know>3&&evaluationResult>12&&evaluationResult<17.3)) {
 						agents [0].CurrentEmotion = Agent.EmotionType.LIKES;
 						agents [1].CurrentEmotion = Agent.EmotionType.SMILING;
 						currentTopicName = "expectedTest";
@@ -128,7 +130,11 @@ namespace VT
 			}, (string value) => {
 			}, (bool value) => {
 				revision.Done = value;
-			}, test1, project1, revision, test2, test3
+				}, test1, project1, revision, test2, test3,(float value) => {
+					know = value;
+				},(float value)=>{
+					like = value;
+				}
 
 			);
 		

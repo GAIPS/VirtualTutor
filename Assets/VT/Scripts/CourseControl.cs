@@ -21,19 +21,20 @@ namespace VT
 		private VoidFunc sendCheck2Grade;
 		private StringFunc onCheck2Input;
 		private BoolFunc toggle;
+		private FloatFunc EaseSlider;
 		private Checkpoint checkpoint1;
 		private Checkpoint checkpoint2;
 		private Checkpoint checkpoint3;
 		private Checkpoint checkpoint4;
 		private Checkpoint checkpoint5;
-
+		private FloatFunc onLikeSlider;
 		public CourseControl (GameObject prefab)
 		{
 			control = new Control ();
 			control.prefab = prefab;
 		}
 
-		public void Set (VoidFunc onConfirm, VoidFunc onOldRubber, VoidFunc onNewRubber, VoidFunc onOldPlus, VoidFunc onNewPlus, StringFunc onOldInput, StringFunc onNewInput, VoidFunc onOldSend, VoidFunc onNewSend, VoidFunc onCheck2Plus, VoidFunc onCheck2Rubber, VoidFunc sendCheck2Grade, StringFunc onCheck2Input, BoolFunc toggle, Checkpoint checkpoint1, Checkpoint checkpoint2, Checkpoint checkpoint3, Checkpoint checkpoint4, Checkpoint checkpoint5)
+		public void Set (VoidFunc onConfirm, VoidFunc onOldRubber, VoidFunc onNewRubber, VoidFunc onOldPlus, VoidFunc onNewPlus, StringFunc onOldInput, StringFunc onNewInput, VoidFunc onOldSend, VoidFunc onNewSend, VoidFunc onCheck2Plus, VoidFunc onCheck2Rubber, VoidFunc sendCheck2Grade, StringFunc onCheck2Input, BoolFunc toggle, Checkpoint checkpoint1, Checkpoint checkpoint2, Checkpoint checkpoint3, Checkpoint checkpoint4, Checkpoint checkpoint5,FloatFunc easeSlider,FloatFunc onLikeSlider)
 		{
 			this.onConfirm = onConfirm;
 			this.onOldRubber = onOldRubber;
@@ -54,7 +55,8 @@ namespace VT
 			this.checkpoint3 = checkpoint3;
 			this.checkpoint4 = checkpoint4;
 			this.checkpoint5 = checkpoint5;
-
+			this.EaseSlider = easeSlider;
+			this.onLikeSlider = onLikeSlider;
 
 		}
 
@@ -83,6 +85,8 @@ namespace VT
 					hooks.OldDate = this.checkpoint1.Date;
 					hooks.NewDate = this.checkpoint4.Date;
 					hooks.toggle = this.toggle;
+					hooks.EaseSlider = this.EaseSlider;
+					hooks.onLikeSlider = this.onLikeSlider;
 					var checkpoint1Test = checkpoint1 as Evaluation;
 					if (checkpoint1Test != null) {
 						hooks.OldGradeText = checkpoint1Test.Score;
@@ -102,9 +106,9 @@ namespace VT
 			return ret;
 		}
 
-		public ShowResult SetAndShow (VoidFunc onConfirm, VoidFunc onOldRubber, VoidFunc onNewRubber, VoidFunc onOldPlus, VoidFunc onNewPlus, StringFunc onOldInput, StringFunc onNewInput, VoidFunc onOldSend, VoidFunc onNewSend, VoidFunc onCheck2Plus, VoidFunc onCheck2Rubber, VoidFunc sendCheck2Grade, StringFunc onCheck2Input, BoolFunc toggle, Checkpoint checkpoint1, Checkpoint checkpoint2, Checkpoint checkpoint3, Checkpoint checkpoint4, Checkpoint checkpoint5)
+		public ShowResult SetAndShow (VoidFunc onConfirm, VoidFunc onOldRubber, VoidFunc onNewRubber, VoidFunc onOldPlus, VoidFunc onNewPlus, StringFunc onOldInput, StringFunc onNewInput, VoidFunc onOldSend, VoidFunc onNewSend, VoidFunc onCheck2Plus, VoidFunc onCheck2Rubber, VoidFunc sendCheck2Grade, StringFunc onCheck2Input, BoolFunc toggle, Checkpoint checkpoint1, Checkpoint checkpoint2, Checkpoint checkpoint3, Checkpoint checkpoint4, Checkpoint checkpoint5,FloatFunc easeSlider, FloatFunc onLikeSlider)
 		{
-			this.Set (onConfirm, onOldRubber, onNewRubber, onOldPlus, onNewPlus, onOldInput, onNewInput, onOldSend, onNewSend, onCheck2Plus, onCheck2Rubber, sendCheck2Grade, onCheck2Input, toggle, checkpoint1, checkpoint2, checkpoint3, checkpoint4, checkpoint5);
+			this.Set (onConfirm, onOldRubber, onNewRubber, onOldPlus, onNewPlus, onOldInput, onNewInput, onOldSend, onNewSend, onCheck2Plus, onCheck2Rubber, sendCheck2Grade, onCheck2Input, toggle, checkpoint1, checkpoint2, checkpoint3, checkpoint4, checkpoint5,easeSlider,onLikeSlider);
 			return Show ();
 		}
 
