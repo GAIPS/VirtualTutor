@@ -10,6 +10,7 @@ namespace VT
 	[Serializable]
 	public class CoursesControl :IControl
 	{
+        private CoursesHooks hook;
 		private Control control;
 		private VoidFunc click;
 
@@ -28,9 +29,11 @@ namespace VT
 		{
 			var ret = control.Show ();
 			if (ret == ShowResult.FIRST || ret == ShowResult.OK) {
-				var hooks = control.instance.GetComponent<CoursesHooks> ();
-				if (hooks != null) {
-					hooks.clickCourse = this.click;
+                hook = control.instance.GetComponent<CoursesHooks> ();
+				if (hook != null) {
+					hook.clickCourse = this.click;
+
+                    hook.Show();
 				}
 			}
 			return ret;
@@ -40,17 +43,29 @@ namespace VT
 		{
 			this.Set (click);
 			return Show ();
-		}
+        }
 
-		public void Disable ()
-		{
-			control.Disable ();
-		}
+        public void Destroy() {
+            if (hook) {
+                hook.onHideEnded = () => {
+                    control.Destroy();
+                };
+                hook.Hide();
+            } else {
+                control.Destroy();
+            }
+        }
 
-		public void Destroy ()
-		{
-			control.Destroy ();
-		}
+        public void Disable() {
+            if (hook) {
+                hook.onHideEnded = () => {
+                    control.Disable();
+                };
+                hook.Hide();
+            } else {
+                control.Disable();
+            }
+        }
 
 		public bool IsVisible ()
 		{
