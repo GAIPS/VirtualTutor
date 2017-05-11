@@ -31,6 +31,7 @@ namespace VT
 		private Checkpoint checkpoint5;
 		private FloatFunc onLikeSlider;
 		private FloatFunc onImportanceSlider;
+		private string courseName;
 
 		public CourseControl (GameObject prefab)
 		{
@@ -59,7 +60,8 @@ namespace VT
 		                 Checkpoint checkpoint5,
 		                 FloatFunc easeSlider,
 		                 FloatFunc onLikeSlider,
-		                 FloatFunc onImportanceSlider)
+		                 FloatFunc onImportanceSlider, 
+		                 string courseName)
 		{
 			this.onConfirm = onConfirm;
 			this.onOldRubber = onOldRubber;
@@ -83,6 +85,7 @@ namespace VT
 			this.EaseSlider = easeSlider;
 			this.onLikeSlider = onLikeSlider;
 			this.onImportanceSlider = onImportanceSlider;
+			this.courseName = courseName;
 		}
 
 		public ShowResult Show ()
@@ -112,7 +115,13 @@ namespace VT
 					hook.toggle = this.toggle;
 					hook.EaseSlider = this.EaseSlider;
 					hook.onLikeSlider = this.onLikeSlider;
+					hook.CourseName = this.courseName;
 					hook.onImportanceSlider = this.onImportanceSlider;
+					hook.Checkpoint1Title = this.checkpoint1.Name;
+					hook.Checkpoint2Title = this.checkpoint2.Name;
+					hook.Checkpoint3Title = this.checkpoint3.Name;
+					hook.Checkpoint4Title = this.checkpoint4.Name;
+					hook.Checkpoint5Title = this.checkpoint5.Name;
 					var checkpoint1Test = checkpoint1 as Evaluation;
 					if (checkpoint1Test != null) {
 						hook.OldGradeText = checkpoint1Test.Score;
@@ -154,7 +163,8 @@ namespace VT
 		                              Checkpoint checkpoint5,
 		                              FloatFunc easeSlider,
 		                              FloatFunc onLikeSlider,
-		                              FloatFunc onImportanceSlider)
+		                              FloatFunc onImportanceSlider,
+		                              string courseName)
 		{
 			this.Set (onConfirm,
 				onOldRubber,
@@ -177,7 +187,8 @@ namespace VT
 				checkpoint5,
 				easeSlider,
 				onLikeSlider,
-				onImportanceSlider);
+				onImportanceSlider,
+				courseName);
 			return Show ();
 		}
 

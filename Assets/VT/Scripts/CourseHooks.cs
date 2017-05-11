@@ -63,7 +63,18 @@ namespace VT {
         private Slider LikeSlider;
 		[SerializeField]
 		private Slider ImportanceSlider;
-
+		[SerializeField]
+		private Text courseName = null;
+		[SerializeField]
+		private Text checkpoint1Title=null;
+		[SerializeField]
+		private Text checkpoint2Title= null;
+		[SerializeField]
+		private Text checkpoint3Title=null;
+		[SerializeField]
+		private Text checkpoint4Title=null;
+		[SerializeField]
+		private Text checkpoint5Title=null;
         public VoidFunc onConfirm;
         public VoidFunc onOldPlus;
         public VoidFunc onNewPlus;
@@ -294,6 +305,49 @@ namespace VT {
             }
         }
 
+		public string CourseName{
+			get{ return this.courseName.text;}
+			set{ 
+				if (!string.IsNullOrEmpty (value) && !value.Equals (this.courseName.text))
+					this.courseName.text = value;
+			}
+
+		}
+		public string Checkpoint1Title{
+			get{ return this.checkpoint1Title.text;}
+			set{ 
+				if (!string.IsNullOrEmpty (value) && !value.Equals (this.checkpoint1Title.text))
+					this.checkpoint1Title.text = value;
+			}
+		}
+		public string Checkpoint2Title{
+			get{ return this.checkpoint2Title.text;}
+			set{ 
+				if (!string.IsNullOrEmpty (value) && !value.Equals (this.checkpoint2Title.text))
+					this.checkpoint2Title.text = value;
+			}
+		}
+		public string Checkpoint3Title{
+			get{ return this.checkpoint3Title.text;}
+			set{ 
+				if (!string.IsNullOrEmpty (value) && !value.Equals (this.checkpoint3Title.text))
+					this.checkpoint3Title.text = value;
+			}
+		}
+		public string Checkpoint4Title{
+			get{ return this.checkpoint4Title.text;}
+			set{ 
+				if (!string.IsNullOrEmpty (value) && !value.Equals (this.checkpoint4Title.text))
+					this.checkpoint4Title.text = value;
+			}
+		}
+		public string Checkpoint5Title{
+			get{ return this.checkpoint5Title.text;}
+			set{ 
+				if (!string.IsNullOrEmpty (value) && !value.Equals (this.checkpoint5Title.text))
+					this.checkpoint5Title.text = value;
+			}
+		}
         #region Animations
 
         [SerializeField]

@@ -83,6 +83,17 @@ namespace VT
 			//Hello
 			happy.CurrentEmotion = Agent.EmotionType.SMILING;
 			grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+			 Evaluation test1 = new Evaluation ("1º Teste", "20/03/2017", 4, 4, "12.0");
+			 Evaluation project1 = new Evaluation ("1º Projecto", "04/04/2017", 3, 4, "16.0");
+			 CheckBoxPoint revision = new CheckBoxPoint ("PDF Aula nº 20", "08/04/2017", 1, 3, true);
+			Evaluation test2 = new Evaluation ("2º Teste", "07/05/2017", 4, 4, "");
+			Evaluation test3 = new Evaluation ("3º Teste", "22/06/2017", 4, 4, "");
+			demoScene.course1.Checkpoints.Add ("test1",test1);
+			demoScene.course1.Checkpoints.Add ("project1",project1);
+			demoScene.course1.Checkpoints.Add ("revision",revision);
+			demoScene.course1.Checkpoints.Add ("test2",test2);
+			demoScene.course1.Checkpoints.Add ("test3",test3);
+
 			Line l1 = new Line ("Olá, é bom ver-te depois destes 2 dias.", happy, 0.0f, 8.0f);
 			Line l2 = new Line ("Eu pensava que ele não vinha",
 				          grumpy,

@@ -16,15 +16,10 @@ namespace VT
 		public Calendar2Control calendar2Control;
 		public DiscussControl discussControl;
 		public Calendar3Control calendar3Control;
-		private float like;
-		private float know;
-		private float importance;
+		public Course course1 = new Course ("Fundamentos da Programação");
+		public Course course2 = new Course ("Álgebra Linear");
 		private float start = 0.0f;
-		public Evaluation test1 = new Evaluation ("teste 1", "20/03/2017", 4, 4, "12.0");
-		public Evaluation project1 = new Evaluation ("projecto 1", "04/04/2017", 3, 4, "16.0");
-		public CheckBoxPoint revision = new CheckBoxPoint ("revisão", "08/04/2017", 1, 3, true);
-		public Evaluation test2 = new Evaluation ("teste 2", "07/05/2017", 4, 4, "");
-		public Evaluation test3 = new Evaluation ("teste 3", "22/06/2017", 4, 4, "");
+		Course clickedCourse;
 
 		private string currentTopicName;
 
@@ -53,6 +48,7 @@ namespace VT
 		public void OpenCourses ()
 		{
 			coursesControl.SetAndShow (() => {
+				clickedCourse = course1;
 				OpenCourse ();
 				start = 0.0f;
 			});
@@ -65,7 +61,7 @@ namespace VT
 				() => {
 					start = 0.0f;
 					expressionsControl.Start = 0.0f;
-					if (evaluationResult < 8.5 || (evaluationResult < 10.0 && like > 3.0 && know > 3.0) || (like < 2 && know < 2 && evaluationResult < 6.0)) {
+					if (evaluationResult < 8.5 || (evaluationResult < 10.0 && clickedCourse.Like > 3.0 && clickedCourse.Know > 3.0) || (clickedCourse.Like < 2 && clickedCourse.Know < 2 && evaluationResult < 6.0)) {
 						agents [0].CurrentEmotion = Agent.EmotionType.CRYING;
 						agents [1].CurrentEmotion = Agent.EmotionType.CRYING;
 						currentTopicName = "badTestTopic";
@@ -75,7 +71,7 @@ namespace VT
 						coursesControl.Disable ();
 						courseControl.Disable ();
 
-					} else if ((evaluationResult >= 8.5 && evaluationResult < 11) || (evaluationResult > 7.0 && evaluationResult < 11 && like < 2.0 && know < 2.0) || (like > 3 && know > 3 && evaluationResult >= 9.5 && evaluationResult < 12)) {
+					} else if ((evaluationResult >= 8.5 && evaluationResult < 11) || (evaluationResult > 7.0 && evaluationResult < 11 && clickedCourse.Like < 2.0 && clickedCourse.Know < 2.0) || (clickedCourse.Like > 3 && clickedCourse.Know > 3 && evaluationResult >= 9.5 && evaluationResult < 12)) {
 						agents [0].CurrentEmotion = Agent.EmotionType.SAD;
 						agents [1].CurrentEmotion = Agent.EmotionType.SAD;
 						currentTopicName = "belowAvgTopic";
@@ -86,7 +82,7 @@ namespace VT
 						coursesControl.Disable ();
 						courseControl.Disable ();
 
-					} else if ((evaluationResult >= 11 && evaluationResult < 16.0) || (evaluationResult > 9.5 && evaluationResult < 14 && like < 2 && know < 2) || (like > 3 && know > 3 && evaluationResult > 12 && evaluationResult < 17.3)) {
+					} else if ((evaluationResult >= 11 && evaluationResult < 16.0) || (evaluationResult > 9.5 && evaluationResult < 14 && clickedCourse.Like < 2 && clickedCourse.Know < 2) || (clickedCourse.Like > 3 && clickedCourse.Know > 3 && evaluationResult > 12 && evaluationResult < 17.3)) {
 						agents [0].CurrentEmotion = Agent.EmotionType.LIKES;
 						agents [1].CurrentEmotion = Agent.EmotionType.SMILING;
 						currentTopicName = "expectedTest";
@@ -130,14 +126,16 @@ namespace VT
 			}, () => {
 			}, (string value) => {
 			}, (bool value) => {
-				revision.Done = value;
-			}, test1, project1, revision, test2, test3, (float value) => {
-				know = value;
+					var revision = clickedCourse.Checkpoints ["revision"] as CheckBoxPoint;
+				if (revision != null)
+					revision.Done = value;
+				}, clickedCourse.Checkpoints ["test1"], clickedCourse.Checkpoints ["project1"], clickedCourse.Checkpoints ["revision"], clickedCourse.Checkpoints ["test2"], clickedCourse.Checkpoints ["test3"], (float value) => {
+					clickedCourse.Know = value;
 			}, (float value) => {
-				like = value;
+					clickedCourse.Like = value;
 			}, (float value) => {
-				importance = value;
-			}
+					clickedCourse.Importance = value;
+				}, clickedCourse.Name
 
 			);
 		
@@ -162,10 +160,10 @@ namespace VT
 				discussControl.Disable ();
 			}, () => {
 				discussControl.Disable ();
-				if (importance < 4)
+				if (course1.Importance < 4)
 					changeTopic ("quit");
-				else 
-					changeTopic("dontQuit");
+				else
+					changeTopic ("dontQuit");
 
 			}, () => {
 				changeTopic ("contact");
