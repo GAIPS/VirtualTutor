@@ -61,7 +61,8 @@ namespace VT {
         private Slider EasySlider;
         [SerializeField]
         private Slider LikeSlider;
-	
+		[SerializeField]
+		private Slider ImportanceSlider;
 
         public VoidFunc onConfirm;
         public VoidFunc onOldPlus;
@@ -79,6 +80,7 @@ namespace VT {
         public BoolFunc toggle;
         public FloatFunc EaseSlider;
         public FloatFunc onLikeSlider;
+		public FloatFunc onImportanceSlider;
 
         public void UIConfirm() {
             if (onConfirm == null)
@@ -90,7 +92,10 @@ namespace VT {
             value = LikeSlider.value;
             onLikeSlider(value);
         }
-
+		public void UIImportanceSlider(float value){
+			value = ImportanceSlider.value;
+			onImportanceSlider (value);
+		}
         public void UISendOldGrade() {
             if (sendOldgrade == null)
                 return;

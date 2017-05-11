@@ -686,6 +686,19 @@ namespace VT
 			Topic quit = new Topic(quitList,quitInputs);
 			demoScene.topics.Add("quit",quit);
 
+
+			Line l84 = new Line("Não desistas desta cadeira já",happy,0.0f,8.0f);
+			Line l85 = new Line("Ela  é demasiado importante para desistir",grumpy,4.0f,12.0f);
+			Line l86 = new Line("Com a nossa ajuda vais conseguir melhorar",happy,12.5f,20.5f);
+			Line l87 = new Line("Tens a certeza que queres desistir?",grumpy,16.5f,24.5f);
+			List<Line> dontQuitList = new List<Line>();
+			dontQuitList.Add(l84);
+			dontQuitList.Add(l85);
+			dontQuitList.Add(l86);
+			dontQuitList.Add(l87);
+			Topic dontQuit = new Topic(dontQuitList,quitInputs);
+			demoScene.topics.Add("dontQuit",dontQuit);
+
 			Line l81 = new Line ("Se precisares mesmo, falaremos com o teu tutor",happy,0.0f,8.0f);
 			Line l82 = new Line("Enviaremos um e-mail com a tua situação",grumpy,4.0f,12.0f);
 			Line l83 = new Line("É isto que queres?",grumpy,12.5f,20.5f);
