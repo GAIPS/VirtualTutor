@@ -93,6 +93,16 @@ namespace VT
 			demoScene.course1.Checkpoints.Add ("revision",revision);
 			demoScene.course1.Checkpoints.Add ("test2",test2);
 			demoScene.course1.Checkpoints.Add ("test3",test3);
+			Evaluation c2Test1 = new Evaluation ("1º Teste","13/03/2017",3, 4, "14.0");
+			Evaluation c2Test2 = new Evaluation ("2º Teste", "15/04/2017", 3, 4, "12.0");
+			CheckBoxPoint achievment = new CheckBoxPoint ("Aula de Dúvidas", "08/05/2017", 1, 3, false);
+			Evaluation c2Teste3 = new Evaluation ("3º Teste", "09/05/2017", 3, 4, "");
+			Evaluation c2Test4 = new Evaluation ("4º Teste", "2/06/2017", 3, 4, "");
+			demoScene.course2.Checkpoints.Add ("test1",c2Test1);
+			demoScene.course2.Checkpoints.Add ("project1",c2Test2);
+			demoScene.course2.Checkpoints.Add ("revision",achievment);
+			demoScene.course2.Checkpoints.Add ("test2",c2Teste3);
+			demoScene.course2.Checkpoints.Add ("test3",c2Test4);
 
 			Line l1 = new Line ("Olá, é bom ver-te depois destes 2 dias.", happy, 0.0f, 8.0f);
 			Line l2 = new Line ("Eu pensava que ele não vinha",

@@ -51,7 +51,11 @@ namespace VT
 				clickedCourse = course1;
 				OpenCourse ();
 				start = 0.0f;
-			});
+			}, () => {
+				clickedCourse = course2;
+				OpenCourse ();
+				start = 0.0f;
+			}, course1, course2);
 		}
 
 		public void OpenCourse ()
@@ -61,7 +65,7 @@ namespace VT
 				() => {
 					start = 0.0f;
 					expressionsControl.Start = 0.0f;
-					if (evaluationResult < 8.5 || (evaluationResult < 10.0 && clickedCourse.Like > 3.0 && clickedCourse.Know > 3.0) || (clickedCourse.Like < 2 && clickedCourse.Know < 2 && evaluationResult < 6.0)) {
+					if (clickedCourse == course1 && (evaluationResult < 8.5 || (evaluationResult < 10.0 && clickedCourse.Like > 3.0 && clickedCourse.Know > 3.0) || (clickedCourse.Like < 2 && clickedCourse.Know < 2 && evaluationResult < 6.0))) {
 						agents [0].CurrentEmotion = Agent.EmotionType.CRYING;
 						agents [1].CurrentEmotion = Agent.EmotionType.CRYING;
 						currentTopicName = "badTestTopic";
@@ -71,7 +75,7 @@ namespace VT
 						coursesControl.Disable ();
 						courseControl.Disable ();
 
-					} else if ((evaluationResult >= 8.5 && evaluationResult < 11) || (evaluationResult > 7.0 && evaluationResult < 11 && clickedCourse.Like < 2.0 && clickedCourse.Know < 2.0) || (clickedCourse.Like > 3 && clickedCourse.Know > 3 && evaluationResult >= 9.5 && evaluationResult < 12)) {
+					} else if (clickedCourse == course1 && (evaluationResult >= 8.5 && evaluationResult < 11) || (evaluationResult > 7.0 && evaluationResult < 11 && clickedCourse.Like < 2.0 && clickedCourse.Know < 2.0) || (clickedCourse.Like > 3 && clickedCourse.Know > 3 && evaluationResult >= 9.5 && evaluationResult < 12)) {
 						agents [0].CurrentEmotion = Agent.EmotionType.SAD;
 						agents [1].CurrentEmotion = Agent.EmotionType.SAD;
 						currentTopicName = "belowAvgTopic";
@@ -82,7 +86,7 @@ namespace VT
 						coursesControl.Disable ();
 						courseControl.Disable ();
 
-					} else if ((evaluationResult >= 11 && evaluationResult < 16.0) || (evaluationResult > 9.5 && evaluationResult < 14 && clickedCourse.Like < 2 && clickedCourse.Know < 2) || (clickedCourse.Like > 3 && clickedCourse.Know > 3 && evaluationResult > 12 && evaluationResult < 17.3)) {
+					} else if (clickedCourse == course1 && (evaluationResult >= 11 && evaluationResult < 16.0) || (evaluationResult > 9.5 && evaluationResult < 14 && clickedCourse.Like < 2 && clickedCourse.Know < 2) || (clickedCourse.Like > 3 && clickedCourse.Know > 3 && evaluationResult > 12 && evaluationResult < 17.3)) {
 						agents [0].CurrentEmotion = Agent.EmotionType.LIKES;
 						agents [1].CurrentEmotion = Agent.EmotionType.SMILING;
 						currentTopicName = "expectedTest";
@@ -92,7 +96,7 @@ namespace VT
 						coursesControl.Disable ();
 						courseControl.Disable ();
 
-					} else if (evaluationResult >= 16.0) {
+					} else if (clickedCourse == course1 && evaluationResult >= 16.0) {
 						agents [0].CurrentEmotion = Agent.EmotionType.LIKES;
 						agents [1].CurrentEmotion = Agent.EmotionType.LIKES;
 						currentTopicName = "greatTest";
@@ -102,6 +106,43 @@ namespace VT
 						coursesControl.Disable ();
 						courseControl.Disable ();
     				
+					} else if (clickedCourse == course2 && (evaluationResult < 6 || (evaluationResult < 10.0 && clickedCourse.Like > 3.0 && clickedCourse.Know > 3.0) || (clickedCourse.Like < 2 && clickedCourse.Know < 2 && evaluationResult < 6.0))) {
+						agents [0].CurrentEmotion = Agent.EmotionType.CRYING;
+						agents [1].CurrentEmotion = Agent.EmotionType.CRYING;
+						currentTopicName = "badTestTopic";
+						var topic2 = topics [currentTopicName];
+						threePartsControl.SetAndShow (topic2);
+						expressionsControl.SetAndShow (topic2);
+						coursesControl.Disable ();
+						courseControl.Disable ();
+					} else if(clickedCourse == course2 && (evaluationResult >= 6.1 && evaluationResult < 10) || (evaluationResult > 7.1 && evaluationResult < 9 && clickedCourse.Like < 2.0 && clickedCourse.Know < 2.0) || (clickedCourse.Like > 3 && clickedCourse.Know > 3 && evaluationResult >= 9.5 && evaluationResult < 11)) {
+						agents [0].CurrentEmotion = Agent.EmotionType.SAD;
+						agents [1].CurrentEmotion = Agent.EmotionType.SAD;
+						currentTopicName = "belowAvgTopic";
+						var topic2 = topics [currentTopicName];
+
+						threePartsControl.SetAndShow (topic2);
+						expressionsControl.SetAndShow (topic2);
+						coursesControl.Disable ();
+						courseControl.Disable ();
+					} else if  (clickedCourse == course2 && (evaluationResult >= 10 && evaluationResult < 14.0) || (evaluationResult > 8.5 && evaluationResult < 13 && clickedCourse.Like < 2 && clickedCourse.Know < 2) || (clickedCourse.Like > 3 && clickedCourse.Know > 3 && evaluationResult > 11 && evaluationResult < 16)){
+						agents [0].CurrentEmotion = Agent.EmotionType.LIKES;
+						agents [1].CurrentEmotion = Agent.EmotionType.SMILING;
+						currentTopicName = "expectedTest";
+						var topic2 = topics [currentTopicName];
+						threePartsControl.SetAndShow (topic2);
+						expressionsControl.SetAndShow (topic2);
+						coursesControl.Disable ();
+						courseControl.Disable ();
+					}else if(clickedCourse == course2 && evaluationResult >= 15.0) {
+						agents [0].CurrentEmotion = Agent.EmotionType.LIKES;
+						agents [1].CurrentEmotion = Agent.EmotionType.LIKES;
+						currentTopicName = "greatTest";
+						var topic2 = topics [currentTopicName];
+						threePartsControl.SetAndShow (topic2);
+						expressionsControl.SetAndShow (topic2);
+						coursesControl.Disable ();
+						courseControl.Disable ();
 					}
     					
 				}, 
@@ -126,16 +167,16 @@ namespace VT
 			}, () => {
 			}, (string value) => {
 			}, (bool value) => {
-					var revision = clickedCourse.Checkpoints ["revision"] as CheckBoxPoint;
+				var revision = clickedCourse.Checkpoints ["revision"] as CheckBoxPoint;
 				if (revision != null)
 					revision.Done = value;
-				}, clickedCourse.Checkpoints ["test1"], clickedCourse.Checkpoints ["project1"], clickedCourse.Checkpoints ["revision"], clickedCourse.Checkpoints ["test2"], clickedCourse.Checkpoints ["test3"], (float value) => {
-					clickedCourse.Know = value;
+			}, clickedCourse.Checkpoints ["test1"], clickedCourse.Checkpoints ["project1"], clickedCourse.Checkpoints ["revision"], clickedCourse.Checkpoints ["test2"], clickedCourse.Checkpoints ["test3"], (float value) => {
+				clickedCourse.Know = value;
 			}, (float value) => {
-					clickedCourse.Like = value;
+				clickedCourse.Like = value;
 			}, (float value) => {
-					clickedCourse.Importance = value;
-				}, clickedCourse.Name
+				clickedCourse.Importance = value;
+			}, clickedCourse.Name
 
 			);
 		
