@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 /// <summary>
 /// Children size fitter.
@@ -15,24 +16,35 @@ public class ChildrenSizeFitter : MonoBehaviour {
 
     public Transform childrenHolder;
 
-    public float multiplier = 1.0f;
+    public Vector2 multiplier = new Vector2(1.0f, 1.0f);
+
+    public bool adjustWidth, adjustHeight;
 	
     // Update is called once per frame
     void Update() {
         if (childrenHolder && parentTransform) {
-            float maxY = 0;
+            Vector2 max = new Vector2();
+            Vector2 maxLocal = new Vector2();
             foreach (Transform child in childrenHolder) {
                 RectTransform childRect = child as RectTransform;
                 if (childRect) {
-                    float maxYLocal = System.Math.Abs(child.localPosition.y) + System.Math.Abs(childRect.rect.yMax);
-                    if (maxY < maxYLocal) {
-                        maxY = maxYLocal;
+                    maxLocal.x = Math.Abs(child.localPosition.x) + Math.Abs(childRect.rect.xMax);
+                    maxLocal.y = Math.Abs(child.localPosition.y) + Math.Abs(childRect.rect.yMax);
+
+                    if (max.y < maxLocal.y) {
+                        max.y = maxLocal.y;
+                    }
+                    if (max.x < maxLocal.x) {
+                        max.x = maxLocal.x;
                     }
                 }
             }
 
-            parentTransform.sizeDelta = new Vector2(parentTransform.sizeDelta.x,
-                                                    maxY * multiplier);
+            float width = adjustWidth ? max.x * multiplier.x : parentTransform.sizeDelta.x;
+            float height = adjustHeight ? max.y * multiplier.y : parentTransform.sizeDelta.y;
+
+            parentTransform.sizeDelta = new Vector2(width,
+                                                    height);
         }
     }
 }

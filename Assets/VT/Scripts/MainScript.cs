@@ -29,7 +29,7 @@ namespace VT
 
 			if (splashScreenPrefab != null && playSplashScreen) {
 				SplashScreenControl splashScreenControl = new SplashScreenControl (splashScreenPrefab);
-				splashScreenControl.SetAndShow (() => {
+				splashScreenControl.SetAndShow (/*OnEndFunction*/() => {
 					playing = true;
 					splashScreenControl.Destroy ();
 				});
