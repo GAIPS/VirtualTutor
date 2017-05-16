@@ -195,7 +195,7 @@ namespace VT
 		{
 			start = 0.0f;
 			expressionsControl.Start = 0.0f;
-			discussControl.SetAndShow ("Reconsiderar planos de estudo", "Desistir da Cadeira", "Contactar o Tutor Real", () => {
+			discussControl.SetAndShow ("Reconsider study plan", "Quit course", "Contact Real Tutor", () => {
 				changeTopic ("onActivity");
 				OpenCalendar ();
 				discussControl.Disable ();
