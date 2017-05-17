@@ -36,7 +36,7 @@ public class CSSStyle : Singleton<CSSStyle> {
         if (Application.isPlaying) {
             ChangeSize(cssTexts.ToArray(), screenWidth);
         } else {
-            Debug.Log("Screen Width: " + screenWidth);
+//            Debug.Log("Screen Width: " + screenWidth);
             SortQueries();
             ChangeSize(FindObjectsOfType<CSSTextType>(), screenWidth);
         }
