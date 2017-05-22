@@ -124,7 +124,7 @@ namespace VT
 					hook.Checkpoint5Title = this.checkpoint5.Name;
 					var checkpoint1Test = checkpoint1 as Evaluation;
 					if (checkpoint1Test != null) {
-						hook.OldGradeText = checkpoint1Test.Score;
+                        hook.OldGradeText = checkpoint1Test.Score;
 					}
 					var checkPoint2Test = checkpoint2 as Evaluation;
 					if (checkPoint2Test != null) {

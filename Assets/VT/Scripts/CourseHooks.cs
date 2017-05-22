@@ -20,23 +20,11 @@ namespace VT {
         [SerializeField]
         private GameObject oldRubber;
         [SerializeField]
-        private GameObject oldGrade;
-        [SerializeField]
-        private GameObject newGrade;
-        [SerializeField]
-        private GameObject checkPoint2Grade;
-        [SerializeField]
         private GameObject oldInput;
         [SerializeField]
         private GameObject newInput;
         [SerializeField]
         private GameObject checkPoint2Input;
-        [SerializeField]
-        private Text oldGradeText;
-        [SerializeField]
-        private Text newGradeText;
-        [SerializeField]
-        private Text checkPoint2GradeText = null;
         [SerializeField]
         private Text checkPoint2DateText = null;
         [SerializeField]
@@ -45,12 +33,6 @@ namespace VT {
         private Text oldDate = null;
         [SerializeField]
         private Text checkPoint5Date = null;
-        [SerializeField]
-        private GameObject oldSendButton;
-        [SerializeField]
-        private GameObject newSendButton;
-        [SerializeField]
-        private GameObject checkPoint2Send;
         [SerializeField]
         private Text checkPoint3Date = null;
         [SerializeField]
@@ -61,20 +43,20 @@ namespace VT {
         private Slider EasySlider;
         [SerializeField]
         private Slider LikeSlider;
-		[SerializeField]
-		private Slider ImportanceSlider;
-		[SerializeField]
-		private Text courseName = null;
-		[SerializeField]
-		private Text checkpoint1Title=null;
-		[SerializeField]
-		private Text checkpoint2Title= null;
-		[SerializeField]
-		private Text checkpoint3Title=null;
-		[SerializeField]
-		private Text checkpoint4Title=null;
-		[SerializeField]
-		private Text checkpoint5Title=null;
+        [SerializeField]
+        private Slider ImportanceSlider;
+        [SerializeField]
+        private Text courseName = null;
+        [SerializeField]
+        private Text checkpoint1Title = null;
+        [SerializeField]
+        private Text checkpoint2Title = null;
+        [SerializeField]
+        private Text checkpoint3Title = null;
+        [SerializeField]
+        private Text checkpoint4Title = null;
+        [SerializeField]
+        private Text checkpoint5Title = null;
         public VoidFunc onConfirm;
         public VoidFunc onOldPlus;
         public VoidFunc onNewPlus;
@@ -91,7 +73,7 @@ namespace VT {
         public BoolFunc toggle;
         public FloatFunc EaseSlider;
         public FloatFunc onLikeSlider;
-		public FloatFunc onImportanceSlider;
+        public FloatFunc onImportanceSlider;
 
         public void UIConfirm() {
             if (onConfirm == null)
@@ -103,47 +85,36 @@ namespace VT {
             value = LikeSlider.value;
             onLikeSlider(value);
         }
-		public void UIImportanceSlider(float value){
-			value = ImportanceSlider.value;
-			onImportanceSlider (value);
-		}
-        public void UISendOldGrade() {
+
+        public void UIImportanceSlider(float value) {
+            value = ImportanceSlider.value;
+            onImportanceSlider(value);
+        }
+
+        public void UISendOldGrade(string value) {
             if (sendOldgrade == null)
                 return;
-            oldSendButton.SetActive(false);
-            oldInput.SetActive(false);
-            oldGrade.SetActive(true);
-            oldRubber.SetActive(true);
             sendOldgrade();
         }
 
-        public void UISendNewGrade() {
+        public void UISendNewGrade(string value) {
             if (sendNewGrade == null)
                 return;
-            newSendButton.SetActive(false);
-            newInput.SetActive(false);
-            newGrade.SetActive(true);
-            newRubber.SetActive(true);
-
             sendNewGrade();
         }
 
-        public void UISendCheck2Grade() {
+        public void UISendCheck2Grade(string value) {
             if (sendCheck2Grade == null)
                 return;
-            checkPoint2Send.SetActive(false);
-            checkPoint2Input.SetActive(false);
-            checkPoint2Grade.SetActive(true);
-            checkPoint2Rubber.SetActive(true);
             sendCheck2Grade();
         }
 
         public void UINewAddition() {
             if (onNewPlus == null)
                 return;
-            newAddition.SetActive(false);
             newInput.SetActive(true);
-            newSendButton.SetActive(true);
+            newRubber.SetActive(true);
+            newAddition.SetActive(false);
 
             onNewPlus();
         }
@@ -152,7 +123,7 @@ namespace VT {
             if (onOldPlus == null)
                 return;
             oldInput.SetActive(true);
-            oldSendButton.SetActive(true);
+            oldRubber.SetActive(true);
             oldAddition.SetActive(false);
             onOldPlus();
         }
@@ -161,7 +132,7 @@ namespace VT {
             if (onCheck2Plus == null)
                 return;
             checkPoint2Input.SetActive(true);
-            checkPoint2Send.SetActive(true);
+            checkPoint2Rubber.SetActive(true);
             checkPoint2Add.SetActive(false);
             onCheck2Plus();
         }
@@ -170,7 +141,7 @@ namespace VT {
             if (onNewRubber == null)
                 return;
             newRubber.SetActive(false);
-            newGrade.SetActive(false);
+            newInput.SetActive(false);
             newAddition.SetActive(true);
             onNewRubber();
         }
@@ -179,7 +150,7 @@ namespace VT {
             if (onOldRubber == null)
                 return;
             oldRubber.SetActive(false);
-            oldGrade.SetActive(false);
+            oldInput.SetActive(false);
             oldAddition.SetActive(true);
             onOldRubber();
         }
@@ -188,14 +159,13 @@ namespace VT {
             if (onCheck2Rubber == null)
                 return;
             checkPoint2Rubber.SetActive(false);
-            checkPoint2Grade.SetActive(false);
+            checkPoint2Input.SetActive(false);
             checkPoint2Add.SetActive(true);
             onCheck2Rubber();
         }
 
         public void UIOldInput(string value) {
             onOldInput(value);
-            OldGradeText = value;
         }
 
         public void UIEaseSlider(float value) {
@@ -222,21 +192,35 @@ namespace VT {
 
         public string OldGradeText {
             get {
-                return this.oldGradeText.text;
+                var input = this.oldInput.GetComponent<InputField>();
+                if (input) {
+                    return input.text;
+                }
+                return string.Empty;
             }
             set {
-                if (!string.IsNullOrEmpty(value) && !value.Equals(this.oldGradeText.text))
-                    oldGradeText.text = value;
+                var input = this.oldInput.GetComponent<InputField>();
+                if (input) {
+                    if (!string.IsNullOrEmpty(value) && !value.Equals(input.text))
+                        input.text = value;
+                }
             }
         }
 
         public string NewGradeText {
             get {
-                return this.newGradeText.text;
+                var input = this.newInput.GetComponent<InputField>();
+                if (input) {
+                    return input.text;
+                }
+                return string.Empty;
             }
             set {
-                if (!string.IsNullOrEmpty(value) && !value.Equals(this.newGradeText.text))
-                    newGradeText.text = value;
+                var input = this.newInput.GetComponent<InputField>();
+                if (input) {
+                    if (!string.IsNullOrEmpty(value) && !value.Equals(input.text))
+                        input.text = value;
+                }
             }
         }
 
@@ -289,10 +273,19 @@ namespace VT {
         }
 
         public string CheckPoint2GradeText {
-            get{ return this.checkPoint2GradeText.text; }
+            get {
+                var input = this.checkPoint2Input.GetComponent<InputField>();
+                if (input) {
+                    return input.text;
+                }
+                return string.Empty;
+            }
             set {
-                if (!string.IsNullOrEmpty(value) && !value.Equals(this.checkPoint2GradeText.text))
-                    this.checkPoint2GradeText.text = value;
+                var input = this.checkPoint2Input.GetComponent<InputField>();
+                if (input) {
+                    if (!string.IsNullOrEmpty(value) && !value.Equals(input.text))
+                        input.text = value;
+                }
             }
         }
 
@@ -305,49 +298,55 @@ namespace VT {
             }
         }
 
-		public string CourseName{
-			get{ return this.courseName.text;}
-			set{ 
-				if (!string.IsNullOrEmpty (value) && !value.Equals (this.courseName.text))
-					this.courseName.text = value;
-			}
+        public string CourseName {
+            get{ return this.courseName.text; }
+            set { 
+                if (!string.IsNullOrEmpty(value) && !value.Equals(this.courseName.text))
+                    this.courseName.text = value;
+            }
 
-		}
-		public string Checkpoint1Title{
-			get{ return this.checkpoint1Title.text;}
-			set{ 
-				if (!string.IsNullOrEmpty (value) && !value.Equals (this.checkpoint1Title.text))
-					this.checkpoint1Title.text = value;
-			}
-		}
-		public string Checkpoint2Title{
-			get{ return this.checkpoint2Title.text;}
-			set{ 
-				if (!string.IsNullOrEmpty (value) && !value.Equals (this.checkpoint2Title.text))
-					this.checkpoint2Title.text = value;
-			}
-		}
-		public string Checkpoint3Title{
-			get{ return this.checkpoint3Title.text;}
-			set{ 
-				if (!string.IsNullOrEmpty (value) && !value.Equals (this.checkpoint3Title.text))
-					this.checkpoint3Title.text = value;
-			}
-		}
-		public string Checkpoint4Title{
-			get{ return this.checkpoint4Title.text;}
-			set{ 
-				if (!string.IsNullOrEmpty (value) && !value.Equals (this.checkpoint4Title.text))
-					this.checkpoint4Title.text = value;
-			}
-		}
-		public string Checkpoint5Title{
-			get{ return this.checkpoint5Title.text;}
-			set{ 
-				if (!string.IsNullOrEmpty (value) && !value.Equals (this.checkpoint5Title.text))
-					this.checkpoint5Title.text = value;
-			}
-		}
+        }
+
+        public string Checkpoint1Title {
+            get{ return this.checkpoint1Title.text; }
+            set { 
+                if (!string.IsNullOrEmpty(value) && !value.Equals(this.checkpoint1Title.text))
+                    this.checkpoint1Title.text = value;
+            }
+        }
+
+        public string Checkpoint2Title {
+            get{ return this.checkpoint2Title.text; }
+            set { 
+                if (!string.IsNullOrEmpty(value) && !value.Equals(this.checkpoint2Title.text))
+                    this.checkpoint2Title.text = value;
+            }
+        }
+
+        public string Checkpoint3Title {
+            get{ return this.checkpoint3Title.text; }
+            set { 
+                if (!string.IsNullOrEmpty(value) && !value.Equals(this.checkpoint3Title.text))
+                    this.checkpoint3Title.text = value;
+            }
+        }
+
+        public string Checkpoint4Title {
+            get{ return this.checkpoint4Title.text; }
+            set { 
+                if (!string.IsNullOrEmpty(value) && !value.Equals(this.checkpoint4Title.text))
+                    this.checkpoint4Title.text = value;
+            }
+        }
+
+        public string Checkpoint5Title {
+            get{ return this.checkpoint5Title.text; }
+            set { 
+                if (!string.IsNullOrEmpty(value) && !value.Equals(this.checkpoint5Title.text))
+                    this.checkpoint5Title.text = value;
+            }
+        }
+
         #region Animations
 
         [SerializeField]
@@ -380,13 +379,13 @@ namespace VT {
             }
         }
 
-        public void UIOnShowEnded () {
+        public void UIOnShowEnded() {
             if (onShowEnded != null) {
                 onShowEnded();
             }
         }
 
-        public void UIOnHideEnded () {
+        public void UIOnHideEnded() {
             if (onHideEnded != null) {
                 onHideEnded();
             }
