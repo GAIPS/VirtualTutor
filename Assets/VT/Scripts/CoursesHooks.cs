@@ -44,7 +44,7 @@ namespace VT
         #region Animations
 
         [SerializeField]
-        private Animator showHideAnimator;
+        private Animator showHideAnimator = null;
 
         /// <summary>
         /// Called when the Show animation ended.

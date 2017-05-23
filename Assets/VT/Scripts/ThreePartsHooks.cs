@@ -17,13 +17,13 @@ namespace VT
 		[SerializeField]
 		private Text topicTextExtra = null;
 		[SerializeField]
-		private GameObject topicLeft;
+        private GameObject topicLeft = null;
 		[SerializeField]
-		private GameObject topicRight;
+        private GameObject topicRight = null;
 		[SerializeField]
-		private GameObject topicTop;
+        private GameObject topicTop = null;
 		[SerializeField]
-		private GameObject topicExtra;
+        private GameObject topicExtra = null;
         
 
 		public VoidFunc onLeft;

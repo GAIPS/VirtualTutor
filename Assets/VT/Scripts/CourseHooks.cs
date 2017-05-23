@@ -5,26 +5,26 @@ using UnityEngine.UI;
 
 namespace VT {
     public class CourseHooks : Hooks {
+//        [SerializeField]
+//        private GameObject confirm = null;
         [SerializeField]
-        private GameObject confirm;
+        private GameObject newAddition = null;
         [SerializeField]
-        private GameObject newAddition;
+        private GameObject oldAddition = null;
         [SerializeField]
-        private GameObject oldAddition;
+        private GameObject checkPoint2Add = null;
         [SerializeField]
-        private GameObject checkPoint2Add;
+        private GameObject newRubber = null;
         [SerializeField]
-        private GameObject newRubber;
+        private GameObject checkPoint2Rubber = null;
         [SerializeField]
-        private GameObject checkPoint2Rubber;
+        private GameObject oldRubber = null;
         [SerializeField]
-        private GameObject oldRubber;
+        private GameObject oldInput = null;
         [SerializeField]
-        private GameObject oldInput;
+        private GameObject newInput = null;
         [SerializeField]
-        private GameObject newInput;
-        [SerializeField]
-        private GameObject checkPoint2Input;
+        private GameObject checkPoint2Input = null;
         [SerializeField]
         private Text checkPoint2DateText = null;
         [SerializeField]
@@ -36,15 +36,13 @@ namespace VT {
         [SerializeField]
         private Text checkPoint3Date = null;
         [SerializeField]
-        private GameObject Checkpoint3Check;
-        [SerializeField]
         private bool checkPoint3Value;
         [SerializeField]
-        private Slider EasySlider;
+        private Slider EasySlider = null;
         [SerializeField]
-        private Slider LikeSlider;
+        private Slider LikeSlider = null;
         [SerializeField]
-        private Slider ImportanceSlider;
+        private Slider ImportanceSlider = null;
         [SerializeField]
         private Text courseName = null;
         [SerializeField]
@@ -350,7 +348,7 @@ namespace VT {
         #region Animations
 
         [SerializeField]
-        private Animator showHideAnimator;
+        private Animator showHideAnimator = null;
 
         /// <summary>
         /// Called when the Show animation ended.
