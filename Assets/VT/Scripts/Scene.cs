@@ -188,10 +188,8 @@ namespace VT
 		{
 			start = 0.0f;
 			expressionsControl.Start = 0.0f;
-//			calendar1Control.SetAndShow (() => {
-//				SaveCalendar ();
-//			});	
 
+            #if UNITY_ANDROID
             currentTopicName = "enoughPlan";
             var topic3 = topics [currentTopicName];
             threePartsControl.SetAndShow (topic3);
@@ -213,6 +211,11 @@ namespace VT
                 eventBuilder.SetAvailability(AGCalendar.EventAvailability.Busy);
                 eventBuilder.BuildAndShow();
             }
+            #else
+            calendar1Control.SetAndShow (() => {
+                SaveCalendar ();
+            }); 
+            #endif
 		}
 
 		public void OpenList ()
