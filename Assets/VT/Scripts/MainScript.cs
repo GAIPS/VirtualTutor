@@ -217,7 +217,7 @@ namespace VT
 					grumpy.CurrentEmotion = Agent.EmotionType.IMPATIENT;
 					happy.CurrentEmotion = Agent.EmotionType.SUBMISSIVE;
 					demoScene.changeTopic ("onActivity");
-					demoScene.OpenCalendar ();
+				demoScene.changeTopic("prePlan");
 				}, 1.5f),
 				new Topic.Input ("I want to be told sooner", () => {
 					happy.CurrentEmotion = Agent.EmotionType.SHY;
@@ -271,8 +271,8 @@ namespace VT
 				           4.0f,
 				           12.0f);
 			Topic.Input[] inputs4 = { new Topic.Input ("Study plan? Ok.", () => {
-					demoScene.OpenCalendar ();
-				}, 1.5f), new Topic.Input ("Thank you", () => {
+				demoScene.changeTopic("prePlan");
+			}, 1.5f), new Topic.Input ("Thank you", () => {
 					happy.CurrentEmotion = Agent.EmotionType.SMILING;
 					grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
 
@@ -313,7 +313,7 @@ namespace VT
 			expected.Add (l21);
 			expected.Add (l57);
 			Topic.Input[] inputs5 = {new Topic.Input ("Make a study plan", () => {
-					demoScene.OpenCalendar ();
+				demoScene.changeTopic("prePlan");
 				}, 1.5f), new Topic.Input ("I want to be notified sooner", () => {
 					happy.CurrentEmotion = Agent.EmotionType.SHY;
 					grumpy.CurrentEmotion = Agent.EmotionType.ANGRY;
@@ -565,7 +565,7 @@ namespace VT
 			Line l52 = new Line ("Well, I guess you don't want to talk", happy, 0.0f, 8.0f);
 			Line l53 = new Line ("It would help you to do a study plan.", grumpy, 4.0f, 12.0f);
 			Topic.Input[] notAnswTestInputs = { new Topic.Input ("Make a study plan!", () => {
-					demoScene.OpenCalendar ();
+				demoScene.changeTopic ("prePlan");
 				},1.5f), new Topic.Input ("", () => {
 				},3.0f), new Topic.Input ("Thank you", () => {
 					happy.CurrentEmotion = Agent.EmotionType.SMILING;
@@ -716,6 +716,14 @@ namespace VT
 			contactList.Add(l83);
 			Topic contact = new Topic(contactList,quitInputs);
 			demoScene.topics.Add("contact",contact);
+
+			Line l88 = new Line (" We will open your calendar and you should add there the study hours for this week.",happy, 0.0f,8.0f);
+			Line l89 = new Line (" Based on your profile we advise you to study  4 hours weekly for FP and 5 hours weekly for Algebra", grumpy,4.0f,12.0f);
+			List<Line> prePlanList = new List<Line>();
+			prePlanList.Add(l88);
+			prePlanList.Add(l89);
+			Topic prePlan = new Topic(prePlanList,emptyInputs);
+			demoScene.topics.Add("prePlan",prePlan);
     }
 }
 }

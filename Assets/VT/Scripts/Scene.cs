@@ -295,7 +295,7 @@ namespace VT
 		{
 			start += delta;
 //
-			if (start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 5.0f && currentTopicName != "timeTopic" && currentTopicName != "exit1Topic" && currentTopicName != "exit2Topic" && currentTopicName != "exit3Topic" && currentTopicName != "exit4Topic" && currentTopicName != "badTestTopic" && currentTopicName != "onActivity") {
+			if (start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 5.0f && currentTopicName != "timeTopic" && currentTopicName != "exit1Topic" && currentTopicName != "exit2Topic" && currentTopicName != "exit3Topic" && currentTopicName != "exit4Topic" && currentTopicName != "badTestTopic" && currentTopicName != "onActivity" && currentTopicName != "prePlan") {
 				agents [0].CurrentEmotion = Agent.EmotionType.IMPATIENT;
 				agents [1].CurrentEmotion = Agent.EmotionType.IMPATIENT;
 				changeTopic ("timeTopic", ShowOption.HEAD);
@@ -303,7 +303,8 @@ namespace VT
 				Application.Quit ();
 			} else if (start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 5.0f && currentTopicName == "badTestTopic") {
 				changeTopic ("noAnswTest");
-			}
+			} else if (start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 5.0f && currentTopicName == "prePlan")
+				OpenCalendar ();
 			expressionsControl.update (delta);
 			threePartsControl.update (delta);
 		}
