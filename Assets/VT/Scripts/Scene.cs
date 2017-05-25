@@ -21,6 +21,7 @@ namespace VT
 		public Course course1 = new Course ("Fundamentos da Programação");
 		public Course course2 = new Course ("Álgebra Linear");
 		private float start = 0.0f;
+		private string wordToParse;
 		Course clickedCourse;
 
 		private string currentTopicName;
@@ -222,20 +223,15 @@ namespace VT
 		{
 			start = 0.0f;
 			expressionsControl.Start = 0.0f;
-			discussControl.SetAndShow ("Reconsider study plan", "Quit course", "Contact Real Tutor", () => {
-				changeTopic ("onActivity");
-				OpenCalendar ();
-				discussControl.Disable ();
-			}, () => {
-				discussControl.Disable ();
-				if (course1.Importance < 4)
-					changeTopic ("quit");
-				else
-					changeTopic ("dontQuit");
+			discussControl.SetAndShow (() => {
+				agents[0].CurrentEmotion = Agent.EmotionType.SMILING;
+				agents[1].CurrentEmotion = Agent.EmotionType.SMILING;
+				discussControl.Disable();
+				changeTopic("help");
 
-			}, () => {
-				changeTopic ("contact");
-				discussControl.Disable ();
+			},(string value) => {
+				wordToParse = value;
+
 			});
 		}
 

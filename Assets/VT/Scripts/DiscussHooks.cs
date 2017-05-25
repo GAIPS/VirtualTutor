@@ -9,61 +9,24 @@ namespace VT
 	public class DiscussHooks : Hooks
 	{
 		[SerializeField]
-		private GameObject Button1;
-		[SerializeField]
-		private GameObject Button2;
-		[SerializeField]
-		private GameObject Button3;
-		[SerializeField]
-		private Text button1Text = null;
-		[SerializeField]
-		private Text button2Text = null;
-		[SerializeField]
-		private Text button3Text = null;
+		private GameObject confirm;
 
-		public VoidFunc onOne;
-		public VoidFunc onTwo;
-		public VoidFunc onThree;
+		public StringFunc input;
+		public VoidFunc onConfirm;
 
-		public void UIone ()
+		public void UIConfirm ()
 		{
-			if (onOne != null)
-				onOne ();
+			if (onConfirm == null)
+				return;
+					
+			onConfirm ();
 		}
 
-		public void UITwo ()
+		public void UIInput (string value)
 		{
-			if (onTwo != null)
-				onTwo ();
+			input (value);
 		}
+	
 
-		public void UIThree ()
-		{
-			if (onThree != null)
-				onThree ();
-		}
-
-		public string Button1Text {
-			get{ return button1Text.text; }
-			set {
-				if (!string.IsNullOrEmpty(value) && !value.Equals (this.button1Text.text))
-					button1Text.text = value;
-			}
-		}
-
-		public string Button2Text {
-			get{ return button2Text.text; }
-			set {
-				if (!string.IsNullOrEmpty(value) && !value.Equals (this.button2Text.text))
-					button2Text.text = value;
-			}
-		}
-		public string Button3Text{
-			get{ return button3Text.text;}
-			set{
-				if (!string.IsNullOrEmpty(value) && !value.Equals (this.button3Text.text))
-					button3Text.text = value;
-			}
-		}
 	}
 }
