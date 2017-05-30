@@ -662,8 +662,8 @@ namespace VT
 			Topic pastTopic = new Topic(pastTestList,pastInputs);
 			demoScene.topics.Add("pastTopic",pastTopic);
 
-			Line l74 = new Line ("Things are going well in FP but sadly you are dropping AL",grumpy,12.5f,20.5f);
-			Line l75 = new Line ("Keep up the good work",happy,16.5f,24.5f);
+			Line l74 = new Line ("Things are going well in FP but sadly you are dropping AL",grumpy,0.0f,8.0f);
+			Line l75 = new Line ("Keep up the good work",happy,4.0f,12.0f);
 			List<Line> balanceList = new List<Line>();
 		
 			balanceList.Add(l74);

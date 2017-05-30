@@ -128,7 +128,7 @@ namespace VT
 						expressionsControl.SetAndShow (topic2);
 						coursesControl.Disable ();
 						courseControl.Disable ();
-					} else if  (clickedCourse == course2 && (evaluationResult >= 10 && evaluationResult < 14.0) || (evaluationResult > 8.5 && evaluationResult < 13 && clickedCourse.Like < 2 && clickedCourse.Know < 2) || (clickedCourse.Like > 3 && clickedCourse.Know > 3 && evaluationResult > 11 && evaluationResult < 16)){
+					} else if  (clickedCourse == course2 && (evaluationResult >= 10 && evaluationResult <= 14.0) || (evaluationResult > 8.5 && evaluationResult < 13 && clickedCourse.Like < 2 && clickedCourse.Know < 2) || (clickedCourse.Like > 3 && clickedCourse.Know > 3 && evaluationResult > 11 && evaluationResult < 16)){
 						agents [0].CurrentEmotion = Agent.EmotionType.LIKES;
 						agents [1].CurrentEmotion = Agent.EmotionType.SMILING;
 						currentTopicName = "expectedTest";
