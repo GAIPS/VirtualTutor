@@ -681,7 +681,7 @@ namespace VT {
 			Topic.Input[] remindInputs = { new Topic.Input("Thank you", ()=>{
 				happy.CurrentEmotion = Agent.EmotionType.SMILING;
 				grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
-				demoScene.changeTopic("returnTopic");
+				demoScene.changeTopic("help");
 			},1.5f), new Topic.Input("",()=>{}), new Topic.Input("I have new information",()=>{
 				happy.CurrentEmotion = Agent.EmotionType.SMILING;
 				grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
