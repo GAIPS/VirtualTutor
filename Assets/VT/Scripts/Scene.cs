@@ -19,9 +19,10 @@ namespace VT {
         public Course course1 = new Course("Fundamentos da Programação");
         public Course course2 = new Course("Álgebra Linear");
         private float start = 0.0f;
-        private string wordToParse;
+		private float aLHours = 4.0f;
+		private float fPHours = 5.0f;
+		private string wordToParse;
         Course clickedCourse;
-
         private string currentTopicName;
 
         public float Start {
@@ -32,6 +33,24 @@ namespace VT {
                 start = value;
             }
         }
+
+		public float ALHours {
+    		get {
+    			return this.aLHours;
+    		}
+    		set {
+    			aLHours = value;
+    		}
+    	}
+
+    	public float FPHours {
+    		get {
+    			return this.fPHours;
+    		}
+    		set {
+    			fPHours = value;
+    		}
+    	} 
 
 
         public Scene() {
@@ -57,36 +76,51 @@ namespace VT {
         }
 
         public void OpenCourse() {
-            float evaluationResult = 10;
+            float evaluationResult = 0;
             courseControl.SetAndShow(
                 () => {
+					
+					var topic3 = topics["prePlan"];
                     start = 0.0f;
                     expressionsControl.Start = 0.0f;
                     if (evaluationResult <= 5.0) {
                         agents[0].CurrentEmotion = Agent.EmotionType.CRYING;
                         agents[1].CurrentEmotion = Agent.EmotionType.CRYING;
                         currentTopicName = "terrible";
+						if (clickedCourse == course1)
+							fPHours += 3.0f;
+						
+						else if (clickedCourse == course2)
+							aLHours += 3.0f;
                         var topic2 = topics[currentTopicName];
+						topics["prePlan"].Lines[1].Content = "We reccomend you to study " + ALHours +" hours weekly this week for Algebra and "+ FPHours+" hours of Foundations of Programming";
                         threePartsControl.SetAndShow(topic2);
                         expressionsControl.SetAndShow(topic2);
                         coursesControl.Disable();
                         courseControl.Disable();
+
                     } else if (clickedCourse == course1 && (evaluationResult < 8.5 || (evaluationResult < 10.0 && clickedCourse.Like > 3.0 && clickedCourse.Know > 3.0) || (clickedCourse.Like < 2 && clickedCourse.Know < 2 && evaluationResult < 6.0))) {
-                        agents[0].CurrentEmotion = Agent.EmotionType.CRYING;
+						agents[0].CurrentEmotion = Agent.EmotionType.CRYING;
                         agents[1].CurrentEmotion = Agent.EmotionType.CRYING;
                         currentTopicName = "badTestTopic";
-                        var topic2 = topics[currentTopicName];
+						fPHours = fPHours + 2.0f;
+						Debug.Log(FPHours);
+						topics["prePlan"].Lines[1].Content = "We reccomend you to study " + ALHours +" hours weekly this week for Algebra and "+ FPHours+" hours of Foundations of Programming";
+						var topic2 = topics[currentTopicName];
                         threePartsControl.SetAndShow(topic2);
                         expressionsControl.SetAndShow(topic2);
                         coursesControl.Disable();
                         courseControl.Disable();
 
                     } else if (clickedCourse == course1 && (evaluationResult >= 8.5 && evaluationResult < 11) || (evaluationResult > 7.0 && evaluationResult < 11 && clickedCourse.Like < 2.0 && clickedCourse.Know < 2.0) || (clickedCourse.Like > 3 && clickedCourse.Know > 3 && evaluationResult >= 9.5 && evaluationResult < 12)) {
-                        agents[0].CurrentEmotion = Agent.EmotionType.SAD;
+
+						agents[0].CurrentEmotion = Agent.EmotionType.SAD;
                         agents[1].CurrentEmotion = Agent.EmotionType.SAD;
                         currentTopicName = "belowAvgTopic";
                         var topic2 = topics[currentTopicName];
-
+						fPHours += 1.0f;
+						Debug.Log(FPHours);
+						topics["prePlan"].Lines[1].Content = "We reccomend you to study " + ALHours +" hours weekly this week for Algebra and "+ FPHours+" hours of Foundations of Programming";
                         threePartsControl.SetAndShow(topic2);
                         expressionsControl.SetAndShow(topic2);
                         coursesControl.Disable();
@@ -96,6 +130,8 @@ namespace VT {
                         agents[0].CurrentEmotion = Agent.EmotionType.LIKES;
                         agents[1].CurrentEmotion = Agent.EmotionType.SMILING;
                         currentTopicName = "expectedTest";
+						fPHours -=1.0f;
+						topics["prePlan"].Lines[1].Content = "We reccomend you to study " + ALHours +" hours weekly this week for Algebra and "+ FPHours+" hours of Foundations of Programming";
                         var topic2 = topics[currentTopicName];
                         threePartsControl.SetAndShow(topic2);
                         expressionsControl.SetAndShow(topic2);
@@ -106,16 +142,20 @@ namespace VT {
                         agents[0].CurrentEmotion = Agent.EmotionType.LIKES;
                         agents[1].CurrentEmotion = Agent.EmotionType.LIKES;
                         currentTopicName = "greatTest";
+						fPHours -= 2.0f;
+						topics["prePlan"].Lines[1].Content = "We reccomend you to study " + ALHours +" hours weekly this week for Algebra and "+ FPHours+" hours of Foundations of Programming";
                         var topic2 = topics[currentTopicName];
                         threePartsControl.SetAndShow(topic2);
                         expressionsControl.SetAndShow(topic2);
                         coursesControl.Disable();
                         courseControl.Disable();
-    				
+
                     } else if (clickedCourse == course2 && (evaluationResult < 6 || (evaluationResult < 10.0 && clickedCourse.Like > 3.0 && clickedCourse.Know > 3.0) || (clickedCourse.Like < 2 && clickedCourse.Know < 2 && evaluationResult < 6.0))) {
                         agents[0].CurrentEmotion = Agent.EmotionType.CRYING;
                         agents[1].CurrentEmotion = Agent.EmotionType.CRYING;
                         currentTopicName = "badTestTopic";
+						aLHours +=2.0f;
+						topics["prePlan"].Lines[1].Content = "We reccomend you to study " + ALHours +" hours weekly this week for Algebra and "+ FPHours+" hours of Foundations of Programming";
                         var topic2 = topics[currentTopicName];
                         threePartsControl.SetAndShow(topic2);
                         expressionsControl.SetAndShow(topic2);
@@ -125,8 +165,9 @@ namespace VT {
                         agents[0].CurrentEmotion = Agent.EmotionType.SAD;
                         agents[1].CurrentEmotion = Agent.EmotionType.SAD;
                         currentTopicName = "belowAvgTopic";
+						aLHours +=1.0f;
                         var topic2 = topics[currentTopicName];
-
+						topics["prePlan"].Lines[1].Content = "We reccomend you to study " + ALHours +" hours weekly this week for Algebra and "+ FPHours+" hours of Foundations of Programming";
                         threePartsControl.SetAndShow(topic2);
                         expressionsControl.SetAndShow(topic2);
                         coursesControl.Disable();
@@ -136,6 +177,8 @@ namespace VT {
                         agents[1].CurrentEmotion = Agent.EmotionType.SMILING;
                         currentTopicName = "expectedTest";
                         var topic2 = topics[currentTopicName];
+						aLHours -=1.0f;
+						topics["prePlan"].Lines[1].Content = "We reccomend you to study " + ALHours +" hours weekly this week for Algebra and "+ FPHours+" hours of Foundations of Programming";
                         threePartsControl.SetAndShow(topic2);
                         expressionsControl.SetAndShow(topic2);
                         coursesControl.Disable();
@@ -144,6 +187,8 @@ namespace VT {
                         agents[0].CurrentEmotion = Agent.EmotionType.LIKES;
                         agents[1].CurrentEmotion = Agent.EmotionType.LIKES;
                         currentTopicName = "greatTest";
+						aLHours -= 2.0f;
+						topics["prePlan"].Lines[1].Content = "We reccomend you to study " + ALHours +" hours weekly this week for Algebra and "+ FPHours+" hours of Foundations of Programming";
                         var topic2 = topics[currentTopicName];
                         threePartsControl.SetAndShow(topic2);
                         expressionsControl.SetAndShow(topic2);

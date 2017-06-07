@@ -898,10 +898,8 @@ namespace VT {
                                 happy,
                                 0.0f,
                                 8.0f);
-            Line l89 = new Line(" Based on your profile we advise you to study  4 hours weekly for FP and 5 hours weekly for Algebra",
-                                grumpy,
-                                4.0f,
-                                12.0f);
+			Line l89 = new Line("We reccomend you to study " + demoScene.ALHours +" hours weekly this week for Algebra and "+ demoScene.FPHours+" hours of Foundations of Programming",grumpy,4.0f,12.0f);
+                           
             List<Line> prePlanList = new List<Line>();
             prePlanList.Add(l88);
             prePlanList.Add(l89);
