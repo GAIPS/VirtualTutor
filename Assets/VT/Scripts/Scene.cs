@@ -341,17 +341,22 @@ namespace VT {
         public void update(float delta) {
             start += delta;
 //
-            if (start >= topics[currentTopicName].Lines[topics[currentTopicName].Lines.Count - 1].End + 5.0f && currentTopicName != "timeTopic" && currentTopicName != "exit1Topic" && currentTopicName != "exit2Topic" && currentTopicName != "exit3Topic" && currentTopicName != "exit4Topic" && currentTopicName != "badTestTopic" && currentTopicName != "onActivity" && currentTopicName != "prePlan") {
-                agents[0].CurrentEmotion = Agent.EmotionType.IMPATIENT;
-                agents[1].CurrentEmotion = Agent.EmotionType.IMPATIENT;
-                changeTopic("timeTopic", ShowOption.HEAD);
-            } else if (start >= topics[currentTopicName].Lines[topics[currentTopicName].Lines.Count - 1].End + 5.0f && (currentTopicName == "timeTopic" || currentTopicName == "exit1Topic" || currentTopicName == "exit2Topic" || currentTopicName == "exit3Topic" || currentTopicName == "exit4Topic")) {
-                Application.Quit();
-            } else if (start >= topics[currentTopicName].Lines[topics[currentTopicName].Lines.Count - 1].End + 5.0f && currentTopicName == "badTestTopic") {
-                changeTopic("noAnswTest");
-            } else if (start >= topics[currentTopicName].Lines[topics[currentTopicName].Lines.Count - 1].End + 5.0f && currentTopicName == "prePlan")
-                OpenCalendar();
-			
+			if (start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 5.0f && currentTopicName != "timeTopic" && currentTopicName != "exit1Topic" && currentTopicName != "exit2Topic" && currentTopicName != "exit3Topic" && currentTopicName != "exit4Topic" && currentTopicName != "badTestTopic" && currentTopicName != "onActivity" && currentTopicName != "prePlan" && currentTopicName != "newInfoTopic") {
+				agents [0].CurrentEmotion = Agent.EmotionType.IMPATIENT;
+				agents [1].CurrentEmotion = Agent.EmotionType.IMPATIENT;
+				changeTopic ("timeTopic", ShowOption.HEAD);
+			} else if (start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 5.0f && (currentTopicName == "timeTopic" || currentTopicName == "exit1Topic" || currentTopicName == "exit2Topic" || currentTopicName == "exit3Topic" || currentTopicName == "exit4Topic")) {
+				Application.Quit ();
+			} else if (start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 5.0f && currentTopicName == "badTestTopic") {
+				changeTopic ("noAnswTest");
+			} else if (start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 5.0f && currentTopicName == "prePlan")
+				OpenCalendar ();
+			else if (start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 1.0f && currentTopicName == "newInfoTopic") {
+				agents [0].CurrentEmotion = Agent.EmotionType.IMPATIENT;
+				agents [1].CurrentEmotion = Agent.EmotionType.SUBMISSIVE;
+				changeTopic ("onActivity");
+				OpenCourses ();
+			}
             expressionsControl.update(delta);
             threePartsControl.update(delta);
         }

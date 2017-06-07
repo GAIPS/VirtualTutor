@@ -4,172 +4,176 @@ using UnityEngine;
 using System;
 using System.Linq;
 
-namespace VT {
-    public class MainScript : MonoBehaviour {
-        public bool playSplashScreen = true;
+namespace VT
+{
+	public class MainScript : MonoBehaviour
+	{
+		public bool playSplashScreen = true;
 
-        public GameObject splashScreenPrefab;
-        public GameObject threeOptionsPrefab;
-        public GameObject ExpressionsPrefab;
-        public GameObject coursesPrefab;
-        public GameObject coursePrefab;
-        public GameObject calendar1Prefab;
-        public GameObject calendar2Prefab;
-        public GameObject calendar3Prefab;
-        public GameObject discussPrefab;
-        public ToggleImage pauseButton;
-        private Scene scene;
+		public GameObject splashScreenPrefab;
+		public GameObject threeOptionsPrefab;
+		public GameObject ExpressionsPrefab;
+		public GameObject coursesPrefab;
+		public GameObject coursePrefab;
+		public GameObject calendar1Prefab;
+		public GameObject calendar2Prefab;
+		public GameObject calendar3Prefab;
+		public GameObject discussPrefab;
+		public ToggleImage pauseButton;
+		private Scene scene;
 
-        private bool playing = false;
+		private bool playing = false;
 
-        // Use this for initialization
-        void Start() {
+		// Use this for initialization
+		void Start ()
+		{
 
-            if (splashScreenPrefab != null && playSplashScreen) {
-                SplashScreenControl splashScreenControl = new SplashScreenControl(splashScreenPrefab);
-                splashScreenControl.SetAndShow(/*OnEndFunction*/() => {
-                        playing = true;
-                        splashScreenControl.Destroy();
-                    });
-            } else {
-                playing = true;
-            }
+			if (splashScreenPrefab != null && playSplashScreen) {
+				SplashScreenControl splashScreenControl = new SplashScreenControl (splashScreenPrefab);
+				splashScreenControl.SetAndShow (/*OnEndFunction*/() => {
+					playing = true;
+					splashScreenControl.Destroy ();
+				});
+			} else {
+				playing = true;
+			}
 			
-            if (threeOptionsPrefab == null || ExpressionsPrefab == null
-                || coursesPrefab == null || coursePrefab == null
-                || calendar1Prefab == null || calendar2Prefab == null
-                || calendar3Prefab == null) {
-                Debug.LogWarning("Some prefabs are null");
-                return;
-            }
+			if (threeOptionsPrefab == null || ExpressionsPrefab == null
+			             || coursesPrefab == null || coursePrefab == null
+			             || calendar1Prefab == null || calendar2Prefab == null
+			             || calendar3Prefab == null) {
+				Debug.LogWarning ("Some prefabs are null");
+				return;
+			}
 
-            if (pauseButton) {
-                pauseButton.onClick = (bool isOn) => {
-                    playing = isOn;
-                };
-            }
+			if (pauseButton) {
+				pauseButton.onClick = (bool isOn) => {
+					playing = isOn;
+				};
+			}
 
-            scene = new Scene();
-            scene.threePartsControl = new ThreePartsControl(threeOptionsPrefab);
-            scene.expressionsControl = new ExpressionsControl(ExpressionsPrefab);
-            scene.coursesControl = new CoursesControl(coursesPrefab);
-            scene.courseControl = new CourseControl(coursePrefab);
-            scene.calendar1Control = new Calendar1Control(calendar1Prefab);
-            scene.calendar2Control = new Calendar2Control(calendar2Prefab);
-            scene.calendar3Control = new Calendar3Control(calendar3Prefab);
-            scene.discussControl = new DiscussControl(discussPrefab);
+			scene = new Scene ();
+			scene.threePartsControl = new ThreePartsControl (threeOptionsPrefab);
+			scene.expressionsControl = new ExpressionsControl (ExpressionsPrefab);
+			scene.coursesControl = new CoursesControl (coursesPrefab);
+			scene.courseControl = new CourseControl (coursePrefab);
+			scene.calendar1Control = new Calendar1Control (calendar1Prefab);
+			scene.calendar2Control = new Calendar2Control (calendar2Prefab);
+			scene.calendar3Control = new Calendar3Control (calendar3Prefab);
+			scene.discussControl = new DiscussControl (discussPrefab);
 
-            PopulateScene(scene);
+			PopulateScene (scene);
 
-            //start
-            scene.changeTopic("Hello");
-        }
+			//start
+			scene.changeTopic ("Hello");
+		}
 
-        void Update() {
-            if (Input.GetKeyUp(KeyCode.Space)) {
-                playing = !playing;
-            }
-            if (playing) {
-                scene.update(Time.deltaTime);
-            }
-        }
+		void Update ()
+		{
+			if (Input.GetKeyUp (KeyCode.Space)) {
+				playing = !playing;
+			}
+			if (playing) {
+				scene.update (Time.deltaTime);
+			}
+		}
 
-        void PopulateScene(Scene demoScene) {
+		void PopulateScene (Scene demoScene)
+		{
 		
-            Agent happy = new Agent();
-            Agent grumpy = new Agent();
-            grumpy.IsLeft = false;
+			Agent happy = new Agent ();
+			Agent grumpy = new Agent ();
+			grumpy.IsLeft = false;
 
-            demoScene.agents.Add(happy);
-            demoScene.agents.Add(grumpy);
-            //Hello
-            happy.CurrentEmotion = Agent.EmotionType.SMILING;
-            grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
-            Evaluation test1 = new Evaluation("1º Teste",
-                                              "20/03/2017",
-                                              4,
-                                              4,
-                                              "12.0");
-            Evaluation project1 = new Evaluation("1º Projecto",
-                                                 "04/04/2017",
-                                                 3,
-                                                 4,
-                                                 "16.0");
-            CheckBoxPoint revision = new CheckBoxPoint("PDF Aula nº 20",
-                                                       "08/04/2017",
-                                                       1,
-                                                       3,
-                                                       true);
-            Evaluation test2 = new Evaluation("2º Teste",
-                                              "07/05/2017",
-                                              4,
-                                              4,
-                                              "");
-            Evaluation test3 = new Evaluation("3º Teste",
-                                              "22/06/2017",
-                                              4,
-                                              4,
-                                              "");
-            demoScene.course1.Checkpoints.Add("test1", test1);
-            demoScene.course1.Checkpoints.Add("project1", project1);
-            demoScene.course1.Checkpoints.Add("revision", revision);
-            demoScene.course1.Checkpoints.Add("test2", test2);
-            demoScene.course1.Checkpoints.Add("test3", test3);
-            Evaluation c2Test1 = new Evaluation("1º Teste",
-                                                "13/03/2017",
-                                                3,
-                                                4,
-                                                "14.0");
-            Evaluation c2Test2 = new Evaluation("2º Teste",
-                                                "15/04/2017",
-                                                3,
-                                                4,
-                                                "12.0");
-            CheckBoxPoint achievment = new CheckBoxPoint("Aula de Dúvidas",
-                                                         "08/05/2017",
-                                                         1,
-                                                         3,
-                                                         false);
-            Evaluation c2Teste3 = new Evaluation("3º Teste",
-                                                 "09/05/2017",
-                                                 3,
-                                                 4,
-                                                 "");
-            Evaluation c2Test4 = new Evaluation("4º Teste",
-                                                "2/06/2017",
-                                                3,
-                                                4,
-                                                "");
-            demoScene.course2.Checkpoints.Add("test1", c2Test1);
-            demoScene.course2.Checkpoints.Add("project1", c2Test2);
-            demoScene.course2.Checkpoints.Add("revision", achievment);
-            demoScene.course2.Checkpoints.Add("test2", c2Teste3);
-            demoScene.course2.Checkpoints.Add("test3", c2Test4);
+			demoScene.agents.Add (happy);
+			demoScene.agents.Add (grumpy);
+			//Hello
+			happy.CurrentEmotion = Agent.EmotionType.SMILING;
+			grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+			Evaluation test1 = new Evaluation ("1º Teste",
+				                            "20/03/2017",
+				                            4,
+				                            4,
+				                            "12.0");
+			Evaluation project1 = new Evaluation ("1º Projecto",
+				                               "04/04/2017",
+				                               3,
+				                               4,
+				                               "16.0");
+			CheckBoxPoint revision = new CheckBoxPoint ("PDF Aula nº 20",
+				                                  "08/04/2017",
+				                                  1,
+				                                  3,
+				                                  true);
+			Evaluation test2 = new Evaluation ("2º Teste",
+				                            "07/05/2017",
+				                            4,
+				                            4,
+				                            "");
+			Evaluation test3 = new Evaluation ("3º Teste",
+				                            "22/06/2017",
+				                            4,
+				                            4,
+				                            "");
+			demoScene.course1.Checkpoints.Add ("test1", test1);
+			demoScene.course1.Checkpoints.Add ("project1", project1);
+			demoScene.course1.Checkpoints.Add ("revision", revision);
+			demoScene.course1.Checkpoints.Add ("test2", test2);
+			demoScene.course1.Checkpoints.Add ("test3", test3);
+			Evaluation c2Test1 = new Evaluation ("1º Teste",
+				                              "13/03/2017",
+				                              3,
+				                              4,
+				                              "14.0");
+			Evaluation c2Test2 = new Evaluation ("2º Teste",
+				                              "15/04/2017",
+				                              3,
+				                              4,
+				                              "12.0");
+			CheckBoxPoint achievment = new CheckBoxPoint ("Aula de Dúvidas",
+				                                    "08/05/2017",
+				                                    1,
+				                                    3,
+				                                    false);
+			Evaluation c2Teste3 = new Evaluation ("3º Teste",
+				                               "09/05/2017",
+				                               3,
+				                               4,
+				                               "");
+			Evaluation c2Test4 = new Evaluation ("4º Teste",
+				                              "2/06/2017",
+				                              3,
+				                              4,
+				                              "");
+			demoScene.course2.Checkpoints.Add ("test1", c2Test1);
+			demoScene.course2.Checkpoints.Add ("project1", c2Test2);
+			demoScene.course2.Checkpoints.Add ("revision", achievment);
+			demoScene.course2.Checkpoints.Add ("test2", c2Teste3);
+			demoScene.course2.Checkpoints.Add ("test3", c2Test4);
 
-            Line l1 = new Line("Hello. It is good to see you after these 2 days.",
-                               happy,
-                               0.0f,
-                               8.0f);
-            Line l2 = new Line("I was wondering if they would come",
-                               grumpy,
-                               4.0f,
-                               12.0f);
-            Line l3 = new Line("What can we help you with?",
-                               happy,
-                               12.5f,
-                               20.5f);
-            Line l4 = new Line("I wish to remind you that you have a checkpoint in 2 weeks",
-                               grumpy,
-                               16.5f,
-                               24.5f);
-            List<Line> lines = new List<Line>();
-            lines.Add(l1);
-            lines.Add(l2);
-            lines.Add(l3);
-            lines.Add(l4);
-            lines = lines.OrderBy(l => l.Start).ToList();
-            Topic.Input[] inputs =
-                {
+			Line l1 = new Line ("Hello. It is good to see you after these 2 days.",
+				                   happy,
+				                   0.0f,
+				                   8.0f);
+			Line l2 = new Line ("I was wondering if they would come",
+				                   grumpy,
+				                   4.0f,
+				                   12.0f);
+			Line l3 = new Line ("What can we help you with?",
+				                   happy,
+				                   12.5f,
+				                   20.5f);
+			Line l4 = new Line ("I wish to remind you that you have a checkpoint in 2 weeks",
+				                   grumpy,
+				                   16.5f,
+				                   24.5f);
+			List<Line> lines = new List<Line> ();
+			lines.Add (l1);
+			lines.Add (l2);
+			lines.Add (l3);
+			lines.Add (l4);
+			lines = lines.OrderBy (l => l.Start).ToList ();
+			Topic.Input[] inputs = {
                     new Topic.Input(
                         "Remind me...", () => {
 						
@@ -237,12 +241,9 @@ namespace VT {
             newInfo.Add(l7);
             newInfo.Add(l8);
             Topic.Input[] inputs1 =
-                {new Topic.Input("ok", () => {
-                            grumpy.CurrentEmotion = Agent.EmotionType.IMPATIENT;
-                            happy.CurrentEmotion = Agent.EmotionType.SUBMISSIVE;
-                            demoScene.changeTopic("onActivity");
-                            demoScene.OpenCourses();
-                        }, 1.5f), new Topic.Input("", () => {
+                {new Topic.Input("", () => {
+                      
+			}), new Topic.Input("", () => {
                         }), new Topic.Input("", () => {
                         })
                 };
