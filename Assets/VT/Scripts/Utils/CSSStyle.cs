@@ -47,6 +47,7 @@ public class CSSStyle : Singleton<CSSStyle> {
             if (query.width <= screenWidth) {
                 // set sizes
                 foreach (CSSTextType text in texts) {   
+                    text.text.resizeTextForBestFit = true;
                     foreach (TextSize tSize in query.typeSizes) {
                         if (tSize.type.Equals(text.type)) {
                             if (text && text.text) {

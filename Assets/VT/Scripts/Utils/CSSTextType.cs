@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Text))]
 public class CSSTextType : MonoBehaviour {
 
     public Text text {
