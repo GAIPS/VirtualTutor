@@ -68,7 +68,17 @@ namespace VT
 				() => {
 					start = 0.0f;
 					expressionsControl.Start = 0.0f;
-					if (clickedCourse == course1 && (evaluationResult < 8.5 || (evaluationResult < 10.0 && clickedCourse.Like > 3.0 && clickedCourse.Know > 3.0) || (clickedCourse.Like < 2 && clickedCourse.Know < 2 && evaluationResult < 6.0))) {
+					if (evaluationResult <= 5.0){
+						agents[0].CurrentEmotion = Agent.EmotionType.CRYING;
+						agents[1].CurrentEmotion = Agent.EmotionType.CRYING;
+						currentTopicName = "terrible";
+						var topic2 = topics[currentTopicName];
+						threePartsControl.SetAndShow (topic2);
+						expressionsControl.SetAndShow (topic2);
+						coursesControl.Disable ();
+						courseControl.Disable ();
+					}
+					else if (clickedCourse == course1 && (evaluationResult < 8.5 || (evaluationResult < 10.0 && clickedCourse.Like > 3.0 && clickedCourse.Know > 3.0) || (clickedCourse.Like < 2 && clickedCourse.Know < 2 && evaluationResult < 6.0))) {
 						agents [0].CurrentEmotion = Agent.EmotionType.CRYING;
 						agents [1].CurrentEmotion = Agent.EmotionType.CRYING;
 						currentTopicName = "badTestTopic";
@@ -147,7 +157,7 @@ namespace VT
 						coursesControl.Disable ();
 						courseControl.Disable ();
 					}
-    					
+				
 				}, 
 				() => {
 				},
@@ -301,6 +311,7 @@ namespace VT
 				changeTopic ("noAnswTest");
 			} else if (start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 5.0f && currentTopicName == "prePlan")
 				OpenCalendar ();
+			
 			expressionsControl.update (delta);
 			threePartsControl.update (delta);
 		}

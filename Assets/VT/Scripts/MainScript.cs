@@ -268,10 +268,12 @@ namespace VT {
                         demoScene.changeTopic("onActivity");
                         demoScene.changeTopic("prePlan");
                     }, 1.5f),
-                new Topic.Input("I want to be told sooner", () => {
+                //new Topic.Input("I want to be told sooner", () => {
+				new Topic.Input("I am not feeling well, contact my tutor",()=>{
                         happy.CurrentEmotion = Agent.EmotionType.SHY;
-                        grumpy.CurrentEmotion = Agent.EmotionType.ANGRY;
-                        demoScene.changeTopic("warnTestTopic");
+				grumpy.CurrentEmotion = Agent.EmotionType.SAD;
+                        //demoScene.changeTopic("warnTestTopic");
+					demoScene.changeTopic("contact");
                     }, 3.0f), new Topic.Input("I am fine, thank you", () => {
                         happy.CurrentEmotion = Agent.EmotionType.SMILING;
                         grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
@@ -778,7 +780,7 @@ namespace VT {
 			demoScene.topics.Add("dontQuit",dontQuit);
 
 			Line l81 = new Line ("If you really need it, we will contact your tutor",happy,0.0f,8.0f);
-			Line l82 = new Line("We will e-mail them your situation",grumpy,4.0f,12.0f);
+			Line l82 = new Line("We will notify them of your situation",grumpy,4.0f,12.0f);
 			Line l83 = new Line("Is this what you want?",grumpy,12.5f,20.5f);
 			List<Line> contactList = new List<Line>();
 			contactList.Add(l81);
@@ -787,13 +789,47 @@ namespace VT {
 			Topic contact = new Topic(contactList,quitInputs);
 			demoScene.topics.Add("contact",contact);
 
-			Line l88 = new Line (" We will open your calendar and you should add there the study hours for this week.",happy, 0.0f,8.0f);
+			Line l88 = new Line (" We will open your google calendar and you should add there the study hours for this week.",happy, 0.0f,8.0f);
 			Line l89 = new Line (" Based on your profile we advise you to study  4 hours weekly for FP and 5 hours weekly for Algebra", grumpy,4.0f,12.0f);
 			List<Line> prePlanList = new List<Line>();
 			prePlanList.Add(l88);
 			prePlanList.Add(l89);
 			Topic prePlan = new Topic(prePlanList,emptyInputs);
 			demoScene.topics.Add("prePlan",prePlan);
+
+
+			Line l90 = new Line("Oh no!", happy, 0.0f, 8.0f);
+			Line l91 = new Line("This situation is not right", grumpy, 4.0f, 12.0f);
+			Line l92 = new Line("Can we make a study plan to help you?",
+				happy,
+				12.5f,
+				20.5f);
+			Line l93 = new Line("We will notify your tutor of your situation so they can help you further", grumpy, 16.5f, 24.5f);
+			List<Line> terribleLine = new List<Line>();
+			terribleLine.Add(l90);
+			terribleLine.Add(l91);
+			terribleLine.Add(l92);
+			terribleLine.Add(l93);
+			Topic.Input[] inputsContact =
+			{ new Topic.Input("Study Plan? Ok", () => {
+				grumpy.CurrentEmotion = Agent.EmotionType.IMPATIENT;
+				happy.CurrentEmotion = Agent.EmotionType.SUBMISSIVE;
+				demoScene.changeTopic("prePlan");
+			}, 1.5f),
+				new Topic.Input("I want to be told sooner", () => {
+					happy.CurrentEmotion = Agent.EmotionType.SHY;
+					grumpy.CurrentEmotion = Agent.EmotionType.SAD;
+					demoScene.changeTopic("warnTestTopic");	
+				}, 3.0f), new Topic.Input("I am fine, thank you", () => {
+					happy.CurrentEmotion = Agent.EmotionType.SMILING;
+					grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+
+					demoScene.changeTopic("help");
+				}, 4.5f)
+			};
+			Topic terrible = new Topic(terribleLine,inputsContact);
+			demoScene.topics.Add("terrible",terrible);
+
     }
 }
 }
