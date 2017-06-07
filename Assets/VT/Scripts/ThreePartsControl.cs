@@ -6,7 +6,7 @@ namespace VT {
     public class ThreePartsControl : IControl {
         private Control control;
         private Topic currentTopic;
-        private float start = 0.0f;
+        public float Start = 0.0f;
         ThreePartsHooks hooks;
         bool started;
 
@@ -17,6 +17,7 @@ namespace VT {
 
         public void Set(Topic currentTopic) {
             this.currentTopic = currentTopic;
+            Start = 0.0f;
         }
 
         public ShowResult Show() {
@@ -48,29 +49,29 @@ namespace VT {
         }
 
         public void update(float delta) {
-            start += delta;
+            Start += delta;
             Topic.Input inputLeft = currentTopic.Inputs[0];
             Topic.Input inputTop = currentTopic.Inputs[1];
             Topic.Input inputRight = currentTopic.Inputs[2];
             if (hooks && started) {
-                if (inputLeft.message != null && inputLeft.start > start) {
+                if (inputLeft.message != null && inputLeft.start > Start) {
                     hooks.ContentLeft = null;
                 }
-                if (inputTop.message != null && inputTop.start > start) {
+                if (inputTop.message != null && inputTop.start > Start) {
                     hooks.ContentTop = null;
                 }
-                if (inputRight.message != null && inputRight.start > start) {
+                if (inputRight.message != null && inputRight.start > Start) {
                     hooks.ContentRight = null;
                 }
-                if (inputLeft.start <= start) {
+                if (inputLeft.start <= Start) {
                     hooks.ContentLeft = inputLeft.message;
                     hooks.onLeft = inputLeft.onClick;
                 }
-                if (inputTop.start <= start) {
+                if (inputTop.start <= Start) {
                     hooks.ContentTop = inputTop.message;
                     hooks.onTop = inputTop.onClick;
                 }
-                if (inputRight.start <= start) {
+                if (inputRight.start <= Start) {
                     hooks.ContentRight = inputRight.message;
                     hooks.onRight = inputRight.onClick;
                 }

@@ -22,6 +22,7 @@ namespace VT {
 
         public void Set(Topic currentTopic) {
             this.currentTopic = currentTopic;
+            start = 0.0f;
             activeTopLine = null;
             activeBottomLine = null;
             if (hooks) {
