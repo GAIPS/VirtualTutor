@@ -32,16 +32,13 @@ namespace VT {
                     hooks.ContentLeft = null;
                     hooks.ContentTop = null;
                     hooks.ContentRight = null;
+                    hooks.ContentExtra = null;
                     hooks.onLeft = currentTopic.Inputs[0].onClick;
                     hooks.onTop = currentTopic.Inputs[1].onClick;
                     hooks.onRight = currentTopic.Inputs[2].onClick;
-                    if (currentTopic.Inputs.Length == 4) {
-                        hooks.ContentExtra = currentTopic.Inputs[3].message;
+                    if (currentTopic.Inputs.Length > 3) {
                         hooks.onExtra = currentTopic.Inputs[3].onClick;
-					
                     }
-                    if (currentTopic.Inputs.Length < 4)
-                        hooks.ContentExtra = "";
                 }
             }
             return ret;
@@ -54,26 +51,40 @@ namespace VT {
             Topic.Input inputTop = currentTopic.Inputs[1];
             Topic.Input inputRight = currentTopic.Inputs[2];
             if (hooks && started) {
-                if (inputLeft.message != null && inputLeft.start > Start) {
-                    hooks.ContentLeft = null;
-                }
-                if (inputTop.message != null && inputTop.start > Start) {
-                    hooks.ContentTop = null;
-                }
-                if (inputRight.message != null && inputRight.start > Start) {
-                    hooks.ContentRight = null;
-                }
                 if (inputLeft.start <= Start) {
                     hooks.ContentLeft = inputLeft.message;
                     hooks.onLeft = inputLeft.onClick;
+                } else {
+                    if (inputLeft.message != null) {
+                        hooks.ContentLeft = null;
+                    }
                 }
                 if (inputTop.start <= Start) {
                     hooks.ContentTop = inputTop.message;
                     hooks.onTop = inputTop.onClick;
+                } else {
+                    if (inputTop.message != null) {
+                        hooks.ContentTop = null;
+                    }
                 }
                 if (inputRight.start <= Start) {
                     hooks.ContentRight = inputRight.message;
                     hooks.onRight = inputRight.onClick;
+                } else {
+                    if (inputRight.message != null) {
+                        hooks.ContentRight = null;
+                    }
+                }
+                if (currentTopic.Inputs.Length > 3) {
+                    Topic.Input inputExtra = currentTopic.Inputs[3];
+                    if (inputExtra.start <= Start) {
+                        hooks.ContentExtra = inputExtra.message;
+                        hooks.onExtra = inputExtra.onClick;
+                    } else {
+                        if (inputExtra.message != null) {
+                            hooks.ContentExtra = null;
+                        }
+                    }
                 }
 
             }
