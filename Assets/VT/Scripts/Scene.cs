@@ -93,7 +93,7 @@ namespace VT {
 						else if (clickedCourse == course2)
 							aLHours += 3.0f;
                         var topic2 = topics[currentTopicName];
-						topics["prePlan"].Lines[1].Content = "We reccomend you to study " + ALHours +" hours weekly this week for Algebra and "+ FPHours+" hours of Foundations of Programming";
+						topics["prePlan"].Lines[1].Content = "Para Álgebra recomendamos estudar " + ALHours + " horas semanais e para Fundamentos da Programação " + FPHours + " horas semanais";
                         threePartsControl.SetAndShow(topic2);
                         expressionsControl.SetAndShow(topic2);
                         coursesControl.Disable();
@@ -105,7 +105,7 @@ namespace VT {
                         currentTopicName = "badTestTopic";
 						fPHours = fPHours + 2.0f;
 						Debug.Log(FPHours);
-						topics["prePlan"].Lines[1].Content = "We reccomend you to study " + ALHours +" hours weekly this week for Algebra and "+ FPHours+" hours of Foundations of Programming";
+						topics["prePlan"].Lines[1].Content = "Para Álgebra recomendamos estudar " + ALHours + " horas semanais e para Fundamentos da Programação " + FPHours + " horas semanais";
 						var topic2 = topics[currentTopicName];
                         threePartsControl.SetAndShow(topic2);
                         expressionsControl.SetAndShow(topic2);
@@ -120,7 +120,7 @@ namespace VT {
                         var topic2 = topics[currentTopicName];
 						fPHours += 1.0f;
 						Debug.Log(FPHours);
-						topics["prePlan"].Lines[1].Content = "We reccomend you to study " + ALHours +" hours weekly this week for Algebra and "+ FPHours+" hours of Foundations of Programming";
+						topics["prePlan"].Lines[1].Content = "Para Álgebra recomendamos estudar " + ALHours + " horas semanais e para Fundamentos da Programação " + FPHours + " horas semanais";
                         threePartsControl.SetAndShow(topic2);
                         expressionsControl.SetAndShow(topic2);
                         coursesControl.Disable();
@@ -131,7 +131,7 @@ namespace VT {
                         agents[1].CurrentEmotion = Agent.EmotionType.SMILING;
                         currentTopicName = "expectedTest";
 						fPHours -=1.0f;
-						topics["prePlan"].Lines[1].Content = "We reccomend you to study " + ALHours +" hours weekly this week for Algebra and "+ FPHours+" hours of Foundations of Programming";
+						topics["prePlan"].Lines[1].Content = "Para Álgebra recomendamos estudar " + ALHours + " horas semanais e para Fundamentos da Programação " + FPHours + " horas semanais";
                         var topic2 = topics[currentTopicName];
                         threePartsControl.SetAndShow(topic2);
                         expressionsControl.SetAndShow(topic2);
@@ -143,7 +143,7 @@ namespace VT {
                         agents[1].CurrentEmotion = Agent.EmotionType.LIKES;
                         currentTopicName = "greatTest";
 						fPHours -= 2.0f;
-						topics["prePlan"].Lines[1].Content = "We reccomend you to study " + ALHours +" hours weekly this week for Algebra and "+ FPHours+" hours of Foundations of Programming";
+						topics["prePlan"].Lines[1].Content = "Para Álgebra recomendamos estudar " + ALHours + " horas semanais e para Fundamentos da Programação " + FPHours + " horas semanais";
                         var topic2 = topics[currentTopicName];
                         threePartsControl.SetAndShow(topic2);
                         expressionsControl.SetAndShow(topic2);
@@ -155,7 +155,7 @@ namespace VT {
                         agents[1].CurrentEmotion = Agent.EmotionType.CRYING;
                         currentTopicName = "badTestTopic";
 						aLHours +=2.0f;
-						topics["prePlan"].Lines[1].Content = "We reccomend you to study " + ALHours +" hours weekly this week for Algebra and "+ FPHours+" hours of Foundations of Programming";
+						topics["prePlan"].Lines[1].Content ="Para Álgebra recomendamos estudar " + ALHours + " horas semanais e para Fundamentos da Programação " + FPHours + " horas semanais";
                         var topic2 = topics[currentTopicName];
                         threePartsControl.SetAndShow(topic2);
                         expressionsControl.SetAndShow(topic2);
