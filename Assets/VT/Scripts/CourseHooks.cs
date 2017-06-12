@@ -7,24 +7,8 @@ namespace VT {
     public class CourseHooks : Hooks {
 //        [SerializeField]
 //        private GameObject confirm = null;
-        [SerializeField]
-        private GameObject newAddition = null;
-        [SerializeField]
-        private GameObject oldAddition = null;
-        [SerializeField]
-        private GameObject checkPoint2Add = null;
-        [SerializeField]
-        private GameObject newRubber = null;
-        [SerializeField]
-        private GameObject checkPoint2Rubber = null;
-        [SerializeField]
-        private GameObject oldRubber = null;
-        [SerializeField]
-        private GameObject oldInput = null;
-        [SerializeField]
-        private GameObject newInput = null;
-        [SerializeField]
-        private GameObject checkPoint2Input = null;
+		[SerializeField]
+		private Text newGradeText = null;
         [SerializeField]
         private Text checkPoint2DateText = null;
         [SerializeField]
@@ -56,18 +40,6 @@ namespace VT {
         [SerializeField]
         private Text checkpoint5Title = null;
         public VoidFunc onConfirm;
-        public VoidFunc onOldPlus;
-        public VoidFunc onNewPlus;
-        public VoidFunc onCheck2Plus;
-        public VoidFunc onNewRubber;
-        public VoidFunc onOldRubber;
-        public VoidFunc onCheck2Rubber;
-        public StringFunc onOldInput;
-        public StringFunc onNewInput;
-        public StringFunc onCheck2Input;
-        public VoidFunc sendOldgrade;
-        public VoidFunc sendNewGrade;
-        public VoidFunc sendCheck2Grade;
         public BoolFunc toggle;
         public FloatFunc EaseSlider;
         public FloatFunc onLikeSlider;
@@ -89,138 +61,23 @@ namespace VT {
             onImportanceSlider(value);
         }
 
-        public void UISendOldGrade(string value) {
-            if (sendOldgrade == null)
-                return;
-            sendOldgrade();
-        }
-
-        public void UISendNewGrade(string value) {
-            if (sendNewGrade == null)
-                return;
-            sendNewGrade();
-        }
-
-        public void UISendCheck2Grade(string value) {
-            if (sendCheck2Grade == null)
-                return;
-            sendCheck2Grade();
-        }
-
-        public void UINewAddition() {
-            if (onNewPlus == null)
-                return;
-            newInput.SetActive(true);
-            newRubber.SetActive(true);
-            newAddition.SetActive(false);
-
-            onNewPlus();
-        }
-
-        public void UIOldPlus() {
-            if (onOldPlus == null)
-                return;
-            oldInput.SetActive(true);
-            oldRubber.SetActive(true);
-            oldAddition.SetActive(false);
-            onOldPlus();
-        }
-
-        public void UICheck2Plus() {
-            if (onCheck2Plus == null)
-                return;
-            checkPoint2Input.SetActive(true);
-            checkPoint2Rubber.SetActive(true);
-            checkPoint2Add.SetActive(false);
-            onCheck2Plus();
-        }
-
-        public void UINewRubber() {
-            if (onNewRubber == null)
-                return;
-            newRubber.SetActive(false);
-            newInput.SetActive(false);
-            newAddition.SetActive(true);
-            onNewRubber();
-        }
-
-        public void UIOldRubber() {
-            if (onOldRubber == null)
-                return;
-            oldRubber.SetActive(false);
-            oldInput.SetActive(false);
-            oldAddition.SetActive(true);
-            onOldRubber();
-        }
-
-        public void UICheck2Rubber() {
-            if (onCheck2Rubber == null)
-                return;
-            checkPoint2Rubber.SetActive(false);
-            checkPoint2Input.SetActive(false);
-            checkPoint2Add.SetActive(true);
-            onCheck2Rubber();
-        }
-
-        public void UIOldInput(string value) {
-            onOldInput(value);
-        }
+       
 
         public void UIEaseSlider(float value) {
             value = EasySlider.value;
             EaseSlider(value);
 
         }
-
-        public void UICheck2Input(string value) {
-            onCheck2Input(value);
-            CheckPoint2GradeText = value;
-        }
-
-        public void UINewInput(string value) {
-            onNewInput(value);
-            NewGradeText = value;
-        }
-
+			
+       
         public void UIToggle(bool value) {
             if (toggle == null)
                 return;
             toggle(value);
         }
 
-        public string OldGradeText {
-            get {
-                var input = this.oldInput.GetComponent<InputField>();
-                if (input) {
-                    return input.text;
-                }
-                return string.Empty;
-            }
-            set {
-                var input = this.oldInput.GetComponent<InputField>();
-                if (input) {
-                    if (!string.IsNullOrEmpty(value) && !value.Equals(input.text))
-                        input.text = value;
-                }
-            }
-        }
-
-        public string NewGradeText {
-            get {
-                var input = this.newInput.GetComponent<InputField>();
-                if (input) {
-                    return input.text;
-                }
-                return string.Empty;
-            }
-            set {
-                var input = this.newInput.GetComponent<InputField>();
-                if (input) {
-                    if (!string.IsNullOrEmpty(value) && !value.Equals(input.text))
-                        input.text = value;
-                }
-            }
-        }
+       
+       
 
         public string CheckPoint3Date {
             get { 
@@ -231,6 +88,16 @@ namespace VT {
                     checkPoint3Date.text = value;
             }
         }
+
+		public string NewGradeText{
+			get{
+				return this.newGradeText.text;
+			}
+			set{ 
+				if (!string.IsNullOrEmpty (value) && !value.Equals (this.newGradeText.text))
+					newGradeText.text = value;
+			}
+		}
 
         public string CheckPoint2DateText {
             get {
@@ -270,22 +137,7 @@ namespace VT {
             }
         }
 
-        public string CheckPoint2GradeText {
-            get {
-                var input = this.checkPoint2Input.GetComponent<InputField>();
-                if (input) {
-                    return input.text;
-                }
-                return string.Empty;
-            }
-            set {
-                var input = this.checkPoint2Input.GetComponent<InputField>();
-                if (input) {
-                    if (!string.IsNullOrEmpty(value) && !value.Equals(input.text))
-                        input.text = value;
-                }
-            }
-        }
+        
 
         public bool CheckPoint3Value {
             get {

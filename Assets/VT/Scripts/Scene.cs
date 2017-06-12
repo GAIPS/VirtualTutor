@@ -21,6 +21,8 @@ namespace VT {
         private float start = 0.0f;
 		private float aLHours = 4.0f;
 		private float fPHours = 5.0f;
+
+
 		private string wordToParse;
         Course clickedCourse;
         private string currentTopicName;
@@ -76,7 +78,16 @@ namespace VT {
         }
 
         public void OpenCourse() {
-            float evaluationResult = 0;
+			float evaluationResult = 0;
+			if (clickedCourse == course1) {
+				var test = course1.Checkpoints ["test2"] as Evaluation;
+				string grade = test.Score;
+				evaluationResult = Convert.ToSingle (grade);
+			} else if (clickedCourse == course2) {
+				var test = course2.Checkpoints ["test2"] as Evaluation;
+				string grade = test.Score;
+				evaluationResult = Convert.ToSingle (grade);
+			}
             courseControl.SetAndShow(
                 () => {
 					
@@ -193,31 +204,10 @@ namespace VT {
                         threePartsControl.SetAndShow(topic2);
                         expressionsControl.SetAndShow(topic2);
                         coursesControl.Disable();
-                        courseControl.Disable();
-                    }
-				
-                }, 
-                () => {
-                },
-                () => {
-                },
-                () => {
-                },
-                () => {
-                },
-                (string value) => {
-                    //			test1Value =	float.Parse (value);
-                },
-                (string value) => {
-                    evaluationResult = float.Parse(value);
-                }, () => {
-                },
-                () => {
-                }, () => {
-                }, () => {
-                }, () => {
-                }, (string value) => {
-                }, (bool value) => {
+						courseControl.Disable();}
+				}
+					, evaluationResult.ToString(),
+                    (bool value) => {
                     var revision = clickedCourse.Checkpoints["revision"] as CheckBoxPoint;
                     if (revision != null)
                         revision.Done = value;

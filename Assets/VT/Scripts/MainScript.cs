@@ -104,7 +104,7 @@ namespace VT {
                                       "07/05/2017",
                                       4,
                                       4,
-                                      "");
+                                      "20.0");
             Evaluation test3 = new Evaluation("3º Teste",
                                       "22/06/2017",
                                       4,
@@ -134,7 +134,7 @@ namespace VT {
                                          "09/05/2017",
                                          3,
                                          4,
-                                         "");
+                                         "13.0");
             Evaluation c2Test4 = new Evaluation("4º Teste",
                                         "2/06/2017",
                                         3,
@@ -145,6 +145,8 @@ namespace VT {
             demoScene.course2.Checkpoints.Add("revision", achievment);
             demoScene.course2.Checkpoints.Add("test2", c2Teste3);
             demoScene.course2.Checkpoints.Add("test3", c2Test4);
+
+
 
             Line l1 = new Line("Olá, é bom vê-lo depois destes dois dias.",
                        happy,
@@ -232,10 +234,9 @@ namespace VT {
                                grumpy,
                                0.0f,
                                8.0f);
-            Line l8 = new Line("Don't be mean", happy, 4.0f, 12.0f);
+          
             List<Line> newInfo = new List<Line>();
             newInfo.Add(l7);
-            newInfo.Add(l8);
             Topic.Input[] inputs1 =
                 {new Topic.Input("", () => {
                       
