@@ -188,7 +188,7 @@ namespace VT {
                         demoScene.changeTopic("talkAbout");	
                     }, 1.5f), 
                 new Topic.Input(
-                    "Tenho nova informação",
+                    "Consultar informação",
                     () => {
 						
                         happy.CurrentEmotion = Agent.EmotionType.SMILING;
@@ -230,7 +230,7 @@ namespace VT {
             demoScene.topics.Add("nonDeveloped", nonDeveloped);
 
             //new Info?
-            Line l7 = new Line("Introduza a nova informação.",
+            Line l7 = new Line("Aqui poderá consultar informação referente às cadeiras.",
                                grumpy,
                                0.0f,
                                8.0f);
@@ -502,7 +502,7 @@ namespace VT {
                             happy.CurrentEmotion = Agent.EmotionType.SMILING;
                             grumpy.CurrentEmotion = Agent.EmotionType.SMILING;
                             demoScene.changeTopic("twoDaysTopic");
-                        }, 1.5f), new Topic.Input("Tenho nova informação", () => {
+                        }, 1.5f), new Topic.Input("Conslutar informação", () => {
                             happy.CurrentEmotion = Agent.EmotionType.SMILING;
                             grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
                             demoScene.changeTopic("newInfoTopic");
@@ -685,7 +685,7 @@ namespace VT {
             Topic noAnswPlan = new Topic(noAnswerPlan, emptyInputs);
             demoScene.topics.Add("noAnswPlan", noAnswPlan);
 
-            Line l59 = new Line("Uma nova informação? Será uma avaliação?",
+            Line l59 = new Line("Será  que vai ver os resultados de uma avaliação?",
                                 happy,
                                 0.0f,
                                 8.0f);
@@ -721,7 +721,7 @@ namespace VT {
                             grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
                             demoScene.changeTopic("help");
                         }, 3.0f), new Topic.Input("", () => {
-                        }), new Topic.Input("Tenho uma nova informação", () => {
+                        }), new Topic.Input("Consultar informação", () => {
                             happy.CurrentEmotion = Agent.EmotionType.SMILING;
                             grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
                             demoScene.changeTopic("newInfoTopic");
