@@ -341,7 +341,7 @@ namespace VT {
 				changeTopic ("noAnswTest");
 			} else if (start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 5.0f && currentTopicName == "prePlan")
 				OpenCalendar ();
-			else if (start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 1.0f && currentTopicName == "newInfoTopic") {
+			else if (start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End && currentTopicName == "newInfoTopic") {
 				agents [0].CurrentEmotion = Agent.EmotionType.IMPATIENT;
 				agents [1].CurrentEmotion = Agent.EmotionType.SUBMISSIVE;
 				changeTopic ("onActivity");
