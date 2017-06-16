@@ -46,9 +46,7 @@ namespace VT {
                         hooks.Audios = new List<AudioClip>();
                     if (hooks.AudiosFemale == null)
                         hooks.AudiosFemale = new List<AudioClip>();
-
-				
-				
+                    hooks.onClick = skipLine;
                 }
             }
             return ret;
@@ -136,6 +134,18 @@ namespace VT {
             }
             set {
                 start = value;
+            }
+        }
+
+        private void skipLine() {
+            for (int i = 0; i < currentTopic.Lines.Count; i++) {
+                Line l = currentTopic.Lines[i];
+                if (l.Start > start) {
+                    start = l.Start;
+                    break;
+                } else if (i == currentTopic.Lines.Count - 1) {
+                    start = l.End;
+                }
             }
         }
 	

@@ -34,6 +34,7 @@ namespace VT {
         private List<AudioClip> audiosFemale = null;
         public bool useTTS = true;
         public TTSSpeakerUnityOnline ttsSpeaker;
+        public VoidFunc onClick;
 
         public string LeftContent {
             get{ return this.leftText.text; }
@@ -148,5 +149,10 @@ namespace VT {
             }
         }
 		
+        public void onClickUI() {
+            if (onClick != null) {
+                onClick();
+            }
+        }
     }
 }
