@@ -148,11 +148,11 @@ namespace VT {
 
 
 
-            Line l1 = new Line("Olá, é bom vê-lo depois destes dois dias.",
+            Line l1 = new Line("Olá, é bom vê-lo depois destes dois dias",
                        happy,
                        0.0f,
                        8.0f);
-            Line l2 = new Line("Estava curioso em saber se vinha",
+            Line l2 = new Line("Estava curioso em saber se vinha, aproveito para informar que sairam as notas dos testes de AL e FP ",
                        grumpy,
                        4.0f,
                        12.0f);
@@ -492,7 +492,6 @@ namespace VT {
                                 happy,
                                 0.0f,
                                 8.0f);
-            Line l35 = new Line("So it is \" us\" now? ", grumpy, 4.0f, 12.0f);
             Topic.Input[] inputs8 =
                 { new Topic.Input("Gostaria de falar de....", () => {
                             happy.CurrentEmotion = Agent.EmotionType.SMILING;
@@ -510,7 +509,6 @@ namespace VT {
                 };
             List<Line> moreHelp = new List<Line>();
             moreHelp.Add(l34);
-            moreHelp.Add(l35);
             Topic help = new Topic(moreHelp, inputs8);
             demoScene.topics.Add("help", help);
 
