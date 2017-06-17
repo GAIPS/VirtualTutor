@@ -1,4 +1,4 @@
-﻿	using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -20,6 +20,12 @@ namespace VT {
         public ToggleImage pauseButton;
         private Scene scene;
 
+        /// <summary>
+        /// Selects the the dialog script that should be used.
+        /// 0 for formal and 1 for more personal dialog.
+        /// </summary>
+        public int dialogIndex = 0;
+
         private bool playing = false;
 
         // Use this for initialization
@@ -36,9 +42,9 @@ namespace VT {
             }
 			
             if (threeOptionsPrefab == null || ExpressionsPrefab == null
-            || coursesPrefab == null || coursePrefab == null
-            || calendar1Prefab == null || calendar2Prefab == null
-            || calendar3Prefab == null) {
+                || coursesPrefab == null || coursePrefab == null
+                || calendar1Prefab == null || calendar2Prefab == null
+                || calendar3Prefab == null) {
                 Debug.LogWarning("Some prefabs are null");
                 return;
             }
@@ -59,8 +65,15 @@ namespace VT {
             scene.calendar3Control = new Calendar3Control(calendar3Prefab);
             scene.discussControl = new DiscussControl(discussPrefab);
 
-           PopulateScene(scene);
-		//	PopulateScene2(scene);
+            switch (dialogIndex) {
+                case 1:
+                    PopulateScene2(scene);
+                    break;
+                case 0:
+                default:
+                    PopulateScene(scene);
+                    break;
+            }
 
             //start
             scene.changeTopic("Hello");
@@ -74,165 +87,166 @@ namespace VT {
                 scene.update(Time.deltaTime);
             }
         }
-		void PopulateScene2(Scene demoScene){
-			Agent happy = new Agent();
-			Agent grumpy = new Agent();
-			grumpy.IsLeft = false;
 
-			demoScene.agents.Add(happy);
-			demoScene.agents.Add(grumpy);
-			//Hello
-			happy.CurrentEmotion = Agent.EmotionType.SMILING;
-			grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
-			Evaluation test1 = new Evaluation("1º Teste",
-				"20/03/2017",
-				4,
-				4,
-				"12.0");
-			Evaluation project1 = new Evaluation("1º Projecto",
-				"04/04/2017",
-				3,
-				4,
-				"16.0");
-			CheckBoxPoint revision = new CheckBoxPoint("PDF Aula nº 20",
-				"08/04/2017",
-				1,
-				3,
-				true);
-			Evaluation test2 = new Evaluation("2º Teste",
-				"07/05/2017",
-				4,
-				4,
-				"20.0");
-			Evaluation test3 = new Evaluation("3º Teste",
-				"22/06/2017",
-				4,
-				4,
-				"18.0");
-			demoScene.course1.Checkpoints.Add("test1", test1);
-			demoScene.course1.Checkpoints.Add("project1", project1);
-			demoScene.course1.Checkpoints.Add("revision", revision);
-			demoScene.course1.Checkpoints.Add("test2", test2);
-			demoScene.course1.Checkpoints.Add("test3", test3);
-			Evaluation c2Test1 = new Evaluation("1º Teste",
-				"13/03/2017",
-				3,
-				4,
-				"14.0");
-			Evaluation c2Test2 = new Evaluation("2º Teste",
-				"15/04/2017",
-				3,
-				4,
-				"12.0");
-			CheckBoxPoint achievment = new CheckBoxPoint("Aula de Dúvidas",
-				"08/05/2017",
-				1,
-				3,
-				false);
-			Evaluation c2Teste3 = new Evaluation("3º Teste",
-				"09/05/2017",
-				3,
-				4,
-				"13.0");
-			Evaluation c2Test4 = new Evaluation("4º Teste",
-				"2/06/2017",
-				3,
-				4,
-				"11.0");
-			demoScene.course2.Checkpoints.Add("test1", c2Test1);
-			demoScene.course2.Checkpoints.Add("project1", c2Test2);
-			demoScene.course2.Checkpoints.Add("revision", achievment);
-			demoScene.course2.Checkpoints.Add("test2", c2Teste3);
-			demoScene.course2.Checkpoints.Add("test3", c2Test4);
+        void PopulateScene2(Scene demoScene) {
+            Agent happy = new Agent();
+            Agent grumpy = new Agent();
+            grumpy.IsLeft = false;
+
+            demoScene.agents.Add(happy);
+            demoScene.agents.Add(grumpy);
+            //Hello
+            happy.CurrentEmotion = Agent.EmotionType.SMILING;
+            grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+            Evaluation test1 = new Evaluation("1º Teste",
+                                              "20/03/2017",
+                                              4,
+                                              4,
+                                              "12.0");
+            Evaluation project1 = new Evaluation("1º Projecto",
+                                                 "04/04/2017",
+                                                 3,
+                                                 4,
+                                                 "16.0");
+            CheckBoxPoint revision = new CheckBoxPoint("PDF Aula nº 20",
+                                                       "08/04/2017",
+                                                       1,
+                                                       3,
+                                                       true);
+            Evaluation test2 = new Evaluation("2º Teste",
+                                              "07/05/2017",
+                                              4,
+                                              4,
+                                              "20.0");
+            Evaluation test3 = new Evaluation("3º Teste",
+                                              "22/06/2017",
+                                              4,
+                                              4,
+                                              "18.0");
+            demoScene.course1.Checkpoints.Add("test1", test1);
+            demoScene.course1.Checkpoints.Add("project1", project1);
+            demoScene.course1.Checkpoints.Add("revision", revision);
+            demoScene.course1.Checkpoints.Add("test2", test2);
+            demoScene.course1.Checkpoints.Add("test3", test3);
+            Evaluation c2Test1 = new Evaluation("1º Teste",
+                                                "13/03/2017",
+                                                3,
+                                                4,
+                                                "14.0");
+            Evaluation c2Test2 = new Evaluation("2º Teste",
+                                                "15/04/2017",
+                                                3,
+                                                4,
+                                                "12.0");
+            CheckBoxPoint achievment = new CheckBoxPoint("Aula de Dúvidas",
+                                                         "08/05/2017",
+                                                         1,
+                                                         3,
+                                                         false);
+            Evaluation c2Teste3 = new Evaluation("3º Teste",
+                                                 "09/05/2017",
+                                                 3,
+                                                 4,
+                                                 "13.0");
+            Evaluation c2Test4 = new Evaluation("4º Teste",
+                                                "2/06/2017",
+                                                3,
+                                                4,
+                                                "11.0");
+            demoScene.course2.Checkpoints.Add("test1", c2Test1);
+            demoScene.course2.Checkpoints.Add("project1", c2Test2);
+            demoScene.course2.Checkpoints.Add("revision", achievment);
+            demoScene.course2.Checkpoints.Add("test2", c2Teste3);
+            demoScene.course2.Checkpoints.Add("test3", c2Test4);
 
 
 
-			Line l1 = new Line("Bom dia amigo, é bom vê-lo depois destes dois dias, aporveito para o informar que as notas de AL e FP já saíram.",
-				happy,
-				0.0f,
-				8.0f);
-			Line l2 = new Line("Estava curioso em saber se vinha, pode consultar as notas das cadeiras nos seus respetivos menus",
-				grumpy,
-				4.0f,
-				12.0f);
-			Line l3 = new Line("Em que o podemos ajudar?",
-				happy,
-				12.5f,
-				20.5f);
-			List<Line> lines = new List<Line>();
-			lines.Add(l1);
-			lines.Add(l2);
-			lines.Add(l3);
-			lines = lines.OrderBy(l => l.Start).ToList();
-			Topic.Input[] inputs =
-			{
-				new Topic.Input(
-					"Lembrem-me...", () => {
+            Line l1 = new Line("Bom dia amigo, é bom vê-lo depois destes dois dias, aporveito para o informar que as notas de AL e FP já saíram.",
+                               happy,
+                               0.0f,
+                               8.0f);
+            Line l2 = new Line("Estava curioso em saber se vinha, pode consultar as notas das cadeiras nos seus respetivos menus.",
+                               grumpy,
+                               4.0f,
+                               12.0f);
+            Line l3 = new Line("Em que o podemos ajudar?",
+                               happy,
+                               12.5f,
+                               20.5f);
+            List<Line> lines = new List<Line>();
+            lines.Add(l1);
+            lines.Add(l2);
+            lines.Add(l3);
+            lines = lines.OrderBy(l => l.Start).ToList();
+            Topic.Input[] inputs =
+                {
+                    new Topic.Input(
+                        "Lembrem-me...", () => {
 
-						happy.CurrentEmotion = Agent.EmotionType.SMILING;
-						grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
-						demoScene.changeTopic("reminder");
-					}, 1.5f), 
-				new Topic.Input(
-					"Gostaria de falar de ...",
-					() => {
+                            happy.CurrentEmotion = Agent.EmotionType.SMILING;
+                            grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+                            demoScene.changeTopic("reminder");
+                        }, 1.5f), 
+                    new Topic.Input(
+                        "Gostaria de falar de...",
+                        () => {
 
-						happy.CurrentEmotion = Agent.EmotionType.SMILING;
-						grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
-						demoScene.changeTopic("talkAbout");	
-					}, 1.5f), 
-				new Topic.Input(
-					"Consultar informação",
-					() => {
+                            happy.CurrentEmotion = Agent.EmotionType.SMILING;
+                            grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+                            demoScene.changeTopic("talkAbout");	
+                        }, 1.5f), 
+                    new Topic.Input(
+                        "Consultar informação",
+                        () => {
 
-						happy.CurrentEmotion = Agent.EmotionType.SMILING;
-						grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
-						demoScene.changeTopic("newInfoTopic");
-					}, 1.5f) 
-			};
-			Topic hello = new Topic(lines, inputs);
-			demoScene.topics.Add("Hello", hello);
-			//not developed
+                            happy.CurrentEmotion = Agent.EmotionType.SMILING;
+                            grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+                            demoScene.changeTopic("newInfoTopic");
+                        }, 1.5f) 
+                };
+            Topic hello = new Topic(lines, inputs);
+            demoScene.topics.Add("Hello", hello);
+            //not developed
 
-			Line l5 = new Line("Não podemos fazer nada disso agora. Malditos programadores.",
-				grumpy,
-				0.0f,
-				8.0f);
-			Line l6 = new Line("Assim que tivermos esta funcionalidade falaremos contigo.",
-				happy,
-				4.0f,
-				12.0f);
-			List<Line> nDLines = new List<Line>();
-			nDLines.Add(l5);
-			nDLines.Add(l6);
-			Topic.Input[] inputs2 =
-			{ new Topic.Input(
-				"está bem", () => {
-					happy.CurrentEmotion = Agent.EmotionType.SMILING;
-					grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
-					demoScene.changeTopic("Hello");
-				}, 1.5f),
-				new Topic.Input("", () => {
-					Debug.Log("top");
-				}, 1.5f),
-				new Topic.Input("fechem a aplicação por favor", () => {
-					Application.Quit();
-				}, 3.0f
-				)
-			};
-			Topic nonDeveloped = new Topic(nDLines, inputs2);
-			demoScene.topics.Add("nonDeveloped", nonDeveloped);
+            Line l5 = new Line("Não podemos fazer nada disso agora. Malditos programadores.",
+                               grumpy,
+                               0.0f,
+                               8.0f);
+            Line l6 = new Line("Assim que tivermos esta funcionalidade falaremos contigo.",
+                               happy,
+                               4.0f,
+                               12.0f);
+            List<Line> nDLines = new List<Line>();
+            nDLines.Add(l5);
+            nDLines.Add(l6);
+            Topic.Input[] inputs2 =
+                { new Topic.Input(
+                        "está bem", () => {
+                            happy.CurrentEmotion = Agent.EmotionType.SMILING;
+                            grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+                            demoScene.changeTopic("Hello");
+                        }, 1.5f),
+                    new Topic.Input("", () => {
+                            Debug.Log("top");
+                        }, 1.5f),
+                    new Topic.Input("fechem a aplicação por favor", () => {
+                            Application.Quit();
+                        }, 3.0f
+                    )
+                };
+            Topic nonDeveloped = new Topic(nDLines, inputs2);
+            demoScene.topics.Add("nonDeveloped", nonDeveloped);
 
-			//new Info?
-			Line l7 = new Line("Como sabe, aqui é onde vem para ver a informação das suas cadeiras.",
-				grumpy,
-				0.0f,
-				8.0f);
+            //new Info?
+            Line l7 = new Line("Como sabe, aqui é onde vem para ver a informação das suas cadeiras.",
+                      grumpy,
+                      0.0f,
+                      8.0f);
 
-			List<Line> newInfo = new List<Line>();
-			newInfo.Add(l7);
-			Topic.Input[] inputs1 =
-			{new Topic.Input("", () => {
+            List<Line> newInfo = new List<Line>();
+            newInfo.Add(l7);
+            Topic.Input[] inputs1 =
+                {new Topic.Input("", () => {
 
 			}), new Topic.Input("", () => {
 			}), new Topic.Input("", () => {
@@ -254,7 +268,7 @@ namespace VT {
 				happy,
 				12.5f,
 				20.5f);
-			Line l56 = new Line("Com ele vai poder estudar para o exame final e épica de recurso",
+			Line l56 = new Line("Com ele vai poder estudar para o exame final e épica de recurso.",
 				grumpy,
 				16.5f,
 				24.5f);
@@ -292,7 +306,7 @@ namespace VT {
 			//			happy.CurrentEmotion = Agent.EmotionType.SAD;
 			//			grumpy.CurrentEmotion = Agent.EmotionType.SAD;
 			//colar quando houver mudança
-			Line l12 = new Line("Devia ter estudado mais",
+			Line l12 = new Line("Devia ter estudado mais.",
 				grumpy,
 				0.0f,
 				8.0f);
@@ -300,7 +314,7 @@ namespace VT {
 				happy,
 				4.0f,
 				12.0f);
-			Line l14 = new Line("Uma alternativa é fazer um plano de estudo para tentar melhorar a nota",
+			Line l14 = new Line("Uma alternativa é fazer um plano de estudo para tentar melhorar a nota.",
 				happy,
 				12.5f,
 				20.5f);
@@ -440,7 +454,7 @@ namespace VT {
 				happy,
 				12.5f,
 				20.5f);
-			Line l58 = new Line("Aconselho-te a diminuir um pouco as horas",
+			Line l58 = new Line("Aconselho-te a diminuir um pouco as horas.",
 				grumpy,
 				16.5f,
 				24.5f);
@@ -508,11 +522,11 @@ namespace VT {
 
 			//		
 			//			// 2days with plan
-			Line l36 = new Line("Venha ver-nos em 2 dias para falarmos de outras coisas",
+			Line l36 = new Line("Venha ver-nos em 2 dias para falarmos de outras coisas.",
 				happy,
 				0.0f,
 				8.0f);
-			Line l37 = new Line("Tenho confiança que vai tudo correr bem até lá", grumpy, 4.0f, 12.0f);
+			Line l37 = new Line("Tenho confiança que vai tudo correr bem até lá.", grumpy, 4.0f, 12.0f);
 			Topic.Input[] inputs9 =
 			{ new Topic.Input("Até daqui a 2 dias", () => {
 				happy.CurrentEmotion = Agent.EmotionType.DOMINANT;
@@ -536,7 +550,7 @@ namespace VT {
 				happy,
 				0.0f,
 				8.0f);
-			Line l39 = new Line("Zangou-se connosco e já não nos quer",
+			Line l39 = new Line("Zangou-se connosco e já não nos quer.",
 				grumpy,
 				4.0f,
 				12.0f);
@@ -621,7 +635,7 @@ namespace VT {
 				grumpy,
 				0.0f,
 				8.0f);
-			Line l47 = new Line("E agora?.",
+			Line l47 = new Line("E agora?",
 				happy,
 				4.0f,
 				12.0f);
@@ -639,7 +653,7 @@ namespace VT {
 			demoScene.topics.Add("timeTopic", timeTopic);
 
 			//not answering test
-			Line l52 = new Line("É normal se não quiser falar sobre isso",
+			Line l52 = new Line("É normal se não quiser falar sobre isso.",
 				happy,
 				0.0f,
 				8.0f);
@@ -665,11 +679,11 @@ namespace VT {
 			demoScene.topics.Add("noAnswTest", noAnswTest);
 
 			//			//Not answering Bad plan
-			Line l54 = new Line("Ok they want to insist in this bad plan",
+			Line l54 = new Line("Se achas que é o melhor para si, eu apoio.",
 				grumpy,
 				0.0f,
 				8.0f);
-			Line l55 = new Line("We have to trust them", happy, 4.0f, 12.0f);
+			Line l55 = new Line("Nós apoiamos!", happy, 4.0f, 12.0f);
 			List<Line> noAnswerPlan = new List<Line>();
 
 			noAnswerPlan.Add(l54);
@@ -702,11 +716,11 @@ namespace VT {
 			demoScene.topics.Add("returnTopic", returnTopic);
 
 			List<Line> remindList = new List<Line>();
-			remindList.Add(new Line("Estamos à espera que o professor coloque a época de recurso no Moodle",
+			remindList.Add(new Line("Estamos à espera que o professor coloque a época de recurso no Moodle.",
 				happy,
 				0.5f,
 				10.0f));
-			remindList.Add(new Line("Por agora só sabemos isso", grumpy, 5.0f, 12.0f));
+			remindList.Add(new Line("Por agora só sabemos isso.", grumpy, 5.0f, 12.0f));
 			Topic.Input[] remindInputs =
 			{ new Topic.Input("Obrigado", () => {
 				happy.CurrentEmotion = Agent.EmotionType.SMILING;
@@ -726,7 +740,7 @@ namespace VT {
 				happy,
 				0.0f,
 				8.0f);
-			Line l67 = new Line("Por favor nada de problemas pessoais",
+			Line l67 = new Line("Por favor nada de problemas pessoais.",
 				grumpy,
 				4.0f,
 				12.0f);
@@ -753,11 +767,11 @@ namespace VT {
 			Topic talkAbout = new Topic(talkAboutList, talkInputs);
 			demoScene.topics.Add("talkAbout", talkAbout);
 
-			Line l70 = new Line("Em FP sabemos que teve um 12 no teste, um 16 no projeto e um 20 no segundo teste, além do teste que acabou de receber. ",
+			Line l70 = new Line("Em FP sabemos que teve um 12 no teste, um 16 no projeto e um 20 no segundo teste, além do teste que acabou de receber.",
 				happy,
 				0.0f,
 				8.0f);
-			Line l71 = new Line("Em AL teve um 14 no primeiro teste, um 12 no segundo,um 13 no terceiro e acabou de receber mais um. ",
+			Line l71 = new Line("Em AL teve um 14 no primeiro teste, um 12 no segundo,um 13 no terceiro e acabou de receber mais um.",
 				grumpy,
 				4.0f,
 				12.0f);
@@ -778,11 +792,11 @@ namespace VT {
 			Topic pastTopic = new Topic(pastTestList, pastInputs);
 			demoScene.topics.Add("pastTopic", pastTopic);
 
-			Line l74 = new Line("As coisas estão a correr bem a FP mas em AL estão a piorar",
+			Line l74 = new Line("As coisas estão a correr bem a FP mas em AL estão a piorar.",
 				grumpy,
 				0.0f,
 				8.0f);
-			Line l75 = new Line("Continue o bom trabalho a FP mas tente melhorar AL talvez fazer uma melhoria de nota", happy, 4.0f, 12.0f);
+			Line l75 = new Line("Continue o bom trabalho a FP mas tente melhorar AL talvez fazer uma melhoria de nota.", happy, 4.0f, 12.0f);
 			List<Line> balanceList = new List<Line>();
 
 			balanceList.Add(l74);
@@ -790,22 +804,22 @@ namespace VT {
 			Topic balance = new Topic(balanceList, pastInputs);
 			demoScene.topics.Add("balance", balance);
 
-			Line l76 = new Line("Faça um plano de estudo e cumpra-o",
+			Line l76 = new Line("Faça um plano de estudo e cumpra-o.",
 				happy,
 				0.0f,
 				8.0f);
-			Line l77 = new Line("Estude com antecedência para a época de recurso de AL", grumpy, 4.0f, 12.0f);
+			Line l77 = new Line("Estude com antecedência para a época de recurso de AL.", grumpy, 4.0f, 12.0f);
 			List<Line> tipsList = new List<Line>();
 			tipsList.Add(l76);
 			tipsList.Add(l77);
 			Topic tips = new Topic(tipsList, pastInputs);
 			demoScene.topics.Add("tips", tips);
 
-			Line l78 = new Line("Se desistir da cadeira, vamos deixar de dar apoio nesta em prol das outras",
+			Line l78 = new Line("Se desistir da cadeira, vamos deixar de dar apoio nesta em prol das outras.",
 				happy,
 				0.0f,
 				8.0f);
-			Line l79 = new Line("Já sabe que não há vergonha em tentar gerir o seu tempo",
+			Line l79 = new Line("Já sabe que não há vergonha em tentar gerir o seu tempo.",
 				grumpy,
 				4.0f,
 				12.0f);
@@ -826,8 +840,8 @@ namespace VT {
 			demoScene.topics.Add("quit", quit);
 
 
-			Line l84 = new Line("Não desista, companheiro", happy, 0.0f, 8.0f);
-			Line l85 = new Line("Esta cadeira é demasiado importante para isso",
+			Line l84 = new Line("Não desista, companheiro.", happy, 0.0f, 8.0f);
+			Line l85 = new Line("Esta cadeira é demasiado importante para isso.",
 				grumpy,
 				4.0f,
 				12.0f);
@@ -844,11 +858,11 @@ namespace VT {
 			Topic dontQuit = new Topic(dontQuitList, quitInputs);
 			demoScene.topics.Add("dontQuit", dontQuit);
 
-			Line l81 = new Line("Se precisar, contataremos o seu tutor",
+			Line l81 = new Line("Se precisar, contataremos o seu tutor.",
 				happy,
 				0.0f,
 				8.0f);
-			Line l82 = new Line("Notificá-lo-emos da sua situação",
+			Line l82 = new Line("Notificá-lo-emos da sua situação.",
 				grumpy,
 				4.0f,
 				12.0f);
@@ -864,7 +878,7 @@ namespace VT {
 				happy,
 				0.0f,
 				8.0f);
-			Line l89 = new Line("Para Álgebra recomendamos estudar " + demoScene.ALHours + " horas semanais e para Fundamentos da Programação " + demoScene.FPHours + " horas semanais",
+			Line l89 = new Line("Para Álgebra recomendamos estudar " + demoScene.ALHours + " horas semanais e para Fundamentos da Programação " + demoScene.FPHours + " horas semanais.",
 				grumpy,
 				4.0f,
 				12.0f);
@@ -877,15 +891,15 @@ namespace VT {
 
 
 			Line l90 = new Line("Oh não, foi mesmo abaixo do que estávamos à espera!", happy, 0.0f, 8.0f);
-			Line l91 = new Line("Estou muito triste",
+			Line l91 = new Line("Estou muito triste.",
 				grumpy,
 				4.0f,
 				12.0f);
-			Line l92 = new Line("Quer que façamos um plano de estudo? Vamos melhorar isto",
+			Line l92 = new Line("Quer que façamos um plano de estudo? Vamos melhorar isto.",
 				happy,
 				12.5f,
 				20.5f);
-			Line l93 = new Line("Falaremos com o seu tutor para avisar da situação",
+			Line l93 = new Line("Falaremos com o seu tutor para avisar da situação.",
 				grumpy,
 				16.5f,
 				24.5f);
@@ -989,11 +1003,11 @@ namespace VT {
 
 
 
-            Line l1 = new Line("Olá, é bom vê-lo depois destes dois dias",
+            Line l1 = new Line("Olá, é bom vê-lo depois destes dois dias.",
                        happy,
                        0.0f,
                        8.0f);
-            Line l2 = new Line("Estava curioso em saber se vinha, aproveito para informar que sairam as notas dos testes de AL e FP ",
+            Line l2 = new Line("Estava curioso em saber se vinha, aproveito para informar que sairam as notas dos testes de AL e FP.",
                        grumpy,
                        4.0f,
                        12.0f);
@@ -1001,7 +1015,7 @@ namespace VT {
                        happy,
                        12.5f,
                        20.5f);
-            Line l4 = new Line("Quero lembrá-lo que tem um checkpoint em duas semanas",
+            Line l4 = new Line("Quero lembrá-lo que tem um checkpoint em duas semanas.",
                        grumpy,
                        16.5f,
                        24.5f);
@@ -1147,7 +1161,7 @@ namespace VT {
                                 happy,
                                 4.0f,
                                 12.0f);
-            Line l14 = new Line("Aconselho a fazer um plano de estudo para tentar melhorar a nota",
+            Line l14 = new Line("Aconselho a fazer um plano de estudo para tentar melhorar a nota.",
                                 happy,
                                 12.5f,
                                 20.5f);
@@ -1202,7 +1216,7 @@ namespace VT {
                                 happy,
                                 12.5f,
                                 20.5f);
-            Line l57 = new Line("Continue o bom trabalho", grumpy, 16.5f, 24.5f);
+            Line l57 = new Line("Continue o bom trabalho.", grumpy, 16.5f, 24.5f);
             List<Line> expected = new List<Line>();
             expected.Add(l17);
             expected.Add(l18);
@@ -1287,7 +1301,7 @@ namespace VT {
                                 happy,
                                 12.5f,
                                 20.5f);
-            Line l58 = new Line("Aconselho-te a diminuir um pouco as horas",
+            Line l58 = new Line("Aconselho-te a diminuir um pouco as horas.",
                                 grumpy,
                                 16.5f,
                                 24.5f);
@@ -1355,11 +1369,11 @@ namespace VT {
 
 //		
 //			// 2days with plan
-            Line l36 = new Line("Venha ver-nos em 2 dias para vermos se o plano funciona",
+            Line l36 = new Line("Venha ver-nos em 2 dias para vermos se o plano funciona.",
                                 happy,
                                 0.0f,
                                 8.0f);
-            Line l37 = new Line("Espero que venha", grumpy, 4.0f, 12.0f);
+            Line l37 = new Line("Espero que venha.", grumpy, 4.0f, 12.0f);
             Topic.Input[] inputs9 =
                 { new Topic.Input("Até daqui a 2 dias", () => {
                             happy.CurrentEmotion = Agent.EmotionType.DOMINANT;
@@ -1383,7 +1397,7 @@ namespace VT {
                                 happy,
                                 0.0f,
                                 8.0f);
-            Line l39 = new Line("Talvez não nos queira ver",
+            Line l39 = new Line("Talvez não nos queira ver.",
                                 grumpy,
                                 4.0f,
                                 12.0f);
@@ -1440,7 +1454,7 @@ namespace VT {
             demoScene.topics.Add("exit2Topic", exit2Topic);
 //
 //			//exit 7 days
-            Line l43 = new Line("Tudo bem, vemo-nos em 7 dias", happy, 0.0f, 8.0f);
+            Line l43 = new Line("Tudo bem, vemo-nos em 7 dias.", happy, 0.0f, 8.0f);
             List<Line> exit3 = new List<Line>();
             exit3.Add(l43);
             exit3.Add(l41);
@@ -1452,7 +1466,7 @@ namespace VT {
                                 grumpy,
                                 0.0f,
                                 8.0f);
-            Line l45 = new Line("Vemo-nos quando aparecer",
+            Line l45 = new Line("Vemo-nos quando aparecer.",
                                 happy,
                                 4.0f,
                                 12.0f);
@@ -1468,7 +1482,7 @@ namespace VT {
                                 grumpy,
                                 0.0f,
                                 8.0f);
-            Line l47 = new Line("E agora?.",
+            Line l47 = new Line("E agora?",
                                 happy,
                                 4.0f,
                                 12.0f);
@@ -1486,7 +1500,7 @@ namespace VT {
             demoScene.topics.Add("timeTopic", timeTopic);
 
             //not answering test
-            Line l52 = new Line("Suponho que não queira falar sobre isso",
+            Line l52 = new Line("Suponho que não queira falar sobre isso.",
                                 happy,
                                 0.0f,
                                 8.0f);
@@ -1549,11 +1563,11 @@ namespace VT {
             demoScene.topics.Add("returnTopic", returnTopic);
 
             List<Line> remindList = new List<Line>();
-            remindList.Add(new Line("Sabemos que tem um momento importante daqui a 10 dias",
+            remindList.Add(new Line("Sabemos que tem um momento importante daqui a 10 dias.",
                                     happy,
                                     0.5f,
                                     10.0f));
-            remindList.Add(new Line("Por agora só sabemos isso", grumpy, 5.0f, 12.0f));
+            remindList.Add(new Line("Por agora só sabemos isso.", grumpy, 5.0f, 12.0f));
             Topic.Input[] remindInputs =
                 { new Topic.Input("Obrigado", () => {
                             happy.CurrentEmotion = Agent.EmotionType.SMILING;
@@ -1573,7 +1587,7 @@ namespace VT {
                                 happy,
                                 0.0f,
                                 8.0f);
-            Line l67 = new Line("Por favor não de problemas pessoais",
+            Line l67 = new Line("Por favor não de problemas pessoais.",
                                 grumpy,
                                 4.0f,
                                 12.0f);
@@ -1600,11 +1614,11 @@ namespace VT {
             Topic talkAbout = new Topic(talkAboutList, talkInputs);
             demoScene.topics.Add("talkAbout", talkAbout);
 
-            Line l70 = new Line("Em FP sabemos que teve um 12 no teste e um 16 no projeto, além do teste que acabou de receber. ",
+            Line l70 = new Line("Em FP sabemos que teve um 12 no teste e um 16 no projeto, além do teste que acabou de receber.",
                                 happy,
                                 0.0f,
                                 8.0f);
-            Line l71 = new Line("Em AL teve um 14 no primeiro teste e um 12 no segundo e acabou de receber mais um. ",
+            Line l71 = new Line("Em AL teve um 14 no primeiro teste e um 12 no segundo e acabou de receber mais um.",
                                 grumpy,
                                 4.0f,
                                 12.0f);
@@ -1625,11 +1639,11 @@ namespace VT {
             Topic pastTopic = new Topic(pastTestList, pastInputs);
             demoScene.topics.Add("pastTopic", pastTopic);
 
-            Line l74 = new Line("As coisas estão a correr bem a FP mas em AL estão a piorar",
+            Line l74 = new Line("As coisas estão a correr bem a FP mas em AL estão a piorar.",
                                 grumpy,
                                 0.0f,
                                 8.0f);
-            Line l75 = new Line("Continue o bom trabalho a FP mas tente melhorar AL", happy, 4.0f, 12.0f);
+            Line l75 = new Line("Continue o bom trabalho a FP mas tente melhorar AL.", happy, 4.0f, 12.0f);
             List<Line> balanceList = new List<Line>();
 		
             balanceList.Add(l74);
@@ -1637,22 +1651,22 @@ namespace VT {
             Topic balance = new Topic(balanceList, pastInputs);
             demoScene.topics.Add("balance", balance);
 
-            Line l76 = new Line("Faça um plano de estudo e cumpra-o",
+            Line l76 = new Line("Faça um plano de estudo e cumpra-o.",
                                 happy,
                                 0.0f,
                                 8.0f);
-            Line l77 = new Line("Estude com antecedência", grumpy, 4.0f, 12.0f);
+            Line l77 = new Line("Estude com antecedência.", grumpy, 4.0f, 12.0f);
             List<Line> tipsList = new List<Line>();
             tipsList.Add(l76);
             tipsList.Add(l77);
             Topic tips = new Topic(tipsList, pastInputs);
             demoScene.topics.Add("tips", tips);
 
-            Line l78 = new Line("Se desistir da cadeira, vamos deixar de dar apoio nesta em prol das outras",
+            Line l78 = new Line("Se desistir da cadeira, vamos deixar de dar apoio nesta em prol das outras.",
                                 happy,
                                 0.0f,
                                 8.0f);
-            Line l79 = new Line("Não há vergonha em tentar gerir o seu tempo",
+            Line l79 = new Line("Não há vergonha em tentar gerir o seu tempo.",
                                 grumpy,
                                 4.0f,
                                 12.0f);
@@ -1673,12 +1687,12 @@ namespace VT {
             demoScene.topics.Add("quit", quit);
 
 
-            Line l84 = new Line("Tente não desistir por agora", happy, 0.0f, 8.0f);
-            Line l85 = new Line("Esta cadeira é demasiado importante para isso",
+            Line l84 = new Line("Tente não desistir por agora.", happy, 0.0f, 8.0f);
+            Line l85 = new Line("Esta cadeira é demasiado importante para isso.",
                                 grumpy,
                                 4.0f,
                                 12.0f);
-            Line l86 = new Line("Se quiser podemos contatar o tutor",
+            Line l86 = new Line("Se quiser podemos contatar o tutor.",
                                 happy,
                                 12.5f,
                                 20.5f);
@@ -1691,11 +1705,11 @@ namespace VT {
             Topic dontQuit = new Topic(dontQuitList, quitInputs);
             demoScene.topics.Add("dontQuit", dontQuit);
 
-            Line l81 = new Line("Se precisar mesmo, podemos contatar o seu tutor",
+            Line l81 = new Line("Se precisar mesmo, podemos contatar o seu tutor.",
                                 happy,
                                 0.0f,
                                 8.0f);
-            Line l82 = new Line("Notificá-lo-emos da sua situação",
+            Line l82 = new Line("Notificá-lo-emos da sua situação.",
                                 grumpy,
                                 4.0f,
                                 12.0f);
@@ -1707,11 +1721,11 @@ namespace VT {
             Topic contact = new Topic(contactList, quitInputs);
             demoScene.topics.Add("contact", contact);
 
-            Line l88 = new Line(" Abriremos o seu google calendar para que possa planear as horas de estudo desta semana.",
+            Line l88 = new Line("Abriremos o seu google calendar para que possa planear as horas de estudo desta semana.",
                                 happy,
                                 0.0f,
                                 8.0f);
-            Line l89 = new Line("Para Álgebra recomendamos estudar " + demoScene.ALHours + " horas semanais e para Fundamentos da Programação " + demoScene.FPHours + " horas semanais",
+            Line l89 = new Line("Para Álgebra recomendamos estudar " + demoScene.ALHours + " horas semanais e para Fundamentos da Programação " + demoScene.FPHours + " horas semanais.",
                        grumpy,
                        4.0f,
                        12.0f);
@@ -1724,7 +1738,7 @@ namespace VT {
 
 
             Line l90 = new Line("Oh não!", happy, 0.0f, 8.0f);
-            Line l91 = new Line("Estou muito triste",
+            Line l91 = new Line("Estou muito triste.",
                                 grumpy,
                                 4.0f,
                                 12.0f);
@@ -1732,7 +1746,7 @@ namespace VT {
                                 happy,
                                 12.5f,
                                 20.5f);
-            Line l93 = new Line("Falaremos com o seu tutor para avisar da situação",
+            Line l93 = new Line("Falaremos com o seu tutor para avisar da situação.",
                                 grumpy,
                                 16.5f,
                                 24.5f);
