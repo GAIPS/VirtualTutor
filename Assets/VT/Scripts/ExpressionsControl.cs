@@ -80,10 +80,11 @@ namespace VT {
                                 if (hooks.useTTS) {
                                     hooks.ttsSpeaker.Play(l.Content,
                                                           Sex.Female);
-                                } else {
-                                    hooks.AudioSource.clip = hooks.AudiosFemale[(int)l.Speaker.CurrentEmotion];
-                                    hooks.AudioSource.Play();
                                 }
+//                                else {
+//                                    hooks.AudioSource.clip = hooks.AudiosFemale[(int)l.Speaker.CurrentEmotion];
+//                                    hooks.AudioSource.Play();
+//                                }
                             }
                             activeTopLine = l;
                         } else {
@@ -94,10 +95,11 @@ namespace VT {
                                 if (hooks.useTTS) {
                                     hooks.ttsSpeaker.Play(l.Content,
                                                           Sex.Male);
-                                } else {
-                                    hooks.AudioSource.clip = hooks.Audios[(int)l.Speaker.CurrentEmotion];
-                                    hooks.AudioSource.Play();
                                 }
+//                                else {
+//                                    hooks.AudioSource.clip = hooks.Audios[(int)l.Speaker.CurrentEmotion];
+//                                    hooks.AudioSource.Play();
+//                                }
                             }
                             activeBottomLine = l;
                         }
