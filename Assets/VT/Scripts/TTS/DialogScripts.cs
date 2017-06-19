@@ -95,7 +95,7 @@ public class DialogScripts
     };
 
     public static string[] Female2Script = new string[] {
-        "Bom dia amigo, é bom vê-lo depois destes dois dias, aporveito para o informar que as notas de AL e FP já saíram.",
+        "Bom dia amigo, é bom vê-lo depois destes dois dias, aproveito para o informar que as notas de AL e FP já saíram.",
         "Em que o podemos ajudar?",
         "Assim que tivermos esta funcionalidade falaremos contigo.",
         "Epá, que azar! O que aconteceu aqui?",

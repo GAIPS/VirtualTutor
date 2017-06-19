@@ -161,7 +161,7 @@ namespace VT {
 
 
 
-            Line l1 = new Line("Bom dia amigo, é bom vê-lo depois destes dois dias, aporveito para o informar que as notas de AL e FP já saíram.",
+            Line l1 = new Line("Bom dia amigo, é bom vê-lo depois destes dois dias, aproveito para o informar que as notas de AL e FP já saíram.",
                                happy,
                                0.0f,
                                8.0f);
@@ -694,11 +694,11 @@ namespace VT {
 			Line l59 = new Line("Será  que vai ver os resultados de uma avaliação?",
 				happy,
 				0.0f,
-				8.0f);
+				5.0f);
 			Line l60 = new Line("Espero que tenha corrido bem.",
 				grumpy,
-				4.0f,
-				12.0f);
+				5.0f,
+				10.5f);
 			List<Line> onActivityList = new List<Line>();
 			onActivityList.Add(l59);
 			onActivityList.Add(l60);
