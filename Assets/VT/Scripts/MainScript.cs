@@ -24,7 +24,7 @@ namespace VT {
         /// Selects the the dialog script that should be used.
         /// 0 for formal and 1 for more personal dialog.
         /// </summary>
-        public int dialogIndex = 0;
+        public static int dialogIndex = 1; // HACK
 
         private bool playing = false;
 
@@ -167,11 +167,11 @@ namespace VT {
                                8.0f);
             Line l2 = new Line("Estava curioso em saber se vinha, pode consultar as notas das cadeiras nos seus respetivos menus.",
                                grumpy,
-                               4.0f,
-                               12.0f);
+                               8.0f,
+                               14.0f);
             Line l3 = new Line("Em que o podemos ajudar?",
                                happy,
-                               12.5f,
+                               14.5f,
                                20.5f);
             List<Line> lines = new List<Line>();
             lines.Add(l1);
@@ -878,7 +878,10 @@ namespace VT {
 				happy,
 				0.0f,
 				8.0f);
-			Line l89 = new Line("Para Álgebra recomendamos estudar " + demoScene.ALHours + " horas semanais e para Fundamentos da Programação " + demoScene.FPHours + " horas semanais.",
+            Line l89 = new Line(
+                // HACK this feature was disabled because of the scripted offline TTS
+//                "Para Álgebra recomendamos estudar " + demoScene.ALHours + " horas semanais e para Fundamentos da Programação " + demoScene.FPHours + " horas semanais.",
+                "Para Álgebra recomendamos estudar 5 horas semanais e para Fundamentos da Programação 4 horas semanais.",
 				grumpy,
 				4.0f,
 				12.0f);
@@ -1725,7 +1728,9 @@ namespace VT {
                                 happy,
                                 0.0f,
                                 8.0f);
-            Line l89 = new Line("Para Álgebra recomendamos estudar " + demoScene.ALHours + " horas semanais e para Fundamentos da Programação " + demoScene.FPHours + " horas semanais.",
+            Line l89 = new Line(
+//                "Para Álgebra recomendamos estudar " + demoScene.ALHours + " horas semanais e para Fundamentos da Programação " + demoScene.FPHours + " horas semanais.",
+                "Para Álgebra recomendamos estudar 5 horas semanais e para Fundamentos da Programação 4 horas semanais.",
                        grumpy,
                        4.0f,
                        12.0f);

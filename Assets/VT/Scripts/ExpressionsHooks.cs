@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 
 namespace VT {
+    [RequireComponent(typeof(TTSSpeakerUnityOnline), typeof(TTSSpeakerOfflineScripted))]
     public class ExpressionsHooks : Hooks {
         [SerializeField]
         private Text leftText = null;
@@ -33,8 +34,17 @@ namespace VT {
         [SerializeField]
         private List<AudioClip> audiosFemale = null;
         public bool useTTS = true;
-        public TTSSpeakerUnityOnline ttsSpeaker;
+        public bool useOnlineTTS = false;
+        public ITTSSpeaker ttsSpeaker;
         public VoidFunc onClick;
+
+        public void Start() {
+            if (useOnlineTTS) {
+                ttsSpeaker = GetComponent<TTSSpeakerUnityOnline>();
+            } else {
+                ttsSpeaker = GetComponent<TTSSpeakerOfflineScripted>();
+            }
+        }
 
         public string LeftContent {
             get{ return this.leftText.text; }

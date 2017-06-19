@@ -76,31 +76,27 @@ namespace VT {
 //							hooks.LeftLine.SetActive (true);
                             hooks.LeftContent = l.Content;
                             hooks.LeftSprite = hooks.LeftSprites[(int)l.Speaker.CurrentEmotion];
-                            if (!hooks.AudioSource.isPlaying) {
-                                if (hooks.useTTS) {
-                                    hooks.ttsSpeaker.Play(l.Content,
+                            if (hooks.useTTS) {
+                                hooks.ttsSpeaker.Play(l.Content,
                                                           Sex.Female);
-                                }
+                            }
 //                                else {
 //                                    hooks.AudioSource.clip = hooks.AudiosFemale[(int)l.Speaker.CurrentEmotion];
 //                                    hooks.AudioSource.Play();
 //                                }
-                            }
                             activeTopLine = l;
                         } else {
 //							hooks.RightLine.SetActive (true);
                             hooks.RightContent = l.Content;
                             hooks.RightSprite = hooks.RightSprites[(int)l.Speaker.CurrentEmotion];
-                            if (!hooks.AudioSource.isPlaying) {
-                                if (hooks.useTTS) {
-                                    hooks.ttsSpeaker.Play(l.Content,
+                            if (hooks.useTTS) {
+                                hooks.ttsSpeaker.Play(l.Content,
                                                           Sex.Male);
-                                }
+                            }
 //                                else {
 //                                    hooks.AudioSource.clip = hooks.Audios[(int)l.Speaker.CurrentEmotion];
 //                                    hooks.AudioSource.Play();
 //                                }
-                            }
                             activeBottomLine = l;
                         }
                     }
