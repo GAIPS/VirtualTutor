@@ -16,17 +16,13 @@ namespace VT {
         [SerializeField]
         private List<Sprite> rightExpressions = null;
         [SerializeField]
-        private Image rightImage = null;
+        private SwitchImage rightImage = null;
         [SerializeField]
-        private Image leftImage = null;
+        private SwitchImage leftImage = null;
         [SerializeField]
         private GameObject rightLine;
         [SerializeField]
         private GameObject leftLine;
-        [SerializeField]
-        private GameObject leftImageObject;
-        [SerializeField]
-        private GameObject rightImageObject;
         [SerializeField]
         private List<AudioClip> audios = null;
         [SerializeField]
@@ -68,16 +64,6 @@ namespace VT {
                 } else
                     hide(rightLine);
             }
-        }
-
-        public  Sprite LeftSprite {
-            get{ return this.leftImage.sprite; }
-            set{ this.leftImage.sprite = value; }
-        }
-
-        public Sprite RightSprite {
-            get{ return this.rightImage.sprite; }
-            set{ this.rightImage.sprite = value; }
         }
 
         public List<Sprite> LeftSprites {
@@ -162,6 +148,14 @@ namespace VT {
         public void onClickUI() {
             if (onClick != null) {
                 onClick();
+            }
+        }
+
+        public void changeExpression(int index, bool left = true) {
+            if (left) {
+                leftImage.setSprite(LeftSprites[index]);
+            } else {
+                rightImage.setSprite(RightSprites[index]);
             }
         }
     }

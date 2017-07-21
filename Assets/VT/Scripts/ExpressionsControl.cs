@@ -75,7 +75,7 @@ namespace VT {
                         if (l.Speaker.IsLeft) {
 //							hooks.LeftLine.SetActive (true);
                             hooks.LeftContent = l.Content;
-                            hooks.LeftSprite = hooks.LeftSprites[(int)l.Speaker.CurrentEmotion];
+                            hooks.changeExpression((int)l.Speaker.CurrentEmotion, true);
                             if (hooks.useTTS) {
                                 hooks.ttsSpeaker.Play(l.Content,
                                                           Sex.Female);
@@ -88,7 +88,7 @@ namespace VT {
                         } else {
 //							hooks.RightLine.SetActive (true);
                             hooks.RightContent = l.Content;
-                            hooks.RightSprite = hooks.RightSprites[(int)l.Speaker.CurrentEmotion];
+                            hooks.changeExpression((int)l.Speaker.CurrentEmotion, false);
                             if (hooks.useTTS) {
                                 hooks.ttsSpeaker.Play(l.Content,
                                                           Sex.Male);
