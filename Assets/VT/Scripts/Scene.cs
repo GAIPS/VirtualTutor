@@ -91,7 +91,7 @@ namespace VT {
             courseControl.SetAndShow(
                 () => {
 					
-					var topic3 = topics["prePlan"];
+					//var topic3 = topics["prePlan"];
                     start = 0.0f;
                     expressionsControl.Start = 0.0f;
                     if (evaluationResult <= 5.0) {
@@ -111,12 +111,14 @@ namespace VT {
                         courseControl.Disable();
 
                     } else if (clickedCourse == course1 && (evaluationResult < 8.5 || (evaluationResult < 10.0 && clickedCourse.Like > 3.0 && clickedCourse.Know > 3.0) || (clickedCourse.Like < 2 && clickedCourse.Know < 2 && evaluationResult < 6.0))) {
-						agents[0].CurrentEmotion = Agent.EmotionType.CRYING;
-                        agents[1].CurrentEmotion = Agent.EmotionType.CRYING;
-                        currentTopicName = "badTestTopic";
+						//agents[0].CurrentEmotion = Agent.EmotionType.CRYING;
+                        //agents[1].CurrentEmotion = Agent.EmotionType.CRYING;
+						agents[0].CurrentEmotion = Agent.EmotionType.POKERFACE;
+						agents[1].CurrentEmotion = Agent.EmotionType.POKERFACE;
+						currentTopicName = "badTestTopic";
 						fPHours = fPHours + 2.0f;
 						Debug.Log(FPHours);
-						topics["prePlan"].Lines[1].Content = "Para Álgebra recomendamos estudar " + ALHours + " horas semanais e para Fundamentos da Programação " + FPHours + " horas semanais";
+						//topics["prePlan"].Lines[1].Content = "Para Álgebra recomendamos estudar " + ALHours + " horas semanais e para Fundamentos da Programação " + FPHours + " horas semanais";
 						var topic2 = topics[currentTopicName];
                         threePartsControl.SetAndShow(topic2);
                         expressionsControl.SetAndShow(topic2);
@@ -125,8 +127,10 @@ namespace VT {
 
                     } else if (clickedCourse == course1 && (evaluationResult >= 8.5 && evaluationResult < 11) || (evaluationResult > 7.0 && evaluationResult < 11 && clickedCourse.Like < 2.0 && clickedCourse.Know < 2.0) || (clickedCourse.Like > 3 && clickedCourse.Know > 3 && evaluationResult >= 9.5 && evaluationResult < 12)) {
 
-						agents[0].CurrentEmotion = Agent.EmotionType.SAD;
-                        agents[1].CurrentEmotion = Agent.EmotionType.SAD;
+						//agents[0].CurrentEmotion = Agent.EmotionType.SAD;
+                        //agents[1].CurrentEmotion = Agent.EmotionType.SAD;
+						agents[0].CurrentEmotion = Agent.EmotionType.POKERFACE;
+						agents[1].CurrentEmotion = Agent.EmotionType.POKERFACE;
                         currentTopicName = "belowAvgTopic";
                         var topic2 = topics[currentTopicName];
 						fPHours += 1.0f;
@@ -173,17 +177,17 @@ namespace VT {
                         coursesControl.Disable();
                         courseControl.Disable();
                     } else if (clickedCourse == course2 && (evaluationResult >= 6.1 && evaluationResult < 10) || (evaluationResult > 7.1 && evaluationResult < 9 && clickedCourse.Like < 2.0 && clickedCourse.Know < 2.0) || (clickedCourse.Like > 3 && clickedCourse.Know > 3 && evaluationResult >= 9.5 && evaluationResult < 11)) {
-                        agents[0].CurrentEmotion = Agent.EmotionType.SAD;
-                        agents[1].CurrentEmotion = Agent.EmotionType.SAD;
+                        agents[0].CurrentEmotion = Agent.EmotionType.POKERFACE;
+						agents[1].CurrentEmotion = Agent.EmotionType.POKERFACE;
                         currentTopicName = "belowAvgTopic";
 						aLHours +=1.0f;
                         var topic2 = topics[currentTopicName];
-						topics["prePlan"].Lines[1].Content = "We reccomend you to study " + ALHours +" hours weekly this week for Algebra and "+ FPHours+" hours of Foundations of Programming";
+						//topics["prePlan"].Lines[1].Content = "We reccomend you to study " + ALHours +" hours weekly this week for Algebra and "+ FPHours+" hours of Foundations of Programming";
                         threePartsControl.SetAndShow(topic2);
                         expressionsControl.SetAndShow(topic2);
                         coursesControl.Disable();
                         courseControl.Disable();
-                    } else if (clickedCourse == course2 && (evaluationResult >= 10 && evaluationResult <= 14.0) || (evaluationResult > 8.5 && evaluationResult < 13 && clickedCourse.Like < 2 && clickedCourse.Know < 2) || (clickedCourse.Like > 3 && clickedCourse.Know > 3 && evaluationResult > 11 && evaluationResult < 16)) {
+                    }  else if (clickedCourse == course2 && (evaluationResult >= 10 && evaluationResult <= 14.0) || (evaluationResult > 8.5 && evaluationResult < 13 && clickedCourse.Like < 2 && clickedCourse.Know < 2) || (clickedCourse.Like > 3 && clickedCourse.Know > 3 && evaluationResult > 11 && evaluationResult < 16)) {
                         agents[0].CurrentEmotion = Agent.EmotionType.LIKES;
                         agents[1].CurrentEmotion = Agent.EmotionType.SMILING;
                         currentTopicName = "expectedTest";
@@ -338,7 +342,7 @@ namespace VT {
             } else if (expressionsControl.Start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 5.0f && (currentTopicName == "timeTopic" || currentTopicName == "exit1Topic" || currentTopicName == "exit2Topic" || currentTopicName == "exit3Topic" || currentTopicName == "exit4Topic")) {
 				Application.Quit ();
             } else if (expressionsControl.Start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 5.0f && currentTopicName == "badTestTopic") {
-				changeTopic ("noAnswTest");
+			//	changeTopic ("noAnswTest");
             } else if (expressionsControl.Start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End + 5.0f && currentTopicName == "prePlan")
 				OpenCalendar ();
             else if (expressionsControl.Start >= topics [currentTopicName].Lines [topics [currentTopicName].Lines.Count - 1].End && currentTopicName == "newInfoTopic") {

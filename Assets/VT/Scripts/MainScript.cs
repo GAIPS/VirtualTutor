@@ -4,101 +4,123 @@ using UnityEngine;
 using System;
 using System.Linq;
 
-namespace VT {
-    public class MainScript : MonoBehaviour {
-        public bool playSplashScreen = true;
+namespace VT
+{
+	public class MainScript : MonoBehaviour
+	{
+		public bool playSplashScreen = true;
 
-        public GameObject splashScreenPrefab;
-        public GameObject threeOptionsPrefab;
-        public GameObject ExpressionsPrefab;
-        public GameObject coursesPrefab;
-        public GameObject coursePrefab;
-        public GameObject calendar1Prefab;
-        public GameObject calendar2Prefab;
-        public GameObject calendar3Prefab;
-        public GameObject discussPrefab;
-        public ToggleImage pauseButton;
-        private Scene scene;
+		public GameObject splashScreenPrefab;
+		public GameObject threeOptionsPrefab;
+		public GameObject ExpressionsPrefab;
+		public GameObject coursesPrefab;
+		public GameObject coursePrefab;
+		public GameObject calendar1Prefab;
+		public GameObject calendar2Prefab;
+		public GameObject calendar3Prefab;
+		public GameObject discussPrefab;
+		public ToggleImage pauseButton;
+		private Scene scene;
 
-        /// <summary>
-        /// Selects the the dialog script that should be used.
-        /// 0 for formal and 1 for more personal dialog.
-        /// </summary>
-        public static int dialogIndex = 1; // HACK
+		/// <summary>
+		/// Selects the the dialog script that should be used.
+		/// 0 for formal and 1 for more personal dialog.
+		/// </summary>
+		public static int dialogIndex = 3;
+		// HACK
 
-        private bool playing = false;
+		private bool playing = false;
 
-        // Use this for initialization
-        void Start() {
+		// Use this for initialization
+		void Start ()
+		{
 
-            if (splashScreenPrefab != null && playSplashScreen) {
-                SplashScreenControl splashScreenControl = new SplashScreenControl(splashScreenPrefab);
-                splashScreenControl.SetAndShow(/*OnEndFunction*/() => {
-                        playing = true;
-                        splashScreenControl.Destroy();
-                    });
-            } else {
-                playing = true;
-            }
+			if (splashScreenPrefab != null && playSplashScreen) {
+				SplashScreenControl splashScreenControl = new SplashScreenControl (splashScreenPrefab);
+				splashScreenControl.SetAndShow (/*OnEndFunction*/() => {
+					playing = true;
+					splashScreenControl.Destroy ();
+				});
+			} else {
+				playing = true;
+			}
 			
-            if (threeOptionsPrefab == null || ExpressionsPrefab == null
-                || coursesPrefab == null || coursePrefab == null
-                || calendar1Prefab == null || calendar2Prefab == null
-                || calendar3Prefab == null) {
-                Debug.LogWarning("Some prefabs are null");
-                return;
-            }
+			if (threeOptionsPrefab == null || ExpressionsPrefab == null
+			             || coursesPrefab == null || coursePrefab == null
+			             || calendar1Prefab == null || calendar2Prefab == null
+			             || calendar3Prefab == null) {
+				Debug.LogWarning ("Some prefabs are null");
+				return;
+			}
 
-            if (pauseButton) {
-                pauseButton.onClick = (bool isOn) => {
-                    playing = isOn;
-                };
-            }
+			if (pauseButton) {
+				pauseButton.onClick = (bool isOn) => {
+					playing = isOn;
+				};
+			}
 
-            scene = new Scene();
-            scene.threePartsControl = new ThreePartsControl(threeOptionsPrefab);
-            scene.expressionsControl = new ExpressionsControl(ExpressionsPrefab);
-            scene.coursesControl = new CoursesControl(coursesPrefab);
-            scene.courseControl = new CourseControl(coursePrefab);
-            scene.calendar1Control = new Calendar1Control(calendar1Prefab);
-            scene.calendar2Control = new Calendar2Control(calendar2Prefab);
-            scene.calendar3Control = new Calendar3Control(calendar3Prefab);
-            scene.discussControl = new DiscussControl(discussPrefab);
+			scene = new Scene ();
+			scene.threePartsControl = new ThreePartsControl (threeOptionsPrefab);
+			scene.expressionsControl = new ExpressionsControl (ExpressionsPrefab);
+			scene.coursesControl = new CoursesControl (coursesPrefab);
+			scene.courseControl = new CourseControl (coursePrefab);
+			scene.calendar1Control = new Calendar1Control (calendar1Prefab);
+			scene.calendar2Control = new Calendar2Control (calendar2Prefab);
+			scene.calendar3Control = new Calendar3Control (calendar3Prefab);
+			scene.discussControl = new DiscussControl (discussPrefab);
 
-            switch (dialogIndex) {
-                case 1:
-                    PopulateScene2(scene);
-                    break;
-                case 0:
-                default:
-                    PopulateScene(scene);
-                    break;
-            }
+			switch (dialogIndex) {
+			case 1:
+			default:
+				PopulateScene2 (scene);
+				break;
+			case 0:
+				PopulateScene (scene);
+				break;
+			case 3:
+				PopulateSceneVidAcq (scene);
+				break;
+			case 2:
+				PopulateSceneVidMaint (scene);
+				break;
+			case 4: 
+				PopulateSceneVidSelfDis (scene);
+				break;
+			case 5: 
+				PopulateSceneVidPosture (scene);
+				break;
+			case 6:
+				PopulateSceneVidPerspective (scene);
+				break;
 
-            //start
-            scene.changeTopic("Hello");
-        }
+			}
 
-        void Update() {
-            if (Input.GetKeyUp(KeyCode.Space)) {
-                playing = !playing;
-            }
-            if (playing) {
-                scene.update(Time.deltaTime);
-            }
-        }
+			//start
+			scene.changeTopic ("Hello");
+		}
 
-        void PopulateScene2(Scene demoScene) {
-            Agent happy = new Agent();
-            Agent grumpy = new Agent();
-            grumpy.IsLeft = false;
+		void Update ()
+		{
+			if (Input.GetKeyUp (KeyCode.Space)) {
+				playing = !playing;
+			}
+			if (playing) {
+				scene.update (Time.deltaTime);
+			}
+		}
 
-            demoScene.agents.Add(happy);
-            demoScene.agents.Add(grumpy);
-            //Hello
-            happy.CurrentEmotion = Agent.EmotionType.SMILING;
-            grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
-            Evaluation test1 = new Evaluation("1º Teste",
+		void PopulateScene2 (Scene demoScene)
+		{
+			Agent happy = new Agent ();
+			Agent grumpy = new Agent ();
+			grumpy.IsLeft = false;
+
+			demoScene.agents.Add (happy);
+			demoScene.agents.Add (grumpy);
+			//Hello
+			happy.CurrentEmotion = Agent.EmotionType.SMILING;
+			grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+			/* Evaluation test1 = new Evaluation("1º Teste",
                                               "20/03/2017",
                                               4,
                                               4,
@@ -158,28 +180,87 @@ namespace VT {
             demoScene.course2.Checkpoints.Add("revision", achievment);
             demoScene.course2.Checkpoints.Add("test2", c2Teste3);
             demoScene.course2.Checkpoints.Add("test3", c2Test4);
+*/
+			Evaluation test1 = new Evaluation ("1st Test",
+				                   "20/03/2017",
+				                   4,
+				                   4,
+				                   "12.0");
+			Evaluation project1 = new Evaluation ("1st Project",
+				                      "04/04/2017",
+				                      3,
+				                      4,
+				                      "7.0");
+			CheckBoxPoint revision = new CheckBoxPoint ("Notes Class 20",
+				                         "08/04/2017",
+				                         1,
+				                         3,
+				                         true);
+			Evaluation test2 = new Evaluation ("2nd Test",
+				                   "07/05/2017",
+				                   4,
+				                   4,
+				                   "7.0");
+			Evaluation test3 = new Evaluation ("3rd Test",
+				                   "22/06/2017",
+				                   4,
+				                   4,
+				                   "");
+			demoScene.course1.Checkpoints.Add ("test1", test1);
+			demoScene.course1.Checkpoints.Add ("project1", project1);
+			demoScene.course1.Checkpoints.Add ("revision", revision);
+			demoScene.course1.Checkpoints.Add ("test2", test2);
+			demoScene.course1.Checkpoints.Add ("test3", test3);
+			Evaluation c2Test1 = new Evaluation ("1st Test",
+				                     "13/03/2017",
+				                     3,
+				                     4,
+				                     "14.0");
+			Evaluation c2Test2 = new Evaluation ("2nd Test",
+				                     "15/04/2017",
+				                     3,
+				                     4,
+				                     "7.0");
+			CheckBoxPoint achievment = new CheckBoxPoint ("Office Hours",
+				                           "08/05/2017",
+				                           1,
+				                           3,
+				                           false);
+			Evaluation c2Teste3 = new Evaluation ("3rd Test",
+				                      "09/05/2017",
+				                      3,
+				                      4,
+				                      "7.0");
+			Evaluation c2Test4 = new Evaluation ("4th Test",
+				                     "2/06/2017",
+				                     3,
+				                     4,
+				                     "");
+			demoScene.course2.Checkpoints.Add ("test1", c2Test1);
+			demoScene.course2.Checkpoints.Add ("project1", c2Test2);
+			demoScene.course2.Checkpoints.Add ("revision", achievment);
+			demoScene.course2.Checkpoints.Add ("test2", c2Teste3);
+			demoScene.course2.Checkpoints.Add ("test3", c2Test4);
 
 
-
-            Line l1 = new Line("Bom dia amigo, é bom vê-lo depois destes dois dias, aproveito para o informar que as notas de AL e FP já saíram.",
-                               happy,
-                               0.0f,
-                               8.0f);
-            Line l2 = new Line("Estava curioso em saber se vinha, pode consultar as notas das cadeiras nos seus respetivos menus.",
-                               grumpy,
-                               8.0f,
-                               14.0f);
-            Line l3 = new Line("Em que o podemos ajudar?",
-                               happy,
-                               14.5f,
-                               20.5f);
-            List<Line> lines = new List<Line>();
-            lines.Add(l1);
-            lines.Add(l2);
-            lines.Add(l3);
-            lines = lines.OrderBy(l => l.Start).ToList();
-            Topic.Input[] inputs =
-                {
+			Line l1 = new Line ("Bom dia amigo, é bom vê-lo depois destes dois dias, aproveito para o informar que as notas de AL e FP já saíram.",
+				                   happy,
+				                   0.0f,
+				                   8.0f);
+			Line l2 = new Line ("Estava curioso em saber se vinha, pode consultar as notas das cadeiras nos seus respetivos menus.",
+				                   grumpy,
+				                   8.0f,
+				                   14.0f);
+			Line l3 = new Line ("Em que o podemos ajudar?",
+				                   happy,
+				                   14.5f,
+				                   20.5f);
+			List<Line> lines = new List<Line> ();
+			lines.Add (l1);
+			lines.Add (l2);
+			lines.Add (l3);
+			lines = lines.OrderBy (l => l.Start).ToList ();
+			Topic.Input[] inputs = {
                     new Topic.Input(
                         "Lembrem-me...", () => {
 
@@ -1781,5 +1862,954 @@ namespace VT {
             demoScene.topics.Add("terrible", terrible);
 
         }
-    }
+
+
+		void PopulateSceneVidAcq(Scene demoScene){
+			Agent happy = new Agent ();
+			Agent grumpy = new Agent ();
+			grumpy.IsLeft = false;
+
+			demoScene.agents.Add (happy);
+			demoScene.agents.Add (grumpy);
+			//Hello
+			happy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+			grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+			Evaluation test1 = new Evaluation ("1st Test",
+				                   "20/03/2017",
+				                   4,
+				                   4,
+				                   "12.0");
+			Evaluation project1 = new Evaluation ("1st Project",
+				                      "04/04/2017",
+				                      3,
+				                      4,
+				                      "7.0");
+			CheckBoxPoint revision = new CheckBoxPoint ("Notes Class 20",
+				                         "08/04/2017",
+				                         1,
+				                         3,
+				                         true);
+			Evaluation test2 = new Evaluation ("2nd Test",
+				                   "07/05/2017",
+				                   4,
+				                   4,
+				                   "7.0");
+			Evaluation test3 = new Evaluation ("3rd Test",
+				                   "22/06/2017",
+				                   4,
+				                   4,
+				                   "");
+			demoScene.course1.Checkpoints.Add ("test1", test1);
+			demoScene.course1.Checkpoints.Add ("project1", project1);
+			demoScene.course1.Checkpoints.Add ("revision", revision);
+			demoScene.course1.Checkpoints.Add ("test2", test2);
+			demoScene.course1.Checkpoints.Add ("test3", test3);
+			Evaluation c2Test1 = new Evaluation ("1st Test",
+				                     "13/03/2017",
+				                     3,
+				                     4,
+				                     "14.0");
+			Evaluation c2Test2 = new Evaluation ("2nd Test",
+				                     "15/04/2017",
+				                     3,
+				                     4,
+				                     "7.0");
+			CheckBoxPoint achievment = new CheckBoxPoint ("Office Hours",
+				                           "08/05/2017",
+				                           1,
+				                           3,
+				                           false);
+			Evaluation c2Teste3 = new Evaluation ("3rd Test",
+				                      "09/05/2017",
+				                      3,
+				                      4,
+				                      "7.0");
+			Evaluation c2Test4 = new Evaluation ("4th Test",
+				                     "2/06/2017",
+				                     3,
+				                     4,
+				                     "");
+			demoScene.course2.Checkpoints.Add ("test1", c2Test1);
+			demoScene.course2.Checkpoints.Add ("project1", c2Test2);
+			demoScene.course2.Checkpoints.Add ("revision", achievment);
+			demoScene.course2.Checkpoints.Add ("test2", c2Teste3);
+			demoScene.course2.Checkpoints.Add ("test3", c2Test4);
+
+
+
+			Line l1 = new Line ("Hello, I hope you are well today.",
+				          happy,
+				          0.0f,
+				          8.0f);
+			Line l2 = new Line ("As you must know, we are your Virtual Tutors.",
+				          grumpy,
+				          4.0f,
+				          12.0f);
+			Line l3 = new Line ("Is there something we can help you with today?",
+				          happy,
+				          12.5f,
+				          20.5f);
+			Line l4 = new Line ("We want to tell you that the Linear Algebra tests have been graded and the results added to our system. You can view them anytime.",
+				          grumpy,
+				          16.5f,
+				          24.5f);
+			List<Line> lines = new List<Line> ();
+			lines.Add (l1);
+			lines.Add (l2);
+			lines.Add (l3);
+			lines.Add (l4);
+			lines = lines.OrderBy (l => l.Start).ToList ();
+			Topic.Input[] inputs = {
+				new Topic.Input(
+					"Remind me of...", () => {
+					}, 1.5f), 
+				new Topic.Input(
+					"I would like to talk about ...",
+					() => {
+						
+					}, 1.5f), 
+				new Topic.Input(
+					"Consult new information",
+					() => {
+						happy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+						grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+						demoScene.changeTopic("newInfoTopic");
+					}, 1.5f) 
+			};
+			Topic hello = new Topic (lines, inputs);
+			demoScene.topics.Add ("Hello", hello);
+			Line l7 = new Line("A menu will now open in which you can consult your academic growth.",
+				grumpy,
+				0.0f,
+				8.0f);
+
+			List<Line> newInfo = new List<Line>();
+			newInfo.Add(l7);
+			Topic.Input[] inputs1 =
+			{new Topic.Input("", () => {
+
+			}), new Topic.Input("", () => {
+			}), new Topic.Input("", () => {
+			})
+			};
+			Topic newInfoTopic = new Topic(newInfo, inputs1);
+			demoScene.topics.Add("newInfoTopic", newInfoTopic);
+
+
+			Line l9 = new Line("Oh ! That was not that good, but we believe next time you will do better.", happy, 0.0f, 8.0f);
+			Line l10 = new Line(" I recommend that you study a bit more and go to office hours if you can. Try to make a study plan with us",
+				grumpy,
+				4.0f,
+				12.0f);
+			
+			Topic.Input[] inputs3 =
+			{ new Topic.Input("Study Plan? OK!", () => {
+				
+			}, 8.0f),
+				//new Topic.Input("I want to be told sooner", () => {
+				new Topic.Input("I don't feel so well, contact my tutor please.", () => {
+					
+				}, 3.0f), new Topic.Input("I am all right thank you.", () => {
+
+				}, 4.5f)
+			};
+
+			List<Line> badTest = new List<Line>();
+			badTest.Add(l9);
+			badTest.Add(l10);
+			Topic badTestTopic = new Topic(badTest, inputs3);
+			demoScene.topics.Add("belowAvgTopic", badTestTopic);
+
+
+		
+		}
+
+
+		void PopulateSceneVidMaint(Scene demoScene){
+			Agent happy = new Agent ();
+			Agent grumpy = new Agent ();
+			grumpy.IsLeft = false;
+
+			demoScene.agents.Add (happy);
+			demoScene.agents.Add (grumpy);
+			//Hello
+			happy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+			grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+			Evaluation test1 = new Evaluation ("1st Test",
+				"20/03/2017",
+				4,
+				4,
+				"12.0");
+			Evaluation project1 = new Evaluation ("1st Project",
+				"04/04/2017",
+				3,
+				4,
+				"7.0");
+			CheckBoxPoint revision = new CheckBoxPoint ("Notes Class 20",
+				"08/04/2017",
+				1,
+				3,
+				true);
+			Evaluation test2 = new Evaluation ("2nd Test",
+				"07/05/2017",
+				4,
+				4,
+				"7.0");
+			Evaluation test3 = new Evaluation ("3rd Test",
+				"22/06/2017",
+				4,
+				4,
+				"");
+			demoScene.course1.Checkpoints.Add ("test1", test1);
+			demoScene.course1.Checkpoints.Add ("project1", project1);
+			demoScene.course1.Checkpoints.Add ("revision", revision);
+			demoScene.course1.Checkpoints.Add ("test2", test2);
+			demoScene.course1.Checkpoints.Add ("test3", test3);
+			Evaluation c2Test1 = new Evaluation ("1st Test",
+				"13/03/2017",
+				3,
+				4,
+				"14.0");
+			Evaluation c2Test2 = new Evaluation ("2nd Test",
+				"15/04/2017",
+				3,
+				4,
+				"7.0");
+			CheckBoxPoint achievment = new CheckBoxPoint ("Office Hours",
+				"08/05/2017",
+				1,
+				3,
+				false);
+			Evaluation c2Teste3 = new Evaluation ("3rd Test",
+				"09/05/2017",
+				3,
+				4,
+				"7.0");
+			Evaluation c2Test4 = new Evaluation ("4th Test",
+				"2/06/2017",
+				3,
+				4,
+				"");
+			demoScene.course2.Checkpoints.Add ("test1", c2Test1);
+			demoScene.course2.Checkpoints.Add ("project1", c2Test2);
+			demoScene.course2.Checkpoints.Add ("revision", achievment);
+			demoScene.course2.Checkpoints.Add ("test2", c2Teste3);
+			demoScene.course2.Checkpoints.Add ("test3", c2Test4);
+
+
+
+			Line l1 = new Line ("Hey buddy, everything great today?",
+				happy,
+				0.0f,
+				8.0f);
+			Line l2 = new Line ("You haven’t checked in in a while, we were getting worried.",
+				grumpy,
+				4.0f,
+				12.0f);
+			Line l3 = new Line ("It’s great to see you. What do you want to do?",
+				happy,
+				12.5f,
+				20.5f);
+			Line l4 = new Line ("Oh, and by the way, your Algebra Test has been graded and added to the usual place.",
+				grumpy,
+				16.5f,
+				24.5f);
+			List<Line> lines = new List<Line> ();
+			lines.Add (l1);
+			lines.Add (l2);
+			lines.Add (l3);
+			lines.Add (l4);
+			lines = lines.OrderBy (l => l.Start).ToList ();
+			Topic.Input[] inputs = {
+				new Topic.Input(
+					"Remind me of...", () => {
+					}, 1.5f), 
+				new Topic.Input(
+					"I would like to talk about ...",
+					() => {
+
+					}, 1.5f), 
+				new Topic.Input(
+					"Consult new information",
+					() => {
+						happy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+						grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+						demoScene.changeTopic("newInfoTopic");
+					}, 1.5f) 
+			};
+			Topic hello = new Topic (lines, inputs);
+			demoScene.topics.Add ("Hello", hello);
+			Line l7 = new Line("Let's check the new information on the courses you're doing.",
+				grumpy,
+				0.0f,
+				8.0f);
+
+			List<Line> newInfo = new List<Line>();
+			newInfo.Add(l7);
+			Topic.Input[] inputs1 =
+			{new Topic.Input("", () => {
+
+			}), new Topic.Input("", () => {
+			}), new Topic.Input("", () => {
+			})
+			};
+			Topic newInfoTopic = new Topic(newInfo, inputs1);
+			demoScene.topics.Add("newInfoTopic", newInfoTopic);
+
+
+			Line l9 = new Line("Damn, that was not what I was expecting. But I believe you can still improve.", happy, 0.0f, 8.0f);
+			Line l10 = new Line(" I agree with my partner, as long as you study harder and get your doubts answered.",
+				grumpy,
+				4.0f,
+				12.0f);
+			Line l11 = new Line("Remember when you made a study plan with us and it helped you get a good result. Maybe you should try that again.",happy,12.5f,20.5f);
+
+
+			Topic.Input[] inputs3 =
+			{ new Topic.Input("Study Plan? OK!", () => {
+
+			}, 8.0f),
+				//new Topic.Input("I want to be told sooner", () => {
+				new Topic.Input("I don't feel so well, contact my tutor please.", () => {
+
+				}, 3.0f), new Topic.Input("I am all right thank you.", () => {
+
+				}, 4.5f)
+			};
+
+			List<Line> badTest = new List<Line>();
+			badTest.Add(l9);
+			badTest.Add(l10);
+			badTest.Add(l11);
+			Topic badTestTopic = new Topic(badTest, inputs3);
+			demoScene.topics.Add("belowAvgTopic", badTestTopic);
+
+
+
+		}
+
+		//Self Disclosure
+
+		void PopulateSceneVidSelfDis(Scene demoScene){
+			Agent happy = new Agent ();
+			Agent grumpy = new Agent ();
+			grumpy.IsLeft = false;
+
+			demoScene.agents.Add (happy);
+			demoScene.agents.Add (grumpy);
+			//Hello
+			happy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+			grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+			Evaluation test1 = new Evaluation ("1st Test",
+				"20/03/2017",
+				4,
+				4,
+				"12.0");
+			Evaluation project1 = new Evaluation ("1st Project",
+				"04/04/2017",
+				3,
+				4,
+				"7.0");
+			CheckBoxPoint revision = new CheckBoxPoint ("Notes Class 20",
+				"08/04/2017",
+				1,
+				3,
+				true);
+			Evaluation test2 = new Evaluation ("2nd Test",
+				"07/05/2017",
+				4,
+				4,
+				"7.0");
+			Evaluation test3 = new Evaluation ("3rd Test",
+				"22/06/2017",
+				4,
+				4,
+				"");
+			demoScene.course1.Checkpoints.Add ("test1", test1);
+			demoScene.course1.Checkpoints.Add ("project1", project1);
+			demoScene.course1.Checkpoints.Add ("revision", revision);
+			demoScene.course1.Checkpoints.Add ("test2", test2);
+			demoScene.course1.Checkpoints.Add ("test3", test3);
+			Evaluation c2Test1 = new Evaluation ("1st Test",
+				"13/03/2017",
+				3,
+				4,
+				"14.0");
+			Evaluation c2Test2 = new Evaluation ("2nd Test",
+				"15/04/2017",
+				3,
+				4,
+				"7.0");
+			CheckBoxPoint achievment = new CheckBoxPoint ("Office Hours",
+				"08/05/2017",
+				1,
+				3,
+				false);
+			Evaluation c2Teste3 = new Evaluation ("3rd Test",
+				"09/05/2017",
+				3,
+				4,
+				"7.0");
+			Evaluation c2Test4 = new Evaluation ("4th Test",
+				"2/06/2017",
+				3,
+				4,
+				"");
+			demoScene.course2.Checkpoints.Add ("test1", c2Test1);
+			demoScene.course2.Checkpoints.Add ("project1", c2Test2);
+			demoScene.course2.Checkpoints.Add ("revision", achievment);
+			demoScene.course2.Checkpoints.Add ("test2", c2Teste3);
+			demoScene.course2.Checkpoints.Add ("test3", c2Test4);
+
+
+
+			Line l1 = new Line ("Hey, how are you? I am so happy to see you.",
+				happy,
+				0.0f,
+				8.0f);
+			Line l2 = new Line ("She may be overreacting but it’s nice to see you again. How can we help? ",
+				grumpy,
+				4.0f,
+				12.0f);
+			Line l3 = new Line ("Your Linear Algebra test has been graded and published, you can check it. I’m excited about that.",
+				happy,
+				12.5f,
+				20.5f);
+			
+			List<Line> lines = new List<Line> ();
+			lines.Add (l1);
+			lines.Add (l2);
+			lines.Add (l3);
+			lines = lines.OrderBy (l => l.Start).ToList ();
+			Topic.Input[] inputs = {
+				new Topic.Input(
+					"Remind me of...", () => {
+					}, 1.5f), 
+				new Topic.Input(
+					"I would like to talk about ...",
+					() => {
+
+					}, 1.5f), 
+				new Topic.Input(
+					"Consult new information",
+					() => {
+						happy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+						grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+						demoScene.changeTopic("newInfoTopic");
+					}, 1.5f) 
+			};
+			Topic hello = new Topic (lines, inputs);
+			demoScene.topics.Add ("Hello", hello);
+			Line l7 = new Line("I admit this may be a bit exciting, let us check the Algebra score.",
+				grumpy,
+				0.0f,
+				8.0f);
+
+			List<Line> newInfo = new List<Line>();
+			newInfo.Add(l7);
+			Topic.Input[] inputs1 =
+			{new Topic.Input("", () => {
+
+			}), new Topic.Input("", () => {
+			}), new Topic.Input("", () => {
+			})
+			};
+			Topic newInfoTopic = new Topic(newInfo, inputs1);
+			demoScene.topics.Add("newInfoTopic", newInfoTopic);
+
+
+			Line l9 = new Line("I feel sad now. Can we help you in any way? ", happy, 0.0f, 8.0f);
+			Line l10 = new Line(" If you make a study plan with us it would make me feel safer about your next evaluation.",
+				grumpy,
+				4.0f,12.0f);
+			
+			Topic.Input[] inputs3 =
+			{ new Topic.Input("Study Plan? OK!", () => {
+
+			}, 8.0f),
+				//new Topic.Input("I want to be told sooner", () => {
+				new Topic.Input("I don't feel so well, contact my tutor please.", () => {
+
+				}, 3.0f), new Topic.Input("I am all right thank you.", () => {
+
+				}, 4.5f)
+			};
+
+			List<Line> badTest = new List<Line>();
+			badTest.Add(l9);
+			badTest.Add(l10);
+			Topic badTestTopic = new Topic(badTest, inputs3);
+			demoScene.topics.Add("belowAvgTopic", badTestTopic);
+
+		}
+
+		//Posture Mimicry
+
+		void PopulateSceneVidPosture(Scene demoScene){
+			Agent happy = new Agent ();
+			Agent grumpy = new Agent ();
+			grumpy.IsLeft = false;
+
+			demoScene.agents.Add (happy);
+			demoScene.agents.Add (grumpy);
+			//Hello
+			happy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+			grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+			Evaluation test1 = new Evaluation ("1st Test",
+				"20/03/2017",
+				4,
+				4,
+				"12.0");
+			Evaluation project1 = new Evaluation ("1st Project",
+				"04/04/2017",
+				3,
+				4,
+				"7.0");
+			CheckBoxPoint revision = new CheckBoxPoint ("Notes Class 20",
+				"08/04/2017",
+				1,
+				3,
+				true);
+			Evaluation test2 = new Evaluation ("2nd Test",
+				"07/05/2017",
+				4,
+				4,
+				"7.0");
+			Evaluation test3 = new Evaluation ("3rd Test",
+				"22/06/2017",
+				4,
+				4,
+				"");
+			demoScene.course1.Checkpoints.Add ("test1", test1);
+			demoScene.course1.Checkpoints.Add ("project1", project1);
+			demoScene.course1.Checkpoints.Add ("revision", revision);
+			demoScene.course1.Checkpoints.Add ("test2", test2);
+			demoScene.course1.Checkpoints.Add ("test3", test3);
+			Evaluation c2Test1 = new Evaluation ("1st Test",
+				"13/03/2017",
+				3,
+				4,
+				"14.0");
+			Evaluation c2Test2 = new Evaluation ("2nd Test",
+				"15/04/2017",
+				3,
+				4,
+				"7.0");
+			CheckBoxPoint achievment = new CheckBoxPoint ("Office Hours",
+				"08/05/2017",
+				1,
+				3,
+				false);
+			Evaluation c2Teste3 = new Evaluation ("3rd Test",
+				"09/05/2017",
+				3,
+				4,
+				"7.0");
+			Evaluation c2Test4 = new Evaluation ("4th Test",
+				"2/06/2017",
+				3,
+				4,
+				"");
+			demoScene.course2.Checkpoints.Add ("test1", c2Test1);
+			demoScene.course2.Checkpoints.Add ("project1", c2Test2);
+			demoScene.course2.Checkpoints.Add ("revision", achievment);
+			demoScene.course2.Checkpoints.Add ("test2", c2Teste3);
+			demoScene.course2.Checkpoints.Add ("test3", c2Test4);
+
+
+
+			Line l1 = new Line ("Hey, how are you? I am so happy to see you.",
+				happy,
+				0.0f,
+				8.0f);
+			Line l2 = new Line ("Maybe they want our help don’t you think? ",
+				grumpy,
+				4.0f,
+				12.0f);
+			Line l3 = new Line ("Your Linear Algebra test has been graded and published, you can check it on our Algebra Course page.",
+				happy,
+				12.5f,
+				20.5f);
+
+			List<Line> lines = new List<Line> ();
+			lines.Add (l1);
+			lines.Add (l2);
+			lines.Add (l3);
+			lines = lines.OrderBy (l => l.Start).ToList ();
+			Topic.Input[] inputs = {
+				new Topic.Input(
+					"Remind me of...", () => {
+					}, 1.5f), 
+				new Topic.Input(
+					"I would like to talk about ...",
+					() => {
+
+					}, 1.5f), 
+				new Topic.Input(
+					"Consult new information",
+					() => {
+						happy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+						grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+						demoScene.changeTopic("newInfoTopic");
+					}, 1.5f) 
+			};
+			Topic hello = new Topic (lines, inputs);
+			demoScene.topics.Add ("Hello", hello);
+			Line l7 = new Line("I admit this may be a bit exciting, let us check the Algebra score.",
+				grumpy,
+				0.0f,
+				8.0f);
+
+			List<Line> newInfo = new List<Line>();
+			newInfo.Add(l7);
+			Topic.Input[] inputs1 =
+			{new Topic.Input("", () => {
+
+			}), new Topic.Input("", () => {
+			}), new Topic.Input("", () => {
+			})
+			};
+			Topic newInfoTopic = new Topic(newInfo, inputs1);
+			demoScene.topics.Add("newInfoTopic", newInfoTopic);
+
+
+			Line l9 = new Line("How can we help you? You seem so sad. ", happy, 0.0f, 8.0f);
+			Line l10 = new Line(" Perhaps making a study plan.What do you think?",
+				grumpy,
+				4.0f,12.0f);
+
+			Topic.Input[] inputs3 =
+			{ new Topic.Input("Study Plan? OK!", () => {
+
+			}, 8.0f),
+				//new Topic.Input("I want to be told sooner", () => {
+				new Topic.Input("I don't feel so well, contact my tutor please.", () => {
+
+				}, 3.0f), new Topic.Input("I am all right thank you.", () => {
+
+				}, 4.5f)
+			};
+
+			List<Line> badTest = new List<Line>();
+			badTest.Add(l9);
+			badTest.Add(l10);
+			Topic badTestTopic = new Topic(badTest, inputs3);
+			demoScene.topics.Add("belowAvgTopic", badTestTopic);
+
+		}
+
+
+		//perspective
+
+		void PopulateSceneVidPerspective(Scene demoScene){
+			Agent happy = new Agent ();
+			Agent grumpy = new Agent ();
+			grumpy.IsLeft = false;
+
+			demoScene.agents.Add (happy);
+			demoScene.agents.Add (grumpy);
+			//Hello
+			happy.CurrentEmotion = Agent.EmotionType.SMILING;
+			grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+			Evaluation test1 = new Evaluation ("1st Test",
+				"20/03/2017",
+				4,
+				4,
+				"12.0");
+			Evaluation project1 = new Evaluation ("1st Project",
+				"04/04/2017",
+				3,
+				4,
+				"7.0");
+			CheckBoxPoint revision = new CheckBoxPoint ("Notes Class 20",
+				"08/04/2017",
+				1,
+				3,
+				true);
+			Evaluation test2 = new Evaluation ("2nd Test",
+				"07/05/2017",
+				4,
+				4,
+				"7.0");
+			Evaluation test3 = new Evaluation ("3rd Test",
+				"22/06/2017",
+				4,
+				4,
+				"");
+			demoScene.course1.Checkpoints.Add ("test1", test1);
+			demoScene.course1.Checkpoints.Add ("project1", project1);
+			demoScene.course1.Checkpoints.Add ("revision", revision);
+			demoScene.course1.Checkpoints.Add ("test2", test2);
+			demoScene.course1.Checkpoints.Add ("test3", test3);
+			Evaluation c2Test1 = new Evaluation ("1st Test",
+				"13/03/2017",
+				3,
+				4,
+				"14.0");
+			Evaluation c2Test2 = new Evaluation ("2nd Test",
+				"15/04/2017",
+				3,
+				4,
+				"7.0");
+			CheckBoxPoint achievment = new CheckBoxPoint ("Office Hours",
+				"08/05/2017",
+				1,
+				3,
+				false);
+			Evaluation c2Teste3 = new Evaluation ("3rd Test",
+				"09/05/2017",
+				3,
+				4,
+				"7.0");
+			Evaluation c2Test4 = new Evaluation ("4th Test",
+				"2/06/2017",
+				3,
+				4,
+				"");
+			demoScene.course2.Checkpoints.Add ("test1", c2Test1);
+			demoScene.course2.Checkpoints.Add ("project1", c2Test2);
+			demoScene.course2.Checkpoints.Add ("revision", achievment);
+			demoScene.course2.Checkpoints.Add ("test2", c2Teste3);
+			demoScene.course2.Checkpoints.Add ("test3", c2Test4);
+
+
+
+			Line l1 = new Line ("Hey, how are you? I am so happy to see you.",
+				happy,
+				0.0f,
+				8.0f);
+			Line l2 = new Line ("Maybe they want our help don’t you think? ",
+				grumpy,
+				4.0f,
+				12.0f);
+			Line l3 = new Line ("Your Linear Algebra test has been graded and published, you can check it on our Algebra Course page.",
+				happy,
+				12.5f,
+				20.5f);
+
+			List<Line> lines = new List<Line> ();
+			lines.Add (l1);
+			lines.Add (l2);
+			lines.Add (l3);
+			lines = lines.OrderBy (l => l.Start).ToList ();
+			Topic.Input[] inputs = {
+				new Topic.Input(
+					"Remind me of...", () => {
+					}, 1.5f), 
+				new Topic.Input(
+					"I would like to talk about ...",
+					() => {
+
+					}, 1.5f), 
+				new Topic.Input(
+					"Consult new information",
+					() => {
+						happy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+						grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+						demoScene.changeTopic("newInfoTopic");
+					}, 1.5f) 
+			};
+			Topic hello = new Topic (lines, inputs);
+			demoScene.topics.Add ("Hello", hello);
+			Line l7 = new Line("Let us check the Algebra score.",
+				grumpy,
+				0.0f,
+				8.0f);
+
+			List<Line> newInfo = new List<Line>();
+			newInfo.Add(l7);
+			Topic.Input[] inputs1 =
+			{new Topic.Input("", () => {
+
+			}), new Topic.Input("", () => {
+			}), new Topic.Input("", () => {
+			})
+			};
+			Topic newInfoTopic = new Topic(newInfo, inputs1);
+			demoScene.topics.Add("newInfoTopic", newInfoTopic);
+
+
+			Line l9 = new Line(" This is so sad. We have failed! We know that you have studied a lot for this test, you may be losing hope but we are here for you.. ", happy, 0.0f, 8.0f);
+			Line l10 = new Line(" I’m sad too but we need to focus. How can we help you? So we can turn this situation around I think it would be better for us to make a study plan to manage your effort. ",
+				grumpy,
+				4.0f,12.0f);
+
+			Topic.Input[] inputs3 =
+			{ new Topic.Input("Study Plan? OK!", () => {
+
+			}, 8.0f),
+				//new Topic.Input("I want to be told sooner", () => {
+				new Topic.Input("I don't feel so well, contact my tutor please.", () => {
+
+				}, 3.0f), new Topic.Input("I am all right thank you.", () => {
+
+				}, 4.5f)
+			};
+
+			List<Line> badTest = new List<Line>();
+			badTest.Add(l9);
+			badTest.Add(l10);
+			Topic badTestTopic = new Topic(badTest, inputs3);
+			demoScene.topics.Add("belowAvgTopic", badTestTopic);
+
+		}
+
+		//Back-channeling
+
+		void PopulateSceneVidBackChannel(Scene demoScene){
+			Agent happy = new Agent ();
+			Agent grumpy = new Agent ();
+			grumpy.IsLeft = false;
+
+			demoScene.agents.Add (happy);
+			demoScene.agents.Add (grumpy);
+			//Hello
+			happy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+			grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+			Evaluation test1 = new Evaluation ("1st Test",
+				"20/03/2017",
+				4,
+				4,
+				"12.0");
+			Evaluation project1 = new Evaluation ("1st Project",
+				"04/04/2017",
+				3,
+				4,
+				"7.0");
+			CheckBoxPoint revision = new CheckBoxPoint ("Notes Class 20",
+				"08/04/2017",
+				1,
+				3,
+				true);
+			Evaluation test2 = new Evaluation ("2nd Test",
+				"07/05/2017",
+				4,
+				4,
+				"7.0");
+			Evaluation test3 = new Evaluation ("3rd Test",
+				"22/06/2017",
+				4,
+				4,
+				"");
+			demoScene.course1.Checkpoints.Add ("test1", test1);
+			demoScene.course1.Checkpoints.Add ("project1", project1);
+			demoScene.course1.Checkpoints.Add ("revision", revision);
+			demoScene.course1.Checkpoints.Add ("test2", test2);
+			demoScene.course1.Checkpoints.Add ("test3", test3);
+			Evaluation c2Test1 = new Evaluation ("1st Test",
+				"13/03/2017",
+				3,
+				4,
+				"14.0");
+			Evaluation c2Test2 = new Evaluation ("2nd Test",
+				"15/04/2017",
+				3,
+				4,
+				"7.0");
+			CheckBoxPoint achievment = new CheckBoxPoint ("Office Hours",
+				"08/05/2017",
+				1,
+				3,
+				false);
+			Evaluation c2Teste3 = new Evaluation ("3rd Test",
+				"09/05/2017",
+				3,
+				4,
+				"7.0");
+			Evaluation c2Test4 = new Evaluation ("4th Test",
+				"2/06/2017",
+				3,
+				4,
+				"");
+			demoScene.course2.Checkpoints.Add ("test1", c2Test1);
+			demoScene.course2.Checkpoints.Add ("project1", c2Test2);
+			demoScene.course2.Checkpoints.Add ("revision", achievment);
+			demoScene.course2.Checkpoints.Add ("test2", c2Teste3);
+			demoScene.course2.Checkpoints.Add ("test3", c2Test4);
+
+
+
+			Line l1 = new Line ("Hey, how are you? It’s nice to see you",
+				happy,
+				0.0f,
+				8.0f);
+			Line l2 = new Line ("Maybe they want our help don’t you think? ",
+				grumpy,
+				4.0f,
+				12.0f);
+			Line l3 = new Line ("You think? I think they so too. Anyway your Linear Algebra test has been graded and published, you can check it on our Algebra Course page.", happy,
+				12.5f,
+				20.5f);
+
+			List<Line> lines = new List<Line> ();
+			lines.Add (l1);
+			lines.Add (l2);
+			lines.Add (l3);
+			lines = lines.OrderBy (l => l.Start).ToList ();
+			Topic.Input[] inputs = {
+				new Topic.Input(
+					"Remind me of...", () => {
+					}, 1.5f), 
+				new Topic.Input(
+					"I would like to talk about ...",
+					() => {
+
+					}, 1.5f), 
+				new Topic.Input(
+					"Consult new information",
+					() => {
+						happy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+						grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+						demoScene.changeTopic("newInfoTopic");
+					}, 1.5f) 
+			};
+			Topic hello = new Topic (lines, inputs);
+			demoScene.topics.Add ("Hello", hello);
+			Line l7 = new Line("Let us check the Algebra score.",
+				grumpy,
+				0.0f,
+				8.0f);
+
+			List<Line> newInfo = new List<Line>();
+			newInfo.Add(l7);
+			Topic.Input[] inputs1 =
+			{new Topic.Input("", () => {
+
+			}), new Topic.Input("", () => {
+			}), new Topic.Input("", () => {
+			})
+			};
+			Topic newInfoTopic = new Topic(newInfo, inputs1);
+			demoScene.topics.Add("newInfoTopic", newInfoTopic);
+
+
+			Line l9 = new Line(" How do you think we can help? ", happy, 0.0f, 8.0f);
+			Line l10 = new Line(" Perhaps making a study plan. What do you think? ",
+				grumpy,
+				4.0f,12.0f);
+
+			Topic.Input[] inputs3 =
+			{ new Topic.Input("Study Plan? OK!", () => {
+
+			}, 8.0f),
+				//new Topic.Input("I want to be told sooner", () => {
+				new Topic.Input("I don't feel so well, contact my tutor please.", () => {
+
+				}, 3.0f), new Topic.Input("I am all right thank you.", () => {
+
+				}, 4.5f)
+			};
+
+			List<Line> badTest = new List<Line>();
+			badTest.Add(l9);
+			badTest.Add(l10);
+			Topic badTestTopic = new Topic(badTest, inputs3);
+			demoScene.topics.Add("belowAvgTopic", badTestTopic);
+
+		}
+
+
+
+	}
+
 }
