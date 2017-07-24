@@ -2198,7 +2198,7 @@ namespace VT
 			demoScene.agents.Add (happy);
 			demoScene.agents.Add (grumpy);
 			//Hello
-			happy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+			happy.CurrentEmotion = Agent.EmotionType.SMILING;
 			grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
 			Evaluation test1 = new Evaluation ("1st Test",
 				"20/03/2017",
