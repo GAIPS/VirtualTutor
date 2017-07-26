@@ -2733,11 +2733,11 @@ namespace VT
 				happy,
 				0.0f,
 				8.0f);
-			Line l2 = new Line ("Maybe they want our help don’t you think? ",
+			Line l2 = new Line ("Maybe they want our help. What do you think? ",
 				grumpy,
 				4.0f,
 				12.0f);
-			Line l3 = new Line ("You think? I think they so too. Anyway your Linear Algebra test has been graded and published, you can check it on our Algebra Course page.", happy,
+			Line l3 = new Line ("Really? I think they do. Anyway deat student, your Linear Algebra test has been graded and published, you can check it on our Algebra Course page.", happy,
 				12.5f,
 				20.5f);
 
