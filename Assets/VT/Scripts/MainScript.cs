@@ -2737,7 +2737,7 @@ namespace VT
 				grumpy,
 				4.0f,
 				12.0f);
-			Line l3 = new Line ("Really? I think they do. Anyway deat student, your Linear Algebra test has been graded and published, you can check it on our Algebra Course page.", happy,
+			Line l3 = new Line ("Really?Hmmm.... I think they do. Anyway deat student, your Linear Algebra test has been graded and published, you can check it on our Algebra Course page.", happy,
 				12.5f,
 				20.5f);
 
@@ -2758,8 +2758,8 @@ namespace VT
 				new Topic.Input(
 					"Consult new information",
 					() => {
-						happy.CurrentEmotion = Agent.EmotionType.POKERFACE;
-						grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+						happy.CurrentEmotion = Agent.EmotionType.SMILING;
+						grumpy.CurrentEmotion = Agent.EmotionType.SMILING;
 						demoScene.changeTopic("newInfoTopic");
 					}, 1.5f) 
 			};
@@ -2783,8 +2783,8 @@ namespace VT
 			demoScene.topics.Add("newInfoTopic", newInfoTopic);
 
 
-			Line l9 = new Line(" How do you think we can help? ", happy, 0.0f, 8.0f);
-			Line l10 = new Line(" Perhaps making a study plan. What do you think? ",
+			Line l9 = new Line(" Hey partner, How do you think we can help them? ", happy, 0.0f, 8.0f);
+			Line l10 = new Line("Hmm... Perhaps making a study plan. What do you think? ",
 				grumpy,
 				4.0f,12.0f);
 
