@@ -26,8 +26,8 @@ namespace VT
 		/// Selects the the dialog script that should be used.
 		/// 0 for formal and 1 for more personal dialog.
 		/// </summary>
-		public static int dialogIndex = 3;
-		// HACK
+		public static int dialogIndex = 6;
+		// HAC
 
 		private bool playing = false;
 
@@ -91,6 +91,9 @@ namespace VT
 				break;
 			case 6:
 				PopulateSceneVidPerspective (scene);
+				break;
+			case 7:
+				PopulateSceneVidBackChannel (scene);
 				break;
 
 			}
@@ -2510,7 +2513,7 @@ namespace VT
 			demoScene.agents.Add (grumpy);
 			//Hello
 			happy.CurrentEmotion = Agent.EmotionType.SMILING;
-			grumpy.CurrentEmotion = Agent.EmotionType.POKERFACE;
+			grumpy.CurrentEmotion = Agent.EmotionType.SMILING;
 			Evaluation test1 = new Evaluation ("1st Test",
 				"20/03/2017",
 				4,

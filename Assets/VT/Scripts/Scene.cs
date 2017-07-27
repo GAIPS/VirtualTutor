@@ -16,8 +16,8 @@ namespace VT {
         public Calendar2Control calendar2Control;
         public DiscussControl discussControl;
         public Calendar3Control calendar3Control;
-        public Course course1 = new Course("Fundamentos da Programação");
-        public Course course2 = new Course("Álgebra Linear");
+        public Course course1 = new Course("Foundations for Programming");
+        public Course course2 = new Course("Linear Algebra");
         private float start = 0.0f;
 		private float aLHours = 4.0f;
 		private float fPHours = 5.0f;
@@ -129,8 +129,8 @@ namespace VT {
 
 						//agents[0].CurrentEmotion = Agent.EmotionType.SAD;
                         //agents[1].CurrentEmotion = Agent.EmotionType.SAD;
-						agents[0].CurrentEmotion = Agent.EmotionType.POKERFACE;
-						agents[1].CurrentEmotion = Agent.EmotionType.POKERFACE;
+						agents[0].CurrentEmotion = Agent.EmotionType.SAD;
+						agents[1].CurrentEmotion = Agent.EmotionType.SAD;
                         currentTopicName = "belowAvgTopic";
                         var topic2 = topics[currentTopicName];
 						fPHours += 1.0f;
@@ -177,8 +177,8 @@ namespace VT {
                         coursesControl.Disable();
                         courseControl.Disable();
                     } else if (clickedCourse == course2 && (evaluationResult >= 6.1 && evaluationResult < 10) || (evaluationResult > 7.1 && evaluationResult < 9 && clickedCourse.Like < 2.0 && clickedCourse.Know < 2.0) || (clickedCourse.Like > 3 && clickedCourse.Know > 3 && evaluationResult >= 9.5 && evaluationResult < 11)) {
-                        agents[0].CurrentEmotion = Agent.EmotionType.POKERFACE;
-						agents[1].CurrentEmotion = Agent.EmotionType.POKERFACE;
+						agents[0].CurrentEmotion = Agent.EmotionType.SAD;
+						agents[1].CurrentEmotion = Agent.EmotionType.SAD;
                         currentTopicName = "belowAvgTopic";
 						aLHours +=1.0f;
                         var topic2 = topics[currentTopicName];
