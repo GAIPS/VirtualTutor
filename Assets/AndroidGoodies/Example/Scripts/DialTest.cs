@@ -1,9 +1,8 @@
 ﻿#if UNITY_ANDROID
-using UnityEngine;
 using DeadMosquito.AndroidGoodies;
+using UnityEngine;
 
-namespace AndroidGoodiesExamples
-{
+namespace AndroidGoodiesExamples {
     public class DialTest : MonoBehaviour
     {
         private const string PhoneNumber = "123456789";

@@ -2,8 +2,7 @@
 
 #if UNITY_ANDROID
 
-namespace DeadMosquito.AndroidGoodies
-{
+namespace DeadMosquito.AndroidGoodies {
     /// <summary>
     /// Information you can retrieve about a particular application. 
     /// This corresponds to information collected from the AndroidManifest.xml's <application> tag.

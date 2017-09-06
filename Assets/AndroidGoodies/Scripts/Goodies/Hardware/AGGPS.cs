@@ -3,13 +3,12 @@
 //
 
 #if UNITY_ANDROID
+using DeadMosquito.AndroidGoodies.Internal;
 using System;
 using System.Diagnostics.CodeAnalysis;
-using DeadMosquito.AndroidGoodies.Internal;
 using UnityEngine;
 
-namespace DeadMosquito.AndroidGoodies
-{
+namespace DeadMosquito.AndroidGoodies {
     /// <summary>
     /// Class for accessing GPS location
     ///     Permissions:

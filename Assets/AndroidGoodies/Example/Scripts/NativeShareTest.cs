@@ -1,11 +1,9 @@
 ﻿#if UNITY_ANDROID
-using UnityEngine;
 using DeadMosquito.AndroidGoodies;
-using System.Collections;
 using System.IO;
+using UnityEngine;
 
-namespace AndroidGoodiesExamples
-{
+namespace AndroidGoodiesExamples {
     public class NativeShareTest : MonoBehaviour
     {
         public string message = "Android Native Goodies PRO by Dead Mosquito Games http://u3d.as/xf8 #AssetStore";

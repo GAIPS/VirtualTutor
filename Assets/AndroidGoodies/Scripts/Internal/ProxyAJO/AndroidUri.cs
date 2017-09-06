@@ -1,8 +1,7 @@
 ﻿#if UNITY_ANDROID
 using UnityEngine;
 
-namespace DeadMosquito.AndroidGoodies.Internal
-{
+namespace DeadMosquito.AndroidGoodies.Internal {
     static class AndroidUri
     {
         public static AndroidJavaObject Parse(string uriString)

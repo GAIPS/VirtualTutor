@@ -9,8 +9,7 @@ using System;
 using DeadMosquito.AndroidGoodies.Internal;
 using UnityEngine;
 
-namespace DeadMosquito.AndroidGoodies
-{
+namespace DeadMosquito.AndroidGoodies {
     /// <summary>
     /// 
     ///     REQUIREMENTS:

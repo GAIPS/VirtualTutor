@@ -1,10 +1,8 @@
 ﻿#if UNITY_ANDROID
-using UnityEngine;
 using DeadMosquito.AndroidGoodies;
-using System.Collections;
+using UnityEngine;
 
-namespace AndroidGoodiesExamples
-{
+namespace AndroidGoodiesExamples {
     public class AlarmClockTest : MonoBehaviour
     {
         public void OnShowAllAlarms()

@@ -1,10 +1,9 @@
 ﻿#if UNITY_ANDROID
-using UnityEngine;
 using DeadMosquito.AndroidGoodies;
 using System.Collections;
+using UnityEngine;
 
-namespace AndroidGoodiesExamples
-{
+namespace AndroidGoodiesExamples {
     public class AlertDialogTest : MonoBehaviour
     {
         private static readonly string[] Colors = { "Red", "Green", "Blue" };

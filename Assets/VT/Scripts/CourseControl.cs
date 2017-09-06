@@ -1,154 +1,154 @@
+using HookControl;
 using System;
 using UnityEngine;
 
-namespace VT
-{
-	[Serializable]
-	public class CourseControl : IControl
-	{
-		private CourseHooks hook;
+namespace VT {
+    [Serializable]
+    public class CourseControl : IControl
+    {
+        private CourseHooks hook;
 
-		private Control control;
-		private VoidFunc onConfirm;
-		private string newGradeText;
-		private BoolFunc toggle;
-		private FloatFunc EaseSlider;
-		private Checkpoint checkpoint1;
-		private Checkpoint checkpoint2;
-		private Checkpoint checkpoint3;
-		private Checkpoint checkpoint4;
-		private Checkpoint checkpoint5;
-		private FloatFunc onLikeSlider;
-		private FloatFunc onImportanceSlider;
-		private string courseName;
+        private Control control;
+        private VoidFunc onConfirm;
+        private string newGradeText;
+        private BoolFunc toggle;
+        private FloatFunc EaseSlider;
+        private Checkpoint checkpoint1;
+        private Checkpoint checkpoint2;
+        private Checkpoint checkpoint3;
+        private Checkpoint checkpoint4;
+        private Checkpoint checkpoint5;
+        private FloatFunc onLikeSlider;
+        private FloatFunc onImportanceSlider;
+        private string courseName;
 
-		public CourseControl (GameObject prefab)
-		{
-			control = new Control ();
-			control.prefab = prefab;
-		}
+        public CourseControl (GameObject prefab)
+        {
+            control = new Control ();
+            control.prefab = prefab;
+        }
 
-		public void Set (VoidFunc onConfirm,
-			string newGradeText,
-		                 BoolFunc toggle,
-		                 Checkpoint checkpoint1,
-		                 Checkpoint checkpoint2,
-		                 Checkpoint checkpoint3,
-		                 Checkpoint checkpoint4,
-		                 Checkpoint checkpoint5,
-		                 FloatFunc easeSlider,
-		                 FloatFunc onLikeSlider,
-		                 FloatFunc onImportanceSlider, 
-		                 string courseName)
-		{
-			this.onConfirm = onConfirm;
-			this.toggle = toggle;
-			this.newGradeText = newGradeText;
-			this.checkpoint1 = checkpoint1;
-			this.checkpoint2 = checkpoint2;
-			this.checkpoint3 = checkpoint3;
-			this.checkpoint4 = checkpoint4;
-			this.checkpoint5 = checkpoint5;
-			this.EaseSlider = easeSlider;
-			this.onLikeSlider = onLikeSlider;
-			this.onImportanceSlider = onImportanceSlider;
-			this.courseName = courseName;
-		}
+        public void Set (VoidFunc onConfirm,
+            string newGradeText,
+                         BoolFunc toggle,
+                         Checkpoint checkpoint1,
+                         Checkpoint checkpoint2,
+                         Checkpoint checkpoint3,
+                         Checkpoint checkpoint4,
+                         Checkpoint checkpoint5,
+                         FloatFunc easeSlider,
+                         FloatFunc onLikeSlider,
+                         FloatFunc onImportanceSlider, 
+                         string courseName)
+        {
+            this.onConfirm = onConfirm;
+            this.toggle = toggle;
+            this.newGradeText = newGradeText;
+            this.checkpoint1 = checkpoint1;
+            this.checkpoint2 = checkpoint2;
+            this.checkpoint3 = checkpoint3;
+            this.checkpoint4 = checkpoint4;
+            this.checkpoint5 = checkpoint5;
+            this.EaseSlider = easeSlider;
+            this.onLikeSlider = onLikeSlider;
+            this.onImportanceSlider = onImportanceSlider;
+            this.courseName = courseName;
+        }
 
-		public ShowResult Show ()
-		{
-			var ret = control.Show ();
-			if (ret == ShowResult.FIRST || ret == ShowResult.OK) {
-				hook = control.instance.GetComponent<CourseHooks> ();
-				if (hook != null) {
-					hook.onConfirm = this.onConfirm;
-					hook.CheckPoint2DateText = this.checkpoint2.Date;
-					hook.CheckPoint3Date = this.checkpoint3.Date;
-					hook.Checkpoint5Date = this.checkpoint5.Date;
-					hook.OldDate = this.checkpoint1.Date;
-					hook.NewDate = this.checkpoint4.Date;
-					hook.toggle = this.toggle;
-					hook.EaseSlider = this.EaseSlider;
-					hook.onLikeSlider = this.onLikeSlider;
-					hook.CourseName = this.courseName;
-					hook.onImportanceSlider = this.onImportanceSlider;
-					hook.Checkpoint1Title = this.checkpoint1.Name;
-					hook.Checkpoint2Title = this.checkpoint2.Name;
-					hook.Checkpoint3Title = this.checkpoint3.Name;
-					hook.Checkpoint4Title = this.checkpoint4.Name;
-					hook.Checkpoint5Title = this.checkpoint5.Name;
-					hook.NewGradeText = this.newGradeText;
-					var checkPoint3Box = checkpoint3 as CheckBoxPoint;
-					if (checkPoint3Box != null) {
-						hook.CheckPoint3Value = checkPoint3Box.Done;						
-					}
+        public ShowResult Show ()
+        {
+            var ret = control.Show ();
+            if (ret == ShowResult.FIRST || ret == ShowResult.OK) {
+                hook = control.instance.GetComponent<CourseHooks> ();
+                if (hook != null) {
+                    hook.onConfirm = this.onConfirm;
+                    hook.CheckPoint2DateText = this.checkpoint2.Date;
+                    hook.CheckPoint3Date = this.checkpoint3.Date;
+                    hook.Checkpoint5Date = this.checkpoint5.Date;
+                    hook.OldDate = this.checkpoint1.Date;
+                    hook.NewDate = this.checkpoint4.Date;
+                    hook.toggle = this.toggle;
+                    hook.EaseSlider = this.EaseSlider;
+                    hook.onLikeSlider = this.onLikeSlider;
+                    hook.CourseName = this.courseName;
+                    hook.onImportanceSlider = this.onImportanceSlider;
+                    hook.Checkpoint1Title = this.checkpoint1.Name;
+                    hook.Checkpoint2Title = this.checkpoint2.Name;
+                    hook.Checkpoint3Title = this.checkpoint3.Name;
+                    hook.Checkpoint4Title = this.checkpoint4.Name;
+                    hook.Checkpoint5Title = this.checkpoint5.Name;
+                    hook.NewGradeText = this.newGradeText;
+                    var checkPoint3Box = checkpoint3 as CheckBoxPoint;
+                    if (checkPoint3Box != null) {
+                        hook.CheckPoint3Value = checkPoint3Box.Done;						
+                    }
 
-					hook.Show ();
-				}
-			}
-			return ret;
-		}
+                    hook.Show ();
+                }
+            }
+            return ret;
+        }
 
-		public ShowResult SetAndShow (VoidFunc onConfirm,
-									string newGradeText,
-		                              BoolFunc toggle,
-		                              Checkpoint checkpoint1,
-		                              Checkpoint checkpoint2,
-		                              Checkpoint checkpoint3,
-		                              Checkpoint checkpoint4,
-		                              Checkpoint checkpoint5,
-		                              FloatFunc easeSlider,
-		                              FloatFunc onLikeSlider,
-		                              FloatFunc onImportanceSlider,
-		                              string courseName)
-		{
-			this.Set (onConfirm,
-				newGradeText,
-				toggle,
-				checkpoint1,
-				checkpoint2,
-				checkpoint3,
-				checkpoint4,
-				checkpoint5,
-				easeSlider,
-				onLikeSlider,
-				onImportanceSlider,
-				courseName);
-			return Show ();
-		}
+        public ShowResult SetAndShow (VoidFunc onConfirm,
+                                    string newGradeText,
+                                      BoolFunc toggle,
+                                      Checkpoint checkpoint1,
+                                      Checkpoint checkpoint2,
+                                      Checkpoint checkpoint3,
+                                      Checkpoint checkpoint4,
+                                      Checkpoint checkpoint5,
+                                      FloatFunc easeSlider,
+                                      FloatFunc onLikeSlider,
+                                      FloatFunc onImportanceSlider,
+                                      string courseName)
+        {
+            this.Set (onConfirm,
+                newGradeText,
+                toggle,
+                checkpoint1,
+                checkpoint2,
+                checkpoint3,
+                checkpoint4,
+                checkpoint5,
+                easeSlider,
+                onLikeSlider,
+                onImportanceSlider,
+                courseName);
+            return Show ();
+        }
 
-		public void Destroy ()
-		{
-			if (hook) {
-				hook.onHideEnded = () => {
-					control.Destroy ();
-				};
-				hook.Hide ();
-			} else {
-				control.Destroy ();
-			}
-		}
+        public void Destroy ()
+        {
+            if (hook) {
+                hook.onHideEnded = () => {
+                    control.Destroy ();
+                };
+                hook.Hide ();
+            } else {
+                control.Destroy ();
+            }
+        }
 
-		public void Disable ()
-		{
-			if (hook) {
-				hook.onHideEnded = () => {
-					control.Disable ();
-				};
-				hook.Hide ();
-			} else {
-				control.Disable ();
-			}
-		}
+        public void Disable ()
+        {
+            if (hook) {
+                hook.onHideEnded = () => {
+                    control.Disable ();
+                };
+                hook.Hide ();
+            } else {
+                control.Disable ();
+            }
+        }
 
-		public bool IsVisible ()
-		{
-			return control.IsVisible ();
-		}
+        public bool IsVisible ()
+        {
+            return control.IsVisible ();
+        }
 
-		public void Enable ()
-		{
-			control.Enable ();
-		}
-	}
+        public void Enable ()
+        {
+            control.Enable ();
+        }
+    }
 }

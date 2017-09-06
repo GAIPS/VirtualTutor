@@ -1,8 +1,7 @@
 ﻿
 #if UNITY_ANDROID
 
-namespace DeadMosquito.AndroidGoodies.Internal
-{
+namespace DeadMosquito.AndroidGoodies.Internal {
     public static class C
     {
         // Class signatures

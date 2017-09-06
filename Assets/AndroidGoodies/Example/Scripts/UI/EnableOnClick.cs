@@ -1,8 +1,7 @@
 ﻿#if UNITY_ANDROID
 using UnityEngine;
 
-namespace AndroidGoodiesExamples
-{
+namespace AndroidGoodiesExamples {
     public class EnableOnClick : MonoBehaviour
     {
         public bool enable;

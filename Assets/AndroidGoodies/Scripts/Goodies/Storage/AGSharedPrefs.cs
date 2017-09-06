@@ -3,13 +3,12 @@
 //
 
 #if UNITY_ANDROID
+using DeadMosquito.AndroidGoodies.Internal;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using DeadMosquito.AndroidGoodies.Internal;
 
-namespace DeadMosquito.AndroidGoodies
-{
+namespace DeadMosquito.AndroidGoodies {
     /// <summary>
     /// Class to interact with Android SharedPreferences:
     /// https://developer.android.com/reference/android/content/SharedPreferences.html

@@ -1,11 +1,10 @@
 ﻿#if UNITY_ANDROID
+using DeadMosquito.AndroidGoodies;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
-using DeadMosquito.AndroidGoodies;
 
-namespace AndroidGoodiesExamples
-{
+namespace AndroidGoodiesExamples {
     public class DateTimePickerTest : MonoBehaviour
     {
         public Text timeText;

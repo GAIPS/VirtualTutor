@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using HookControl;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace VT
-{
+namespace VT {
 
-	public class ThreePartsHooks : Hooks
+    public class ThreePartsHooks : Hook
 	{
 		[SerializeField]
 		private Text topicTextLeft = null;

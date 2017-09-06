@@ -1,10 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace VT
-{
-	public class CheckBoxPoint :Checkpoint
+﻿namespace VT {
+    public class CheckBoxPoint :Checkpoint
 	{
 
 		private bool done;

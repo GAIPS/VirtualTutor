@@ -1,10 +1,9 @@
 ﻿#if UNITY_ANDROID
-using UnityEngine;
-using System;
 using DeadMosquito.AndroidGoodies;
+using System;
+using UnityEngine;
 
-namespace AndroidGoodiesExamples
-{
+namespace AndroidGoodiesExamples {
     public class CalendarTest : MonoBehaviour
     {
         public void OnCreateEventClick()

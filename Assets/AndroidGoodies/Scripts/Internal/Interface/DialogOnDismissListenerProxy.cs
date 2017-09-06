@@ -1,9 +1,8 @@
 ﻿#if UNITY_ANDROID
-using UnityEngine;
 using System;
+using UnityEngine;
 
-namespace DeadMosquito.AndroidGoodies.Internal
-{
+namespace DeadMosquito.AndroidGoodies.Internal {
     class DialogOnDismissListenerProxy : AndroidJavaProxy
     {
         private readonly Action _onDismiss;

@@ -1,12 +1,10 @@
 ﻿#if UNITY_ANDROID
-using UnityEngine;
 using DeadMosquito.AndroidGoodies;
-using UnityEngine.UI;
 using System;
-using DeadMosquito.AndroidGoodies.Internal;
+using UnityEngine;
+using UnityEngine.UI;
 
-namespace AndroidGoodiesExamples
-{
+namespace AndroidGoodiesExamples {
     public class GPSTest : MonoBehaviour
     {
         public const double AmsterdamLatitude = 52.3745913;

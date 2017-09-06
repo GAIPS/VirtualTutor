@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using HookControl;
 using UnityEngine;
-using UnityEngine.UI;
 
 
-namespace VT
-{
-	public class DiscussHooks : Hooks
+namespace VT {
+    public class DiscussHooks : Hook
 	{
 		[SerializeField]
 		private GameObject confirm;

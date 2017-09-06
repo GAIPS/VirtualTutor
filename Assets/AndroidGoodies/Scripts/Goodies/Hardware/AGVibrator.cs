@@ -5,8 +5,7 @@
 #if UNITY_ANDROID
 using DeadMosquito.AndroidGoodies.Internal;
 
-namespace DeadMosquito.AndroidGoodies
-{
+namespace DeadMosquito.AndroidGoodies {
     public static class AGVibrator
     {
         /// <summary>

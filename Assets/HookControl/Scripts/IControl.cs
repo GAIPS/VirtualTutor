@@ -1,8 +1,5 @@
-﻿using System;
-
-namespace VT
-{
-	public enum ShowResult
+﻿namespace HookControl {
+    public enum ShowResult
 	{
 		FIRST,
 		OK,

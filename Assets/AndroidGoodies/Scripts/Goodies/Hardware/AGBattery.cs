@@ -3,12 +3,10 @@
 //
 
 #if UNITY_ANDROID
-using System;
-using UnityEngine;
 using DeadMosquito.AndroidGoodies.Internal;
+using UnityEngine;
 
-namespace DeadMosquito.AndroidGoodies
-{
+namespace DeadMosquito.AndroidGoodies {
 
     public static class AGBattery
     {

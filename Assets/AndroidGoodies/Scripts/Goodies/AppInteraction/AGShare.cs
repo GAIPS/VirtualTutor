@@ -3,13 +3,12 @@
 //
 
 #if UNITY_ANDROID
-using UnityEngine;
-using System;
 using DeadMosquito.AndroidGoodies.Internal;
+using System;
 using System.IO;
+using UnityEngine;
 
-namespace DeadMosquito.AndroidGoodies
-{
+namespace DeadMosquito.AndroidGoodies {
     public static class AGShare
     {
         /// <summary>

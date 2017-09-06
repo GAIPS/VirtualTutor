@@ -1,11 +1,10 @@
 ﻿#if UNITY_ANDROID
-using UnityEngine;
 using System;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-namespace DeadMosquito.AndroidGoodies.Internal
-{
+namespace DeadMosquito.AndroidGoodies.Internal {
     internal class GoodiesSceneHelper : MonoBehaviour
     {
         static GoodiesSceneHelper _instance;

@@ -1,10 +1,9 @@
 ﻿#if UNITY_ANDROID
-using UnityEngine;
 using System;
 using System.IO;
+using UnityEngine;
 
-namespace DeadMosquito.AndroidGoodies.Internal
-{
+namespace DeadMosquito.AndroidGoodies.Internal {
     public static class CommonUtils
     {
         public static byte[] Encode(this Texture2D tex, ImageFormat format)

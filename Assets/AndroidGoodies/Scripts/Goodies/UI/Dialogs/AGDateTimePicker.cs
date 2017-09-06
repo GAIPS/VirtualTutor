@@ -3,12 +3,11 @@
 //
 
 #if UNITY_ANDROID
-using UnityEngine;
-using System;
 using DeadMosquito.AndroidGoodies.Internal;
+using System;
+using UnityEngine;
 
-namespace DeadMosquito.AndroidGoodies
-{
+namespace DeadMosquito.AndroidGoodies {
     public static class AGDateTimePicker
     {
         public delegate void OnDatePicked(int year,int month,int day);

@@ -1,7 +1,6 @@
 ﻿using System;
 
-namespace DeadMosquito.AndroidGoodies.Internal
-{
+namespace DeadMosquito.AndroidGoodies.Internal {
     static class Check
     {
         public delegate bool Condition();

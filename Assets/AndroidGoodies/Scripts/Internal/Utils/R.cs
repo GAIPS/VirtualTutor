@@ -1,9 +1,8 @@
 ﻿#if UNITY_ANDROID
-using UnityEngine;
 using System;
+using UnityEngine;
 
-namespace DeadMosquito.AndroidGoodies.Internal
-{
+namespace DeadMosquito.AndroidGoodies.Internal {
     public static class R
     {
         const string DrawableRes = "drawable";

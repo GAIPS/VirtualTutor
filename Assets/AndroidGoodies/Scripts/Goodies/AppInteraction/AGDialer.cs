@@ -6,8 +6,7 @@
 using DeadMosquito.AndroidGoodies.Internal;
 using UnityEngine;
 
-namespace DeadMosquito.AndroidGoodies
-{
+namespace DeadMosquito.AndroidGoodies {
     /// <summary>
     /// Android class to place phone calls.
     /// </summary>

@@ -3,13 +3,12 @@
 //
 
 #if UNITY_ANDROID
+using DeadMosquito.AndroidGoodies.Internal;
 using System;
 using System.Collections.Generic;
-using DeadMosquito.AndroidGoodies.Internal;
 using UnityEngine;
 
-namespace DeadMosquito.AndroidGoodies
-{
+namespace DeadMosquito.AndroidGoodies {
     public static class AGDeviceInfo
     {
         /// <summary>

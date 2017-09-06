@@ -1,7 +1,6 @@
 ﻿#if UNITY_ANDROID
 
-namespace DeadMosquito.AndroidGoodies
-{
+namespace DeadMosquito.AndroidGoodies {
     public enum ImageFormat
     {
         PNG = 0,

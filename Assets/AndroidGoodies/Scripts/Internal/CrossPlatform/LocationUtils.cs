@@ -1,9 +1,7 @@
 ﻿#if UNITY_ANDROID
-using UnityEngine;
 using System;
 
-namespace DeadMosquito.AndroidGoodies.Internal
-{
+namespace DeadMosquito.AndroidGoodies.Internal {
     public static class LocationUtils
     {
         public static void ComputeDistanceAndBearing(double lat1, double lon1,

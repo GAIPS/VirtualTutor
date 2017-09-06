@@ -6,8 +6,7 @@
 using DeadMosquito.AndroidGoodies.Internal;
 using System;
 
-namespace DeadMosquito.AndroidGoodies
-{
+namespace DeadMosquito.AndroidGoodies {
     /// <summary>
     /// Class to pick contacts.
     /// </summary>

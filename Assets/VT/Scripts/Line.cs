@@ -1,10 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace VT
-{
-	public class Line
+﻿namespace VT {
+    public class Line
 	{
 		string content;
 		Agent speaker;

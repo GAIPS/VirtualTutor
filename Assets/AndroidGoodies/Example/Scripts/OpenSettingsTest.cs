@@ -1,10 +1,9 @@
 ﻿#if UNITY_ANDROID
-using UnityEngine;
 using DeadMosquito.AndroidGoodies;
+using UnityEngine;
 using UnityEngine.UI;
 
-namespace AndroidGoodiesExamples
-{
+namespace AndroidGoodiesExamples {
     public class OpenSettingsTest : MonoBehaviour
     {
         public Slider slider;

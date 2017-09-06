@@ -3,11 +3,10 @@
 //
 
 #if UNITY_ANDROID
-using UnityEngine;
 using DeadMosquito.AndroidGoodies.Internal;
+using UnityEngine;
 
-namespace DeadMosquito.AndroidGoodies
-{
+namespace DeadMosquito.AndroidGoodies {
     public static class AGUIMisc
     {
         #region toast

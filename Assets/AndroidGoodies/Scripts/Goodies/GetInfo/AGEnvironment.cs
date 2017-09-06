@@ -3,12 +3,11 @@
 //
 
 #if UNITY_ANDROID
-using UnityEngine;
 using DeadMosquito.AndroidGoodies.Internal;
 using System;
+using UnityEngine;
 
-namespace DeadMosquito.AndroidGoodies
-{
+namespace DeadMosquito.AndroidGoodies {
     /// <summary>
     /// Provides access to Android environment variables.
     /// <see href="https://developer.android.com/reference/android/os/Environment.html">Android Environment Docs</see>

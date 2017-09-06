@@ -1,7 +1,6 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 [ExecuteInEditMode]
 public class CSSStyle : Singleton<CSSStyle> {

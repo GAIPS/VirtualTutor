@@ -1,11 +1,10 @@
 ﻿#if UNITY_ANDROID
-using System.Collections.Generic;
 using DeadMosquito.AndroidGoodies.Internal;
 using MiniJSON;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace DeadMosquito.AndroidGoodies
-{
+namespace DeadMosquito.AndroidGoodies {
     /// <summary>
     ///     Image that was picked
     /// </summary>

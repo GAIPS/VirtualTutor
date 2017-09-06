@@ -1,10 +1,9 @@
-﻿using System;
+﻿using HookControl;
+using System;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace VT
-{
-	[Serializable]
+namespace VT {
+    [Serializable]
 	public class DiscussControl :IControl
 	{
 		private Control control;

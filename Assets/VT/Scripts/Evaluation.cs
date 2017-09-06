@@ -1,10 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace VT
-{
-	public class Evaluation : Checkpoint
+﻿namespace VT {
+    public class Evaluation : Checkpoint
 	{
 		private string score;
 

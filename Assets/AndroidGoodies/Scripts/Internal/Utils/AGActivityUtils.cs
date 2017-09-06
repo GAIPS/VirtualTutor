@@ -2,8 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace DeadMosquito.AndroidGoodies.Internal
-{
+namespace DeadMosquito.AndroidGoodies.Internal {
     public static class AGActivityUtils
     {
         public const string JarPackageName = "com.deadmosquitogames.";

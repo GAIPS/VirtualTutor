@@ -1,6 +1,4 @@
-﻿using System;
-
-public enum Sex {
+﻿public enum Sex {
     Male,
     Female
     // Apache // they told me I should remove this... Apacheofobics

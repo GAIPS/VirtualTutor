@@ -1,14 +1,13 @@
 ﻿#if UNITY_ANDROID
-using UnityEngine;
 using DeadMosquito.AndroidGoodies;
-using System.Collections;
 using System;
-using UnityEngine.UI;
-using System.Linq;
+using System.Collections;
 using System.IO;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.UI;
 
-namespace AndroidGoodiesExamples
-{
+namespace AndroidGoodiesExamples {
     public class OtherGoodiesTest : MonoBehaviour
     {
         public Image image;

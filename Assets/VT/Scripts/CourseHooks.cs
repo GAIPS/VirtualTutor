@@ -1,14 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using HookControl;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace VT {
-    public class CourseHooks : Hooks {
+    public class CourseHooks : Hook {
 //        [SerializeField]
 //        private GameObject confirm = null;
-		[SerializeField]
-		private Text newGradeText = null;
+        [SerializeField]
+        private Text newGradeText = null;
         [SerializeField]
         private Text checkPoint2DateText = null;
         [SerializeField]
@@ -68,7 +67,7 @@ namespace VT {
             EaseSlider(value);
 
         }
-			
+            
        
         public void UIToggle(bool value) {
             if (toggle == null)
@@ -89,15 +88,15 @@ namespace VT {
             }
         }
 
-		public string NewGradeText{
-			get{
-				return this.newGradeText.text;
-			}
-			set{ 
-				if (!string.IsNullOrEmpty (value) && !value.Equals (this.newGradeText.text))
-					newGradeText.text = value;
-			}
-		}
+        public string NewGradeText{
+            get{
+                return this.newGradeText.text;
+            }
+            set{ 
+                if (!string.IsNullOrEmpty (value) && !value.Equals (this.newGradeText.text))
+                    newGradeText.text = value;
+            }
+        }
 
         public string CheckPoint2DateText {
             get {
@@ -244,5 +243,5 @@ namespace VT {
         #endregion
     }
 
-	
+    
 }

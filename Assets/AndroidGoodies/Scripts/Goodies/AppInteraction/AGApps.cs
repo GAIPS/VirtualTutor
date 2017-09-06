@@ -3,12 +3,11 @@
 //
 
 #if UNITY_ANDROID
-using System;
 using DeadMosquito.AndroidGoodies.Internal;
+using System;
 using UnityEngine;
 
-namespace DeadMosquito.AndroidGoodies
-{
+namespace DeadMosquito.AndroidGoodies {
     /// <summary>
     /// Class to open other apps on device and other application manipulations.
     /// </summary>

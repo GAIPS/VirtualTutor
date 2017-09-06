@@ -3,11 +3,10 @@
 //
 
 #if UNITY_ANDROID
-using UnityEngine;
 using DeadMosquito.AndroidGoodies.Internal;
+using UnityEngine;
 
-namespace DeadMosquito.AndroidGoodies
-{
+namespace DeadMosquito.AndroidGoodies {
     /// <summary>
     /// Class to open maps with locations, searches and adresses
     /// </summary>

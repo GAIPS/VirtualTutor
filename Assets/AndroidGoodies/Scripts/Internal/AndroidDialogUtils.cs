@@ -1,7 +1,6 @@
 ﻿#if UNITY_ANDROID
 
-namespace DeadMosquito.AndroidGoodies
-{
+namespace DeadMosquito.AndroidGoodies {
     public static class AndroidDialogUtils
     {
         // Added in API level 22

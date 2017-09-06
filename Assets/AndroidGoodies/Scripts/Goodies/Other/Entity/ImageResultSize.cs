@@ -1,6 +1,5 @@
 ﻿#if UNITY_ANDROID
-namespace DeadMosquito.AndroidGoodies
-{
+namespace DeadMosquito.AndroidGoodies {
     /// <summary>
     /// The size of the resulting image. Pick smaller value to save memory.
     /// </summary>

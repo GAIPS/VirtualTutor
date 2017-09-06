@@ -1,17 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using HookControl;
 using UnityEngine;
-namespace VT{
-	public class Calendar2Hooks :Hooks {
-		[SerializeField]
-		GameObject Image;
 
-		public VoidFunc click2;
+namespace VT {
+    public class Calendar2Hooks : Hook {
+        [SerializeField]
+        GameObject Image;
 
-		public void UIClickCalendar2(){
-			if (click2 == null)
-				return;
-			click2 ();
-		}
-	}
+        public VoidFunc click2;
+
+        public void UIClickCalendar2() {
+            if (click2 == null)
+                return;
+            click2();
+        }
+    }
 }

@@ -1,9 +1,8 @@
 ﻿#if UNITY_ANDROID
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
-namespace DeadMosquito.AndroidGoodies.Internal
-{
+namespace DeadMosquito.AndroidGoodies.Internal {
     public static class AGConvertUtils
     {
         public static Dictionary<string, object> FromJavaMap(this AndroidJavaObject javaMap)

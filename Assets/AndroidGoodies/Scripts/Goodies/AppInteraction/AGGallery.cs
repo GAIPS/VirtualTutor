@@ -7,8 +7,7 @@ using DeadMosquito.AndroidGoodies.Internal;
 using System;
 using UnityEngine;
 
-namespace DeadMosquito.AndroidGoodies
-{
+namespace DeadMosquito.AndroidGoodies {
     /// <summary>
     /// Methods to interact with device gallery.
     /// </summary>

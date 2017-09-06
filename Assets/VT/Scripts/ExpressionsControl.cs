@@ -1,8 +1,7 @@
-﻿using System;
-using UnityEngine;
-using System.Collections;
+﻿using HookControl;
+using System;
 using System.Collections.Generic;
-using UnityEngine.UI;
+using UnityEngine;
 
 namespace VT {
     [Serializable]

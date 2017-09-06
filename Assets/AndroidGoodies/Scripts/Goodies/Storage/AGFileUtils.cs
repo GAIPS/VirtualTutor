@@ -3,13 +3,11 @@
 //
 
 #if UNITY_ANDROID
-using UnityEngine;
-using System;
-using System.IO;
 using DeadMosquito.AndroidGoodies.Internal;
+using System;
+using UnityEngine;
 
-namespace DeadMosquito.AndroidGoodies
-{
+namespace DeadMosquito.AndroidGoodies {
     public static class AGFileUtils
     {
         /// <summary>

@@ -1,9 +1,7 @@
 ﻿#if UNITY_ANDROID
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace AndroidGoodiesExamples
-{
+namespace AndroidGoodiesExamples {
     public class AndroidGoodiesDemoController : MonoBehaviour
     {
         public GameObject uiPanel;

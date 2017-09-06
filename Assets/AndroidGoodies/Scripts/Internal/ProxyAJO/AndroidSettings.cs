@@ -1,8 +1,7 @@
 ﻿#if UNITY_ANDROID
 using UnityEngine;
 
-namespace DeadMosquito.AndroidGoodies.Internal
-{
+namespace DeadMosquito.AndroidGoodies.Internal {
     public static class AndroidSettings
     {
         public const string ACTION_MANAGE_WRITE_SETTINGS = "android.settings.action.MANAGE_WRITE_SETTINGS";

@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using HookControl;
 using UnityEngine;
-namespace VT{
-	public class Calendar3Hooks :Hooks {
+namespace VT {
+    public class Calendar3Hooks :Hook {
 		[SerializeField]
 		GameObject Image;
 

@@ -1,6 +1,5 @@
 ﻿#if UNITY_ANDROID
-namespace DeadMosquito.AndroidGoodies
-{
+namespace DeadMosquito.AndroidGoodies {
     public enum AGDialogTheme
     {
         Default = -1,

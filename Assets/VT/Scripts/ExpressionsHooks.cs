@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using HookControl;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace VT {
     [RequireComponent(typeof(TTSSpeakerUnityOnline), typeof(TTSSpeakerOfflineScripted))]
-    public class ExpressionsHooks : Hooks {
+    public class ExpressionsHooks : Hook {
         [SerializeField]
         private Text leftText = null;
         [SerializeField]
@@ -50,8 +50,8 @@ namespace VT {
                     this.leftText.text = value;
                 } else
                     hide(leftLine);
-				
-				
+                
+                
             }
         }
 
@@ -144,7 +144,7 @@ namespace VT {
                 audioSource = value;
             }
         }
-		
+        
         public void onClickUI() {
             if (onClick != null) {
                 onClick();

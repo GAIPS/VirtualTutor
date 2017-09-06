@@ -1,12 +1,11 @@
 ﻿#if UNITY_ANDROID
-using UnityEngine;
-using UnityEngine.UI;
-using System.Text;
 using DeadMosquito.AndroidGoodies;
 using System.Linq;
+using System.Text;
+using UnityEngine;
+using UnityEngine.UI;
 
-namespace AndroidGoodiesExamples
-{
+namespace AndroidGoodiesExamples {
     public class OtherInfoTest : MonoBehaviour
     {
         const string BoolKey = "bool_key";

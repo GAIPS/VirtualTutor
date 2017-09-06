@@ -1,10 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace VT
-{
-	public abstract class Checkpoint
+﻿namespace VT {
+    public abstract class Checkpoint
 	{
 		private string name;
 		private string date;

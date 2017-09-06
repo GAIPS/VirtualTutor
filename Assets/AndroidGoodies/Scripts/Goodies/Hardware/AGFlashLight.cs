@@ -3,12 +3,11 @@
 //
 
 #if UNITY_ANDROID
+using DeadMosquito.AndroidGoodies.Internal;
 using System;
 using UnityEngine;
-using DeadMosquito.AndroidGoodies.Internal;
 
-namespace DeadMosquito.AndroidGoodies
-{
+namespace DeadMosquito.AndroidGoodies {
     /// <summary>
     /// Android flash light.
     /// 
