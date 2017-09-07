@@ -24,6 +24,8 @@ namespace HookControl {
                 if (buttonHook != null) {
                     buttonHook.onClick = onClick;
                     buttonHook.text = text;
+                } else {
+                    Debug.LogWarning("No Button Hook found.");
                 }
             }
         }

@@ -12,27 +12,19 @@ namespace VT {
 
         private List<Course> courses;
 
-        private VoidFunc click;
-        private VoidFunc click2;
-        private Course course1;
-        private Course course2;
+        private CourseControl courseControl;
 
-        public CoursesControl(GameObject prefab) {
+        public CoursesControl(GameObject prefab, CourseControl courseControl) {
             control = new Control();
             control.prefab = prefab;
 
             courses = new List<Course>();
+
+            this.courseControl = courseControl;
         }
 
         public void Set(List<Course> courses) {
             this.courses = courses;
-        }
-
-        public void Set(VoidFunc click, VoidFunc click2, Course course1, Course course2) {
-            this.click = click;
-            this.click2 = click2;
-            this.course1 = course1;
-            this.course2 = course2;
         }
 
         public ShowResult Show() {
@@ -40,17 +32,13 @@ namespace VT {
             if (ret == ShowResult.FIRST || ret == ShowResult.OK) {
                 hook = control.instance.GetComponent<CoursesHooks>();
                 if (hook != null) {
-                    hook.AddButton(course1.Name, click);
-                    hook.AddButton(course2.Name, click2);
+                    foreach (Course course in courses) {
+                        hook.AddButton(course.Name, () => { OpenDetails(course); });
+                    }
                     hook.Show();
                 }
             }
             return ret;
-        }
-
-        public ShowResult SetAndShow(VoidFunc click, VoidFunc click2, Course course1, Course course2) {
-            this.Set(click, click2, course1, course2);
-            return Show();
         }
 
         public ShowResult SetAndShow(List<Course> courses) {
@@ -85,6 +73,15 @@ namespace VT {
         }
         public void Enable() {
             control.Enable();
+        }
+
+        public void OpenDetails(Course course) {
+            if (courseControl != null) {
+                // TODO Start here and break everything to make course details control great again.
+                courseControl.SetAndShow(null, course);
+            } else {
+                Debug.LogWarning("No Course Control found.");
+            }
         }
     }
 }

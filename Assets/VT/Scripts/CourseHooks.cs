@@ -1,4 +1,5 @@
 ﻿using HookControl;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,20 +7,7 @@ namespace VT {
     public class CourseHooks : Hook {
 //        [SerializeField]
 //        private GameObject confirm = null;
-        [SerializeField]
-        private Text newGradeText = null;
-        [SerializeField]
-        private Text checkPoint2DateText = null;
-        [SerializeField]
-        private Text newDate = null;
-        [SerializeField]
-        private Text oldDate = null;
-        [SerializeField]
-        private Text checkPoint5Date = null;
-        [SerializeField]
-        private Text checkPoint3Date = null;
-        [SerializeField]
-        private bool checkPoint3Value;
+        
         [SerializeField]
         private Slider EasySlider = null;
         [SerializeField]
@@ -28,18 +16,7 @@ namespace VT {
         private Slider ImportanceSlider = null;
         [SerializeField]
         private Text courseName = null;
-        [SerializeField]
-        private Text checkpoint1Title = null;
-        [SerializeField]
-        private Text checkpoint2Title = null;
-        [SerializeField]
-        private Text checkpoint3Title = null;
-        [SerializeField]
-        private Text checkpoint4Title = null;
-        [SerializeField]
-        private Text checkpoint5Title = null;
         public VoidFunc onConfirm;
-        public BoolFunc toggle;
         public FloatFunc EaseSlider;
         public FloatFunc onLikeSlider;
         public FloatFunc onImportanceSlider;
@@ -67,86 +44,7 @@ namespace VT {
             EaseSlider(value);
 
         }
-            
-       
-        public void UIToggle(bool value) {
-            if (toggle == null)
-                return;
-            toggle(value);
-        }
-
-       
-       
-
-        public string CheckPoint3Date {
-            get { 
-                return this.checkPoint3Date.text;
-            }
-            set {
-                if (!string.IsNullOrEmpty(value) && !value.Equals(this.checkPoint3Date.text))
-                    checkPoint3Date.text = value;
-            }
-        }
-
-        public string NewGradeText{
-            get{
-                return this.newGradeText.text;
-            }
-            set{ 
-                if (!string.IsNullOrEmpty (value) && !value.Equals (this.newGradeText.text))
-                    newGradeText.text = value;
-            }
-        }
-
-        public string CheckPoint2DateText {
-            get {
-                return this.checkPoint2DateText.text;
-            }
-            set {
-                if (!string.IsNullOrEmpty(value) && !value.Equals(this.checkPoint2DateText.text))
-                    checkPoint2DateText.text = value;
-            }
-        }
-
-        public string OldDate {
-            get {
-                return this.oldDate.text;
-            }
-            set {
-                if (!string.IsNullOrEmpty(value) && !value.Equals(this.oldDate.text))
-                    oldDate.text = value;
-            }
-        }
-
-        public string NewDate {
-            get {
-                return this.newDate.text;
-            }
-            set {
-                if (!string.IsNullOrEmpty(value) && !value.Equals(this.newDate.text))
-                    newDate.text = value;
-            }
-        }
-
-        public string Checkpoint5Date {
-            get{ return this.checkPoint5Date.text; }
-            set {
-                if (!string.IsNullOrEmpty(value) && !value.Equals(this.checkPoint5Date.text))
-                    checkPoint5Date.text = value;
-            }
-        }
-
         
-
-        public bool CheckPoint3Value {
-            get {
-                return this.checkPoint3Value;
-            }
-            set {
-                checkPoint3Value = value;
-            }
-        }
-
         public string CourseName {
             get{ return this.courseName.text; }
             set { 
@@ -155,46 +53,35 @@ namespace VT {
             }
 
         }
+        
+        #region Checkpoints
 
-        public string Checkpoint1Title {
-            get{ return this.checkpoint1Title.text; }
-            set { 
-                if (!string.IsNullOrEmpty(value) && !value.Equals(this.checkpoint1Title.text))
-                    this.checkpoint1Title.text = value;
+        [SerializeField]
+        private GameObject checkpointPrefab;
+        [SerializeField]
+        private GameObject listObject;
+
+        public List<Control> checkpointsControls;
+
+        public void AddCheckpoint(Checkpoint checkpoint) {
+            Control buttonControl = new Control(checkpointPrefab);
+            ShowResult result = buttonControl.Show();
+            if (result == ShowResult.FIRST) {
+                checkpointsControls.Add(buttonControl);
+                if (listObject) {
+                    buttonControl.instance.transform.SetParent(listObject.transform);
+                }
+
+                CheckpointHook checkpointHook = buttonControl.instance.GetComponent<CheckpointHook>();
+                if (checkpointHook != null) {
+                    checkpointHook.Set(checkpoint);
+                } else {
+                    Debug.LogWarning("No Checkpoint Hook found.");
+                }
             }
         }
 
-        public string Checkpoint2Title {
-            get{ return this.checkpoint2Title.text; }
-            set { 
-                if (!string.IsNullOrEmpty(value) && !value.Equals(this.checkpoint2Title.text))
-                    this.checkpoint2Title.text = value;
-            }
-        }
-
-        public string Checkpoint3Title {
-            get{ return this.checkpoint3Title.text; }
-            set { 
-                if (!string.IsNullOrEmpty(value) && !value.Equals(this.checkpoint3Title.text))
-                    this.checkpoint3Title.text = value;
-            }
-        }
-
-        public string Checkpoint4Title {
-            get{ return this.checkpoint4Title.text; }
-            set { 
-                if (!string.IsNullOrEmpty(value) && !value.Equals(this.checkpoint4Title.text))
-                    this.checkpoint4Title.text = value;
-            }
-        }
-
-        public string Checkpoint5Title {
-            get{ return this.checkpoint5Title.text; }
-            set { 
-                if (!string.IsNullOrEmpty(value) && !value.Equals(this.checkpoint5Title.text))
-                    this.checkpoint5Title.text = value;
-            }
-        }
+        #endregion Checkpoints
 
         #region Animations
 
