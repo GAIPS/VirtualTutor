@@ -43,7 +43,7 @@ namespace VT {
                 }
             }
             return ret;
-			
+            
         }
 
         public void update(float delta) {

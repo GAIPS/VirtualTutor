@@ -78,7 +78,7 @@ namespace VT {
         public void OpenDetails(Course course) {
             if (courseControl != null) {
                 // TODO Start here and break everything to make course details control great again.
-                courseControl.SetAndShow(null, course);
+                courseControl.SetAndShow(course);
             } else {
                 Debug.LogWarning("No Course Control found.");
             }
