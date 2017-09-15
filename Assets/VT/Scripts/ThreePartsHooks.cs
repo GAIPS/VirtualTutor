@@ -5,95 +5,95 @@ using UnityEngine.UI;
 namespace VT {
 
     public class ThreePartsHooks : Hook
-	{
-		[SerializeField]
-		private Text topicTextLeft = null;
-		[SerializeField]
-		private Text topicTextTop = null;
-		[SerializeField]
-		private Text topicTextRight = null;
-		[SerializeField]
-		private Text topicTextExtra = null;
-		[SerializeField]
+    {
+        [SerializeField]
+        private Text topicTextLeft = null;
+        [SerializeField]
+        private Text topicTextTop = null;
+        [SerializeField]
+        private Text topicTextRight = null;
+        [SerializeField]
+        private Text topicTextExtra = null;
+        [SerializeField]
         private GameObject topicLeft = null;
-		[SerializeField]
+        [SerializeField]
         private GameObject topicRight = null;
-		[SerializeField]
+        [SerializeField]
         private GameObject topicTop = null;
-		[SerializeField]
+        [SerializeField]
         private GameObject topicExtra = null;
         
 
-		public VoidFunc onLeft;
-		public VoidFunc onTop;
-		public VoidFunc onRight;
-		public VoidFunc onExtra;
+        public VoidFunc onLeft;
+        public VoidFunc onTop;
+        public VoidFunc onRight;
+        public VoidFunc onExtra;
 
-		public void UIExtra()
-		{
-			if (onExtra != null)
-				onExtra ();
-		}
-		public void UILeft ()
-		{
-			if (onLeft != null)
-				onLeft ();
-		}
-
-		public void UITop ()
-		{
-			if (onTop != null)
-				onTop ();
-		}
-
-		public void UIRight ()
-		{
-			if (onRight != null)
-				onRight ();
-		}
-
-		public string ContentLeft {
-			get{ return this.topicTextLeft.text; }
-			set {
-				if (!string.IsNullOrEmpty (value)) {
-                    show(topicLeft);
-                    this.topicTextLeft.text = value;
-				} else if (string.IsNullOrEmpty (value))
-                    hide(topicLeft);
-			}
-		}
-
-		public string ContentTop {
-			get{ return this.topicTextTop.text; }
-			set {
-				if (!string.IsNullOrEmpty (value)) {
-                    show(topicTop);
-					this.topicTextTop.text = value;
-                } else if (string.IsNullOrEmpty (value))
-                    hide(topicTop);
-			}
-		}
-
-		public string ContentRight {
-			get{ return this.topicTextRight.text; }
-			set {
-				if (!string.IsNullOrEmpty (value)) {
-                    show(topicRight);
-					this.topicTextRight.text = value;
-				} else if (string.IsNullOrEmpty (value))
-                    hide(topicRight);
-			}
+        public void UIExtra()
+        {
+            if (onExtra != null)
+                onExtra ();
+        }
+        public void UILeft ()
+        {
+            if (onLeft != null)
+                onLeft ();
         }
 
-		public string ContentExtra {
-			get{ return this.topicTextExtra.text; }
-			set{if (!string.IsNullOrEmpty (value)) {
-					show (topicExtra);
-					this.topicTextExtra.text = value;
-				} else if (string.IsNullOrEmpty (value))
-					hide (topicExtra);
-			}
-		}
+        public void UITop ()
+        {
+            if (onTop != null)
+                onTop ();
+        }
+
+        public void UIRight ()
+        {
+            if (onRight != null)
+                onRight ();
+        }
+
+        public string ContentLeft {
+            get{ return this.topicTextLeft.text; }
+            set {
+                if (!string.IsNullOrEmpty (value)) {
+                    show(topicLeft);
+                    this.topicTextLeft.text = value;
+                } else if (string.IsNullOrEmpty (value))
+                    hide(topicLeft);
+            }
+        }
+
+        public string ContentTop {
+            get{ return this.topicTextTop.text; }
+            set {
+                if (!string.IsNullOrEmpty (value)) {
+                    show(topicTop);
+                    this.topicTextTop.text = value;
+                } else if (string.IsNullOrEmpty (value))
+                    hide(topicTop);
+            }
+        }
+
+        public string ContentRight {
+            get{ return this.topicTextRight.text; }
+            set {
+                if (!string.IsNullOrEmpty (value)) {
+                    show(topicRight);
+                    this.topicTextRight.text = value;
+                } else if (string.IsNullOrEmpty (value))
+                    hide(topicRight);
+            }
+        }
+
+        public string ContentExtra {
+            get{ return this.topicTextExtra.text; }
+            set{if (!string.IsNullOrEmpty (value)) {
+                    show (topicExtra);
+                    this.topicTextExtra.text = value;
+                } else if (string.IsNullOrEmpty (value))
+                    hide (topicExtra);
+            }
+        }
 
         protected void show(GameObject ballon) {
             if (!ballon) {
@@ -119,5 +119,5 @@ namespace VT {
             }
         }
 
-	}
+    }
 }

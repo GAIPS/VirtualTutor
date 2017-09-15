@@ -12,7 +12,7 @@ namespace VT {
         private bool started;
         private ExpressionsHooks hooks;
 
-		
+        
 
         public ExpressionsControl(GameObject prefab) {
             control = new Control();
@@ -49,7 +49,7 @@ namespace VT {
                 }
             }
             return ret;
-			
+            
         }
 
 
@@ -145,7 +145,7 @@ namespace VT {
                 }
             }
         }
-	
+    
     }
 
 }

@@ -12,9 +12,8 @@ namespace VT {
         private Course course;
 
         private VoidFunc onConfirm;
-        private FloatFunc onEaseSlider;
-        private FloatFunc onLikeSlider;
-        private FloatFunc onImportanceSlider;
+
+
 
         public CourseControl(GameObject prefab) {
             control = new Control();
@@ -26,6 +25,11 @@ namespace VT {
             this.course = course;
         }
 
+        public void Set(Course course) {
+            // TODO Implement event system (whatever that means)
+            this.Set(null, course);
+        }
+
         public ShowResult Show() {
             var ret = control.Show();
             if (ret == ShowResult.FIRST || ret == ShowResult.OK) {
@@ -34,7 +38,7 @@ namespace VT {
                     hook.onConfirm = this.onConfirm;
                     if (course != null) {
                         hook.CourseName = course.Name;
-                        hook.EaseSlider = (float value) => { SliderUpdate(value, out course.importance); };
+                        hook.onEaseSlider = (float value) => { SliderUpdate(value, out course.importance); };
                         hook.onLikeSlider = (float value) => { SliderUpdate(value, out course.importance); };
                         hook.onImportanceSlider = (float value) => { SliderUpdate(value, out course.importance); };
 
@@ -51,6 +55,11 @@ namespace VT {
 
         public ShowResult SetAndShow(VoidFunc onConfirm, Course course) {
             this.Set(onConfirm, course);
+            return Show();
+        }
+
+        public ShowResult SetAndShow(Course course) {
+            this.Set(course);
             return Show();
         }
 

@@ -17,7 +17,7 @@ namespace VT {
         [SerializeField]
         private Text courseName = null;
         public VoidFunc onConfirm;
-        public FloatFunc EaseSlider;
+        public FloatFunc onEaseSlider;
         public FloatFunc onLikeSlider;
         public FloatFunc onImportanceSlider;
 
@@ -41,7 +41,7 @@ namespace VT {
 
         public void UIEaseSlider(float value) {
             value = EasySlider.value;
-            EaseSlider(value);
+            onEaseSlider(value);
 
         }
         
