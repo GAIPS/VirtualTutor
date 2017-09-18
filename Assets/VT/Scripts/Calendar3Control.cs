@@ -1,10 +1,7 @@
 ﻿using HookControl;
-using System;
 using UnityEngine;
 
 namespace VT {
-    [Serializable]
-
     public class Calendar3Control : IControl {
 
         private Control control;

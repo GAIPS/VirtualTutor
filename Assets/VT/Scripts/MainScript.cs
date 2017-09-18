@@ -125,17 +125,17 @@ namespace VT {
         bool coursesCheck = true;
 
         void hardCodedPreUpdate() {
-            if (scene.expressionsControl.Start >= scene.topics[scene.CurrentTopicName].Lines[scene.topics[scene.CurrentTopicName].Lines.Count - 1].End + 5.0f && scene.CurrentTopicName != "timeTopic" && scene.CurrentTopicName != "exit1Topic" && scene.CurrentTopicName != "exit2Topic" && scene.CurrentTopicName != "exit3Topic" && scene.CurrentTopicName != "exit4Topic" && scene.CurrentTopicName != "badTestTopic" && scene.CurrentTopicName != "onActivity" && scene.CurrentTopicName != "prePlan" && scene.CurrentTopicName != "newInfoTopic") {
+            if (scene.facesControl.Start >= scene.topics[scene.CurrentTopicName].Lines[scene.topics[scene.CurrentTopicName].Lines.Count - 1].End + 5.0f && scene.CurrentTopicName != "timeTopic" && scene.CurrentTopicName != "exit1Topic" && scene.CurrentTopicName != "exit2Topic" && scene.CurrentTopicName != "exit3Topic" && scene.CurrentTopicName != "exit4Topic" && scene.CurrentTopicName != "badTestTopic" && scene.CurrentTopicName != "onActivity" && scene.CurrentTopicName != "prePlan" && scene.CurrentTopicName != "newInfoTopic") {
                 scene.agents[0].CurrentEmotion = Agent.EmotionType.IMPATIENT;
                 scene.agents[1].CurrentEmotion = Agent.EmotionType.IMPATIENT;
                 scene.changeTopic("timeTopic", Scene.ShowOption.HEAD);
-            } else if (scene.expressionsControl.Start >= scene.topics[scene.CurrentTopicName].Lines[scene.topics[scene.CurrentTopicName].Lines.Count - 1].End + 5.0f && (scene.CurrentTopicName == "timeTopic" || scene.CurrentTopicName == "exit1Topic" || scene.CurrentTopicName == "exit2Topic" || scene.CurrentTopicName == "exit3Topic" || scene.CurrentTopicName == "exit4Topic")) {
+            } else if (scene.facesControl.Start >= scene.topics[scene.CurrentTopicName].Lines[scene.topics[scene.CurrentTopicName].Lines.Count - 1].End + 5.0f && (scene.CurrentTopicName == "timeTopic" || scene.CurrentTopicName == "exit1Topic" || scene.CurrentTopicName == "exit2Topic" || scene.CurrentTopicName == "exit3Topic" || scene.CurrentTopicName == "exit4Topic")) {
                 Application.Quit();
-            } else if (scene.expressionsControl.Start >= scene.topics[scene.CurrentTopicName].Lines[scene.topics[scene.CurrentTopicName].Lines.Count - 1].End + 5.0f && scene.CurrentTopicName == "badTestTopic") {
+            } else if (scene.facesControl.Start >= scene.topics[scene.CurrentTopicName].Lines[scene.topics[scene.CurrentTopicName].Lines.Count - 1].End + 5.0f && scene.CurrentTopicName == "badTestTopic") {
                 //	changeTopic ("noAnswTest");
-            } else if (scene.expressionsControl.Start >= scene.topics[scene.CurrentTopicName].Lines[scene.topics[scene.CurrentTopicName].Lines.Count - 1].End + 5.0f && scene.CurrentTopicName == "prePlan")
+            } else if (scene.facesControl.Start >= scene.topics[scene.CurrentTopicName].Lines[scene.topics[scene.CurrentTopicName].Lines.Count - 1].End + 5.0f && scene.CurrentTopicName == "prePlan")
                 OpenCalendar();
-            else if (scene.expressionsControl.Start >= scene.topics[scene.CurrentTopicName].Lines[scene.topics[scene.CurrentTopicName].Lines.Count - 1].End && scene.CurrentTopicName == "newInfoTopic" && coursesCheck) {
+            else if (scene.facesControl.Start >= scene.topics[scene.CurrentTopicName].Lines[scene.topics[scene.CurrentTopicName].Lines.Count - 1].End && scene.CurrentTopicName == "newInfoTopic" && coursesCheck) {
                 coursesCheck = false;
 
                 scene.agents[0].CurrentEmotion = Agent.EmotionType.IMPATIENT;
@@ -177,7 +177,7 @@ namespace VT {
 
                     //var topic3 = topics["prePlan"];
                     scene.Start = 0.0f;
-                    scene.expressionsControl.Start = 0.0f;
+                    scene.facesControl.Start = 0.0f;
                     if (evaluationResult <= 5.0) {
                         scene.agents[0].CurrentEmotion = Agent.EmotionType.CRYING;
                         scene.agents[1].CurrentEmotion = Agent.EmotionType.CRYING;
@@ -189,8 +189,8 @@ namespace VT {
 
                         var topic2 = scene.topics[scene.CurrentTopicName];
                         scene.topics["prePlan"].Lines[1].Content = "Para Álgebra recomendamos estudar " + aLHours + " horas semanais e para Fundamentos da Programação " + fPHours + " horas semanais";
-                        scene.threePartsControl.SetAndShow(topic2);
-                        scene.expressionsControl.SetAndShow(topic2);
+                        scene.balloonsControl.SetAndShow(topic2);
+                        scene.facesControl.SetAndShow(topic2);
                         coursesControl.Disable();
                         courseControl.Disable();
 
@@ -204,8 +204,8 @@ namespace VT {
                         Debug.Log(fPHours);
                         //scene.topics["prePlan"].Lines[1].Content = "Para Álgebra recomendamos estudar " + ALHours + " horas semanais e para Fundamentos da Programação " + FPHours + " horas semanais";
                         var topic2 = scene.topics[scene.CurrentTopicName];
-                        scene.threePartsControl.SetAndShow(topic2);
-                        scene.expressionsControl.SetAndShow(topic2);
+                        scene.balloonsControl.SetAndShow(topic2);
+                        scene.facesControl.SetAndShow(topic2);
                         coursesControl.Disable();
                         courseControl.Disable();
 
@@ -220,8 +220,8 @@ namespace VT {
                         fPHours += 1.0f;
                         Debug.Log(fPHours);
                         scene.topics["prePlan"].Lines[1].Content = "Para Álgebra recomendamos estudar " + aLHours + " horas semanais e para Fundamentos da Programação " + fPHours + " horas semanais";
-                        scene.threePartsControl.SetAndShow(topic2);
-                        scene.expressionsControl.SetAndShow(topic2);
+                        scene.balloonsControl.SetAndShow(topic2);
+                        scene.facesControl.SetAndShow(topic2);
                         coursesControl.Disable();
                         courseControl.Disable();
 
@@ -232,8 +232,8 @@ namespace VT {
                         fPHours -= 1.0f;
                         scene.topics["prePlan"].Lines[1].Content = "Para Álgebra recomendamos estudar " + aLHours + " horas semanais e para Fundamentos da Programação " + fPHours + " horas semanais";
                         var topic2 = scene.topics[scene.CurrentTopicName];
-                        scene.threePartsControl.SetAndShow(topic2);
-                        scene.expressionsControl.SetAndShow(topic2);
+                        scene.balloonsControl.SetAndShow(topic2);
+                        scene.facesControl.SetAndShow(topic2);
                         coursesControl.Disable();
                         courseControl.Disable();
 
@@ -244,8 +244,8 @@ namespace VT {
                         fPHours -= 2.0f;
                         scene.topics["prePlan"].Lines[1].Content = "Para Álgebra recomendamos estudar " + aLHours + " horas semanais e para Fundamentos da Programação " + fPHours + " horas semanais";
                         var topic2 = scene.topics[scene.CurrentTopicName];
-                        scene.threePartsControl.SetAndShow(topic2);
-                        scene.expressionsControl.SetAndShow(topic2);
+                        scene.balloonsControl.SetAndShow(topic2);
+                        scene.facesControl.SetAndShow(topic2);
                         coursesControl.Disable();
                         courseControl.Disable();
 
@@ -256,8 +256,8 @@ namespace VT {
                         aLHours += 2.0f;
                         scene.topics["prePlan"].Lines[1].Content = "Para Álgebra recomendamos estudar " + aLHours + " horas semanais e para Fundamentos da Programação " + fPHours + " horas semanais";
                         var topic2 = scene.topics[scene.CurrentTopicName];
-                        scene.threePartsControl.SetAndShow(topic2);
-                        scene.expressionsControl.SetAndShow(topic2);
+                        scene.balloonsControl.SetAndShow(topic2);
+                        scene.facesControl.SetAndShow(topic2);
                         coursesControl.Disable();
                         courseControl.Disable();
                     } else if (clickedCourse == course2 && (evaluationResult >= 6.1 && evaluationResult < 10) || (evaluationResult > 7.1 && evaluationResult < 9 && clickedCourse.like < 2.0 && clickedCourse.know < 2.0) || (clickedCourse.like > 3 && clickedCourse.know > 3 && evaluationResult >= 9.5 && evaluationResult < 11)) {
@@ -267,8 +267,8 @@ namespace VT {
                         aLHours += 1.0f;
                         var topic2 = scene.topics[scene.CurrentTopicName];
                         //scene.topics["prePlan"].Lines[1].Content = "We reccomend you to study " + ALHours +" hours weekly this week for Algebra and "+ FPHours+" hours of Foundations of Programming";
-                        scene.threePartsControl.SetAndShow(topic2);
-                        scene.expressionsControl.SetAndShow(topic2);
+                        scene.balloonsControl.SetAndShow(topic2);
+                        scene.facesControl.SetAndShow(topic2);
                         coursesControl.Disable();
                         courseControl.Disable();
                     } else if (clickedCourse == course2 && (evaluationResult >= 10 && evaluationResult <= 14.0) || (evaluationResult > 8.5 && evaluationResult < 13 && clickedCourse.like < 2 && clickedCourse.know < 2) || (clickedCourse.like > 3 && clickedCourse.know > 3 && evaluationResult > 11 && evaluationResult < 16)) {
@@ -278,8 +278,8 @@ namespace VT {
                         var topic2 = scene.topics[scene.CurrentTopicName];
                         aLHours -= 1.0f;
                         scene.topics["prePlan"].Lines[1].Content = "We reccomend you to study " + aLHours + " hours weekly this week for Algebra and " + fPHours + " hours of Foundations of Programming";
-                        scene.threePartsControl.SetAndShow(topic2);
-                        scene.expressionsControl.SetAndShow(topic2);
+                        scene.balloonsControl.SetAndShow(topic2);
+                        scene.facesControl.SetAndShow(topic2);
                         coursesControl.Disable();
                         courseControl.Disable();
                     } else if (clickedCourse == course2 && evaluationResult >= 15.0) {
@@ -289,8 +289,8 @@ namespace VT {
                         aLHours -= 2.0f;
                         scene.topics["prePlan"].Lines[1].Content = "We reccomend you to study " + aLHours + " hours weekly this week for Algebra and " + fPHours + " hours of Foundations of Programming";
                         var topic2 = scene.topics[scene.CurrentTopicName];
-                        scene.threePartsControl.SetAndShow(topic2);
-                        scene.expressionsControl.SetAndShow(topic2);
+                        scene.balloonsControl.SetAndShow(topic2);
+                        scene.facesControl.SetAndShow(topic2);
                         coursesControl.Disable();
                         courseControl.Disable();
                     }
@@ -303,13 +303,13 @@ namespace VT {
 
         public void OpenCalendar() {
             scene.Start = 0.0f;
-            scene.expressionsControl.Start = 0.0f;
+            scene.facesControl.Start = 0.0f;
 
 #if UNITY_ANDROID
             scene.CurrentTopicName = "enoughPlan";
             var topic3 = scene.topics[scene.CurrentTopicName];
-            scene.threePartsControl.SetAndShow(topic3);
-            scene.expressionsControl.SetAndShow(topic3);
+            scene.balloonsControl.SetAndShow(topic3);
+            scene.facesControl.SetAndShow(topic3);
             coursesControl.Disable();
             courseControl.Disable();
 
@@ -326,6 +326,8 @@ namespace VT {
                 eventBuilder.SetAvailability(AGCalendar.EventAvailability.Busy);
                 eventBuilder.BuildAndShow();
             }
+#elif UNITY_WEBGL
+            Debug.Log("Test");
 #else
             calendar1Control.SetAndShow(() => {
                 SaveCalendar();
@@ -335,7 +337,7 @@ namespace VT {
 
         public void OpenList() {
             scene.Start = 0.0f;
-            scene.expressionsControl.Start = 0.0f;
+            scene.facesControl.Start = 0.0f;
             discussControl.SetAndShow(() => {
                 scene.agents[0].CurrentEmotion = Agent.EmotionType.SMILING;
                 scene.agents[1].CurrentEmotion = Agent.EmotionType.SMILING;

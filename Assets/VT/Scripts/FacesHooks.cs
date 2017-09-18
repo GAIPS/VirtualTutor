@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace VT {
     [RequireComponent(typeof(TTSSpeakerUnityOnline), typeof(TTSSpeakerOfflineScripted))]
-    public class ExpressionsHooks : Hook {
+    public class FacesHooks : Hook {
         [SerializeField]
         private Text leftText = null;
         [SerializeField]

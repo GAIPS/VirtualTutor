@@ -1,9 +1,7 @@
 using HookControl;
-using System;
 using UnityEngine;
 
 namespace VT {
-    [Serializable]
     public class CourseControl : IControl {
         private CourseHooks hook;
 

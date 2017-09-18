@@ -1,17 +1,15 @@
 ﻿using HookControl;
-using System;
 using UnityEngine;
 
 namespace VT {
-    [Serializable]
-    public class ThreePartsControl : IControl {
+    public class BalloonsControl : IControl {
         private Control control;
         private Topic currentTopic;
         public float Start = 0.0f;
-        ThreePartsHooks hooks;
+        BalloonsHooks hooks;
         bool started;
 
-        public ThreePartsControl(GameObject prefab) {
+        public BalloonsControl(GameObject prefab) {
             control = new Control();
             control.prefab = prefab;
         }
@@ -25,7 +23,7 @@ namespace VT {
             started = true;
             var ret = control.Show();
             if (ret == ShowResult.FIRST || ret == ShowResult.OK) {
-                hooks = control.instance.GetComponent<ThreePartsHooks>();
+                hooks = control.instance.GetComponent<BalloonsHooks>();
                 if (hooks) {
 //					hooks.ContentLeft = currentTopic.Inputs [0].message;
 //					hooks.ContentTop = currentTopic.Inputs [1].message;

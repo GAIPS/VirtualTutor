@@ -17,10 +17,10 @@ public class TTSSpeakerOfflineScripted : MonoBehaviour, ITTSSpeaker {
         loadedAudioFemale1 = new Dictionary<int, AudioClip>();
         loadedAudioFemale2 = new Dictionary<int, AudioClip>();
     }
-	
+    
     // Update is called once per frame
     void Update() {
-		
+        
     }
 
     public void Play(string message) {

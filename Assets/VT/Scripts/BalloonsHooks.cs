@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace VT {
 
-    public class ThreePartsHooks : Hook
+    public class BalloonsHooks : Hook
     {
         [SerializeField]
         private Text topicTextLeft = null;

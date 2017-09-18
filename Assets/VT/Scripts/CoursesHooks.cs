@@ -1,7 +1,5 @@
 ﻿using HookControl;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace VT {
     public class CoursesHooks : Hook {

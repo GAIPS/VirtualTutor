@@ -1,11 +1,9 @@
 ﻿using HookControl;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 namespace VT {
-    [Serializable]
     public class CoursesControl : IControl {
         private CoursesHooks hook;
         private Control control;

@@ -1,6 +1,4 @@
-﻿using DeadMosquito.AndroidGoodies;
-using HookControl;
-using System;
+﻿using HookControl;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,8 +6,8 @@ namespace VT {
     public class Scene {
         public List<Agent> agents = new List<Agent>();
         public Dictionary<string, Topic> topics = new Dictionary<string, Topic>();
-        public ThreePartsControl threePartsControl;
-        public ExpressionsControl expressionsControl;
+        public BalloonsControl balloonsControl;
+        public FacesControl facesControl;
 
         public VoidFunc preUpdate;
         public VoidFunc postUpdate;
@@ -30,9 +28,9 @@ namespace VT {
         public Scene() {
         }
 
-        public Scene(GameObject expressionsPrefab, GameObject threeOptionsPrefab) {
-            threePartsControl = new ThreePartsControl(threeOptionsPrefab);
-            expressionsControl = new ExpressionsControl(expressionsPrefab);
+        public Scene(GameObject facesPrefab, GameObject balloonsPrefab) {
+            balloonsControl = new BalloonsControl(balloonsPrefab);
+            facesControl = new FacesControl(facesPrefab);
         }
 
         public enum ShowOption {
@@ -54,10 +52,10 @@ namespace VT {
             currentTopicName = topicName;
             var topic = topics[topicName];
             if (option == ShowOption.HEAD || option == ShowOption.BOTH) {
-                expressionsControl.SetAndShow(topic);
+                facesControl.SetAndShow(topic);
             }
             if (option == ShowOption.OPTIONS || option == ShowOption.BOTH) {
-                threePartsControl.SetAndShow(topic);
+                balloonsControl.SetAndShow(topic);
             }
 
         }
@@ -78,8 +76,8 @@ namespace VT {
             }
 
             start += delta;
-            expressionsControl.update(delta);
-            threePartsControl.update(delta);
+            facesControl.update(delta);
+            balloonsControl.update(delta);
 
             if (postUpdate != null) {
                 postUpdate();

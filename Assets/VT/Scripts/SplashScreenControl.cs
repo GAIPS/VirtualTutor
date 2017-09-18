@@ -1,9 +1,7 @@
 ﻿using HookControl;
-using System;
 using UnityEngine;
 
 namespace VT {
-    [Serializable]
     public class SplashScreenControl : IControl {
         private Control control;
         private VoidFunc onEndSplashScreen;

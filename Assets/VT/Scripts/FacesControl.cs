@@ -1,20 +1,18 @@
 ﻿using HookControl;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace VT {
-    [Serializable]
-    public class ExpressionsControl : IControl {
+    public class FacesControl : IControl {
         private Control control;
         private Topic currentTopic;
         private float start = 0.0f;
         private bool started;
-        private ExpressionsHooks hooks;
+        private FacesHooks hooks;
 
         
 
-        public ExpressionsControl(GameObject prefab) {
+        public FacesControl(GameObject prefab) {
             control = new Control();
             control.prefab = prefab;
         }
@@ -35,7 +33,7 @@ namespace VT {
             started = true;
             var ret = control.Show();
             if (ret == ShowResult.FIRST || ret == ShowResult.OK) {
-                hooks = control.instance.GetComponent<ExpressionsHooks>();
+                hooks = control.instance.GetComponent<FacesHooks>();
                 if (hooks) {
                     if (hooks.LeftSprites == null)
                         hooks.LeftSprites = new List<Sprite>();
