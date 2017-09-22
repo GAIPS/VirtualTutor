@@ -9,7 +9,7 @@ namespace VT {
 
         private Course course;
 
-        private VoidFunc onConfirm;
+        public event CourseFunc CourseSelectionEvent;
 
 
 
@@ -18,14 +18,14 @@ namespace VT {
             control.prefab = prefab;
         }
 
-        public void Set(VoidFunc onConfirm, Course course) {
-            this.onConfirm = onConfirm;
+        public void Set(Course course) {
             this.course = course;
         }
 
-        public void Set(Course course) {
-            // TODO Implement event system (whatever that means)
-            this.Set(null, course);
+        private void sendCourseEvent() {
+            if (CourseSelectionEvent != null) {
+                CourseSelectionEvent(course);
+            }
         }
 
         public ShowResult Show() {
@@ -33,7 +33,7 @@ namespace VT {
             if (ret == ShowResult.FIRST || ret == ShowResult.OK) {
                 hook = control.instance.GetComponent<CourseHooks>();
                 if (hook != null) {
-                    hook.onConfirm = this.onConfirm;
+                    hook.onConfirm = sendCourseEvent;
                     if (course != null) {
                         hook.CourseName = course.Name;
                         hook.onEaseSlider = (float value) => { SliderUpdate(value, out course.importance); };
@@ -49,11 +49,6 @@ namespace VT {
                 }
             }
             return ret;
-        }
-
-        public ShowResult SetAndShow(VoidFunc onConfirm, Course course) {
-            this.Set(onConfirm, course);
-            return Show();
         }
 
         public ShowResult SetAndShow(Course course) {

@@ -1,20 +1,20 @@
 ﻿namespace HookControl {
     public enum ShowResult
-	{
-		FIRST,
-		OK,
-		FAIL
-	}
+    {
+        FIRST,
+        OK,
+        FAIL
+    }
 
-	public interface IControl
-	{
-		ShowResult Show ();
+    public interface IControl
+    {
+        ShowResult Show ();
 
-		void Destroy ();
+        void Destroy ();
 
-		void Disable ();
+        void Disable ();
 
-		bool IsVisible ();
+        bool IsVisible ();
 
-	}
+    }
 }

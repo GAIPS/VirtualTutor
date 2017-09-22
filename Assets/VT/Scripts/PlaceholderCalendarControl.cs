@@ -2,13 +2,13 @@
 using UnityEngine;
 
 namespace VT {
-    public class Calendar1Control :IControl
+    public class PlaceholderCalendarControl :IControl
     {
 
         private Control control;
         private VoidFunc click1;
 
-        public Calendar1Control(GameObject prefab){
+        public PlaceholderCalendarControl(GameObject prefab){
             control = new Control ();
             control.prefab = prefab;
         }
@@ -21,9 +21,9 @@ namespace VT {
         {
             var ret = control.Show ();
             if (ret == ShowResult.FIRST || ret == ShowResult.OK) {
-                var hooks = control.instance.GetComponent<Calendar1Hooks> ();
+                var hooks = control.instance.GetComponent<PlaceholderCalendarHooks> ();
                 if (hooks != null) {
-                    hooks.click1 = this.click1;
+                    hooks.onEnd = this.click1;
                 }
             }
             return ret;

@@ -12,6 +12,8 @@ namespace VT {
 
         private CourseControl courseControl;
 
+        public event CourseFunc CourseSelectionEvent;
+
         public CoursesControl(GameObject prefab, CourseControl courseControl) {
             control = new Control();
             control.prefab = prefab;
@@ -19,6 +21,17 @@ namespace VT {
             courses = new List<Course>();
 
             this.courseControl = courseControl;
+        }
+
+        public void OpenDetails(Course course) {
+            if (CourseSelectionEvent != null) {
+                CourseSelectionEvent(course); 
+            }
+            if (courseControl != null) {
+                courseControl.SetAndShow(course);
+            } else {
+                Debug.LogWarning("No Course Control found.");
+            }
         }
 
         public void Set(List<Course> courses) {
@@ -71,15 +84,6 @@ namespace VT {
         }
         public void Enable() {
             control.Enable();
-        }
-
-        public void OpenDetails(Course course) {
-            if (courseControl != null) {
-                // TODO Start here and break everything to make course details control great again.
-                courseControl.SetAndShow(course);
-            } else {
-                Debug.LogWarning("No Course Control found.");
-            }
         }
     }
 }

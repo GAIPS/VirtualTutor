@@ -64,9 +64,9 @@ namespace VT {
             get {
                 return this.currentTopicName;
             }
-            set {
-                currentTopicName = value;
-            }
+            //set {
+            //    currentTopicName = value;
+            //}
         }
 
         public void update(float delta) {

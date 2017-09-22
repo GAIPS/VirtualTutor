@@ -4,26 +4,26 @@ using UnityEngine;
 
 namespace VT {
     public class DiscussHooks : Hook
-	{
-		[SerializeField]
-		private GameObject confirm;
+    {
+        [SerializeField]
+        private GameObject confirm;
 
-		public StringFunc input;
-		public VoidFunc onConfirm;
+        public StringFunc onMessageInput;
+        public VoidFunc onConfirm;
 
-		public void UIConfirm ()
-		{
-			if (onConfirm == null)
-				return;
-					
-			onConfirm ();
-		}
+        public void UIConfirm ()
+        {
+            if (onConfirm == null)
+                return;
+                    
+            onConfirm ();
+        }
 
-		public void UIInput (string value)
-		{
-			input (value);
-		}
-	
+        public void UIInput (string value)
+        {
+            onMessageInput (value);
+        }
+    
 
-	}
+    }
 }
