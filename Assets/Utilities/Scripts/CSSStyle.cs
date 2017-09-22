@@ -28,7 +28,7 @@ public class CSSStyle : Singleton<CSSStyle> {
     void Start() {
         SortQueries();
     }
-	
+    
     // Update is called once per frame
     void Update() {
         float screenWidth = Screen.width;
