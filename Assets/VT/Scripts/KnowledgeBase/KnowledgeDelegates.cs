@@ -1,4 +1,4 @@
 ﻿
 namespace VT {
-    public delegate void CourseFunc(Course course);
+    public delegate void CourseFunc(UserInfo.Course course);
 }
