@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UserInfo;
 
 namespace VT {
     public class MainScript : MonoBehaviour {
@@ -22,6 +23,8 @@ namespace VT {
         // TODO Courses should be moved to a "User" class
         public List<Course> courses = new List<Course>();
 
+        private UserInfo.UserData user;
+        public List<UserInfo.Course> userCourses;
 
         public CoursesControl coursesControl;
         public CourseControl courseControl;
@@ -67,9 +70,11 @@ namespace VT {
             // TODO Change
             scene.preUpdate = hardCodedPreUpdate;
 
+            GameObject login = GameObject.Find("MoodleLogin");
+            user= login.GetComponent(typeof(UserData)) as UserData;
 
             courseControl = new CourseControl(coursePrefab);
-            courseControl.CourseSelectionEvent += CourseDetailsConfirm;
+            //courseControl.CourseSelectionEvent += CourseDetailsConfirm;
             coursesControl = new CoursesControl(coursesPrefab, courseControl);
             placeholderCalendarControl = new PlaceholderCalendarControl(placeholderCalendarPrefab);
             discussControl = new DiscussControl(discussPrefab);
@@ -114,6 +119,12 @@ namespace VT {
             if (playing) {
                 scene.update(Time.deltaTime);
             }
+            if (user != null && user.readyForRead && userCourses == null)
+            {
+                userCourses = user.courses;
+                
+            }
+            
         }
 
         // This next small section has a lot of cancer in it. I'm still sorting everything out...
@@ -146,11 +157,12 @@ namespace VT {
                 //    OpenCourse();
                 //    start = 0.0f;
                 //}, course1, course2);
-                coursesControl.SetAndShow(courses);
+
+                coursesControl.SetAndShow(user.courses);
             }
         }
 
-        public void CourseDetailsConfirm(Course course) {
+        public void CourseDetailsConfirm(UserInfo.Course course) {
             var test = course.Checkpoints[1] as Evaluation;
             string grade = test.Score;
             float evaluationResult = Convert.ToSingle(grade);
