@@ -26,7 +26,7 @@ namespace VT {
             this.courseControl = courseControl;
         }
 
-        public void OpenDetails(Course course) {
+        public void OpenDetails(UserInfo.Course course) {
             if (CourseSelectionEvent != null) {
                 CourseSelectionEvent(course); 
             }

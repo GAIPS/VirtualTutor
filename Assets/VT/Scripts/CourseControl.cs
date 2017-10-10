@@ -12,14 +12,12 @@ namespace VT {
 
         public event CourseFunc CourseSelectionEvent;
 
-
-
         public CourseControl(GameObject prefab) {
             control = new Control();
             control.prefab = prefab;
         }
 
-        public void Set(Course course) {
+        public void Set(UserInfo.Course course) {
             this.course = course;
         }
 

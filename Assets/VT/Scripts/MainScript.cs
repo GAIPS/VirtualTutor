@@ -74,7 +74,7 @@ namespace VT {
             user= login.GetComponent(typeof(UserData)) as UserData;
 
             courseControl = new CourseControl(coursePrefab);
-            courseControl.CourseSelectionEvent += CourseDetailsConfirm;
+            //courseControl.CourseSelectionEvent += CourseDetailsConfirm;
             coursesControl = new CoursesControl(coursesPrefab, courseControl);
             placeholderCalendarControl = new PlaceholderCalendarControl(placeholderCalendarPrefab);
             discussControl = new DiscussControl(discussPrefab);
@@ -119,7 +119,7 @@ namespace VT {
             if (playing) {
                 scene.update(Time.deltaTime);
             }
-            if (user.readyForRead && userCourses == null)
+            if (user != null && user.readyForRead && userCourses == null)
             {
                 userCourses = user.courses;
                 
@@ -162,7 +162,7 @@ namespace VT {
             }
         }
 
-        public void CourseDetailsConfirm(Course course) {
+        public void CourseDetailsConfirm(UserInfo.Course course) {
             var test = course.Checkpoints[1] as Evaluation;
             string grade = test.Score;
             float evaluationResult = Convert.ToSingle(grade);
