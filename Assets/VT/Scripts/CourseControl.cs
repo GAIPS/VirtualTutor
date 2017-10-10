@@ -1,5 +1,6 @@
 using HookControl;
 using UnityEngine;
+using UserInfo;
 
 namespace VT {
     public class CourseControl : IControl {
@@ -7,7 +8,7 @@ namespace VT {
 
         private Control control;
 
-        private Course course;
+        private UserInfo.Course course;
 
         public event CourseFunc CourseSelectionEvent;
 
@@ -35,15 +36,15 @@ namespace VT {
                 if (hook != null) {
                     hook.onConfirm = sendCourseEvent;
                     if (course != null) {
-                        hook.CourseName = course.Name;
+                        hook.CourseName = course.fullName;
                         hook.onEaseSlider = (float value) => { SliderUpdate(value, out course.importance); };
                         hook.onLikeSlider = (float value) => { SliderUpdate(value, out course.importance); };
                         hook.onImportanceSlider = (float value) => { SliderUpdate(value, out course.importance); };
 
                         // HACK take into account that the list needs to be ordered or to be sorted when on screen.
-                        for (int i = course.Checkpoints.Count - 1; i >= 0; i--) {
-                            hook.AddCheckpoint(course.Checkpoints[i]);
-                        }
+                        //for (int i = course.Checkpoints.Count - 1; i >= 0; i--) {
+                        //    hook.AddCheckpoint(course.Checkpoints[i]);
+                        //}
                     }
                     hook.Show();
                 }
@@ -51,7 +52,8 @@ namespace VT {
             return ret;
         }
 
-        public ShowResult SetAndShow(Course course) {
+
+        public ShowResult SetAndShow(UserInfo.Course course) {
             this.Set(course);
             return Show();
         }
