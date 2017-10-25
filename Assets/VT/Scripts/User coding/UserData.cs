@@ -19,9 +19,9 @@ namespace UserInfo
         public String imgSmall; // link para a imagem em tamanho pequeno do user
         public String imgProf; // imagem de perfil do user
                                //Time of first access
-        DateTime datefirst = new DateTime();
+        public DateTime datefirst = new DateTime();
         //time of last access
-        DateTime datelast;
+        public DateTime datelast;
         //current localtime
         DateTime localTime = DateTime.Now;
         TimeSpan diff;
@@ -56,10 +56,30 @@ namespace UserInfo
                     filtered.Append("Good Afternoon " + fullName + "\n");
                 else
                     filtered.Append("Good Night " + fullName + "\n");
-                filtered.Append("First time you entered in Moodle was: " + datefirst.ToLocalTime() + "\n");
+                //filtered.Append("First time you entered in Moodle was: " + datefirst.ToLocalTime() + "\n");
                 filtered.Append("Last time you entered in Moodle was: " + datelast.ToLocalTime() + "\n");
                 
                 filtered.Append("You haven't gone on Moodle in: " + diff.Hours + " hours " + diff.Minutes + " minutes and " + diff.Seconds + " seconds"  + "\n");
+                
+                foreach(Course c in courses)
+                {
+                    foreach(Course.Forum f in c.forums)
+                    {
+                        foreach(Course.Discussions d in f.discussions)
+                        {
+                            foreach(Course.Posts p in d.posts)
+                            {
+                                
+                                if(p.userid == id)
+                                {
+                                    DateTime date = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+                                    date = date.AddSeconds(Convert.ToInt32(p.created));
+                                    filtered.Append("\nOn Forum " + f.name + " There's the Discussion " + d.name + " on which you posted: " + p.message + " at " + date.ToLocalTime());
+                                }
+                            }
+                        }
+                    }
+                }
             }
             else
             {
@@ -98,9 +118,8 @@ namespace UserInfo
             {
                 if (lang.Equals("en"))
                 {
-                    s.Append("ID of Course:" + c.id + "\n");
-                    s.Append("Fullname of Course: " + c.fullName + "\n");
-                    s.Append("Shortname of Course: " + c.shortName + "\n");
+                    s.Append(c.fullName + "\n");
+                    s.Append("ID:" + c.id + "\n");
                     s.Append("Sumary: " + c.summary + "\n");
                     if (c.grade == -1)
                         s.Append("No grade was yet given\n");
@@ -171,16 +190,15 @@ namespace UserInfo
         }
 
 
-        private Course getCourse(int id)
+        public Course getCourse(int id)
         {
-            Course c = null;
-
+            
             foreach (Course co in courses)
             {
                 if (co.id == id)
-                    c = co;
+                    return co;
             }
-            return c;
+            return null;
         }
 
         // METODOS PARA FILTRAR WEBSERVICE RESPONSES
@@ -312,6 +330,7 @@ namespace UserInfo
         public void receiveCourses(List<jsonValues.Courses> c)
         {
             Course template;
+            courses = new List<Course>();
             foreach(jsonValues.Courses co in c)
             {
                 template = new Course();
@@ -496,6 +515,11 @@ namespace UserInfo
         public void doneWriting()
         {
             readyForRead = true;
+        }
+
+        public void needsWriting()
+        {
+            readyForRead = false;
         }
     }
 }
