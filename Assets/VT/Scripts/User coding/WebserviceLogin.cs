@@ -13,14 +13,12 @@ using System.Net.Security;
 using UserInfo;
 using System.Threading;
 
-public class WebserviceLogin : MonoBehaviour
-{
+public class WebserviceLogin : MonoBehaviour {
 
     [Serializable]
-    public class Values
-    {
+    public class Values {
         public List<jsonValues.users> users;
-        //public List<warnings> warnings;
+        //public List<warnings> warnings; 
 
         // course
         public List<jsonValues.Courses> courses;
@@ -30,7 +28,8 @@ public class WebserviceLogin : MonoBehaviour
         public List<jsonValues.assignments> assignments;
         public List<jsonValues.usergrades> usergrades;
         //quizzes
-        public List<jsonValues.quizzes> quizzes; // TODO IMPLEMENT
+        public List<jsonValues.quizzes> quizzes;
+        // TODO IMPLEMENT
         //update related
         public List<jsonValues.instances> instances;
         // forum related
@@ -58,11 +57,11 @@ public class WebserviceLogin : MonoBehaviour
 
     String moodleUrl = "http://ec2-52-215-90-45.eu-west-1.compute.amazonaws.com/moodleFCUL";
 
-    int cycle = 0; // saber o nº de vezes que tentou ver actualizações
+    int cycle = 0;
+    // saber o nº de vezes que tentou ver actualizações
 
     // Use this for initialization
-    void Start()
-    {
+    void Start() {
         ////scrollview = gameObject.AddComponent(typeof(dataflow)) as dataflow;
         //hud = gameObject.AddComponent(typeof(HUDSize)) as HUDSize;
         //StartCoroutine("webGlRequests");
@@ -72,41 +71,33 @@ public class WebserviceLogin : MonoBehaviour
     /**
      * Metodo teste para comparar tempos
      * */
-    public void compareTime()
-    {
+    public void compareTime() {
 
         TimeSpan span = DateTime.UtcNow.Subtract(lastupdate);
         StringBuilder timeString = new StringBuilder();
-        if (span.Minutes > 0)
-        {
+        if (span.Minutes > 0) {
             timeString.Append(span.Minutes + "minutos ");
         }
         timeString.Append(span.Seconds + "segundos");
         //scrollview.addText("Differença de tempo: " + timeString.ToString());
 
     }
-    
+
 
     int npoints = 0;
     DateTime last = DateTime.UtcNow, current, lastCheck;
     TimeSpan s;
     Boolean wasPressed = false;
     // Update is called once per frame
-    void Update()
-    {
-        if (!user.readyForRead && wasPressed)
-        {
+    void Update() {
+        if (!user.readyForRead && wasPressed) {
             current = DateTime.UtcNow;
             s = current - last;
-            if (s.TotalSeconds > 1) // mexe com os pontos
-            {
-                if (npoints < 3)
-                {
+            if (s.TotalSeconds > 1) { // mexe com os pontos
+                if (npoints < 3) {
                     //scrollview.joinText(".");
                     npoints++;
-                }
-                else
-                {
+                } else {
                     //scrollview.changeText(//scrollview.giveText().Replace(".",""));
                     npoints = 0;
                 }
@@ -125,20 +116,18 @@ public class WebserviceLogin : MonoBehaviour
 
         TimeSpan span = DateTime.UtcNow.Subtract(lastCheck);
 
-        if (span.TotalSeconds > 60 && user.readyForRead)
-        {
+        if (span.TotalSeconds > 60 && user.readyForRead) {
             StartCoroutine("hasUpdates");
             lastCheck = DateTime.UtcNow;
         }
 
     }
+
     /**
      * Metodo que é chamado quando o butao para fazer login é carregado, executa todos os webservices em ordem
      * */
-    public void press()
-    {
-        if (!wasPressed)
-        {
+    public void press() {
+        if (!wasPressed) {
             wasPressed = true;
             //scrollview.changeText("A carregar informação");
             StartCoroutine("StartUp");
@@ -155,19 +144,18 @@ public class WebserviceLogin : MonoBehaviour
     /**
      * Devido ao webgl nao suportar acesso directo as sockets que torna o System.Net invalido, foi necessario criar uma alternativa a solucao corrente
      * */
-    IEnumerator webGlRequests()
-    {
+    IEnumerator webGlRequests() {
 
         WWW www = new WWW(moodleUrl + "/login/token.php" + "?service=tvservice&username=" + userName + "&password=" + password);
         yield return www;
         String content = www.text;
 
-        String[] variable = content.Split(new[] { "\"token\":\"" }, StringSplitOptions.None);
-        if (variable.Length > 1)
-        {
-            variable = variable[1].Split(new[] { "\"" }, StringSplitOptions.None);
-            if (variable.Length > 0)
-            {
+        String[] variable = content.Split(new[] { "\"token\":\"" },
+                                          StringSplitOptions.None);
+        if (variable.Length > 1) {
+            variable = variable[1].Split(new[] { "\"" },
+                                         StringSplitOptions.None);
+            if (variable.Length > 0) {
                 tokenMoodleSession = variable[0];
                 // Get user
                 www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + tokenMoodleSession + "&wsfunction=core_user_get_users&criteria[0][key]=username&criteria[0][value]=" + userName + "&moodlewsrestformat=json");
@@ -196,8 +184,7 @@ public class WebserviceLogin : MonoBehaviour
                 user.receiveGrades(v.grades);
                 //user.filterGrades(content);
 
-                foreach (Course c in user.courses)
-                {
+                foreach (Course c in user.courses) {
                     www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + tokenMoodleSession + "&wsfunction=core_course_get_contents&courseid=" + c.id + "&moodlewsrestformat=json");
                     yield return www;
                     content = www.text;
@@ -239,9 +226,7 @@ public class WebserviceLogin : MonoBehaviour
                 content = www.text;
                 
             }
-        }
-        else
-        {
+        } else {
             //scrollview.changeText("Moodle indisponivel");
         }
 
@@ -250,8 +235,7 @@ public class WebserviceLogin : MonoBehaviour
     // METODOS PARA FAZER RETRIEVE DE INFO DO MOODLE SEM O USO DE SOCKETS
     // CHAMADAS AS ESTES METODOS SAO DA FORMA: StartCoroutine("webGlRequests");
 
-    public Boolean beginConnection()
-    {
+    public Boolean beginConnection() {
         wasPressed = true;
         StartCoroutine("StartUp");
         lastupdate = user.datelast;
@@ -266,11 +250,9 @@ public class WebserviceLogin : MonoBehaviour
     /**
      * Metodo que estrutura as chamadas webservice
      * */
-    IEnumerator StartUp()
-    {
+    IEnumerator StartUp() {
         yield return RetrieveToken();
-        if(userVerified)
-        {
+        if (userVerified) {
             // A Ordem eh importante
             yield return RetrieveUser();
             yield return RetrieveCourses();
@@ -281,9 +263,7 @@ public class WebserviceLogin : MonoBehaviour
             yield return RetrieveForumData();
             user.doneWriting(); // marca o final da captacao de dados do user
             
-        }
-        else
-        {
+        } else {
             //scrollview.changeText("Login incorrecto");
         }
     }
@@ -291,17 +271,16 @@ public class WebserviceLogin : MonoBehaviour
     /**
      * Metodo que Comunica com o servidor para ir buscar o token necessario, nao utiliza sockets, autentica o utilizador
      */
-    IEnumerator RetrieveToken()
-    {
+    IEnumerator RetrieveToken() {
         WWW www = new WWW(moodleUrl + "/login/token.php" + "?service=Login&username=" + userName + "&password=" + password);
         yield return www;
         String content = www.text;
-        String[] variable = content.Split(new[] { "\"token\":\"" }, StringSplitOptions.None);
-        if (variable.Length > 1)
-        {
-            variable = variable[1].Split(new[] { "\"" }, StringSplitOptions.None);
-            if (variable.Length > 0)
-            {
+        String[] variable = content.Split(new[] { "\"token\":\"" },
+                                          StringSplitOptions.None);
+        if (variable.Length > 1) {
+            variable = variable[1].Split(new[] { "\"" },
+                                         StringSplitOptions.None);
+            if (variable.Length > 0) {
                 userVerified = true;
                 userToken = variable[0];
 
@@ -313,8 +292,7 @@ public class WebserviceLogin : MonoBehaviour
     /*
      * Metodo que comunica com o servidor e vai buscar a informacao do user, nao utiliza sockets
      */
-    IEnumerator RetrieveUser()
-    {
+    IEnumerator RetrieveUser() {
         
         Boolean fin = false;
         
@@ -331,15 +309,14 @@ public class WebserviceLogin : MonoBehaviour
         
         while (!www.isDone) ;
         content = www.text;
-        new Thread(() =>
-        {
+        new Thread(() => {
             
-            v = UnityEngine.JsonUtility.FromJson<Values>(content);
-            user.receiveUsers(v.users[0]);
+                v = UnityEngine.JsonUtility.FromJson<Values>(content);
+                user.receiveUsers(v.users[0]);
             
             
-            fin = true;
-        }).Start();
+                fin = true;
+            }).Start();
         while (!fin) ;
         
     }
@@ -347,8 +324,7 @@ public class WebserviceLogin : MonoBehaviour
     /**
      *  Metodo que comunica com o servidor e busca a informacao dos cursos a que o utilizador esta inscrito, nao utiliza sockets
      */
-    IEnumerator RetrieveCourses()
-    {
+    IEnumerator RetrieveCourses() {
         WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + tokenMoodleSession + "&wsfunction=core_enrol_get_users_courses&userid=" + user.id + "&moodlewsrestformat=json");
         yield return www;
         String content = www.text;
@@ -361,8 +337,7 @@ public class WebserviceLogin : MonoBehaviour
         user.receiveCourses(v.courses);
     }
 
-    IEnumerator RetrieveUserGrades()
-    {
+    IEnumerator RetrieveUserGrades() {
         WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + tokenMoodleSession + "&wsfunction=gradereport_overview_get_course_grades&userid=" + user.id + "&moodlewsrestformat=json");
         yield return www;
         String content = www.text;
@@ -371,15 +346,13 @@ public class WebserviceLogin : MonoBehaviour
         user.receiveGrades(v.grades);
     }
 
-    IEnumerator RetrieveCourseTopics()
-    {
+    IEnumerator RetrieveCourseTopics() {
         
         WWW www;
         String content;
         StringBuilder por;
         Values v;
-        foreach (Course c in user.courses)
-        {
+        foreach (Course c in user.courses) {
             www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + userToken + "&wsfunction=core_course_get_contents&courseid=" + c.id + "&moodlewsrestformat=json");
             yield return www;
             content = www.text;
@@ -396,17 +369,15 @@ public class WebserviceLogin : MonoBehaviour
     /**
      * Metodo que vai buscar os folios e as suas notas e outras caracteristicas
      * */
-    IEnumerator RetrieveCourseGrades()
-    {
+    IEnumerator RetrieveCourseGrades() {
         WWW www;
         String content;
         StringBuilder sb;
         int count = 0;
         Values v;
-        foreach (Course c in user.courses)
-        {
+        foreach (Course c in user.courses) {
            
-            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + tokenMoodleSession + "&wsfunction=mod_assign_get_assignments&courseids[0]=" + c.id  + "&moodlewsrestformat=json");
+            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + tokenMoodleSession + "&wsfunction=mod_assign_get_assignments&courseids[0]=" + c.id + "&moodlewsrestformat=json");
             yield return www;
             content = www.text;
             
@@ -415,8 +386,7 @@ public class WebserviceLogin : MonoBehaviour
 
             sb = new StringBuilder();
             count = 0;
-            foreach (UserInfo.Course.Folio f in c.folios)
-            {
+            foreach (UserInfo.Course.Folio f in c.folios) {
                 sb.Append("&assignmentids[" + count + "]=" + f.id);
                 count++;
             }
@@ -425,7 +395,7 @@ public class WebserviceLogin : MonoBehaviour
             content = www.text;
 
             v = JsonUtility.FromJson<Values>(content);  
-            c.receiveAssignmentsGrade(v.assignments,user.id);
+            c.receiveAssignmentsGrade(v.assignments, user.id);
             
         }
     }
@@ -433,14 +403,12 @@ public class WebserviceLogin : MonoBehaviour
     /**
      * Metodo que busca e implementa toda a estrutura de Forum numa cadeira
      * */
-    IEnumerator RetrieveForumData()
-    {
+    IEnumerator RetrieveForumData() {
         StringBuilder por;
         Values v;
         
         // report_competency_data_for_report
-        foreach (Course c in user.courses)
-        {
+        foreach (Course c in user.courses) {
             WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + tokenMoodleSession + "&wsfunction=mod_forum_get_forums_by_courses&courseids[0]=" + c.id + "&moodlewsrestformat=json");
             yield return www;
             String content = www.text;
@@ -452,8 +420,7 @@ public class WebserviceLogin : MonoBehaviour
 
             user.getCourse(c.id).receiveForums(v.forums);
             
-            foreach (UserInfo.Course.Forum f in user.getCourse(c.id).forums)
-            {
+            foreach (UserInfo.Course.Forum f in user.getCourse(c.id).forums) {
                 www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + tokenMoodleSession + "&wsfunction=mod_forum_get_forum_discussions_paginated&forumid=" + f.id + "&moodlewsrestformat=json"); // vem organizados pelo mais recentemente alterado
                 yield return www;
                 content = www.text;
@@ -461,8 +428,7 @@ public class WebserviceLogin : MonoBehaviour
                 user.getCourse(c.id).receiveDiscussions(v.discussions, f.id);
 
                 
-                foreach (UserInfo.Course.Discussions d in f.discussions)
-                {
+                foreach (UserInfo.Course.Discussions d in f.discussions) {
                     www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + tokenMoodleSession + "&wsfunction=mod_forum_get_forum_discussion_posts&discussionid=" + d.id + "&moodlewsrestformat=json"); // vem organizados pelo mais recentemente alterado
                     yield return www;
                     content = www.text;
@@ -476,8 +442,7 @@ public class WebserviceLogin : MonoBehaviour
     }
 
     //Metodo que chama a verificacao de updates
-    private void startUpdateCheck()
-    {
+    private void startUpdateCheck() {
         StartCoroutine("hasUpdates");
     }
 
@@ -485,53 +450,39 @@ public class WebserviceLogin : MonoBehaviour
      * Metodo para verificar se houve actualizações desde o ultimo login, só serve para por em texto as novidades, utilizado so no inicio da execução
      * TODO core_course_check_updates pode ter que ser utilizado para validar informação que afecte o user -> Check if there is updates affecting the user for the given course and contexts.
      * */
-    IEnumerator checkNewInfo()
-    {
+    IEnumerator checkNewInfo() {
         TimeSpan s = lastupdate - new DateTime(1970, 1, 1);
         Debug.Log("Verificar updates");
         cycle++;
         StringBuilder debrief = new StringBuilder();
-        foreach (UserInfo.Course c in user.courses)
-        {
+        foreach (UserInfo.Course c in user.courses) {
             WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + tokenMoodleSession + "&wsfunction=core_course_get_updates_since&courseid=" + c.id + "&since=" + (int)s.TotalSeconds + "&moodlewsrestformat=json");
             yield return www;
             String content = www.text;
             Values v = JsonUtility.FromJson<Values>(content);
 
-            if(v.instances.Count> 0) // Ocurreu algo de novo
-            {
+            if (v.instances.Count > 0) { // Ocurreu algo de novo
                 debrief.Append("For Course " + c.fullName + " :\n");
-                foreach(jsonValues.instances i in v.instances)
-                {
-                    if (i.contextlevel.ToLower().Equals("module"))
-                    {
+                foreach (jsonValues.instances i in v.instances) {
+                    if (i.contextlevel.ToLower().Equals("module")) {
                         Course.modules m = user.getCourse(c.id).getSpecificModule(i.id);
-                        if(m == null)
-                        {
+                        if (m == null) {
                             debrief.Append("A module with the id " + i.id + " was removed\n");
-                        }
-                        else
-                        {
+                        } else {
                             debrief.Append("On Module " + m.name + " something happened\n");
                         }
                     }
-                    if (i.contextlevel.ToLower().Equals("topic"))
-                    {
+                    if (i.contextlevel.ToLower().Equals("topic")) {
                         UserInfo.Course.Topic t = user.getCourse(c.id).GetTopic(i.id);
-                        if (t == null)
-                        {
+                        if (t == null) {
                             debrief.Append("A Topic with the id " + i.id + " was removed\n");
-                        }
-                        else
-                        {
+                        } else {
                             debrief.Append("On Topic " + t.name + " something happened\n");
                         }
 
                     }
                 }
-            }
-            else if(v.instances.Count == 0)
-            {
+            } else if (v.instances.Count == 0) {
                 debrief.Append("Course " + c.fullName + " has nothing to report\n\n");
             }
             debrief.Append("\n");
@@ -543,31 +494,27 @@ public class WebserviceLogin : MonoBehaviour
     /**
      * Metodo que verifica occorrencia de updates, se existem entao chama executeUpdates para implementar as novidades
      * */
-    IEnumerator hasUpdates()
-    {
+    IEnumerator hasUpdates() {
         TimeSpan s = lastupdate - new DateTime(1970, 1, 1);
         Debug.Log("Verificar updates");
         cycle++;
         Boolean happened = false;
-        foreach (Course c in user.courses)
-        {
+        foreach (Course c in user.courses) {
             WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + tokenMoodleSession + "&wsfunction=core_course_get_updates_since&courseid=" + c.id + "&since=" + (int)s.TotalSeconds + "&moodlewsrestformat=json");
             yield return www;
             String content = www.text;
             Values v = JsonUtility.FromJson<Values>(content);
 
 
-            if (v.instances != null)
-            {
-                if (v.instances.Count > 0)
-                {
+            if (v.instances != null) {
+                if (v.instances.Count > 0) {
                     StartCoroutine(executeUpdates(v.instances, c.id));
                     happened = true;
                 }
             }
         }
 
-        if(happened)
+        if (happened)
             lastupdate = DateTime.UtcNow;
 
     }
@@ -576,23 +523,19 @@ public class WebserviceLogin : MonoBehaviour
      * Recebe as instancias de updates, actualmente vai buscar os top
      * TODO implementar metodo de update
      * */
-    IEnumerator executeUpdates(List<jsonValues.instances> instances, int id)
-    {
+    IEnumerator executeUpdates(List<jsonValues.instances> instances, int id) {
         user.needsWriting();
         //scrollview.changeText("A fazer updates");
         StringBuilder sb = new StringBuilder(), modu = new StringBuilder();
-        foreach (jsonValues.instances i in instances)
-        {
+        foreach (jsonValues.instances i in instances) {
             // fazer updates aqui de acordo com o que pede, por agora manter assim
             yield return StartCoroutine("RetrieveCourseTopics");
 
             // Lista dos modulos que foram actualizados
-            foreach (jsonValues.updates u in i.updates)
-            {
+            foreach (jsonValues.updates u in i.updates) {
                 
                 sb.Append(u.name + ",");
-                if (u.name.ToLower().Equals("configuration"))
-                {
+                if (u.name.ToLower().Equals("configuration")) {
                     var m = user.getCourse(id).getUndefinedModule(i.id);
                     //if (m != null)
                     //    modu.Append("TEM O NOME: " + m.name);
@@ -614,14 +557,12 @@ public class WebserviceLogin : MonoBehaviour
     /**
     * Metodo usado para testar novos webservices a parte
     * */
-    IEnumerator testNewFunction()
-    {
+    IEnumerator testNewFunction() {
         StringBuilder por;
         Values v;
         Debug.Log("NEW FUNCTION");
         // report_competency_data_for_report
-        foreach (Course c in user.courses)
-        {
+        foreach (Course c in user.courses) {
             WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + tokenMoodleSession + "&wsfunction=mod_forum_get_forums_by_courses&courseids[0]=" + c.id + "&moodlewsrestformat=json");
             yield return www;
             String content = www.text;
@@ -634,27 +575,23 @@ public class WebserviceLogin : MonoBehaviour
 
             user.getCourse(c.id).receiveForums(v.forums);
             Debug.Log("WRITE Forums " + user.getCourse(c.id).forums.Count);
-            foreach (UserInfo.Course.Forum f in user.getCourse(c.id).forums)
-            {
-                www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + tokenMoodleSession + "&wsfunction=mod_forum_get_forum_discussions_paginated&forumid=" + f.id +"&moodlewsrestformat=json"); // vem organizados pelo mais recentemente alterado
+            foreach (UserInfo.Course.Forum f in user.getCourse(c.id).forums) {
+                www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + tokenMoodleSession + "&wsfunction=mod_forum_get_forum_discussions_paginated&forumid=" + f.id + "&moodlewsrestformat=json"); // vem organizados pelo mais recentemente alterado
                 yield return www;
                 content = www.text;
                 v = JsonUtility.FromJson<Values>(content);
-                user.getCourse(c.id).receiveDiscussions(v.discussions,f.id);
+                user.getCourse(c.id).receiveDiscussions(v.discussions, f.id);
 
                 Debug.Log("HOW MANY DISCUSSION: " + user.getCourse(c.id).getForum(f.id).discussions.Count);
-                foreach(UserInfo.Course.Discussions d in f.discussions)
-                {
+                foreach (UserInfo.Course.Discussions d in f.discussions) {
                     www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + tokenMoodleSession + "&wsfunction=mod_forum_get_forum_discussion_posts&discussionid=" + d.id + "&moodlewsrestformat=json"); // vem organizados pelo mais recentemente alterado
                     yield return www;
                     content = www.text;
                     v = JsonUtility.FromJson<Values>(content);
-                    user.getCourse(c.id).receivePosts(v.posts, f.id,d.id);
-                    if (d.name.Equals("testar"))
-                    {
+                    user.getCourse(c.id).receivePosts(v.posts, f.id, d.id);
+                    if (d.name.Equals("testar")) {
                         por = new StringBuilder();
-                        foreach(UserInfo.Course.Posts p in d.posts)
-                        {
+                        foreach (UserInfo.Course.Posts p in d.posts) {
                             por.Append("\nMensagem de " + p.userid + " com o texto " + p.message);
                             if (p.userid == user.id)
                                 por.Append(" ->É TUA");
@@ -673,16 +610,14 @@ public class WebserviceLogin : MonoBehaviour
     /**
      * Metodo que Comunica com o servidor para ir buscar o token necessario a pedir os webservices com o uso de Sockets
      **/
-    public void getToken()
-    {
+    public void getToken() {
         CookieContainer cookie = new CookieContainer();
 
 
         Uri address = new Uri(moodleUrl + "/login/token.php" + "?service=tvservice&username=" + userName + "&password=" + password);
 
         String[] variable;
-        try
-        {
+        try {
             HttpWebRequest requestB = WebRequest.Create(address) as HttpWebRequest;
 
             requestB.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36";
@@ -695,7 +630,8 @@ public class WebserviceLogin : MonoBehaviour
 
 
             requestB.Headers.Add("Accept-Encoding", "gzip, deflate, sdch");
-            requestB.Headers.Add("Accept-Language", "en-US,en;q=0.8,pt-PT;q=0.6,pt;q=0.4");
+            requestB.Headers.Add("Accept-Language",
+                                 "en-US,en;q=0.8,pt-PT;q=0.6,pt;q=0.4");
 
             requestB.AllowAutoRedirect = true;
             requestB.CookieContainer = cookie;
@@ -713,8 +649,7 @@ public class WebserviceLogin : MonoBehaviour
             //request.CookieContainer = new CookieContainer();
 
             // Write data  
-            using (Stream postStream = requestB.GetRequestStream())
-            {
+            using (Stream postStream = requestB.GetRequestStream()) {
                 postStream.Write(byteData, 0, byteData.Length);
                 //postStream.Flush();
                 postStream.Close();
@@ -724,8 +659,7 @@ public class WebserviceLogin : MonoBehaviour
 
 
             // Get response  
-            using (HttpWebResponse responseB = requestB.GetResponse() as HttpWebResponse)
-            {
+            using (HttpWebResponse responseB = requestB.GetResponse() as HttpWebResponse) {
                 //rCookie = responseB.Cookies;
                 //WebHeaderCollection header = responseB.Headers;
 
@@ -735,8 +669,10 @@ public class WebserviceLogin : MonoBehaviour
                 String content = reader.ReadToEnd();
 
                 // GET Token from response
-                variable = content.Split(new[] { "\"token\":\"" }, StringSplitOptions.None);
-                variable = variable[1].Split(new[] { "\"" }, StringSplitOptions.None);
+                variable = content.Split(new[] { "\"token\":\"" },
+                                         StringSplitOptions.None);
+                variable = variable[1].Split(new[] { "\"" },
+                                             StringSplitOptions.None);
                 tokenMoodleSession = variable[0];
 
                 // Console application output  
@@ -760,9 +696,7 @@ public class WebserviceLogin : MonoBehaviour
 
 
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Debug.Log("Ocurreu um erro com a busca do token\n" +
                 "Por favor, tente de novo. Visto que ocasionalmente a primeira não dá\n Obrigado\n" + e.Message);
         }
@@ -773,8 +707,7 @@ public class WebserviceLogin : MonoBehaviour
 
 
 
-    public void getUserData()
-    {
+    public void getUserData() {
        
         // Usado para obter dados do user
         Uri address = new Uri(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + tokenMoodleSession + "&wsfunction=core_user_get_users&criteria[0][key]=username&criteria[0][value]=" + userName);
@@ -797,14 +730,12 @@ public class WebserviceLogin : MonoBehaviour
         request.ContentLength = byteData.Length;
 
         // Write data  
-        using (Stream postStream = request.GetRequestStream())
-        {
+        using (Stream postStream = request.GetRequestStream()) {
             postStream.Write(byteData, 0, byteData.Length);
         }
 
         // Get response  
-        using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-        {
+        using (HttpWebResponse response = request.GetResponse() as HttpWebResponse) {
             // Get the response stream  
             StreamReader reader = new StreamReader(response.GetResponseStream());
             String content = reader.ReadToEnd();
@@ -836,16 +767,14 @@ public class WebserviceLogin : MonoBehaviour
         request.ContentLength = byteData.Length;
 
         // Write data  
-        using (Stream postStream = request.GetRequestStream())
-        {
+        using (Stream postStream = request.GetRequestStream()) {
             postStream.Write(byteData, 0, byteData.Length);
         }
 
 
 
         // Get response  
-        using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-        {
+        using (HttpWebResponse response = request.GetResponse() as HttpWebResponse) {
             // Get the response stream  
             StreamReader reader = new StreamReader(response.GetResponseStream());
             String content = reader.ReadToEnd();
@@ -872,16 +801,14 @@ public class WebserviceLogin : MonoBehaviour
         request.ContentLength = byteData.Length;
 
         // Write data  
-        using (Stream postStream = request.GetRequestStream())
-        {
+        using (Stream postStream = request.GetRequestStream()) {
             postStream.Write(byteData, 0, byteData.Length);
         }
 
 
 
         // Get response  
-        using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-        {
+        using (HttpWebResponse response = request.GetResponse() as HttpWebResponse) {
             // Get the response stream  
             StreamReader reader = new StreamReader(response.GetResponseStream());
             String content = reader.ReadToEnd();
@@ -927,14 +854,12 @@ public class WebserviceLogin : MonoBehaviour
         request.ContentLength = byteData.Length;
 
         // Write data  
-        using (Stream postStream = request.GetRequestStream())
-        {
+        using (Stream postStream = request.GetRequestStream()) {
             postStream.Write(byteData, 0, byteData.Length);
         }
 
         // Get response  
-        using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-        {
+        using (HttpWebResponse response = request.GetResponse() as HttpWebResponse) {
             // Get the response stream  
             StreamReader reader = new StreamReader(response.GetResponseStream());
             String content = reader.ReadToEnd();
@@ -942,8 +867,7 @@ public class WebserviceLogin : MonoBehaviour
             //Debug.Log(content);
 
             foreach (Course c in user.courses)
-                if (c.id == 4)
-                {
+                if (c.id == 4) {
                     c.filterCourse(content);
                    
                 }
@@ -958,39 +882,32 @@ public class WebserviceLogin : MonoBehaviour
 
 
     // METODOS PARA IR BUSCAR VALORES DADOS PELO USER
-    public void getUserName()
-    {
+    public void getUserName() {
         InputField[] infs = GUIElement.FindObjectsOfType<InputField>();
-        foreach (InputField inf in infs)
-        {
+        foreach (InputField inf in infs) {
             if (inf.name.Equals("InputUser"))
                 userName = inf.text;
         }
     }
 
-    public void getPassword()
-    {
+    public void getPassword() {
         InputField[] infs = GUIElement.FindObjectsOfType<InputField>();
-        foreach (InputField inf in infs)
-        {
+        foreach (InputField inf in infs) {
             if (inf.name.Equals("InputPassword"))
                 password = inf.text;
         }
     }
 
 
-    public void writeToFileExample()
-    {
+    public void writeToFileExample() {
         string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
         string filename = Path.Combine(path, "myfile.txt");
 
-        using (var streamWriter = new StreamWriter(filename, true))
-        {
+        using (var streamWriter = new StreamWriter(filename, true)) {
             streamWriter.WriteLine(DateTime.UtcNow);
         }
 
-        using (var streamReader = new StreamReader(filename))
-        {
+        using (var streamReader = new StreamReader(filename)) {
             string content = streamReader.ReadToEnd();
             //System.Diagnostics.Debug.WriteLine(content);
             content.ToString();
