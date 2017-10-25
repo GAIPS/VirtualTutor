@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using VT;
+//using VT;
 
 namespace UserInfo
 {
@@ -28,6 +29,7 @@ namespace UserInfo
 
         public LinkedList<Topic> topics = new LinkedList<Topic>();
         public LinkedList<Folio> folios = new LinkedList<Folio>();
+        public LinkedList<Forum> forums = new LinkedList<Forum>();
 
         // Dados iniciados para corresponder aos sliders
         public float like;
@@ -49,18 +51,50 @@ namespace UserInfo
 
         public class Folio
         {
+            //public int id;
+            //public String itemName;
+            //public DateTime gradedategraded;
+            //public DateTime gradedatesubmitted;
+            //public bool gradeGiven = false;
+            //public String gradeformatted; // verificar se nao eh '-'
+            //public int graderaw;
+            //public String percentageFormatted;
+            //public int grademin;
+            //public int grademax;
+            //public String feedback;
+            //public String status;
+
             public int id;
-            public String itemName;
-            public DateTime gradedategraded;
-            public bool gradeGiven = false;
-            public String gradeformatted; // verificar se nao eh '-'
-            public int graderaw;
-            public String percentageFormatted;
-            public int grademin;
-            public int grademax;
+            public int cmid;
+            public int course;
+            public String name;
+            public int nosubmissions; // se houve submissoes
+            public DateTime duedate;
+            public DateTime allowsubmissionsfromdate; // data que o aluno pode fazer submissoes
+            public int grademax; // grademax
+            public DateTime cutoffdate; // prazo limite
+
+            // dados do modulo
+            public int visible;
+            public int uservisible;
+            public int visibleOnCoursePage;
+
+            // grade data
+            public List<attemptgrade> attempgrade = new List<attemptgrade>();
+
         }
 
-       public class contents //conteudos de um modulo
+        public class attemptgrade
+        {
+            public int id;
+            public int attemptnumber; // a tentativa nº
+            public Double grade; // if -1 entao nao foi dada
+            public DateTime timecreated; // submissao do aluno?
+            public DateTime timemodified; // avaliacao do professor?
+
+        }
+
+        public class contents //conteudos de um modulo
         {
             // caso seja um ficheiro
             public String type;
@@ -104,6 +138,43 @@ namespace UserInfo
             public String url;
 
             public LinkedList<modules> modules = new LinkedList<modules>();
+        }
+
+
+        public class Posts
+        {
+            public int id;//Post id
+            public int discussion;//Discussion id
+            public int parent;//Parent id
+            public int userid;//User id
+            public int created;//Creation time
+            public int modified;//Time modified
+            public String subject;//The post subject
+            public String message;//The post message
+        }
+
+        public class Discussions
+        {
+            public int id;
+            public string name; //Discussion name
+            public int timemodified;  //Time modified X
+            public String subject; //subject of message
+            public String message; //message posted
+            public String userfullname; //Post author full name
+            public String usermodifiedfullname; //Post modifier full name
+            public int created;//Creation time
+            public int modified;//Time modified X
+            public int userid; // id of user who created the discussion
+            public List<Posts> posts;
+        }
+        public class Forum
+        {
+            public int id; //Forum id
+            public String type; //The forum type
+            public String name; //Forum name
+            public String intro;  //The forum intro
+            //public List<contents> introfiles;
+            public List<Discussions> discussions;
         }
 
         /**
@@ -158,7 +229,6 @@ namespace UserInfo
             if(t.userVisible==1)
             {
                
-                s.Append("TOPIC\n");
                 if (lang.Equals("en"))
                 {
                     s.Append("Topic ID:" + t.id + "\n");
@@ -191,7 +261,6 @@ namespace UserInfo
             StringBuilder s = new StringBuilder();
             if (m.uservisible == 1)
             {
-                s.Append("MODULE\n");
                 if (lang.Equals("en"))
                 {
                     s.Append("Name " + m.name + "\n");
@@ -203,7 +272,7 @@ namespace UserInfo
                         s.Append("No description was given.\n");
                     foreach (contents c in m.contents)
                     {
-                        s.Append("Content:\n");
+                        s.Append("\nContent:\n");
                         if (c != null)
                         {
                             //response.Append(c.userId + "\n");
@@ -245,33 +314,90 @@ namespace UserInfo
         //info de um folio em string
         public String FolioDisplay(int folioId)
         {
+            TimeSpan diff;
             StringBuilder s = new StringBuilder();
             Folio f = getFolio(folioId);
-            if (lang.Equals("en")) {
-                s.Append("ID: " + f.id + "\n");
-                s.Append("Name: " + f.itemName + "\n");
-                if (f.gradeGiven) {
-                    s.Append("Grade: " + f.graderaw + "out of " + f.grademax + "= " + f.percentageFormatted + "%\n");
+            
+            s.Append("Name: " + f.name + "\n");
+            
+            s.Append("Due date: " + f.duedate.ToLocalTime().ToString("d/M/yyyy") + "\n");
+            diff = DateTime.UtcNow.Subtract(f.duedate);
+            if (diff.TotalSeconds < 0) // Data ainda nao passou 
+            {
+                diff = -diff;
+                s.Append("You still have " + diff.Days + " days, " + diff.Hours + " hours and " + diff.Minutes + " minutes\n");
+            }
+            else
+            {
+                s.Append("DUE TIME HAS PASSED!!!\n");
+            }
+            if (f.attempgrade.Count > 1)
+            {
+                s.Append("GRADES\n");
+                foreach (attemptgrade a in f.attempgrade)
+                {
+                    s.Append("Attempt: " + a.attemptnumber + "\n");
+                    s.Append("Time it was made: " + a.timecreated.ToLocalTime() + "\n");
+                    if ((int)a.grade == -1)
+                    {
+                        s.Append("Grade not given\n");
+                    }
+                    else
+                    {
+                        s.Append("Grade was given at: " + a.timemodified.ToLocalTime() + "\n");
+                        s.Append("Grade: " + (int)a.grade + " out of "+ f.grademax+"\n");
+                    }
+                }
+            }
+            else if(f.attempgrade.Count == 1)
+            {
+                if ((int)f.attempgrade[0].grade == -1)
+                {
+                    s.Append("Grade not given\n");
                 }
                 else
                 {
-                    s.Append("Grade not given\n");
+                    s.Append("Grade was given at: " + f.attempgrade[0].timemodified.ToLocalTime() + "\n");
+                    s.Append("Grade: " + (int)f.attempgrade[0].grade + " out of " + f.grademax + "\n");
                 }
             }
             else
             {
-                s.Append("ID: " + f.id + "\n");
-                s.Append("Nome: " + f.itemName + "\n");
-                if (f.gradeGiven)
-                {
-                    s.Append("Nota: " + f.graderaw + " de " + f.grademax + "= " + f.percentageFormatted + "%\n");
-                }
-                else
-                {
-                    s.Append("Falta de nota\n");
-                }
+                s.Append("NO grades were given");
             }
-            
+
+
+            //if (lang.Equals("en")) {
+            //    s.Append("ID: " + f.id + "\n");
+            //    s.Append("Name: " + f.itemName + "\n");
+            //    s.Append("Status:" + f.status + "\n");
+            //    if (f.gradedatesubmitted.Equals(new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc)))
+            //        s.Append("YOU HAVENT SUBMITTED ANYTHING\n");
+            //    else
+            //        s.Append("Submitted date: " + f.gradedatesubmitted.ToLocalTime() + "\n");
+            //    if (f.gradeGiven) {
+            //        s.Append("Grade: " + f.graderaw + " out of " + f.grademax + "= " + f.percentageFormatted + "\n");
+            //        s.Append("WAS GRADED AT: " + f.gradedategraded.ToLocalTime());
+            //    }
+            //    else
+            //    {
+            //        s.Append("Grade not given\n");
+            //    }
+            //}
+            //else
+            //{
+            //    s.Append("ID: " + f.id + "\n");
+            //    s.Append("Nome: " + f.itemName + "\n");
+            //    if (f.gradeGiven)
+            //    {
+            //        s.Append("Nota: " + f.graderaw + " de " + f.grademax + "= " + f.percentageFormatted + "\n");
+            //    }
+            //    else
+            //    {
+            //        s.Append("Falta de nota\n");
+            //    }
+            //}
+
             return s.ToString();
         }
 
@@ -279,20 +405,21 @@ namespace UserInfo
         public String foliosToString()
         {
             StringBuilder response = new StringBuilder();
-            foreach (Folio f in folios)
-            {
-                response.Append("NAME: " + f.itemName + "\n");
-                response.Append("MINIMO: " + f.grademin + "\n");
-                response.Append("Maximo: " + f.grademax + "\n");
-                if (f.gradeGiven)
-                {
-                    response.Append("DATE: " + f.gradedategraded + " value " + f.gradeformatted + "\n");
-                    response.Append(f.percentageFormatted + "\n");
-                }
-                else
-                    response.Append("Grade wasn't given yet.\n");
-                response.Append("----------------\n");
-            }
+            //foreach (Folio f in folios)
+            //{
+            //    response.Append("NAME: " + f.itemName + "\n");
+            //    response.Append("MINIMO: " + f.grademin + "\n");
+            //    response.Append("Maximo: " + f.grademax + "\n");
+                
+            //    if (f.gradeGiven)
+            //    {
+            //        response.Append("DATE: " + f.gradedategraded.ToLocalTime() + " value " + f.gradeformatted + "\n");
+            //        response.Append(f.percentageFormatted + "\n");
+            //    }
+            //    else
+            //        response.Append("Grade wasn't given yet.\n");
+            //    response.Append("----------------\n");
+            //}
 
 
             return response.ToString();
@@ -327,6 +454,40 @@ namespace UserInfo
             
         }
 
+        public void removeModule(int id)
+        {
+            
+            modules m = getSpecificModule(id);
+            
+            foreach(Topic t in topics)
+            {
+               
+                if (t.modules.Contains(m))
+                    t.modules.Remove(m);
+            }
+
+        }
+
+        public modules getSpecificModule(int id)
+        {
+            //Topic t = GetTopic(tId);
+            foreach (Topic t in topics)
+            {
+
+                foreach (modules mo in t.modules)
+                {
+                   
+                    if (mo.id == id)
+                    {
+                        
+                        return mo;
+                    }
+                }
+            }
+            return null;
+
+        }
+
         public Folio getFolio(int fId)
         {
             
@@ -339,15 +500,58 @@ namespace UserInfo
             return null;
         }
 
+        public Forum getForum(int fId)
+        {
+            foreach (Forum fo in forums)
+            {
+                if (fo.id == fId)
+                    return fo;
+            }
 
-        // METODOS PARA FILTRAR WEBSERVICE RESPONSES JSON
+            return null;
+        }
+
+        /**
+         * UM MODULO PODE SER UM OBJECTO DO TIPO FOLIO OU FORUM OU ENTAO UM SIMPLES MODULO
+         * Quando somos informados de um update o contexto modulo não define que tipo é portanto é necessario um getter ambiguo
+         * */
+        public System.Object getUndefinedModule(int id)
+        {
+            modules m = getSpecificModule(id);
+            if (m != null)
+                return m;
+            Folio f = getFolio(id);
+            if (f != null)
+                return f;
+            Forum fo = getForum(id);
+            if (fo != null)
+                return fo;
+
+            return null;
+        }
+        public Discussions GetDiscussions(int fId, int discId)
+        {
+            Forum f = getForum(fId);
+            if(f != null)
+            {
+                foreach(Discussions d in f.discussions)
+                {
+                    if (d.id == discId)
+                        return d;
+                }
+            }
+            return null;
+        }
+
+        // METODOS PARA RECEBER WEBSERVICE RESPONSES JSON
 
         public void receiveCourseTopics(List<jsonValues.Topics> topics)
         {
             Topic placeHolder = null;
             modules moduleP = null;
             contents contentP = null;
-            foreach(jsonValues.Topics t in topics)
+            this.topics = new LinkedList<Topic>();
+            foreach (jsonValues.Topics t in topics)
             {
                 placeHolder = new Topic();
                 placeHolder.id = t.id;
@@ -389,43 +593,184 @@ namespace UserInfo
 
         }
 
-        public void receiveGrades(jsonValues.usergrades grades)
-        {
-            int id; //X
-            String itemName; //X
-            DateTime gradedategraded;
-            bool gradeGiven = false; //X
-            float gradeformatted; // verificar se nao eh '-' X
-            int graderaw; //X
-            String percentageFormatted; //X
-            int grademin; //X
-            int grademax; //X
-            Folio template;
+        //public void receiveGrades(jsonValues.usergrades grades)
+        //{
             
-            foreach(jsonValues.gradeitems f in grades.gradeitems)
-            {
-                template = new Folio();
-                template.itemName = f.itemname;
-                template.id = f.id;
-                template.grademin = f.grademin;
-                template.grademax = f.grademax;
-                if(f.graderaw != null) // foi dada nota
-                {
-                    template.graderaw = f.graderaw;
-                    template.gradeformatted = f.gradeformatted;
-                    template.percentageFormatted = f.percentageformatted;
-                    template.gradeGiven = true;
+        //    Folio template;
+        //    folios = new LinkedList<Folio>();
+        //    DateTime date;
+        //    foreach (jsonValues.gradeitems f in grades.gradeitems)
+        //    {
+        //        template = new Folio();
+        //        template.itemName = f.itemname;
+        //        template.id = f.id;
+        //        template.grademin = f.grademin;
+        //        template.grademax = f.grademax;
+                
+        //        template.status = f.status;
+        //        if(f.graderaw != 0) // foi dada nota
+        //        {
+        //            template.graderaw = f.graderaw;
+        //            template.gradeformatted = f.gradeformatted;
+        //            template.percentageFormatted = f.percentageformatted;
+        //            template.gradeGiven = true;
 
-                    DateTime date = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-                    date = date.AddSeconds(Convert.ToInt32(f.gradedategraded));
-                    template.gradedategraded = date;
+        //            date = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+        //            date = date.AddSeconds(Convert.ToInt32(f.gradedategraded));
+        //            template.gradedategraded = date;
+
+                    
+                   
+                    
+        //        }
+        //        date = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+        //        date = date.AddSeconds(Convert.ToInt32(f.gradedatesubmitted));
+        //        template.gradedatesubmitted = date;
+        //        template.feedback = f.feedback;
+        //        folios.AddLast(template);
+        //    }
+            
+        //}
+
+        public void receiveAssignments(List<jsonValues.assignments> assignments)
+        {
+            
+            Folio template;
+            modules m;
+            DateTime date;
+            foreach (jsonValues.assignments a in assignments)
+            {
+                m = getSpecificModule(a.cmid);
+                
+                template = new Folio();
+                
+                if (m != null) // PARA CASOS EXTREMOS???? referir a versao "copia" da cadeira
+                {
+                    template.visible = m.visible;
+                    template.uservisible = m.uservisible;
+                    template.visibleOnCoursePage = m.visibleOnCoursePage;
                 }
+                template.id = a.id;
+                template.cmid = a.cmid;
+                template.course = a.course;
+                template.name = a.name;
+                template.nosubmissions = a.nosubmissions;
+                template.grademax = a.grade;
+                
+                date = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+                date = date.AddSeconds(Convert.ToInt32(a.duedate));
+                template.duedate = date;
+
+                date = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+                date = date.AddSeconds(Convert.ToInt32(a.allowsubmissionsfromdate));
+                template.allowsubmissionsfromdate = date;
+
+                date = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+                date = date.AddSeconds(Convert.ToInt32(a.cutoffdate));
+                template.cutoffdate = date;
+                if(m != null)
+                removeModule(a.cmid);
+
                 folios.AddLast(template);
             }
-            
         }
 
+        public void receiveAssignmentsGrade(List<jsonValues.assignments> assignments, int userid)
+        {
+            attemptgrade template;
+            Folio f;
+            DateTime date;
+            foreach(jsonValues.assignments a in assignments) // em todos os assignments
+            {
+                f = getFolio(a.assignmentid); // encontrar folio/assignment mencionado
+                if(f != null) // caso tenha encontrado
+                {
+                   foreach(jsonValues.grades g in a.grades) // todas as notas desse assignment
+                    {
+                        if(g.userid == userid) // so notas que pertencem ao aluno
+                        {
+                            template = new attemptgrade();
+                            template.attemptnumber = g.attemptnumber;
+                            template.id = g.id;
+                            template.grade = Double.Parse(g.grade); // se for -1 entao nota nao foi dada
 
+                            date = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+                            date = date.AddSeconds(Convert.ToInt32(g.timecreated));
+                            template.timecreated = date;
+
+                            date = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+                            date = date.AddSeconds(Convert.ToInt32(g.timemodified));
+                            template.timemodified = date;
+
+                            f.attempgrade.Add(template);
+                        }
+                    }
+
+                }
+            }
+        }
+
+        public void receiveForums(List<jsonValues.forums> forums)
+        {
+            Forum template;
+            
+            this.forums = new LinkedList<Forum>();
+            foreach(jsonValues.forums f in forums)
+            {
+                template = new Forum();
+                template.id = f.id;
+                template.intro = f.intro;
+                template.name = f.name;
+                template.type = f.type;
+                template.discussions = new List<Discussions>();
+                this.forums.AddLast(template);
+            }
+        }
+
+        public void receiveDiscussions(List<jsonValues.discussions> discussions, int forumid)
+        {
+            Forum f = getForum(forumid);
+            Discussions template;
+            foreach(jsonValues.discussions d in discussions)
+            {
+                template = new Discussions();
+                template.id = d.discussion;
+                template.created = d.created;
+                template.message = HtmlDecode(d.message);
+                template.modified = d.modified;
+                template.name = d.name;
+                template.subject = HtmlDecode(d.subject);
+                template.timemodified = d.timemodified;
+                template.userfullname = d.userfullname;
+                template.userid = d.userid;
+                template.usermodifiedfullname = d.usermodifiedfullname;
+                template.posts = new List<Posts>();
+                f.discussions.Add(template);
+            }
+        }
+
+        public void receivePosts(List<jsonValues.posts> posts, int forumid,int discID)
+        {
+            Discussions d = GetDiscussions(forumid, discID);
+            if(d != null)
+            {
+                Posts template;
+
+                foreach(jsonValues.posts p in posts)
+                {
+                    template = new Posts();
+                    template.created = p.created;
+                    template.discussion = p.discussion;
+                    template.id = p.id;
+                    template.message = HtmlDecode( p.message);
+                    template.modified = p.modified;
+                    template.parent = p.parent;
+                    template.subject = p.subject;
+                    template.userid = p.userid;
+                    d.posts.Add(template);
+                }
+            }
+        }
 
         // METODOS PARA FILTRAR WEBSERVICE RESPONSES XML 
 
@@ -770,128 +1115,128 @@ namespace UserInfo
             return placeHolder;
         }
 
-        // Metodo 
-        public void filterfolios(String[] content)
-        {
-            String[] variable;
-            int position = 0;
-            Folio placeHolder = null;
-            DateTime datefirst = new DateTime();
+        //// Metodo 
+        //public void filterfolios(String[] content)
+        //{
+        //    String[] variable;
+        //    int position = 0;
+        //    Folio placeHolder = null;
+        //    DateTime datefirst = new DateTime();
 
-            while (!content[position].Contains("<KEY name=\"gradeitems\"><MULTIPLE>") && position<content.Length)
-                position++;
+        //    while (!content[position].Contains("<KEY name=\"gradeitems\"><MULTIPLE>") && position<content.Length)
+        //        position++;
 
-            while (!content[position].Contains("</MULTIPLE>") && position < content.Length)
-            {
-                if (content[position].Contains("<SINGLE>")) // comeco de um folio
-                {
-                    placeHolder = new Folio();
-                }
+        //    while (!content[position].Contains("</MULTIPLE>") && position < content.Length)
+        //    {
+        //        if (content[position].Contains("<SINGLE>")) // comeco de um folio
+        //        {
+        //            placeHolder = new Folio();
+        //        }
 
-                if (content[position].Contains("<KEY name=\"id\">"))
-                {// ID
-                    variable = content[position].Split(new[] { "<KEY name=\"id\"><VALUE>" }, StringSplitOptions.None);
-                    variable = variable[1].Split(new[] { "</VALUE>" }, StringSplitOptions.None);
-                    //filtered.Append("O ID do utilizador é: " + variable[0] + "\n");
-                    placeHolder.id = Int32.Parse(variable[0]);
-                }
+        //        if (content[position].Contains("<KEY name=\"id\">"))
+        //        {// ID
+        //            variable = content[position].Split(new[] { "<KEY name=\"id\"><VALUE>" }, StringSplitOptions.None);
+        //            variable = variable[1].Split(new[] { "</VALUE>" }, StringSplitOptions.None);
+        //            //filtered.Append("O ID do utilizador é: " + variable[0] + "\n");
+        //            placeHolder.id = Int32.Parse(variable[0]);
+        //        }
 
 
-                if (content[position].Contains("<KEY name=\"itemname\">")) // NOME DO folio
-                {
-                    variable = content[position].Split(new[] { "<KEY name=\"itemname\"><VALUE>" }, StringSplitOptions.None);
-                    variable = variable[1].Split(new[] { "</VALUE>" }, StringSplitOptions.None);
-                    //filtered.Append("O Nome do utilizador é: " + variable[0] + "\n");
-                    placeHolder.itemName = variable[0];
-                }
+        //        if (content[position].Contains("<KEY name=\"itemname\">")) // NOME DO folio
+        //        {
+        //            variable = content[position].Split(new[] { "<KEY name=\"itemname\"><VALUE>" }, StringSplitOptions.None);
+        //            variable = variable[1].Split(new[] { "</VALUE>" }, StringSplitOptions.None);
+        //            //filtered.Append("O Nome do utilizador é: " + variable[0] + "\n");
+        //            placeHolder.itemName = variable[0];
+        //        }
 
-                if (content[position].Contains("<KEY name=\"gradedategraded\">"))
-                {
-                    variable = content[position].Split(new[] { "<KEY name=\"gradedategraded\"><VALUE>" }, StringSplitOptions.None);
-                    if (variable.Length > 1)
-                    {
-                        variable = variable[1].Split(new[] { "</VALUE>" }, StringSplitOptions.None);
-                        datefirst = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-                        datefirst = datefirst.AddSeconds(Convert.ToInt32(variable[0]));
-                        //filtered.Append("O primeiro acesso do utilizador foi: " + datefirst.ToLocalTime() + "\n");
-                        placeHolder.gradedategraded = datefirst;
-                        placeHolder.gradeGiven = true;
-                    }
+        //        if (content[position].Contains("<KEY name=\"gradedategraded\">"))
+        //        {
+        //            variable = content[position].Split(new[] { "<KEY name=\"gradedategraded\"><VALUE>" }, StringSplitOptions.None);
+        //            if (variable.Length > 1)
+        //            {
+        //                variable = variable[1].Split(new[] { "</VALUE>" }, StringSplitOptions.None);
+        //                datefirst = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+        //                datefirst = datefirst.AddSeconds(Convert.ToInt32(variable[0]));
+        //                //filtered.Append("O primeiro acesso do utilizador foi: " + datefirst.ToLocalTime() + "\n");
+        //                placeHolder.gradedategraded = datefirst;
+        //                placeHolder.gradeGiven = true;
+        //            }
 
-                }
-                // float gradeformatted
-                if (content[position].Contains("<KEY name=\"gradeformatted\">"))
-                {
-                    variable = content[position].Split(new[] { "<KEY name=\"gradeformatted\"><VALUE>" }, StringSplitOptions.None);
-                    variable = variable[1].Split(new[] { "</VALUE>" }, StringSplitOptions.None);
-                    //filtered.Append("O ID do utilizador é: " + variable[0] + "\n");
-                    float n;
-                    bool isNumeric = float.TryParse(variable[0], out n);
+        //        }
+        //        // float gradeformatted
+        //        if (content[position].Contains("<KEY name=\"gradeformatted\">"))
+        //        {
+        //            variable = content[position].Split(new[] { "<KEY name=\"gradeformatted\"><VALUE>" }, StringSplitOptions.None);
+        //            variable = variable[1].Split(new[] { "</VALUE>" }, StringSplitOptions.None);
+        //            //filtered.Append("O ID do utilizador é: " + variable[0] + "\n");
+        //            float n;
+        //            bool isNumeric = float.TryParse(variable[0], out n);
 
-                    if (placeHolder != null && isNumeric)
-                    {
-                        placeHolder.gradeformatted = variable[0];
-                        placeHolder.gradeGiven = true;
-                    }
+        //            if (placeHolder != null && isNumeric)
+        //            {
+        //                placeHolder.gradeformatted = variable[0];
+        //                placeHolder.gradeGiven = true;
+        //            }
                     
-                }
+        //        }
 
-                if (content[position].Contains("<KEY name=\"graderaw\">")) // grade raw
-                {
-                    variable = content[position].Split(new[] { "<KEY name=\"graderaw\"><VALUE>" }, StringSplitOptions.None);
-                    if (variable.Length > 1)
-                    {
-                        variable = variable[1].Split(new[] { "</VALUE>" }, StringSplitOptions.None);
-                        //filtered.Append("O Nome do utilizador é: " + variable[0] + "\n");
-                        placeHolder.graderaw = Int32.Parse(variable[0]);
-                    }
-                }
+        //        if (content[position].Contains("<KEY name=\"graderaw\">")) // grade raw
+        //        {
+        //            variable = content[position].Split(new[] { "<KEY name=\"graderaw\"><VALUE>" }, StringSplitOptions.None);
+        //            if (variable.Length > 1)
+        //            {
+        //                variable = variable[1].Split(new[] { "</VALUE>" }, StringSplitOptions.None);
+        //                //filtered.Append("O Nome do utilizador é: " + variable[0] + "\n");
+        //                placeHolder.graderaw = Int32.Parse(variable[0]);
+        //            }
+        //        }
 
-                if (content[position].Contains("<KEY name=\"grademin\">")) // grade min
-                {
-                    variable = content[position].Split(new[] { "<KEY name=\"grademin\"><VALUE>" }, StringSplitOptions.None);
-                    variable = variable[1].Split(new[] { "</VALUE>" }, StringSplitOptions.None);
-                    //filtered.Append("O Nome do utilizador é: " + variable[0] + "\n");
-                    placeHolder.grademin = Int32.Parse(variable[0]);
-                }
+        //        if (content[position].Contains("<KEY name=\"grademin\">")) // grade min
+        //        {
+        //            variable = content[position].Split(new[] { "<KEY name=\"grademin\"><VALUE>" }, StringSplitOptions.None);
+        //            variable = variable[1].Split(new[] { "</VALUE>" }, StringSplitOptions.None);
+        //            //filtered.Append("O Nome do utilizador é: " + variable[0] + "\n");
+        //            placeHolder.grademin = Int32.Parse(variable[0]);
+        //        }
 
-                if (content[position].Contains("<KEY name=\"grademax\">")) // grade max
-                {
-                    variable = content[position].Split(new[] { "<KEY name=\"grademax\"><VALUE>" }, StringSplitOptions.None);
-                    variable = variable[1].Split(new[] { "</VALUE>" }, StringSplitOptions.None);
-                    //filtered.Append("O Nome do utilizador é: " + variable[0] + "\n");
-                    placeHolder.grademax = Int32.Parse(variable[0]);
-                }
+        //        if (content[position].Contains("<KEY name=\"grademax\">")) // grade max
+        //        {
+        //            variable = content[position].Split(new[] { "<KEY name=\"grademax\"><VALUE>" }, StringSplitOptions.None);
+        //            variable = variable[1].Split(new[] { "</VALUE>" }, StringSplitOptions.None);
+        //            //filtered.Append("O Nome do utilizador é: " + variable[0] + "\n");
+        //            placeHolder.grademax = Int32.Parse(variable[0]);
+        //        }
 
 
-                // float percentage formated
-                if (content[position].Contains("<KEY name=\"percentageformatted\">"))
-                {
-                    variable = content[position].Split(new[] { "<KEY name=\"percentageformatted\"><VALUE>" }, StringSplitOptions.None);
-                    variable = variable[1].Split(new[] { "</VALUE>" }, StringSplitOptions.None);
-                    variable = variable[0].Split(new[] { " " }, StringSplitOptions.None);
-                    //filtered.Append("O ID do utilizador é: " + variable[0] + "\n");
-                    float n;
-                    bool isNumeric = float.TryParse(variable[0], out n);
+        //        // float percentage formated
+        //        if (content[position].Contains("<KEY name=\"percentageformatted\">"))
+        //        {
+        //            variable = content[position].Split(new[] { "<KEY name=\"percentageformatted\"><VALUE>" }, StringSplitOptions.None);
+        //            variable = variable[1].Split(new[] { "</VALUE>" }, StringSplitOptions.None);
+        //            variable = variable[0].Split(new[] { " " }, StringSplitOptions.None);
+        //            //filtered.Append("O ID do utilizador é: " + variable[0] + "\n");
+        //            float n;
+        //            bool isNumeric = float.TryParse(variable[0], out n);
 
-                    if (placeHolder != null && isNumeric)
-                    {
-                        placeHolder.percentageFormatted = variable[0];
+        //            if (placeHolder != null && isNumeric)
+        //            {
+        //                placeHolder.percentageFormatted = variable[0];
                         
-                    }
+        //            }
 
-                }
+        //        }
 
 
-                if (content[position].Contains("</SINGLE>")) // fim de um folio
-                {
-                    folios.AddLast(placeHolder);
-                }
+        //        if (content[position].Contains("</SINGLE>")) // fim de um folio
+        //        {
+        //            folios.AddLast(placeHolder);
+        //        }
 
-                position++;
-            }
+        //        position++;
+        //    }
 
-        }
+        //}
 
       
         public static string HtmlDecode(string value)
@@ -902,7 +1247,8 @@ namespace UserInfo
             foreach (String st in s)
             {
                 v = st.Replace("&amp;", "&").Replace("&lt;", "<").Replace("&gt;", ">").Replace("&quot;", "\"").Replace("&apos;", "'").Replace("<br />", "").Replace("<hr />", "").Replace("<h3>", "").Replace("</h3>", "").Replace("<li>", "").Replace("</li>", "")
-                    .Replace("<ol>", "").Replace("</ol>", "").Replace("<span>", "").Replace("<b>", "").Replace("</b>", "").Replace("</p>", "").Replace("</span>", "").Replace("<u>", "").Replace("</u>", "").Replace("<ul>", "").Replace("</ul>", "").Replace("</div>", "").Replace("</a>", "").Replace("<strong>","").Replace("</strong>", "").Replace("<hr>", "").Replace("<br>", "").Replace("</font>", "");
+                    .Replace("<ol>", "").Replace("</ol>", "").Replace("<span>", "").Replace("<b>", "").Replace("</b>", "").Replace("</p>", "").Replace("</span>", "").Replace("<u>", "").Replace("</u>", "").Replace("<ul>", "").Replace("</ul>", "").Replace("</div>", "")
+                    .Replace("</a>", "").Replace("<strong>", "").Replace("</strong>", "").Replace("<hr>", "").Replace("<br>", "").Replace("</font>", "").Replace("\u00ed", "í").Replace("\u00fa", "ú");
 
                 v = Regex.Replace(v, @"\<span(.*?)\>", "");
                 v = Regex.Replace(v, @"\<p(.*?)\>", "");
@@ -911,7 +1257,7 @@ namespace UserInfo
                 v = Regex.Replace(v, @"\<img(.*?)\>", "");
                 v = Regex.Replace(v, @"\<font(.*?)\>", "");
 
-                sb.Append(v + "\n");
+                sb.Append(v);
             }
             
 
