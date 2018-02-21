@@ -35,14 +35,6 @@ namespace VT {
             if (ret == ShowResult.FIRST || ret == ShowResult.OK) {
                 hooks = control.instance.GetComponent<FacesHooks>();
                 if (hooks) {
-                    if (hooks.LeftSprites == null)
-                        hooks.LeftSprites = new List<Sprite>();
-                    if (hooks.RightSprites == null)
-                        hooks.RightSprites = new List<Sprite>();
-                    if (hooks.Audios == null)
-                        hooks.Audios = new List<AudioClip>();
-                    if (hooks.AudiosFemale == null)
-                        hooks.AudiosFemale = new List<AudioClip>();
                     hooks.onClick = skipLine;
                 }
             }
@@ -73,10 +65,6 @@ namespace VT {
 //							hooks.LeftLine.SetActive (true);
                             hooks.LeftContent = l.Content;
                             hooks.changeExpression((int)l.Speaker.CurrentEmotion, true);
-                            if (hooks.useTTS) {
-                                hooks.ttsSpeaker.Play(l.Content,
-                                                          Sex.Female);
-                            }
 //                                else {
 //                                    hooks.AudioSource.clip = hooks.AudiosFemale[(int)l.Speaker.CurrentEmotion];
 //                                    hooks.AudioSource.Play();
@@ -86,10 +74,6 @@ namespace VT {
 //							hooks.RightLine.SetActive (true);
                             hooks.RightContent = l.Content;
                             hooks.changeExpression((int)l.Speaker.CurrentEmotion, false);
-                            if (hooks.useTTS) {
-                                hooks.ttsSpeaker.Play(l.Content,
-                                                          Sex.Male);
-                            }
 //                                else {
 //                                    hooks.AudioSource.clip = hooks.Audios[(int)l.Speaker.CurrentEmotion];
 //                                    hooks.AudioSource.Play();

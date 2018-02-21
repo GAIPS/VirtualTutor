@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 
 namespace VT {
-    [RequireComponent(typeof(TTSSpeakerUnityOnline), typeof(TTSSpeakerOfflineScripted))]
     public class FacesHooks : Hook {
         [SerializeField]
         private Text leftText = null;
@@ -23,23 +22,14 @@ namespace VT {
         private GameObject rightLine;
         [SerializeField]
         private GameObject leftLine;
-        [SerializeField]
-        private List<AudioClip> audios = null;
-        [SerializeField]
-        private AudioSource audioSource;
-        [SerializeField]
-        private List<AudioClip> audiosFemale = null;
-        public bool useTTS = true;
-        public bool useOnlineTTS = false;
-        public ITTSSpeaker ttsSpeaker;
+
         public VoidFunc onClick;
 
         public void Start() {
-            if (useOnlineTTS) {
-                ttsSpeaker = GetComponent<TTSSpeakerUnityOnline>();
-            } else {
-                ttsSpeaker = GetComponent<TTSSpeakerOfflineScripted>();
-            }
+            if (LeftSprites == null)
+                LeftSprites = new List<Sprite>();
+            if (RightSprites == null)
+                RightSprites = new List<Sprite>();
         }
 
         public string LeftContent {
@@ -74,24 +64,6 @@ namespace VT {
         public List<Sprite> RightSprites {
             get{ return this.rightExpressions; }
             set{ this.rightExpressions = value; }
-        }
-
-        public List<AudioClip> Audios {
-            get {
-                return this.audios;
-            }
-            set {
-                audios = value;
-            }
-        }
-
-        public List<AudioClip> AudiosFemale {
-            get {
-                return this.audiosFemale;
-            }
-            set {
-                audiosFemale = value;
-            }
         }
 
         public GameObject RightLine {
@@ -133,15 +105,6 @@ namespace VT {
                 animator.SetBool("Showing", false);
             } else {
                 ballon.SetActive(false);
-            }
-        }
-
-        public AudioSource AudioSource {
-            get {
-                return this.audioSource;
-            }
-            set {
-                audioSource = value;
             }
         }
         
