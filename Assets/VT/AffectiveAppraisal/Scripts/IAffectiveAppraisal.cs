@@ -2,7 +2,7 @@
 
 public interface IAffectiveAppraisal {
 
-    Emotion ComputeUserEmotion(List<History> history);
+    Emotion ComputeUserEmotion(ICollection<History> history);
 
-    Emotion ComputeTutorEmotion(List<History> history, Tutor tutor);
+    Emotion ComputeTutorEmotion(ICollection<History> history, Emotion userEmotion, Tutor tutor);
 }

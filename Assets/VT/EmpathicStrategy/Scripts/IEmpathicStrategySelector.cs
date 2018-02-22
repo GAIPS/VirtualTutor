@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
 
 public interface IEmpathicStrategySelector {
-    Intention SelectIntention(List<History> history, List<IEmpathicStrategy> strategies, Emotion emotion);
+    Intention SelectIntention(ICollection<History> history, ICollection<IEmpathicStrategy> strategies, Emotion userEmotion);
 }
