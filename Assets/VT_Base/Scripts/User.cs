@@ -1,5 +1,5 @@
 ﻿
-public class Tutor
+public class User
 {
     public Emotion Emotion { get; set; }
 }

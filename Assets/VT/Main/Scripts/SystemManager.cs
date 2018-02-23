@@ -2,19 +2,31 @@
 
 public class SystemManager
 {
-    public IAffectiveAppraisal affectiveAppraisal { get; set; }
-    public IEmpathicStrategySelector empathicStrategySelector { get; set; }
-    public IDialogSelector dialogSelector { get; set; }
-    public IDialogManager dialogManager { get; set; }
+    public IAffectiveAppraisal AffectiveAppraisal { get; set; }
+    public IEmpathicStrategySelector EmpathicStrategySelector { get; set; }
+    public IDialogSelector DialogSelector { get; set; }
+    public IDialogManager DialogManager { get; set; }
 
-    private ICollection<History> histories;
+    private User user;
+    private Tutor joao, maria;
+
+    private History history;
     private ICollection<IEmpathicStrategy> strategies;
     private ICollection<IDialogTree> dialogTreeDatabase;
 
+    // Placeholder content
+
     public void Setup()
     {
+        // Initialize User
+        user = new User();
+
+        // Initialize Tutors
+        joao = new Tutor();
+        maria = new Tutor();
+
         // Load Interaction History
-        histories = new List<History>();
+        history = new History();
 
         // Load Strategies
         strategies = new List<IEmpathicStrategy>();
@@ -25,25 +37,21 @@ public class SystemManager
 
     public void Update()
     {
-        // Placeholder content
-
         // Affective Appraisal
-        Emotion userEmotion = affectiveAppraisal.ComputeUserEmotion(histories);
-        Tutor joao = new Tutor(),
-            maria = new Tutor();
-        Emotion joaoEmotion = affectiveAppraisal.ComputeTutorEmotion(histories, userEmotion, joao);
-        Emotion mariaEmotion = affectiveAppraisal.ComputeTutorEmotion(histories, userEmotion, maria);
+        AffectiveAppraisal.ComputeUserEmotion(history, user);
+        AffectiveAppraisal.ComputeTutorEmotion(history, user, joao);
+        AffectiveAppraisal.ComputeTutorEmotion(history, user, maria);
 
         // Empathic Strategy
-        Intention intention = empathicStrategySelector.SelectIntention(histories, strategies, userEmotion);
+        Intention intention = EmpathicStrategySelector.SelectIntention(history, strategies, user);
 
         // Dialog Selector
-        IDialogTree dialogTree = dialogSelector.SelectDialog(histories, intention, dialogTreeDatabase);
+        IDialogTree dialogTree = DialogSelector.SelectDialog(history, intention, dialogTreeDatabase);
 
-        dialogManager.SetDialogTree(dialogTree);
-        dialogManager.SetTutorEmotion(joao, joaoEmotion);
-        dialogManager.SetTutorEmotion(maria, mariaEmotion);
+        DialogManager.SetDialogTree(dialogTree);
+        DialogManager.SetTutorEmotion(joao);
+        DialogManager.SetTutorEmotion(maria);
 
-        dialogManager.Update();
+        DialogManager.Update();
     }
 }

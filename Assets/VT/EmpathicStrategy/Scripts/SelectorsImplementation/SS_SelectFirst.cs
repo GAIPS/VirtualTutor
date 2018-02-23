@@ -4,7 +4,7 @@ using System.Linq;
 
 public class SS_SelectFirst : IEmpathicStrategySelector
 {
-    public Intention SelectIntention(ICollection<History> history, ICollection<IEmpathicStrategy> strategies, Emotion userEmotion)
+    public Intention SelectIntention(History history, ICollection<IEmpathicStrategy> strategies, User user)
     {
         IEmpathicStrategy strategy = strategies.FirstOrDefault();
         if (strategy == null) return null;
