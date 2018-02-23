@@ -17,9 +17,18 @@ public class VT_Main : MonoBehaviour
             );
         manager.AffectiveAppraisal = appraisal;
 
+        // Setup Empathic Strategy
+        manager.EmpathicStrategySelector = new SS_SelectFirst();
+        Intention intention = new Intention("Review Grades");
+        BasicStrategy strategy = new BasicStrategy();
+        strategy.Intentions.Add(intention);
+        manager.Strategies.Add(strategy);
 
+        // Setup Dialog Selector
+        
 
-        manager.Setup();
+        // Setup Dialog Manager
+
     }
 
     // Update is called once per frame

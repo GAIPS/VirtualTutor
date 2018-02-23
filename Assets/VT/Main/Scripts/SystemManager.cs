@@ -7,50 +7,54 @@ public class SystemManager
     public IDialogSelector DialogSelector { get; set; }
     public IDialogManager DialogManager { get; set; }
 
-    private User user;
-    private Tutor joao, maria;
+    public User User { get; set; }
+    public ICollection<Tutor> Tutors { get; set; }
 
-    private History history;
-    private ICollection<IEmpathicStrategy> strategies;
-    private ICollection<IDialogTree> dialogTreeDatabase;
+    public History History { get; set; }
+    public ICollection<IEmpathicStrategy> Strategies { get; set; }
+    public ICollection<IDialogTree> DialogTreeDatabase { get; set; }
 
     // Placeholder content
 
-    public void Setup()
+    public SystemManager()
     {
         // Initialize User
-        user = new User();
+        User = new User();
 
         // Initialize Tutors
-        joao = new Tutor();
-        maria = new Tutor();
+        Tutors = new List<Tutor>();
 
         // Load Interaction History
-        history = new History();
+        History = new History();
 
         // Load Strategies
-        strategies = new List<IEmpathicStrategy>();
+        Strategies = new List<IEmpathicStrategy>();
+
 
         // Load Dialog Tree Database
-        dialogTreeDatabase = new List<IDialogTree>();
+        DialogTreeDatabase = new List<IDialogTree>();
     }
 
     public void Update()
     {
         // Affective Appraisal
-        AffectiveAppraisal.ComputeUserEmotion(history, user);
-        AffectiveAppraisal.ComputeTutorEmotion(history, user, joao);
-        AffectiveAppraisal.ComputeTutorEmotion(history, user, maria);
+        AffectiveAppraisal.ComputeUserEmotion(History, User);
+        foreach (Tutor tutor in Tutors)
+        {
+            AffectiveAppraisal.ComputeTutorEmotion(History, User, tutor);
+        }
 
         // Empathic Strategy
-        Intention intention = EmpathicStrategySelector.SelectIntention(history, strategies, user);
+        Intention intention = EmpathicStrategySelector.SelectIntention(History, Strategies, User);
 
         // Dialog Selector
-        IDialogTree dialogTree = DialogSelector.SelectDialog(history, intention, dialogTreeDatabase);
+        IDialogTree dialogTree = DialogSelector.SelectDialog(History, intention, DialogTreeDatabase);
 
         DialogManager.SetDialogTree(dialogTree);
-        DialogManager.SetTutorEmotion(joao);
-        DialogManager.SetTutorEmotion(maria);
+        foreach (Tutor tutor in Tutors)
+        {
+            DialogManager.SetTutorEmotion(tutor);
+        }
 
         DialogManager.Update();
     }
