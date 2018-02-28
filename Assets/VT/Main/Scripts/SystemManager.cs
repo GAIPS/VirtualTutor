@@ -12,7 +12,6 @@ public class SystemManager
 
     public History History { get; set; }
     public ICollection<IEmpathicStrategy> Strategies { get; set; }
-    public ICollection<IDialogTree> DialogTreeDatabase { get; set; }
 
     // Placeholder content
 
@@ -29,10 +28,6 @@ public class SystemManager
 
         // Load Strategies
         Strategies = new List<IEmpathicStrategy>();
-
-
-        // Load Dialog Tree Database
-        DialogTreeDatabase = new List<IDialogTree>();
     }
 
     public void Update()
@@ -48,7 +43,7 @@ public class SystemManager
         Intention intention = EmpathicStrategySelector.SelectIntention(History, Strategies, User);
 
         // Dialog Selector
-        IDialogTree dialogTree = DialogSelector.SelectDialog(History, intention, DialogTreeDatabase);
+        IDialogTree dialogTree = DialogSelector.SelectDialog(History, intention);
 
         DialogManager.SetDialogTree(dialogTree);
         foreach (Tutor tutor in Tutors)
