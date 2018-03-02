@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using Utilities;
 
 public class YarnDialogSelector : IDialogSelector
 {
@@ -14,6 +15,20 @@ public class YarnDialogSelector : IDialogSelector
     {
         variableStorage = new Yarn.MemoryVariableStore();
         dialogue = new Yarn.Dialogue(variableStorage);
+
+        dialogue.LogDebugMessage = delegate (string message)
+        {
+            DebugLog.Log(message);
+        };
+        dialogue.LogErrorMessage = delegate (string message)
+        {
+            DebugLog.Err(message);
+        };
+    }
+
+    public YarnDialogSelector(string fileContent) : this()
+    {
+        YarnFileContent = fileContent;
     }
 
     public void LoadString()
@@ -78,15 +93,34 @@ public class YarnDialogSelector : IDialogSelector
         //}
 
         IEnumerable<string> allNodes = dialogue.allNodes;
+        List<string> startNodes = GetNodesStartWith(allNodes, "Start.");
+
+        string debugLog = "Start Nodes\n";
+        foreach (string node in startNodes)
+        {
+            debugLog += '\t' + node + '\n';
+            IEnumerable<string> tags = dialogue.GetTagsForNode(node);
+            foreach (var tag in tags)
+            {
+                debugLog += "\t\t" + tag + '\n';
+            }
+        }
+        DebugLog.Log(debugLog);
+
+        return null;
+    }
+
+    private static List<string> GetNodesStartWith(IEnumerable<string> allNodes, string startWith)
+    {
         List<string> startNodes = new List<string>();
         foreach (string nodeName in allNodes)
         {
-            if (nodeName.StartsWith("Start_"))
+            if (nodeName.StartsWith("Start."))
             {
                 startNodes.Add(nodeName);
             }
         }
 
-        return null;
+        return startNodes;
     }
 }

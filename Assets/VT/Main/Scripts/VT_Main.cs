@@ -1,13 +1,18 @@
 ﻿using UnityEngine;
+using Utilities;
 
 public class VT_Main : MonoBehaviour
 {
 
     private SystemManager manager;
 
+    public TextAsset yarnDialogDatabase;
+
     // Use this for initialization
     void Start()
     {
+        DebugLog.logger = new UnityDebugLogger();
+
         manager = new SystemManager();
 
         // Setup Affective Appraisal
@@ -25,10 +30,19 @@ public class VT_Main : MonoBehaviour
         manager.Strategies.Add(strategy);
 
         // Setup Dialog Selector
-        
+
 
         // Setup Dialog Manager
+        if (yarnDialogDatabase != null)
+        {
+            var dialogSelector = new YarnDialogSelector(yarnDialogDatabase.text);
+            dialogSelector.LoadString();
 
+            manager.DialogSelector = dialogSelector;
+
+            // TESTING
+            dialogSelector.SelectDialog(null, null);
+        }
     }
 
     // Update is called once per frame

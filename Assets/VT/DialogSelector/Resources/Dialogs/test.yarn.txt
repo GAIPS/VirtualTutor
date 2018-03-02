@@ -1,0 +1,16 @@
+title: Start.DiscussGrades
+tags: Emotion.Happy.3
+colorID: 1
+position: 541,259
+---
+Joao: Gostava de falar sobre as tuas notas.
+Maria: Tens te safado muito bem. Parabéns!
+===
+title: Start.ImproveConfidence
+tags: Emotion.Sad.5
+colorID: 2
+position: 778,258
+---
+Maria: As coisas vao melhorar
+Joao: Tu consegues!
+===
