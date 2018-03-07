@@ -24,25 +24,25 @@ public class VT_Main : MonoBehaviour
 
         // Setup Empathic Strategy
         manager.EmpathicStrategySelector = new SS_SelectFirst();
-        Intention intention = new Intention("Review Grades");
+        Intention intention = new Intention("DiscussGrades");
         BasicStrategy strategy = new BasicStrategy();
         strategy.Intentions.Add(intention);
         manager.Strategies.Add(strategy);
 
         // Setup Dialog Selector
-
-
-        // Setup Dialog Manager
         if (yarnDialogDatabase != null)
         {
             var dialogSelector = new YarnDialogSelector(yarnDialogDatabase.text);
-            dialogSelector.LoadString();
 
             manager.DialogSelector = dialogSelector;
-
-            // TESTING
-            dialogSelector.SelectDialog(null, null);
         }
+
+
+        // Setup Dialog Manager
+        var dialogManager = new YarnDialogManager();
+        manager.DialogManager = dialogManager;
+        dialogManager.SetDialogTree(new YarnDialogTree(null, "test"));
+        dialogManager.SetDialogTree(new YarnDialogTree(null, "test"));
     }
 
     // Update is called once per frame

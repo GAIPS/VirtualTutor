@@ -5,6 +5,9 @@ position: 541,259
 ---
 Joao: Gostava de falar sobre as tuas notas.
 Maria: Tens te safado muito bem. Parabéns!
+
+[[Ver Notas|Grades.1]]
+[[Não quero falar disso|ChangeTheme.1]]
 ===
 title: Start.ImproveConfidence
 tags: Emotion.Sad.5
@@ -13,4 +16,18 @@ position: 778,258
 ---
 Maria: As coisas vao melhorar
 Joao: Tu consegues!
+===
+title: Grades.1
+tags: 
+colorID: 0
+position: 430,529
+---
+Empty Text
+===
+title: ChangeTheme.1
+tags: 
+colorID: 0
+position: 654,530
+---
+Empty Text
 ===

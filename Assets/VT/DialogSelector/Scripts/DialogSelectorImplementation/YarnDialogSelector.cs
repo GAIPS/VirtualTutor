@@ -5,109 +5,52 @@ using Utilities;
 
 public class YarnDialogSelector : IDialogSelector
 {
-    private Yarn.VariableStorage variableStorage;
+    protected Yarn.VariableStorage variableStorage;
 
-    private Yarn.Dialogue dialogue;
+    protected Yarn.Dialogue dialogue;
 
     public string YarnFileContent { get; set; }
 
     public YarnDialogSelector()
     {
         variableStorage = new Yarn.MemoryVariableStore();
-        dialogue = new Yarn.Dialogue(variableStorage);
-
-        dialogue.LogDebugMessage = delegate (string message)
+        dialogue = new Yarn.Dialogue(variableStorage)
         {
-            DebugLog.Log(message);
-        };
-        dialogue.LogErrorMessage = delegate (string message)
-        {
-            DebugLog.Err(message);
+            LogDebugMessage = delegate (string message)
+            {
+                DebugLog.Log(message);
+            },
+            LogErrorMessage = delegate (string message)
+            {
+                DebugLog.Err(message);
+            }
         };
     }
 
     public YarnDialogSelector(string fileContent) : this()
     {
         YarnFileContent = fileContent;
+        dialogue.LoadString(YarnFileContent);
     }
-
-    public void LoadString()
-    {
-        LoadString(YarnFileContent);
-    }
-
-    public void LoadString(string fileContent)
-    {
-        dialogue.LoadString(fileContent);
-    }
-
+    
     public IDialogTree SelectDialog(History history, Intention intention)
     {
-        //dialogue.Stop();
-        //foreach (Yarn.Dialogue.RunnerResult step in dialogue.Run())
-        //{
-
-        //    if (step is Yarn.Dialogue.LineResult)
-        //    {
-
-        //        // Wait for line to finish displaying
-        //        var lineResult = step as Yarn.Dialogue.LineResult;
-
-        //    }
-        //    else if (step is Yarn.Dialogue.OptionSetResult)
-        //    {
-
-        //        // Wait for user to finish picking an option
-        //        var optionSetResult = step as Yarn.Dialogue.OptionSetResult;
-        //            //optionSetResult.options,
-        //            //optionSetResult.setSelectedOptionDelegate
-
-        //    }
-        //    else if (step is Yarn.Dialogue.CommandResult)
-        //    {
-
-        //        // Wait for command to finish running
-
-        //        var commandResult = step as Yarn.Dialogue.CommandResult;
-
-        //        //if (DispatchCommand(commandResult.command.text) == true)
-        //        //{
-        //        //    // command was dispatched
-        //        //}
-        //        //else
-        //        //{
-        //        //    Yarn.Command command = commandResult.command;
-        //        //}
-
-        //        // See DialogRunner. 
-        //        // It uses reflection to select the function and runs it.
-
-
-        //    }
-        //    else if (step is Yarn.Dialogue.NodeCompleteResult)
-        //    {
-        //        // Wait for post-node action
-        //        var nodeResult = step as Yarn.Dialogue.NodeCompleteResult;
-        //        string nextNode = nodeResult.nextNode;
-        //    }
-        //}
-
-        IEnumerable<string> allNodes = dialogue.allNodes;
-        List<string> startNodes = GetNodesStartWith(allNodes, "Start.");
-
-        string debugLog = "Start Nodes\n";
-        foreach (string node in startNodes)
+        if (intention == null)
         {
-            debugLog += '\t' + node + '\n';
-            IEnumerable<string> tags = dialogue.GetTagsForNode(node);
-            foreach (var tag in tags)
-            {
-                debugLog += "\t\t" + tag + '\n';
-            }
+            DebugLog.Warn("Intention is null. Returning null.");
+            return null;
         }
-        DebugLog.Log(debugLog);
-
-        return null;
+        // Get all nodes
+        IEnumerable<string> allNodes = dialogue.allNodes;
+        // Filter to only start nodes
+        List<string> startNodes = GetNodesStartWith(allNodes, "Start.");
+        // Select a dialog tree
+        YarnDialogTree dialogTree = SelectDialogYarn(history, intention, startNodes);
+        if (dialogTree == null)
+        {
+            DebugLog.Warn("No Dialog Tree was created. Returning null."); 
+        }
+        return dialogTree;
     }
 
     private static List<string> GetNodesStartWith(IEnumerable<string> allNodes, string startWith)
@@ -122,5 +65,49 @@ public class YarnDialogSelector : IDialogSelector
         }
 
         return startNodes;
+    }
+
+    /// <summary>
+    /// Select a dialog tree based on the start nodes of the dialog database.
+    /// 
+    /// You can also search the tags of the node by using `dialog.GetTagsFromNode(nodeName)`
+    /// </summary>
+    /// <param name="history">History of previous and current interactions</param>
+    /// <param name="intention">Strategy intention of the interaction</param>
+    /// <param name="startNodes">List of nodes to select from.</param>
+    /// <returns>Dialog tree that contains information on which start node to begin from.</returns>
+    protected virtual YarnDialogTree SelectDialogYarn(History history, Intention intention, List<string> startNodes)
+    {
+        // Filter by name
+        foreach (string node in startNodes)
+        {
+            string filterNode = node.Replace("Start.", "");
+            // Check if the intention matches with node name.
+            if (filterNode.Contains(intention.Name))
+            {
+                return new YarnDialogTree(dialogue, node);
+            }
+        }
+        return null;
+    }
+
+
+    // UTILITY
+    protected static void DebugNodes(Yarn.Dialogue dialogue)
+    {
+        IEnumerable<string> allNodes = dialogue.allNodes;
+        List<string> startNodes = GetNodesStartWith(allNodes, "Start.");
+
+        string debugLog = "Start Nodes\n";
+        foreach (string node in startNodes)
+        {
+            debugLog += '\t' + node + '\n';
+            IEnumerable<string> tags = dialogue.GetTagsForNode(node);
+            foreach (var tag in tags)
+            {
+                debugLog += "\t\t" + tag + '\n';
+            }
+        }
+        DebugLog.Log(debugLog);
     }
 }
