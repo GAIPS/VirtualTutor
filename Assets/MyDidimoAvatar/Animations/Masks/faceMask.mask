@@ -1,0 +1,240 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: faceMask
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: head
+    m_Weight: 0
+  - m_Path: l_eye
+    m_Weight: 0
+  - m_Path: l_eyelashes
+    m_Weight: 0
+  - m_Path: l_eyelashes/l_down_eyelashes
+    m_Weight: 0
+  - m_Path: l_eyelashes/l_eyewet
+    m_Weight: 0
+  - m_Path: l_eyelashes/l_up_eyelashes
+    m_Weight: 0
+  - m_Path: mouth
+    m_Weight: 0
+  - m_Path: mouth/gum_down
+    m_Weight: 0
+  - m_Path: mouth/gum_up
+    m_Weight: 0
+  - m_Path: mouth/tongue
+    m_Weight: 0
+  - m_Path: r_eye
+    m_Weight: 0
+  - m_Path: r_eyelashes
+    m_Weight: 0
+  - m_Path: r_eyelashes/r_down_eyelashes
+    m_Weight: 0
+  - m_Path: r_eyelashes/r_eyewet
+    m_Weight: 0
+  - m_Path: r_eyelashes/r_up_eyelashes
+    m_Weight: 0
+  - m_Path: spineRoot_JNT
+    m_Weight: 0
+  - m_Path: spineRoot_JNT/l_shoulder_JNT
+    m_Weight: 0
+  - m_Path: spineRoot_JNT/neckRoot_JNT
+    m_Weight: 0
+  - m_Path: spineRoot_JNT/neckRoot_JNT/c_throatCenter_JNT
+    m_Weight: 0
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT
+    m_Weight: 0
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/c_browCenter_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/c_foreheadCenter_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/c_lip_upper_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/c_mouthUpper_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/c_nose_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/c_nose_JNT/c_noseEnd_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/c_nose_JNT/l_noseNostril_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/c_nose_JNT/r_noseNostrir_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/c_noseBridge_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/jawRoot_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/jawRoot_JNT/c_lip_lower_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/jawRoot_JNT/c_mouthLower_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/jawRoot_JNT/l_lip_lowerMid_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/jawRoot_JNT/l_mouthLowerMid_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/jawRoot_JNT/l_mouthLowerSide_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/jawRoot_JNT/r_lip_lowerMid_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/jawRoot_JNT/r_mouthLowerMid_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/jawRoot_JNT/r_mouthLowerSide_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/jawRoot_JNT/tongueRoot_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/jawRoot_JNT/tongueRoot_JNT/tongueMid_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/jawRoot_JNT/tongueRoot_JNT/tongueMid_JNT/tongueTip_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_browInner_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_browMid_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_browOuter_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_cheekBottom2_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_cheekEar_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_cheekEyeInner_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_cheekEyeMid_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_cheekEyeOuter_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_cheekInner_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_cheekJaw_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_cheekMid2_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_cheekMid_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_cheekOuter_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_cheekOuterDown_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_cheekSide_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_chinBottom_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_chinDOWN_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_eye_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_eye_JNT/l_eyeball_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_eye_JNT/l_eyelidDOWNRoot_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_eye_JNT/l_eyelidDOWNRoot_JNT/l_eyelidDOWNend_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_eye_JNT/l_eyelidUpRoot_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_eye_JNT/l_eyelidUpRoot_JNT/l_eyelidUPend_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_foreheadInner_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_foreheadMid_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_foreheadOuter_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_laughtLine_lower
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_laughtLine_mid
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_laughtLine_side_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_laughtLine_upper
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_lip_upperMid_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_lipCorner_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_mouthCorner_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_mouthUpperMid_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/l_mouthUpperSide_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_browInner_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_browMid_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_browOuter_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_cheekBottom2_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_cheekEar_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_cheekEyeInner_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_cheekEyeMid_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_cheekEyeOuter_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_cheekInner_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_cheekJaw_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_cheekMid2_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_cheekMid_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_cheekOuter_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_cheekOuterDown_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_cheekSide_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_chinBottom_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_chinDOWN_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_eye_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_eye_JNT/r_eyeball_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_eye_JNT/r_eyelidDOWNRoot_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_eye_JNT/r_eyelidDOWNRoot_JNT/r_eyelidDOWNend_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_eye_JNT/r_eyelidUpRoot_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_eye_JNT/r_eyelidUpRoot_JNT/r_eyelidUPend_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_foreheadInner_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_foreheadMid_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_foreheadOuter_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_laughtLine_lower
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_laughtLine_mid_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_laughtLine_side_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_laughtLine_upper
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_lip_upperMid_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_lipCorner_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_mouthCorner_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_mouthUpperMid_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/headRoot_JNT/r_mouthUpperSide_JNT
+    m_Weight: 1
+  - m_Path: spineRoot_JNT/neckRoot_JNT/l_neckMid_JNT
+    m_Weight: 0
+  - m_Path: spineRoot_JNT/neckRoot_JNT/r_neckMid_JNT
+    m_Weight: 0
+  - m_Path: spineRoot_JNT/r_shoulder_JNT
+    m_Weight: 0
