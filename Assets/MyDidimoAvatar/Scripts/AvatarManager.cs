@@ -57,6 +57,32 @@ public class AvatarManager : MonoBehaviour
 
         return stateString;
     }
+
+    private string getStateString(Emotion emotion)
+    {
+        string emotionString, intensityString;
+
+        if (emotion.Intensity < 0.0f)
+            intensityString = "";
+        else
+            intensityString = emotion.Intensity < 0.5f ? "_LOW" : "_HIGH";
+
+        switch (emotion.Name)
+        {
+            case EmotionEnum.Happiness:
+                emotionString = "Happy";
+                break;
+            case EmotionEnum.Sadness:
+                emotionString = "Sad";
+                break;
+            default:
+                emotionString = emotion.Name.ToString();
+                break;      
+        }
+
+        return string.Concat(emotionString.ToUpperInvariant(), intensityString); ;
+    }
+
     private T getStateValue<T>(string stateString)
     {
         try

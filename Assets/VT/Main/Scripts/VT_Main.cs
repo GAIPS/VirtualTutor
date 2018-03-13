@@ -17,7 +17,7 @@ public class VT_Main : MonoBehaviour
 
         // Setup Affective Appraisal
         ModularAffectiveAppraisal appraisal = new ModularAffectiveAppraisal(
-                new UserAA_OneEmotion(new Emotion("Fear")),
+                new UserAA_OneEmotion(new Emotion(EmotionEnum.Fear, 0.2f)),
                 new TutorAA_CopyUser()
             );
         manager.AffectiveAppraisal = appraisal;
