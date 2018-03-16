@@ -41,10 +41,8 @@ public class VT_Main : MonoBehaviour
         // Setup Dialog Manager
         var dialogManager = new YarnDialogManager();
         manager.DialogManager = dialogManager;
-        dialogManager.SetDialogTree(new YarnDialogTree(null, "test"));
-        dialogManager.SetDialogTree(new YarnDialogTree(null, "test"));
     }
-
+    
     // Update is called once per frame
     void Update()
     {
