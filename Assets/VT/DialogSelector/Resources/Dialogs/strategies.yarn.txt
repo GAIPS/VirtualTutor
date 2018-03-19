@@ -1,0 +1,99 @@
+title: Start.Target-focused.Good-grades
+tags: User.Emotion.Happy
+colorID: 1
+position: 539,257
+---
+Joao: A situação parece complicada, mas não te preocupes.
+Maria: Até agora, tens tido um bom desempenho.
+Joao: É verdade, se continuares a estudar vai correr tudo bem.
+
+Joao: Gostavas de discutir as tuas notas?
+Maria: Ou talvez fazer um plano de estudo?
+
+[[Ver Notas|Grades.good]]
+[[Plano de Estudo|StudyPlan.propose]]
+===
+title: Start.Attention
+tags: User.Emotion.Neutral Maria.Emotion.Happy Joao.Emotion.Neutral
+colorID: 1
+position: 1039,257
+---
+Maria: Quero que saibas que és importante para nós!
+Joao: Independentemente do que acontecer.
+Maria: É só ligares o teu telemóvel.
+-> Obrigado.
+    Joao: Não precisas de agradecer.
+-> Porque?
+    Maria: Fomos criados para te ajudar!
+    Joao: É o que nos faz feliz!
+===
+title: StudyPlan.propose
+tags: 
+colorID: 2
+position: 628,541
+---
+Maria: Proponho estudares 2 horas por semana para cada disciplina.
+Joao: Talvez 3 horas na disciplina que tens mais dificuldade.
+Maria: Queres adicionar ao teu calendário?
+
+[[Vamos a isso|StudyPlan.CreatePlan]]
+[[Não, obrigado|ChangePlan]]
+[[Podes explicar melhor?|StudyPlan.Explain]]
+===
+title: Grades.good
+tags: 
+colorID: 2
+position: 378,541
+---
+Joao: Vamos então rever as tuas notas.
+<<openMenu ClassesMenu>>
+Joao: As notas parecem-me favoráveis. O que achas?
+-> Não sei...
+    Maria: Não te preocupes, estás a ir bem!
+-> Estão bem.
+    Maria: Estão, sim senhor!
+-> 
+    Maria: Não sejas tímido. Estás a ir bem!
+Joao: Continua o bom trabalho.
+===
+title: Start.Humor
+tags: User.Emotion.Happy Maria.Emotion.Happy Joao.Emotion.Happy
+colorID: 1
+position: 1289,257
+---
+Maria: Já te dissemos que estamos sempre aqui para ti?
+Joao: Não é que tenhamos escolha! :D
+Joao: Ao menos temos bom humor!
+===
+title: Start.cognitive-engagement.bad-grades
+tags: User.Emotion.Sad Maria.Emotion.Sad Joao.Emotion.Neutral
+colorID: 1
+position: 789,257
+---
+Joao: Estas notas não estão muito boas.
+Maria: Pois não... Mas podemos melhorar!
+Joao: Há muitas formas de melhorar as tuas notas.
+
+Joao: Queres ouvir algumas dicas?
+-> Sim, por favor.
+    Maria: É importante dormires de 7 a 9 horas por noite.
+    Joao: Parece simples, mas nem sempre é fácil.
+    Maria: A alimentação também é importante.
+-> Não, obrigado.
+
+Joao: Gostavas de fazer um plano de estudo?
+[[O que é isso?|StudyPlan.Explain]]
+[[Não, obrigado.|ChangePlan]]
+===
+title: StudyPlan.Explain
+tags: 
+colorID: 2
+position: 878,541
+---
+Maria: Um plano de estudo é um horário de estudo para uma ou mais disciplinas.
+Joao: Nós propomos um número de horas que deves estudar por disciplina e tu crias o teu horário.
+Maria: Que tal criar-mos um plano?
+
+[[Vamos a isso|StudyPlan.CreatePlan]]
+[[Não, obrigado|ChangePlan]]
+===
