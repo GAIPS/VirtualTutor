@@ -52,7 +52,7 @@ Joao: As notas parecem-me favoráveis. O que achas?
     Maria: Não te preocupes, estás a ir bem!
 -> Estão bem.
     Maria: Estão, sim senhor!
--> 
+-> BLANK
     Maria: Não sejas tímido. Estás a ir bem!
 Joao: Continua o bom trabalho.
 ===
@@ -96,4 +96,11 @@ Maria: Que tal criar-mos um plano?
 
 [[Vamos a isso|StudyPlan.CreatePlan]]
 [[Não, obrigado|ChangePlan]]
+===
+title: Start.Test
+tags: Programming.Easy.2
+colorID: 1
+position: 1547,252
+---
+Empty Text
 ===
