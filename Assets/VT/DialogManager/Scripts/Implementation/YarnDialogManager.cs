@@ -6,15 +6,12 @@ using System.Text;
 using Utilities;
 
 
-public class YarnDialogManager : IDialogManager
-{
+public class YarnDialogManager : IDialogManager {
     YarnDialogTree dialogTree;
-    IEnumerable<Yarn.Dialogue.RunnerResult> enumerable;
+    IEnumerator<Yarn.Dialogue.RunnerResult> enumerator;
 
-    public void SetDialogTree(IDialogTree dialogTree)
-    {
-        if (dialogTree == null)
-        {
+    public void SetDialogTree(IDialogTree dialogTree) {
+        if (dialogTree == null) {
             DebugLog.Warn("Dialog Tree is null");
             return;
         }
@@ -22,74 +19,73 @@ public class YarnDialogManager : IDialogManager
         if (dialogTree.Equals(this.dialogTree))
             return;
 
-        if (dialogTree is YarnDialogTree)
-        {
+        if (dialogTree is YarnDialogTree) {
             this.dialogTree = dialogTree as YarnDialogTree;
             this.dialogTree.Dialogue.Stop();
-        }
-        else
-        {
+        } else {
             DebugLog.Warn("Dialog Tree is not a YarnDialogTree. It is " + dialogTree);
         }
     }
 
-    public void SetTutorEmotion(Tutor tutor)
-    {
+    public void SetTutorEmotion(Tutor tutor) {
         throw new NotImplementedException();
     }
 
-    public void Reset()
-    {
-        if (dialogTree != null)
-        {
+    public void Reset() {
+        if (dialogTree != null) {
             dialogTree.Dialogue.Stop();
         }
-        if (enumerable != null)
-        {
-            enumerable = null;
+        if (enumerator != null) {
+            enumerator = null;
         }
     }
 
-    public void Update()
-    {
-        if (dialogTree == null)
-        {
+    private IEnumerator step;
+
+    public void Update() {
+        if (dialogTree == null) {
             DebugLog.Warn("Dialog Tree is null");
             return;
         }
 
-        if (enumerable == null)
-        {
-            enumerable = dialogTree.Dialogue.Run();
+        if (step == null) {
+            step = dialogStep();
         }
 
-        IEnumerator<Yarn.Dialogue.RunnerResult> enumerator = enumerable.GetEnumerator();
-        if (enumerator.MoveNext())
-        {
+        if (!step.MoveNext()) {
+            step = dialogStep();
+        }
+    }
+
+    private IEnumerator dialogStep() {
+        if (enumerator == null) {
+            enumerator = dialogTree.Dialogue.Run(dialogTree.StartNode).GetEnumerator();
+        }
+
+        if (enumerator.MoveNext()) {
             Yarn.Dialogue.RunnerResult step = enumerator.Current;
 
-            if (step is Yarn.Dialogue.LineResult)
-            {
-
+            if (step is Yarn.Dialogue.LineResult) {
                 // Wait for line to finish displaying
                 var lineResult = step as Yarn.Dialogue.LineResult;
-
-            }
-            else if (step is Yarn.Dialogue.OptionSetResult)
-            {
+                DebugLog.Log("Dialogue: " + lineResult.line.text);
+            } else if (step is Yarn.Dialogue.OptionSetResult) {
 
                 // Wait for user to finish picking an option
                 var optionSetResult = step as Yarn.Dialogue.OptionSetResult;
                 //optionSetResult.options,
                 //optionSetResult.setSelectedOptionDelegate
-
-            }
-            else if (step is Yarn.Dialogue.CommandResult)
-            {
+                foreach (var option in optionSetResult.options.options) {
+                    DebugLog.Log("Option: " + option);
+                }
+                optionSetResult.setSelectedOptionDelegate(0);
+            } else if (step is Yarn.Dialogue.CommandResult) {
 
                 // Wait for command to finish running
 
                 var commandResult = step as Yarn.Dialogue.CommandResult;
+
+                DebugLog.Log("Command: " + commandResult.command.text);
 
                 //if (DispatchCommand(commandResult.command.text) == true)
                 //{
@@ -102,65 +98,19 @@ public class YarnDialogManager : IDialogManager
 
                 // See DialogRunner. 
                 // It uses reflection to select the function and runs it.
-
-
-            }
-            else if (step is Yarn.Dialogue.NodeCompleteResult)
-            {
+            } else if (step is Yarn.Dialogue.NodeCompleteResult) {
                 // Wait for post-node action
                 var nodeResult = step as Yarn.Dialogue.NodeCompleteResult;
                 string nextNode = nodeResult.nextNode;
+
+                DebugLog.Log("Next Node: " + nextNode);
             }
-        }
 
-        // TODO How should I implement this dialog runner?
-        //foreach (Yarn.Dialogue.RunnerResult step in dialogTree.Dialogue.Run())
-        //{
-
-        //    if (step is Yarn.Dialogue.LineResult)
-        //    {
-
-        //        // Wait for line to finish displaying
-        //        var lineResult = step as Yarn.Dialogue.LineResult;
-
-        //    }
-        //    else if (step is Yarn.Dialogue.OptionSetResult)
-        //    {
-
-        //        // Wait for user to finish picking an option
-        //        var optionSetResult = step as Yarn.Dialogue.OptionSetResult;
-        //        //optionSetResult.options,
-        //        //optionSetResult.setSelectedOptionDelegate
-
-        //    }
-        //    else if (step is Yarn.Dialogue.CommandResult)
-        //    {
-
-        //        // Wait for command to finish running
-
-        //        var commandResult = step as Yarn.Dialogue.CommandResult;
-
-        //        //if (DispatchCommand(commandResult.command.text) == true)
-        //        //{
-        //        //    // command was dispatched
-        //        //}
-        //        //else
-        //        //{
-        //        //    Yarn.Command command = commandResult.command;
-        //        //}
-
-        //        // See DialogRunner. 
-        //        // It uses reflection to select the function and runs it.
-
-
-        //    }
-        //    else if (step is Yarn.Dialogue.NodeCompleteResult)
-        //    {
-        //        // Wait for post-node action
-        //        var nodeResult = step as Yarn.Dialogue.NodeCompleteResult;
-        //        string nextNode = nodeResult.nextNode;
-        //    }
-        //}
+            yield return null;
+        } 
+//        else {
+//            DebugLog.Log("Finished Dialog Execution");
+//        }
     }
 }
 

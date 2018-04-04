@@ -41,6 +41,9 @@ public class VT_Main : MonoBehaviour
         // Setup Dialog Manager
         var dialogManager = new YarnDialogManager();
         manager.DialogManager = dialogManager;
+
+        // Testing
+        manager.Update();
     }
     
     // Update is called once per frame
@@ -48,5 +51,6 @@ public class VT_Main : MonoBehaviour
     {
         // TODO When should I update the manager?
         //manager.Update();
+        manager.DialogManager.Update();
     }
 }
