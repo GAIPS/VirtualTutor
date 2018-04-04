@@ -28,7 +28,7 @@ public class YarnDialogManager : IDialogManager {
     }
 
     public void SetTutorEmotion(Tutor tutor) {
-        throw new NotImplementedException();
+//        throw new NotImplementedException();
     }
 
     public void Reset() {
