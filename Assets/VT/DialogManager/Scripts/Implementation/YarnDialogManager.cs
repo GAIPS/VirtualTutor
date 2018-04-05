@@ -10,6 +10,8 @@ public class YarnDialogManager : IDialogManager {
     YarnDialogTree dialogTree;
     IEnumerator<Yarn.Dialogue.RunnerResult> enumerator;
 
+    public AvatarManager HeadAnimationManager { get; set; }
+
     public void SetDialogTree(IDialogTree dialogTree) {
         if (dialogTree == null) {
             DebugLog.Warn("Dialog Tree is null");
@@ -28,7 +30,10 @@ public class YarnDialogManager : IDialogManager {
     }
 
     public void SetTutorEmotion(Tutor tutor) {
-//        throw new NotImplementedException();
+        if (HeadAnimationManager != null)
+        {
+            HeadAnimationManager.Feel(tutor, tutor.Emotion);
+        }
     }
 
     public void Reset() {
@@ -49,15 +54,15 @@ public class YarnDialogManager : IDialogManager {
         }
 
         if (step == null) {
-            step = dialogStep();
+            step = DialogStep();
         }
 
         if (!step.MoveNext()) {
-            step = dialogStep();
+            step = DialogStep();
         }
     }
 
-    private IEnumerator dialogStep() {
+    private IEnumerator DialogStep() {
         if (enumerator == null) {
             enumerator = dialogTree.Dialogue.Run(dialogTree.StartNode).GetEnumerator();
         }

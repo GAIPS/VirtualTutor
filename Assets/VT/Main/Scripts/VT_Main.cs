@@ -51,24 +51,12 @@ public class VT_Main : MonoBehaviour {
         {
             // Setup Dialog Manager
             var dialogManager = new YarnDialogManager();
+            dialogManager.HeadAnimationManager = this.headAnimationManager;
             manager.DialogManager = dialogManager;
         }
 
         // Testing
         manager.Update();
-
-
-        StartCoroutine(TestHeadAnimation(joao, maria));
-    }
-
-    private System.Collections.IEnumerator TestHeadAnimation(Tutor joao,
-                                                             Tutor maria) {
-        yield return new WaitForSeconds(2);
-        if (headAnimationManager != null) {
-            headAnimationManager.Feel(joao, joao.Emotion);
-            headAnimationManager.Feel(maria, maria.Emotion);
-        }
-        DebugLog.Log("Head Test: Set Emotions");
     }
     
     // Update is called once per frame
