@@ -9,6 +9,8 @@ public class VT_Main : MonoBehaviour {
 
     public AvatarManager headAnimationManager;
 
+    public BubbleSystem.BubbleSystemManager bubbleManager;
+
     // Use this for initialization
     void Start() {
         DebugLog.logger = new UnityDebugLogger();
@@ -51,7 +53,10 @@ public class VT_Main : MonoBehaviour {
         {
             // Setup Dialog Manager
             var dialogManager = new YarnDialogManager();
+            dialogManager.Tutors.Add(joao);
+            dialogManager.Tutors.Add(maria);
             dialogManager.HeadAnimationManager = this.headAnimationManager;
+            dialogManager.BubbleManager = this.bubbleManager;
             manager.DialogManager = dialogManager;
         }
 

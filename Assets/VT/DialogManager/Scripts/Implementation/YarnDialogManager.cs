@@ -1,16 +1,22 @@
-﻿using System;
+﻿using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Utilities;
-
+using UnityEngine;
 
 public class YarnDialogManager : IDialogManager {
     YarnDialogTree dialogTree;
     IEnumerator<Yarn.Dialogue.RunnerResult> enumerator;
 
+    public ICollection<Tutor> Tutors { get; set; }
+
     public AvatarManager HeadAnimationManager { get; set; }
+    public BubbleSystem.BubbleSystemManager BubbleManager { get; set; }
+
+    public YarnDialogManager()
+    {
+        Tutors = new List<Tutor>();
+    }
 
     public void SetDialogTree(IDialogTree dialogTree) {
         if (dialogTree == null) {
@@ -74,6 +80,19 @@ public class YarnDialogManager : IDialogManager {
                 // Wait for line to finish displaying
                 var lineResult = step as Yarn.Dialogue.LineResult;
                 DebugLog.Log("Dialogue: " + lineResult.line.text);
+                if (BubbleManager != null)
+                {
+                    float duration = 5;
+                    
+                    Tutor tutor = Tutors.First();
+                    BubbleManager.Speak(tutor.Name, tutor.Emotion.Name.ToString(), tutor.Emotion.Intensity, new string[] { lineResult.line.text }, duration);
+                    float count = 0;
+                    while (count <= duration)
+                    {
+                        yield return null;
+                        count += Time.deltaTime;
+                    }
+                }
             } else if (step is Yarn.Dialogue.OptionSetResult) {
 
                 // Wait for user to finish picking an option
@@ -83,7 +102,20 @@ public class YarnDialogManager : IDialogManager {
                 foreach (var option in optionSetResult.options.options) {
                     DebugLog.Log("Option: " + option);
                 }
-                optionSetResult.setSelectedOptionDelegate(0);
+
+                if (BubbleManager != null)
+                {
+                    float duration = 5;
+                    
+                    BubbleManager.UpdateOptions(optionSetResult.options.options.ToArray(), duration);
+                    float count = 0;
+                    while (count <= duration)
+                    {
+                        yield return null;
+                        count += Time.deltaTime;
+                    }
+                    optionSetResult.setSelectedOptionDelegate(0);
+                }
             } else if (step is Yarn.Dialogue.CommandResult) {
 
                 // Wait for command to finish running

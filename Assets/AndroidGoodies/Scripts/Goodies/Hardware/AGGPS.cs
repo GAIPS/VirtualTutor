@@ -332,14 +332,14 @@ namespace DeadMosquito.AndroidGoodies {
             static bool thatWasMe;
 
             // proxy for int java.lang.Object.hashCode()
-            int hashCode()
+            new int hashCode()
             {
                 thatWasMe = true;
                 return GetHashCode();
             }
 
             // proxy for boolean java.lang.Object.equals(Object o)
-            bool equals(AndroidJavaObject o)
+            new bool equals(AndroidJavaObject o)
             {
                 thatWasMe = false;
                 o.Call<int>("hashCode");

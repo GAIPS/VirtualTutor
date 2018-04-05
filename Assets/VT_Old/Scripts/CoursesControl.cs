@@ -8,7 +8,7 @@ namespace VT {
         private CoursesHooks hook;
         private Control control;
 
-        private List<UserInfo.Course> courses;
+        //private List<UserInfo.Course> courses;
 
         private UserData user;
 
@@ -21,7 +21,7 @@ namespace VT {
             GameObject login = GameObject.Find("MoodleLogin");
             user = login.GetComponent(typeof(UserData)) as UserData;
             
-            courses = user.courses; //new List<Course>();
+            //courses = user.courses; //new List<Course>();
 
             this.courseControl = courseControl;
         }
@@ -38,7 +38,7 @@ namespace VT {
         }
 
         public void Set(List<UserInfo.Course> courses) {
-            this.courses = courses;
+            //this.courses = courses;
         }
 
         public ShowResult Show() {
