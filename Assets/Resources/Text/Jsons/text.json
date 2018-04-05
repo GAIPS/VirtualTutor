@@ -1,0 +1,17 @@
+{
+	"Happiness": {
+		"1": {
+			"font": "Arial",
+			"color": [255,255,255,255],
+			"size": 12
+		}
+	},
+
+	"Sadness": {
+		"1": {
+			"font": "Arial",
+			"color": [255,255,255,255],
+			"size": 12
+		}
+	}
+}
