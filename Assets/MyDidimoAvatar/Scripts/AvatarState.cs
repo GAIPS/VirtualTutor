@@ -25,19 +25,33 @@ public enum ExpressionState
     SURPRISE_HIGH = 12,
 }
 
-public enum ActionState
+public enum NodState
+{
+    NOD = 1,
+    NOD_END = 0
+}
+
+public enum GazeState
+{
+    NEUTRAL = 0,
+    GAZE_ATPARTNER = 1,
+    GAZE_BACKFROMPARTNER = 2,
+    GAZE_ATUSER = 3,
+    GAZE_BACKFROMUSER = 4
+}
+
+public enum TalkState
+{
+    TALK = 1,
+    TALK_END = 0
+}
+
+public enum EyesState
 {
     NEUTRAL = 0,
     EYES_CLOSE = 1,
     EYES_RIGHT = 2,
     EYES_LEFT = 3,
     EYES_DOWN = 4,
-    EYES_UP = 5,
-    TALK = 6,
-    TALK_END = 0,
-    HEAD_NOD = 7,
-    GAZE_MIDDLETOLEFT = 8,
-    GAZE_LEFTTOMIDDLE = -8,
-    GAZE_MIDDLETORIGHT = 9,
-    GAZE_RIGHTTOMIDDLE = -9
+    EYES_UP = 5
 }
