@@ -139,6 +139,10 @@ public class YarnDialogManager : IDialogManager {
                         yield return null;
                         count += Time.deltaTime;
                     }
+                    if (count > duration)
+                    {
+                        optionSetResult.setSelectedOptionDelegate(0);
+                    }
                     // Hide Options
                     // HACK
                     BubbleManager.UpdateOptions(new string[] {"", "", "", ""});
