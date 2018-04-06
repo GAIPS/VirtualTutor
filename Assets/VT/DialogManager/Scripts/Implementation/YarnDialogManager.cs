@@ -25,11 +25,14 @@ public class YarnDialogManager : IDialogManager {
         }
 
         if (dialogTree.Equals(this.dialogTree))
+        {
+            Reset();
             return;
+        }
 
         if (dialogTree is YarnDialogTree) {
             this.dialogTree = dialogTree as YarnDialogTree;
-            this.dialogTree.Dialogue.Stop();
+            Reset();
         } else {
             DebugLog.Warn("Dialog Tree is not a YarnDialogTree. It is " + dialogTree);
         }
@@ -52,12 +55,14 @@ public class YarnDialogManager : IDialogManager {
     }
 
     private IEnumerator step;
+    private bool newAppraisal = false;
 
-    public void Update() {
+    public bool Update() {
         if (dialogTree == null) {
             DebugLog.Warn("Dialog Tree is null");
-            return;
+            return true;
         }
+        newAppraisal = false;
 
         if (step == null) {
             step = DialogStep();
@@ -66,6 +71,7 @@ public class YarnDialogManager : IDialogManager {
         if (!step.MoveNext()) {
             step = DialogStep();
         }
+        return newAppraisal;
     }
 
     private IEnumerator DialogStep() {
@@ -83,9 +89,21 @@ public class YarnDialogManager : IDialogManager {
                 if (BubbleManager != null)
                 {
                     float duration = 5;
-                    
+
+                    string[] splited = lineResult.line.text.Split(':');
+                    string tutorName = splited[0].Trim();
+                    string line = splited[1].Trim();
+
                     Tutor tutor = Tutors.First();
-                    BubbleManager.Speak(tutor.Name, tutor.Emotion.Name.ToString(), tutor.Emotion.Intensity, new string[] { lineResult.line.text }, duration);
+                    foreach (Tutor tut in Tutors)
+                    {
+                        if (tutorName.Contains(tut.Name))
+                        {
+                            tutor = tut;
+                        }
+                    }
+
+                    BubbleManager.Speak(tutor.Name, tutor.Emotion.Name.ToString(), tutor.Emotion.Intensity, new string[] { line }, duration);
                     float count = 0;
                     while (count <= duration)
                     {
@@ -94,27 +112,36 @@ public class YarnDialogManager : IDialogManager {
                     }
                 }
             } else if (step is Yarn.Dialogue.OptionSetResult) {
-
+                bool continueLoop = false;
                 // Wait for user to finish picking an option
                 var optionSetResult = step as Yarn.Dialogue.OptionSetResult;
                 //optionSetResult.options,
                 //optionSetResult.setSelectedOptionDelegate
+                List<HookControl.IntFunc> callbacks = new List<HookControl.IntFunc>();
                 foreach (var option in optionSetResult.options.options) {
                     DebugLog.Log("Option: " + option);
+                    callbacks.Add((int i) =>
+                    {
+                        optionSetResult.setSelectedOptionDelegate(i);
+                        continueLoop = true;
+                    });
                 }
 
                 if (BubbleManager != null)
                 {
-                    float duration = 5;
+                    float duration = 50;
                     
-                    BubbleManager.UpdateOptions(optionSetResult.options.options.ToArray(), duration);
+                    BubbleManager.UpdateOptions(optionSetResult.options.options.ToArray(), duration, callbacks.ToArray());
                     float count = 0;
-                    while (count <= duration)
+                    while (count <= duration && !continueLoop)
                     {
+                        // Active wait
                         yield return null;
                         count += Time.deltaTime;
                     }
-                    optionSetResult.setSelectedOptionDelegate(0);
+                    // Hide Options
+                    // HACK
+                    BubbleManager.UpdateOptions(new string[] {"", "", "", ""});
                 }
             } else if (step is Yarn.Dialogue.CommandResult) {
 
@@ -144,10 +171,12 @@ public class YarnDialogManager : IDialogManager {
             }
 
             yield return null;
-        } 
-//        else {
-//            DebugLog.Log("Finished Dialog Execution");
-//        }
+        }
+        else
+        {
+            DebugLog.Log("Finished Dialog Execution");
+            newAppraisal = true;
+        }
     }
 }
 

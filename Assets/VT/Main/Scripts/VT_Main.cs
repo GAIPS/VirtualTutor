@@ -25,7 +25,7 @@ public class VT_Main : MonoBehaviour {
         {
             // Setup Affective Appraisal
             ModularAffectiveAppraisal appraisal = new ModularAffectiveAppraisal(
-                                                      new UserAA_OneEmotion(new Emotion(EmotionEnum.Sadness,
+                                                      new UserAA_OneEmotion(new Emotion(EmotionEnum.Happiness,
                                                           0.2f)),
                                                       new TutorAA_CopyUser()
                                                   );
@@ -35,9 +35,9 @@ public class VT_Main : MonoBehaviour {
         {
             // Setup Empathic Strategy
             manager.EmpathicStrategySelector = new SS_SelectFirst();
-            Intention intention = new Intention("DiscussGrades");
             BasicStrategy strategy = new BasicStrategy();
-            strategy.Intentions.Add(intention);
+            strategy.Intentions.Add(new Intention("Target-focused.Good-grades"));
+            strategy.Intentions.Add(new Intention("DiscussGrades"));
             manager.Strategies.Add(strategy);
         }
 
@@ -61,13 +61,13 @@ public class VT_Main : MonoBehaviour {
         }
 
         // Testing
-        manager.Update();
+        //manager.Update();
     }
     
     // Update is called once per frame
     void Update() {
         // TODO When should I update the manager?
-        //manager.Update();
-        manager.DialogManager.Update();
+        manager.Update();
+        //manager.DialogManager.Update();
     }
 }

@@ -1,7 +1,7 @@
 title: Start.Target-focused.Good-grades
 tags: User.Emotion.Happy
 colorID: 1
-position: 539,257
+position: 539,256
 ---
 Joao: A situação parece complicada, mas não te preocupes.
 Maria: Até agora, tens tido um bom desempenho.
@@ -88,7 +88,7 @@ Joao: Gostavas de fazer um plano de estudo?
 title: StudyPlan.Explain
 tags: 
 colorID: 2
-position: 878,541
+position: 879,542
 ---
 Maria: Um plano de estudo é um horário de estudo para uma ou mais disciplinas.
 Joao: Nós propomos um número de horas que deves estudar por disciplina e tu crias o teu horário.
@@ -103,4 +103,11 @@ colorID: 1
 position: 1547,252
 ---
 Empty Text
+===
+title: ChangePlan
+tags: 
+colorID: 6
+position: 748,795
+---
+<<changePlan>>
 ===

@@ -47,10 +47,10 @@ namespace BubbleSystem
             balloonManager.HideBalloon(tutor, duration);
         }
 
-        public void UpdateOptions(string[] text, float duration = 0.0f)
+        public void UpdateOptions(string[] text, float duration = 0.0f, HookControl.IntFunc[] callbacks = null)
         {
             SetData("Neutral", 0.0f, Reason.None, text);
-            balloonManager.ShowBalloon("Options", data, duration);
+            balloonManager.ShowBalloon("Options", data, duration, callbacks);
         }
     }
 }
