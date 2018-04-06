@@ -33,6 +33,10 @@ public class AvatarTestMain : MonoBehaviour
             manager.Feel(new Tutor(tutorName), new Emotion(EmotionEnum.Sadness, 0.2f));
         if (Input.GetKey("t"))
             manager.Feel(new Tutor(tutorName), new Emotion(EmotionEnum.Sadness, 0.8f));
+        if (Input.GetKey("1"))
+            manager.Feel(new Tutor(tutorName), new Emotion(EmotionEnum.Fear, -1.0f));
+        if (Input.GetKey("2"))
+            manager.Feel(new Tutor(tutorName), new Emotion(EmotionEnum.Surprise, -1.0f));
 
         // Expression
         if (Input.GetKey("a"))

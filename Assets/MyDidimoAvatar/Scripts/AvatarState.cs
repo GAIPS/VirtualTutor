@@ -5,7 +5,9 @@ public enum MoodState
     HAPPY_LOW = 1,
     HAPPY_HIGH = 2,
     SAD_LOW = 3,
-    SAD_HIGH = 4
+    SAD_HIGH = 4,
+    FEAR = 5,
+    SURPRISE = 6
 }
 
 public enum ExpressionState
