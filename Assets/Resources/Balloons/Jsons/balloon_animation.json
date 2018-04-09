@@ -1,0 +1,15 @@
+{
+	"Happiness": {
+		"1": {
+			"animator_path": "Animators/HappyAnimator",
+			"duration": 5
+		}
+	},
+
+	"Sadness": {
+		"1": {
+			"animator_path": "Animators/SadAnimator",
+			"duration": 5
+		}
+	}
+}

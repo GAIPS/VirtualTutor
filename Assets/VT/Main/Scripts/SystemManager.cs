@@ -30,27 +30,32 @@ public class SystemManager
         Strategies = new List<IEmpathicStrategy>();
     }
 
+    private bool newAppraisal = true;
+
     public void Update()
     {
-        // Affective Appraisal
-        AffectiveAppraisal.ComputeUserEmotion(History, User);
-        foreach (Tutor tutor in Tutors)
+        if (newAppraisal)
         {
-            AffectiveAppraisal.ComputeTutorEmotion(History, User, tutor);
+            // Affective Appraisal
+            AffectiveAppraisal.ComputeUserEmotion(History, User);
+            foreach (Tutor tutor in Tutors)
+            {
+                AffectiveAppraisal.ComputeTutorEmotion(History, User, tutor);
+            }
+
+            // Empathic Strategy
+            Intention intention = EmpathicStrategySelector.SelectIntention(History, Strategies, User);
+
+            // Dialog Selector
+            IDialogTree dialogTree = DialogSelector.SelectDialog(History, intention);
+
+            DialogManager.SetDialogTree(dialogTree);
+            foreach (Tutor tutor in Tutors)
+            {
+                DialogManager.SetTutorEmotion(tutor);
+            }
         }
 
-        // Empathic Strategy
-        Intention intention = EmpathicStrategySelector.SelectIntention(History, Strategies, User);
-
-        // Dialog Selector
-        IDialogTree dialogTree = DialogSelector.SelectDialog(History, intention);
-
-        DialogManager.SetDialogTree(dialogTree);
-        foreach (Tutor tutor in Tutors)
-        {
-            DialogManager.SetTutorEmotion(tutor);
-        }
-
-        DialogManager.Update();
+        newAppraisal = DialogManager.Update();
     }
 }

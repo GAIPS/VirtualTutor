@@ -1,0 +1,17 @@
+{
+	"Happiness": {
+		"1": {
+			"transition_fade": 0.5,
+			"color_duration": 5,
+			"color_smoothness": 0.02,
+		}
+	},
+
+	"Sadness": {
+		"1": {
+			"transition_fade": 0.5,
+			"color_duration": 5,
+			"color_smoothness": 0.02,
+		}
+	}
+}
