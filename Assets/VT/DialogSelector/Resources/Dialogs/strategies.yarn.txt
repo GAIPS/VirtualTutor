@@ -48,11 +48,11 @@ position: 378,541
 Joao: Vamos então rever as tuas notas.
 <<openMenu ClassesMenu>>
 Joao: As notas parecem-me favoráveis. O que achas?
--> Não sei...
+->Não sei...
     Maria: Não te preocupes, estás a ir bem!
--> Estão bem.
+->Estão bem.
     Maria: Estão, sim senhor!
--> BLANK
+->BLANK
     Maria: Não sejas tímido. Estás a ir bem!
 Joao: Continua o bom trabalho.
 ===

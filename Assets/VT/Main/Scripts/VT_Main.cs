@@ -10,6 +10,10 @@ public class VT_Main : MonoBehaviour {
     public AvatarManager headAnimationManager;
 
     public BubbleSystem.BubbleSystemManager bubbleManager;
+    
+    public string[] intentions;
+    public bool forceIntention;
+    public string forceIntentionName;
 
     // Use this for initialization
     void Start() {
@@ -36,8 +40,17 @@ public class VT_Main : MonoBehaviour {
             // Setup Empathic Strategy
             manager.EmpathicStrategySelector = new SS_SelectFirst();
             BasicStrategy strategy = new BasicStrategy();
-            strategy.Intentions.Add(new Intention("Target-focused.Good-grades"));
-            strategy.Intentions.Add(new Intention("DiscussGrades"));
+            if (forceIntention)
+            {
+                strategy.Intentions.Add(new Intention(forceIntentionName));
+            }
+            else
+            {
+                foreach (string intention in intentions)
+                {
+                    strategy.Intentions.Add(new Intention(intention));
+                }
+            }
             manager.Strategies.Add(strategy);
         }
 
@@ -59,15 +72,10 @@ public class VT_Main : MonoBehaviour {
             dialogManager.BubbleManager = this.bubbleManager;
             manager.DialogManager = dialogManager;
         }
-
-        // Testing
-        //manager.Update();
     }
     
     // Update is called once per frame
     void Update() {
-        // TODO When should I update the manager?
         manager.Update();
-        //manager.DialogManager.Update();
     }
 }

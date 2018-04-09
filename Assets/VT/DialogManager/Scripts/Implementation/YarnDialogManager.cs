@@ -130,8 +130,9 @@ public class YarnDialogManager : IDialogManager {
                 if (BubbleManager != null)
                 {
                     float duration = 50;
-                    
-                    BubbleManager.UpdateOptions(optionSetResult.options.options.ToArray(), duration, callbacks.ToArray());
+                    IList<string> options = optionSetResult.options.options;
+                    options.Remove("BLANK");
+                    BubbleManager.UpdateOptions(options.ToArray(), duration, callbacks.ToArray());
                     float count = 0;
                     while (count <= duration && !continueLoop)
                     {
@@ -141,7 +142,14 @@ public class YarnDialogManager : IDialogManager {
                     }
                     if (count > duration)
                     {
-                        optionSetResult.setSelectedOptionDelegate(0);
+                        for (int i = 0; i < optionSetResult.options.options.Count; i++)
+                        {
+                            if ("BLANK".Equals(optionSetResult.options.options[i]))
+                            {
+                                optionSetResult.setSelectedOptionDelegate(i);
+                            }
+                        }
+                        // TODO If not found do something else...
                     }
                     // Hide Options
                     // HACK
