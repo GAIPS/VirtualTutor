@@ -1,5 +1,5 @@
 title: Start.DiscussGrades
-tags: Emotion.Happy.3
+tags: User.Emotion.Happy
 colorID: 1
 position: 541,259
 ---
@@ -11,18 +11,21 @@ Maria: Tens te safado muito bem. Parabéns!
 ===
 title: Start.ImproveConfidence
 tags: Emotion.Sad.5
-colorID: 2
+colorID: 1
 position: 778,258
 ---
 Maria: As coisas vao melhorar
 Joao: Tu consegues!
 ===
 title: Grades.1
-tags: 
+tags: nooding.frequency.100 ballons.speed.200
 colorID: 0
 position: 430,529
 ---
-Empty Text
+<<lookat Maria Joao>>
+Maria: O que achas destas notas?
+<<lookat Joao User>>
+Joao: Acho que precisas de ajuda.
 ===
 title: ChangeTheme.1
 tags: 
@@ -30,4 +33,18 @@ colorID: 0
 position: 654,530
 ---
 Empty Text
+===
+title: Default.Heads
+tags: nodding.frequency.100 gaze.frequency.1000 idle.frequency.5000
+colorID: 6
+position: 56,321
+---
+
+===
+title: Defaults.Balloons
+tags: balloons.speed.200
+colorID: 6
+position: 56,571
+---
+
 ===
