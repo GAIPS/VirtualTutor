@@ -55,6 +55,7 @@ Joao: As notas parecem-me favoráveis. O que achas?
 ->BLANK
     Maria: Não sejas tímido. Estás a ir bem!
 Joao: Continua o bom trabalho.
+<<exit>>
 ===
 title: Start.Humor
 tags: User.Emotion.Happy Maria.Emotion.Happy Joao.Emotion.Happy

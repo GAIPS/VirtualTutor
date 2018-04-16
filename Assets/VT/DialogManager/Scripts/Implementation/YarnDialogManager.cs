@@ -42,6 +42,7 @@ public class YarnDialogManager : IDialogManager {
         if (HeadAnimationManager != null)
         {
             HeadAnimationManager.Feel(tutor, tutor.Emotion);
+            BubbleManager.UpdateBackground(tutor.Name, tutor.Emotion.Name.ToString(), tutor.Emotion.Intensity, BubbleSystem.Reason.None);
         }
     }
 
@@ -104,12 +105,14 @@ public class YarnDialogManager : IDialogManager {
                     }
 
                     BubbleManager.Speak(tutor.Name, tutor.Emotion.Name.ToString(), tutor.Emotion.Intensity, new string[] { line }, duration);
+                    HeadAnimationManager.Act(tutor, new HeadAction("Talk", ""));
                     float count = 0;
                     while (count <= duration)
                     {
                         yield return null;
                         count += Time.deltaTime;
                     }
+                    HeadAnimationManager.Act(tutor, new HeadAction("Talk", "End"));
                 }
             } else if (step is Yarn.Dialogue.OptionSetResult) {
                 bool continueLoop = false;
@@ -129,8 +132,8 @@ public class YarnDialogManager : IDialogManager {
 
                 if (BubbleManager != null)
                 {
-                    float duration = 50;
-                    IList<string> options = optionSetResult.options.options;
+                    float duration = 60; // One minute wait.
+                    IList<string> options = new List<string>(optionSetResult.options.options);
                     options.Remove("BLANK");
                     BubbleManager.UpdateOptions(options.ToArray(), duration, callbacks.ToArray());
                     float count = 0;
@@ -162,6 +165,12 @@ public class YarnDialogManager : IDialogManager {
                 var commandResult = step as Yarn.Dialogue.CommandResult;
 
                 DebugLog.Log("Command: " + commandResult.command.text);
+
+                if (commandResult.command.text.Contains("exit"))
+                {
+                    DebugLog.Log("Exiting...");
+                    Application.Quit();
+                }
 
                 //if (DispatchCommand(commandResult.command.text) == true)
                 //{
