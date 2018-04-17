@@ -103,12 +103,3 @@ tags: Programming.Easy.2
 colorID: 1
 position: 1547,252
 ---
-Empty Text
-===
-title: ChangePlan
-tags: 
-colorID: 6
-position: 748,795
----
-<<changePlan>>
-===

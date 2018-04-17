@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using Utilities;
+using YarnDialog;
 
 public class VT_Main : MonoBehaviour {
 
     private SystemManager manager;
 
-    public TextAsset yarnDialogDatabase;
+    public TextAsset[] yarnDialogDatabase;
 
     public AvatarManager headAnimationManager;
 
@@ -57,7 +58,13 @@ public class VT_Main : MonoBehaviour {
         {
             // Setup Dialog Selector
             if (yarnDialogDatabase != null) {
-                var dialogSelector = new YarnDialogSelector(yarnDialogDatabase.text);
+                string[] yarnFilesContent = new string[yarnDialogDatabase.Length];
+                for (int i = 0; i < yarnDialogDatabase.Length; i++)
+                {
+                    yarnFilesContent[i] = yarnDialogDatabase[i].text;
+                }
+
+                var dialogSelector = new YarnDialogSelector(yarnFilesContent);
 
                 manager.DialogSelector = dialogSelector;
             }
@@ -65,12 +72,21 @@ public class VT_Main : MonoBehaviour {
 
         {
             // Setup Dialog Manager
-            var dialogManager = new YarnDialogManager();
+            var dialogManager = new YarnDialogManager(false);
+            manager.DialogManager = dialogManager;
             dialogManager.Tutors.Add(joao);
             dialogManager.Tutors.Add(maria);
             dialogManager.HeadAnimationManager = this.headAnimationManager;
             dialogManager.BubbleManager = this.bubbleManager;
-            manager.DialogManager = dialogManager;
+
+
+            //dialogManager.Handlers.Add(new ParallelLineHandler());
+            dialogManager.Handlers.Add(new SequenceLineHandler());
+            dialogManager.Handlers.Add(new SequenceOptionsHandler());
+            dialogManager.Handlers.Add(new ExitCommandHandler());
+            dialogManager.Handlers.Add(new LogCommandHandler());
+            dialogManager.Handlers.Add(new LogCompleteNodeHandler());
+
         }
     }
     
