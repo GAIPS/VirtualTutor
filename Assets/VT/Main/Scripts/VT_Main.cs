@@ -86,8 +86,8 @@ public class VT_Main : MonoBehaviour
 
 
             // Order matters
-            dialogManager.Handlers.Add(new ParallelLineHandler());
-            //dialogManager.Handlers.Add(new SequenceLineHandler());
+            //dialogManager.Handlers.Add(new ParallelLineHandler());
+            dialogManager.Handlers.Add(new SequenceLineHandler());
             dialogManager.Handlers.Add(new SequenceOptionsHandler());
             dialogManager.Handlers.Add(new LogCommandHandler());
             dialogManager.Handlers.Add(new ExitCommandHandler());
