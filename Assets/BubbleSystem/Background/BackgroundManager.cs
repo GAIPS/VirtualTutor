@@ -55,7 +55,6 @@ namespace BubbleSystem
         private IEnumerator ChangeImage(string bg, TextureData textureData, BackgroundAnimationData backgroundAnimationData, float duration)
         {
             Renderer renderer = GetBackground(bg).GetComponent<Renderer>();
-            Transform rect = GetBackground(bg).GetComponent<Transform>();
             float initialAlpha = renderer.material.color.a;
             float realDuration = duration / 3;
 

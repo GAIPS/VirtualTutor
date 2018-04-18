@@ -29,7 +29,7 @@ namespace BubbleSystem
             {
                 controllers.Add(balloon.name, new Control(balloon.balloon));
                 if(balloon.name != "Options")
-                    balloon.balloon.GetComponentInChildren<NewBalloonsHooks>().SetPeak(balloon.isPeakTop, balloon.isPeakLeft);
+                    balloon.balloon.GetComponentInChildren<BalloonsHooks>().SetPeak(balloon.isPeakTop, balloon.isPeakLeft);
             }
         }
 
@@ -38,8 +38,8 @@ namespace BubbleSystem
             var controller = controllers[tutor];
             try
             {
-                var balloonHooks = controller.instance.GetComponentsInChildren<NewBalloonsHooks>();
-                foreach (NewBalloonsHooks hooks in balloonHooks)
+                var balloonHooks = controller.instance.GetComponentsInChildren<BalloonsHooks>();
+                foreach (BalloonsHooks hooks in balloonHooks)
                 {
                     CoroutineStopper.Instance.StopCoroutineWithCheck(hideCoroutines[tutor]);
                     StartCoroutine(Clean(hooks, duration, data));
@@ -60,7 +60,7 @@ namespace BubbleSystem
             beakObject.GetComponent<RectTransform>().localRotation = positionData.localRotation;
         }
 
-        private void SetSprites(Emotion emotion, NewBalloonsHooks hooks, SpriteData spriteData, float intensity)
+        private void SetSprites(Emotion emotion, BalloonsHooks hooks, SpriteData spriteData, float intensity)
         {
             if (hooks)
             {
@@ -72,7 +72,7 @@ namespace BubbleSystem
             }
         }
 
-        private void SetAnimators(NewBalloonsHooks hooks, BalloonAnimationData animatorData, float intensity)
+        private void SetAnimators(BalloonsHooks hooks, BalloonAnimationData animatorData, float intensity)
         {
             if (hooks)
             {
@@ -82,7 +82,7 @@ namespace BubbleSystem
             }
         }
 
-        private void SetAnimators(NewBalloonsHooks hooks, DefaultBalloonAnimationData animatorData, float intensity)
+        private void SetAnimators(BalloonsHooks hooks, DefaultBalloonAnimationData animatorData, float intensity)
         {
             if (hooks)
             {
@@ -92,7 +92,7 @@ namespace BubbleSystem
             }
         }
 
-        private void SetEffects(NewBalloonsHooks hooks, Dictionary<Effect, AnimationCurve> effects, float intensity, float duration, bool show = true)
+        private void SetEffects(BalloonsHooks hooks, Dictionary<Effect, AnimationCurve> effects, float intensity, float duration, bool show = true)
         {
             if (hooks.text)
             {
@@ -100,7 +100,7 @@ namespace BubbleSystem
             }
         }
 
-        private void SetTexts(NewBalloonsHooks hooks, TextData textData)
+        private void SetTexts(BalloonsHooks hooks, TextData textData)
         {
             if (hooks.text)
             {
@@ -110,12 +110,12 @@ namespace BubbleSystem
             }
         }
 
-        private void SetContent(NewBalloonsHooks hooks, string text)
+        private void SetContent(BalloonsHooks hooks, string text)
         {
             hooks.Content = text;
         }
 
-        private void SetCallback(NewBalloonsHooks hooks, IntFunc callback, int index)
+        private void SetCallback(BalloonsHooks hooks, IntFunc callback, int index)
         {
             hooks.onClick = () => {
                 callback(index);
@@ -128,10 +128,10 @@ namespace BubbleSystem
 
             if (controller.Show() != ShowResult.FAIL)
             {
-                var balloonHooks = controller.instance.GetComponentsInChildren<NewBalloonsHooks>();
+                var balloonHooks = controller.instance.GetComponentsInChildren<BalloonsHooks>();
                 int i = 0;
 
-                foreach (NewBalloonsHooks hooks in balloonHooks)
+                foreach (BalloonsHooks hooks in balloonHooks)
                 {
                     if (hooks != null)
                     {
@@ -173,7 +173,7 @@ namespace BubbleSystem
             }
         }
 
-        public void AddCoroutine(string balloon, NewBalloonsHooks hooks, float duration, SpeakData data)
+        public void AddCoroutine(string balloon, BalloonsHooks hooks, float duration, SpeakData data)
         {
             IEnumerator clean = Clean(hooks, duration, data);
             if (hideCoroutines.ContainsKey(balloon))
@@ -183,7 +183,7 @@ namespace BubbleSystem
             StartCoroutine(clean);
         }
 
-        IEnumerator Clean(NewBalloonsHooks hooks, float duration, SpeakData data)
+        IEnumerator Clean(BalloonsHooks hooks, float duration, SpeakData data)
         {
             yield return new WaitForSeconds(duration);
 
