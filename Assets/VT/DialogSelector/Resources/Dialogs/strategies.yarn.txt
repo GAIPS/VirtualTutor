@@ -30,7 +30,7 @@ Maria: É só ligares o teu telemóvel.
 title: StudyPlan.propose
 tags: 
 colorID: 2
-position: 628,541
+position: 626,539
 ---
 Maria: Proponho estudares 2 horas por semana para cada disciplina.
 Joao: Talvez 3 horas na disciplina que tens mais dificuldade.
@@ -43,7 +43,7 @@ Maria: Queres adicionar ao teu calendário?
 title: Grades.good
 tags: 
 colorID: 2
-position: 378,541
+position: 376,539
 ---
 Joao: Vamos então rever as tuas notas.
 <<openMenu ClassesMenu>>
@@ -103,3 +103,5 @@ tags: Programming.Easy.2
 colorID: 1
 position: 1547,252
 ---
+
+===

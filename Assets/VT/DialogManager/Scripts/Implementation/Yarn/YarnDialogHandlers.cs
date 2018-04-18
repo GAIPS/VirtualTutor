@@ -7,7 +7,7 @@ using Yarn;
 
 namespace YarnDialog
 {
-    public abstract class LineHandler : YarnDialogManager.DialogHandler
+    public abstract class LineHandler : YarnDialogManager.IDialogHandler
     {
         protected class LineInfo
         {
@@ -53,6 +53,7 @@ namespace YarnDialog
             }
         }
     }
+
     public class SequenceLineHandler : LineHandler
     {
         private float duration = 5; // Bubble last 5 seconds
@@ -142,7 +143,7 @@ namespace YarnDialog
         }
     }
 
-    public class SequenceOptionsHandler : YarnDialogManager.DialogHandler
+    public class SequenceOptionsHandler : YarnDialogManager.IDialogHandler
     {
         public IEnumerator Handle(Dialogue.RunnerResult result, YarnDialogManager manager)
         {
@@ -206,7 +207,7 @@ namespace YarnDialog
         public void Update(YarnDialogManager manager) { }
     }
 
-    public class ExitCommandHandler : YarnDialogManager.DialogHandler
+    public class ExitCommandHandler : YarnDialogManager.IDialogHandler
     {
         public IEnumerator Handle(Dialogue.RunnerResult result, YarnDialogManager manager)
         {
@@ -228,7 +229,42 @@ namespace YarnDialog
         public void Update(YarnDialogManager manager) { }
     }
 
-    public class LogCommandHandler : YarnDialogManager.DialogHandler
+    public class BubbleSystemCommandHandler : YarnDialogManager.IDialogHandler
+    {
+        public IEnumerator Handle(Dialogue.RunnerResult result, YarnDialogManager manager)
+        {
+            var commandResult = result as Yarn.Dialogue.CommandResult;
+            if (commandResult == null)
+            {
+                yield break;
+            }
+
+            //manager.BubbleManager.Handle(commandResult.command.text);
+        }
+
+        public void Reset(YarnDialogManager manager) { }
+
+        public void Update(YarnDialogManager manager) { }
+    }
+
+    public class HeadSystemCommandHandler : YarnDialogManager.IDialogHandler
+    {
+        public IEnumerator Handle(Dialogue.RunnerResult result, YarnDialogManager manager)
+        {
+            var commandResult = result as Yarn.Dialogue.CommandResult;
+            if (commandResult == null)
+            {
+                yield break;
+            }
+            //manager.HeadAnimationManager.Handle(commandResult.command.text);
+        }
+
+        public void Reset(YarnDialogManager manager) { }
+
+        public void Update(YarnDialogManager manager) { }
+    }
+
+    public class LogCommandHandler : YarnDialogManager.IDialogHandler
     {
         public IEnumerator Handle(Dialogue.RunnerResult result, YarnDialogManager manager)
         {
@@ -245,7 +281,7 @@ namespace YarnDialog
         public void Update(YarnDialogManager manager) { }
     }
 
-    public class LogCompleteNodeHandler : YarnDialogManager.DialogHandler
+    public class LogCompleteNodeHandler : YarnDialogManager.IDialogHandler
     {
         public IEnumerator Handle(Dialogue.RunnerResult result, YarnDialogManager manager)
         {
