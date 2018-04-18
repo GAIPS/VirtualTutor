@@ -40,7 +40,7 @@ namespace YarnDialog
         {
             if (manager.BubbleManager != null && manager.HeadAnimationManager != null)
             {
-                manager.BubbleManager.Speak(line.speaker.Name, line.speaker.Emotion.Name.ToString(), line.speaker.Emotion.Intensity, new string[] { line.message }, duration);
+                manager.BubbleManager.Speak(line.speaker, new string[] { line.message }, duration);
                 manager.HeadAnimationManager.Act(line.speaker, new HeadAction("Talk", ""));
             }
         }
@@ -170,7 +170,7 @@ namespace YarnDialog
                 float duration = 60; // One minute wait.
                 IList<string> options = new List<string>(optionSetResult.options.options);
                 options.Remove("BLANK");
-                manager.BubbleManager.UpdateOptions(options.ToArray(), duration, callbacks.ToArray());
+                manager.BubbleManager.UpdateOptions(options.ToArray(), 0.0f, duration, callbacks.ToArray());
                 float count = 0;
                 while (count <= duration && !continueLoop)
                 {

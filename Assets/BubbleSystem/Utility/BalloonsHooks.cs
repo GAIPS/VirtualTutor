@@ -1,17 +1,18 @@
 ﻿using HookControl;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BalloonsHooks : Hook
 {
     [SerializeField]
-    public Text topicTextLeft = null;
+    public TMP_Text topicTextLeft = null;
     [SerializeField]
-    public Text topicTextTop = null;
+    public TMP_Text topicTextTop = null;
     [SerializeField]
-    public Text topicTextRight = null;
+    public TMP_Text topicTextRight = null;
     [SerializeField]
-    public Text topicTextExtra = null;
+    public TMP_Text topicTextExtra = null;
     [SerializeField]
     public GameObject topicLeft = null;
     [SerializeField]

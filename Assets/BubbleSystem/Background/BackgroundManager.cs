@@ -6,7 +6,14 @@ using UnityEngine.UI;
 
 namespace BubbleSystem
 {
-    public class BackgroundManager : ImageManager
+
+    public enum BackgroundEffect
+    {
+        FadeTexture,
+        FadeColor
+    }
+
+    public class BackgroundManager : MonoBehaviour
     {
         [Serializable]
         public struct Background
@@ -14,67 +21,27 @@ namespace BubbleSystem
             public string name;
             public GameObject background;
         }
-        
+
         public Background[] backgrounds;
 
-        [SerializeField]
-        private BackgroundModifier backgroundModifier;
-        [SerializeField]
-        private BackgroundAnimationSelector backgroundAnimator;
+        private Dictionary<string, Dictionary<BackgroundEffect, IEnumerator>> textureCoroutines = new Dictionary<string, Dictionary<BackgroundEffect, IEnumerator>>();
+        private Dictionary<string, Dictionary<BackgroundEffect, IEnumerator>> colorCoroutines = new Dictionary<string, Dictionary<BackgroundEffect, IEnumerator>>();
 
-        private new Renderer renderer;
-
-        private Dictionary<string, IEnumerator> textureCoroutines = new Dictionary<string, IEnumerator>();
-        private Dictionary<string, IEnumerator> colorCoroutines = new Dictionary<string, IEnumerator>();
-
-        private float initialAlpha;
-
-        public TextureData SelectBackground(Data data)
+        public void SetBackground(string bg, BackgroundData data, float duration)
         {
-            return backgroundModifier.SelectTexture(data);
-        }
+            if (!textureCoroutines.ContainsKey(bg))
+                textureCoroutines.Add(bg, new Dictionary<BackgroundEffect, IEnumerator>());
+            if (!colorCoroutines.ContainsKey(bg))
+                colorCoroutines.Add(bg, new Dictionary<BackgroundEffect, IEnumerator>());
 
-        public BackgroundAnimationData SelectBackgroundData(Data data)
-        {
-            return backgroundAnimator.SelectBackgroundAnimation(data);
-        }
-
-        public void SetBackground(string bg, Data data)
-        {
-            TextureData textureData;
-            BackgroundAnimationData backgroundAnimationData;
-            try
-            {
-                textureData = SelectBackground(data);
-            }
-            catch
-            {
-                try
-                {
-                    textureData.texture = DefaultData.Instance.defaultBackgroundDataDictionary[data.reason].texture;
-                }
-                catch
-                {
-                    throw new MissingComponentException("There is no default background texture defined. Define one in the component or the corresponding .json file.");
-                }
-                textureData.colorData.color = DefaultData.Instance.defaultBackgroundDataDictionary[data.reason].colorData.color;
-            }
-            try
-            {
-                backgroundAnimationData = SelectBackgroundData(data);
-            }
-            catch{
-                backgroundAnimationData.imageFadePercentage = DefaultData.Instance.defaultBackgroundAnimationData.imageFadePercentage;
-                backgroundAnimationData.colorTransitionData.duration = DefaultData.Instance.defaultBackgroundAnimationData.colorTransitionData.duration;
-                backgroundAnimationData.colorTransitionData.smoothness = DefaultData.Instance.defaultBackgroundAnimationData.colorTransitionData.smoothness;
-            }
-            renderer = GetBackground(bg).GetComponent<Renderer>();
-            SetImage(bg, renderer, textureData, backgroundAnimationData, true);
+            TextureData textureData = DefaultData.Instance.GetDefaultBackgroundDataDictionary(data.emotion, data.intensity, data.reason);
+            BackgroundAnimationData backgroundAnimationData = DefaultData.Instance.GetDefaultBackgroundAnimationData(data.emotion, data.intensity);
+            StartCoroutine(ChangeImage(bg, textureData, backgroundAnimationData, duration));
         }
 
         private GameObject GetBackground(string bg)
         {
-            foreach(Background b in backgrounds)
+            foreach (Background b in backgrounds)
             {
                 if (b.name.Equals(bg))
                 {
@@ -84,100 +51,154 @@ namespace BubbleSystem
 
             throw new KeyNotFoundException("Background with name: " + bg + " not found.");
         }
-
-        public void SetImage(string bg, Renderer renderer, TextureData textureData, BackgroundAnimationData backgroundAnimationData, bool lerp)
+        
+        private IEnumerator ChangeImage(string bg, TextureData textureData, BackgroundAnimationData backgroundAnimationData, float duration)
         {
-            if (lerp)
+            Renderer renderer = GetBackground(bg).GetComponent<Renderer>();
+            Transform rect = GetBackground(bg).GetComponent<Transform>();
+            float initialAlpha = renderer.material.color.a;
+            float realDuration = duration / 3;
+
+            textureCoroutines[bg].Clear();
+            colorCoroutines[bg].Clear();
+
+            if (textureCoroutines.ContainsKey(bg))
+                foreach (BackgroundEffect fx in textureCoroutines[bg].Keys)
+                    CoroutineStopper.Instance.StopCoroutineWithCheck(textureCoroutines[bg][fx]);
+            if (colorCoroutines.ContainsKey(bg))
+                foreach (BackgroundEffect fx in colorCoroutines[bg].Keys)
+                    CoroutineStopper.Instance.StopCoroutineWithCheck(colorCoroutines[bg][fx]);
+
+            if (!textureData.texture.name.Equals(renderer.material.mainTexture.name))
             {
-                initialAlpha = renderer.material.color.a;
-                StartCoroutine(ChangeImage(bg, renderer, textureData, backgroundAnimationData));
+                foreach (BackgroundEffect fx in backgroundAnimationData.hideBannerEffect.Keys)
+                {
+                    if (fx == BackgroundEffect.FadeTexture)
+                        textureCoroutines[bg].Add(fx, FadeOutTexture(renderer, backgroundAnimationData.hideBannerEffect[fx], realDuration));
+                }
+
+                foreach (BackgroundEffect fx in backgroundAnimationData.hideBannerEffect.Keys)
+                    StartCoroutine(textureCoroutines[bg][fx]);
+
+                yield return new WaitForSeconds(realDuration);
+
+                textureCoroutines[bg].Clear();
+                renderer.material.mainTexture = textureData.texture;
+                renderer.material.mainTexture.wrapMode = TextureWrapMode.Mirror;
+
+                foreach (BackgroundEffect fx in backgroundAnimationData.showBannerEffect.Keys)
+                {
+                    if (fx == BackgroundEffect.FadeTexture)
+                        textureCoroutines[bg].Add(fx, FadeInTexture(renderer, backgroundAnimationData.showBannerEffect[fx], realDuration, initialAlpha));
+                }
+
+                foreach (BackgroundEffect fx in backgroundAnimationData.showBannerEffect.Keys)
+                    StartCoroutine(textureCoroutines[bg][fx]);
+
+                yield return new WaitForSeconds(realDuration);
             }
             else
             {
-                renderer.material.mainTexture = textureData.texture;
-                renderer.material.color = textureData.colorData.color;
+                realDuration = duration;
             }
-        }
 
-        public void ChangeColor(string bg, Renderer renderer, Color nextColor, ColorTransitionData backgroundColorAnimationData)
-        {
-            if (colorCoroutines.ContainsKey(bg))
-                StopCoroutineWithCheck(colorCoroutines[bg]);
-
-            colorCoroutines[bg] = LerpColor(renderer, nextColor, backgroundColorAnimationData);
-            StartCoroutine(colorCoroutines[bg]);
-        }
-
-        public void ChangeTexture(string bg, Renderer renderer, Texture nextTexture, float fade)
-        {
-            if (textureCoroutines.ContainsKey(bg))
-                StopCoroutineWithCheck(textureCoroutines[bg]);
-            textureCoroutines[bg] = LerpTexture(renderer, nextTexture, fade);
-            StartCoroutine(textureCoroutines[bg]);
-        }
-
-        private IEnumerator ChangeImage(string bg, Renderer renderer, TextureData textureData, BackgroundAnimationData backgroundAnimationData)
-        {
-            if (!renderer.material.mainTexture.name.Equals(textureData.texture.name))
+            if (!renderer.material.color.Equals(textureData.color))
             {
-                ChangeTexture(bg, renderer, textureData.texture, backgroundAnimationData.imageFadePercentage);
-            }
-            yield return new WaitUntil(() => renderer.material.mainTexture.name.Equals(textureData.texture.name) && renderer.material.color.a == initialAlpha);
 
-            if (!renderer.material.color.Equals(textureData.colorData.color))
-            {
-                ChangeColor(bg, renderer, textureData.colorData.color, backgroundAnimationData.colorTransitionData);
-            }
-            yield return new WaitUntil(() => renderer.material.color == textureData.colorData.color);
-        }
+                foreach (BackgroundEffect fx in backgroundAnimationData.colorEffect.Keys)
+                {
+                    if (fx == BackgroundEffect.FadeColor)
+                        colorCoroutines[bg].Add(fx, LerpColor(renderer, textureData.color, backgroundAnimationData.colorEffect[fx], realDuration));
+                }
 
-        private IEnumerator LerpColor(Renderer renderer, Color nextColor, ColorTransitionData backgroundColorAnimationData)
-        {
-            float progress = 0;
-            float increment = backgroundColorAnimationData.smoothness / backgroundColorAnimationData.duration;
+                foreach (BackgroundEffect fx in backgroundAnimationData.colorEffect.Keys)
+                    StartCoroutine(colorCoroutines[bg][fx]);
 
-            while (progress < 1)
-            {
-                renderer.material.color = Color.Lerp(renderer.material.color, nextColor, progress);
-                progress += increment;
-                yield return new WaitForSeconds(backgroundColorAnimationData.smoothness);
+                yield return new WaitForSeconds(realDuration);
             }
         }
 
-        private IEnumerator FadeOut(Renderer renderer, float fade)
+        private IEnumerator FadeOutTexture(Renderer renderer, AnimationCurve curve, float duration, float wantedAlpha = 0)
         {
-            while (renderer.material.color.a > 0.0f)
-            {
-                var material = renderer.material;
-                var color = material.color;
-                color.a -= (fade * Time.deltaTime);
-                color.a = Mathf.Clamp01(color.a);
+            float finalAlpha;
+            float initialAlpha = renderer.material.color.a;
+            Color finalColor = renderer.material.color;
 
-                material.color = new Color(color.r, color.g, color.b, color.a);
-                yield return null;
+            float initialTime = Time.time;
+            Keyframe lastframe = curve[curve.length - 1];
+            float lastKeyTime = lastframe.time;
+            float yValue;
+
+            while (((Time.time - initialTime) / duration) < 1)
+            {
+                yValue = Mathf.Clamp01(curve.Evaluate((Time.time - initialTime) * lastKeyTime / duration));
+
+                finalAlpha = initialAlpha + yValue * (wantedAlpha - initialAlpha);
+                finalColor.a = finalAlpha;
+
+                renderer.material.color = finalColor;
+                yield return new WaitForSeconds(Time.deltaTime);
             }
+
+            finalColor.a = wantedAlpha;
+            renderer.material.color = finalColor;
         }
 
-        private IEnumerator FadeIn(Renderer renderer, float fade)
+        private IEnumerator FadeInTexture(Renderer renderer, AnimationCurve curve, float duration, float wantedAlpha = 1)
         {
-            while (renderer.material.color.a < initialAlpha)
-            {
-                var material = renderer.material;
-                var color = material.color;
-                color.a += (fade * Time.deltaTime);
-                color.a = Mathf.Clamp(color.a, 0.0f, initialAlpha);
+            float finalAlpha;
+            float initialAlpha = renderer.material.color.a;
+            Color finalColor = renderer.material.color;
 
-                material.color = new Color(color.r, color.g, color.b, color.a);
-                yield return null;
+            float initialTime = Time.time;
+            Keyframe lastframe = curve[curve.length - 1];
+            float lastKeyTime = lastframe.time;
+            float yValue;
+
+            while (((Time.time - initialTime) / duration) < 1)
+            {
+                yValue = Mathf.Clamp01(curve.Evaluate((Time.time - initialTime) * lastKeyTime / duration));
+
+                finalAlpha = initialAlpha + yValue * (wantedAlpha - initialAlpha);
+                finalColor.a = finalAlpha;
+
+                renderer.material.color = finalColor;
+                yield return new WaitForSeconds(Time.deltaTime);
             }
+
+            finalColor.a = wantedAlpha;
+            renderer.material.color = finalColor;
         }
 
-        private IEnumerator LerpTexture(Renderer renderer, Texture nextTexture, float fade)
+        private IEnumerator LerpColor(Renderer renderer, Color nextColor, AnimationCurve curve, float duration)
         {
-            yield return StartCoroutine(FadeOut(renderer, fade));
-            renderer.material.mainTexture = nextTexture;
-            renderer.material.mainTexture.wrapMode = TextureWrapMode.Mirror;
-            yield return StartCoroutine(FadeIn(renderer, fade));
+            Color32 initialColor = renderer.material.color, finalColor;
+            int red, green, blue, alpha;
+
+            float initialTime = Time.time;
+            Keyframe lastframe = curve[curve.length - 1];
+            float lastKeyTime = lastframe.time;
+            float yValue;
+
+            while (((Time.time - initialTime) / duration) < 1)
+            {
+                yValue = Mathf.Clamp01(curve.Evaluate((Time.time - initialTime) * lastKeyTime / duration));
+
+                red = (int)(initialColor.r + yValue * (((byte)(nextColor.r * 255)) - initialColor.r));
+                green = (int)(initialColor.g + yValue * (((byte)(nextColor.g * 255)) - initialColor.g));
+                blue = (int)(initialColor.b + yValue * (((byte)(nextColor.b * 255)) - initialColor.b));
+                alpha = (int)(initialColor.a + yValue * (((byte)(nextColor.a * 255)) - initialColor.a));
+
+                finalColor.r = (byte)red;
+                finalColor.g = (byte)green;
+                finalColor.b = (byte)blue;
+                finalColor.a = (byte)alpha;
+
+                renderer.material.color = finalColor;
+                yield return new WaitForSeconds(Time.deltaTime);
+            }
+
+            renderer.material.color = nextColor;
         }
     }
 }
