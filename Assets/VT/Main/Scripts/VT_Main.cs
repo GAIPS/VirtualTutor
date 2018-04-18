@@ -2,7 +2,8 @@
 using Utilities;
 using YarnDialog;
 
-public class VT_Main : MonoBehaviour {
+public class VT_Main : MonoBehaviour
+{
 
     private SystemManager manager;
 
@@ -15,6 +16,10 @@ public class VT_Main : MonoBehaviour {
     public string[] intentions;
     public bool forceIntention;
     public string forceIntentionName;
+
+    public bool playSplashScreen = true;
+    public GameObject splashScreenPrefab;
+    public bool playing = false;
 
     // Use this for initialization
     void Start() {
@@ -80,18 +85,35 @@ public class VT_Main : MonoBehaviour {
             dialogManager.BubbleManager = this.bubbleManager;
 
 
-            //dialogManager.Handlers.Add(new ParallelLineHandler());
-            dialogManager.Handlers.Add(new SequenceLineHandler());
+            // Order matters
+            dialogManager.Handlers.Add(new ParallelLineHandler());
+            //dialogManager.Handlers.Add(new SequenceLineHandler());
             dialogManager.Handlers.Add(new SequenceOptionsHandler());
-            dialogManager.Handlers.Add(new ExitCommandHandler());
             dialogManager.Handlers.Add(new LogCommandHandler());
+            dialogManager.Handlers.Add(new ExitCommandHandler());
             dialogManager.Handlers.Add(new LogCompleteNodeHandler());
 
+        }
+        
+        if (splashScreenPrefab != null && playSplashScreen)
+        {
+            VT.SplashScreenControl splashScreenControl = new VT.SplashScreenControl(splashScreenPrefab);
+            splashScreenControl.SetAndShow(/*OnEndFunction*/() => {
+                playing = true;
+                splashScreenControl.Destroy();
+            });
+        }
+        else
+        {
+            playing = true;
         }
     }
     
     // Update is called once per frame
     void Update() {
-        manager.Update();
+        if (playing)
+        {
+            manager.Update(); 
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace YarnDialog
 {
     public class YarnDialogManager : IDialogManager
     {
-        public interface DialogHandler
+        public interface IDialogHandler
         {
             IEnumerator Handle(Yarn.Dialogue.RunnerResult result, YarnDialogManager manager);
             void Update(YarnDialogManager manager);
@@ -23,19 +23,20 @@ namespace YarnDialog
         public AvatarManager HeadAnimationManager { get; set; }
         public BubbleSystem.BubbleSystemManager BubbleManager { get; set; }
 
-        public IList<DialogHandler> Handlers { get; set; }
+        public IList<IDialogHandler> Handlers { get; set; }
 
         public YarnDialogManager(bool useDefaultHandlers = true)
         {
             Tutors = new List<Tutor>();
-            Handlers = new List<DialogHandler>();
+            Handlers = new List<IDialogHandler>();
 
             if (useDefaultHandlers)
             {
+                // Order matters
                 this.Handlers.Add(new SequenceLineHandler());
                 this.Handlers.Add(new SequenceOptionsHandler());
-                this.Handlers.Add(new ExitCommandHandler());
                 this.Handlers.Add(new LogCommandHandler());
+                this.Handlers.Add(new ExitCommandHandler());
                 this.Handlers.Add(new LogCompleteNodeHandler());
             }
         }
@@ -82,7 +83,7 @@ namespace YarnDialog
             }
             enumerator = null;
             step = null;
-            foreach (DialogHandler handler in Handlers)
+            foreach (IDialogHandler handler in Handlers)
             {
                 handler.Reset(this);
             }
@@ -100,7 +101,7 @@ namespace YarnDialog
             }
             newAppraisal = false;
 
-            foreach (DialogHandler handler in Handlers)
+            foreach (IDialogHandler handler in Handlers)
             {
                 handler.Update(this);
             }
@@ -128,7 +129,7 @@ namespace YarnDialog
             {
                 Yarn.Dialogue.RunnerResult step = enumerator.Current;
 
-                foreach (DialogHandler handler in Handlers)
+                foreach (IDialogHandler handler in Handlers)
                 {
                     var handle = handler.Handle(step, this);
                     while (handle.MoveNext())
@@ -148,7 +149,7 @@ namespace YarnDialog
 
         public void RunNode(string node)
         {
-            foreach (DialogHandler handler in Handlers)
+            foreach (IDialogHandler handler in Handlers)
             {
                 handler.Reset(this);
             }
