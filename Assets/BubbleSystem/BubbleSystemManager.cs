@@ -24,6 +24,8 @@ namespace BubbleSystem
         private Dictionary<string, BackgroundData> tutorBackgroundData = new Dictionary<string, BackgroundData>();
         private Dictionary<string, NextDialogueData> tutorNextData = new Dictionary<string, NextDialogueData>();
 
+        private bool firstTutor = true;
+
         private void Start()
         {
             backgroundManager = GetComponent<BackgroundManager>();
@@ -78,7 +80,7 @@ namespace BubbleSystem
         {
             NextDialogueData nextData = new NextDialogueData();
             int size = info.Length;
-            
+
             nextData.emotion = info[1];
             nextData.intensity = Mathf.Clamp01(Convert.ToSingle(info[2]));
             nextData.duration = Convert.ToSingle(info[3]);
@@ -91,7 +93,8 @@ namespace BubbleSystem
                     nextData.showEffects = new Dictionary<Effect, AnimationCurve>();
                     i = SetNextDataEffects(info, ref nextData, i, true);
 
-                    if (size > i) {
+                    if (size > i)
+                    {
                         if (info[i].Equals("hideEffects"))
                         {
                             nextData.hideEffects = new Dictionary<Effect, AnimationCurve>();
@@ -213,6 +216,12 @@ namespace BubbleSystem
 
         public void Speak(string tutor, string emotion, float intensity, string[] text, float duration = 0.0f, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
         {
+            if (firstTutor)
+            {
+                balloonManager.ReverseTutorsBalloons(tutor);
+                firstTutor = false;
+            }
+
             SetSpeakData(tutor, emotion, intensity, text, showEffects, hideEffects);
             balloonManager.ShowBalloon(tutor, tutorSpeakData[tutor], duration);
         }
@@ -239,7 +248,7 @@ namespace BubbleSystem
             HideBalloon(tutor.Name, duration);
         }
 
-        public void UpdateOptions(string[] text, float intensity = 0.0f, float duration = 0.0f, HookControl.IntFunc[] callbacks = null, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
+        public void UpdateOptions(string[] text, float intensity = 0.0f, float duration = 5.0f, HookControl.IntFunc[] callbacks = null, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
         {
             SetSpeakData("Options", "Default", intensity, text, showEffects, hideEffects);
             balloonManager.ShowBalloon("Options", tutorSpeakData["Options"], duration, callbacks);

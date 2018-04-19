@@ -19,17 +19,37 @@ namespace BubbleSystem
         }
 
         public Balloon[] balloons;
-        
+
         private Dictionary<string, Control> controllers = new Dictionary<string, Control>();
         private Dictionary<string, IEnumerator> hideCoroutines = new Dictionary<string, IEnumerator>();
 
         private void Start()
         {
-            foreach(Balloon balloon in balloons)
+            foreach (Balloon balloon in balloons)
             {
                 controllers.Add(balloon.name, new Control(balloon.balloon));
-                if(balloon.name != "Options")
+                if (!balloon.name.Equals("Options"))
                     balloon.balloon.GetComponentInChildren<BalloonsHooks>().SetPeak(balloon.isPeakTop, balloon.isPeakLeft);
+            }
+        }
+
+        //QUICK HACK: SHOULD NOT USE TUTOR NAMES
+        public void ReverseTutorsBalloons(string tutor)
+        {
+            if (tutor.Equals("Joao"))
+                return;
+            else
+            {
+                Control maria = controllers["Maria"];
+                Control joao = controllers["Joao"];
+                controllers["Maria"] = joao;
+                controllers["Joao"] = maria;
+
+                foreach (Balloon balloon in balloons)
+                {
+                    if (!balloon.name.Equals("Options"))
+                        balloon.balloon.GetComponentInChildren<BalloonsHooks>().SetPeak(balloon.isPeakTop, !balloon.name.Equals(tutor));
+                }
             }
         }
 
@@ -42,7 +62,8 @@ namespace BubbleSystem
                 foreach (BalloonsHooks hooks in balloonHooks)
                 {
                     CoroutineStopper.Instance.StopCoroutineWithCheck(hideCoroutines[tutor]);
-                    StartCoroutine(Clean(hooks, duration, data));
+                    //StartCoroutine(Clean(hooks, duration, data));
+                    AddCoroutine(tutor, hooks, duration, data);
                 }
             }
             catch
@@ -65,6 +86,14 @@ namespace BubbleSystem
             if (hooks)
             {
                 hooks.balloon.GetComponent<Image>().sprite = spriteData.sprite;
+
+                if (!emotion.Equals(BubbleSystem.Emotion.Default))
+                {
+                    DefaultData.PositionData positionData = DefaultData.Instance.GetDefaultPositions(emotion, intensity, "balloon");
+                    hooks.balloon.GetComponent<RectTransform>().anchorMin = positionData.anchorMin;
+                    hooks.balloon.GetComponent<RectTransform>().anchorMax = positionData.anchorMax;
+                }
+
                 SetBeaks(emotion, hooks.peakTopLeft, spriteData.beak, intensity);
                 SetBeaks(emotion, hooks.peakBotLeft, spriteData.beak, intensity);
                 SetBeaks(emotion, hooks.peakTopRight, spriteData.beak, intensity);
@@ -153,7 +182,7 @@ namespace BubbleSystem
                         }
                         SetSprites(data.emotion, hooks, spriteData, data.intensity);
                         SetTexts(hooks, textData);
-                        if(callbacks != null && i < callbacks.Length)
+                        if (callbacks != null && i < callbacks.Length)
                             SetCallback(hooks, callbacks[i], i);
 
                         realDuration = duration > 0 ? duration : realDuration;
