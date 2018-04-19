@@ -99,7 +99,7 @@ Maria: Que tal criar-mos um plano?
 [[Não, obrigado|ChangePlan]]
 ===
 title: Start.Test
-tags: Programming.Easy.2
+tags: Programming.Easy.2 Unexpected.Good Unexpected.Bad Expected.Good Expected.Neutral
 colorID: 1
 position: 1547,252
 ---
