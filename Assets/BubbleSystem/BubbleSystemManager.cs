@@ -37,7 +37,7 @@ namespace BubbleSystem
         {
             string[] parameters = info.Skip(1).ToArray();
 
-            if (info[0].Equals("SetNextDialogueState"))
+            if (info[0].Equals("SetNextDialogueData"))
             {
                 SetNextDialogueData(parameters);
             }
@@ -91,7 +91,7 @@ namespace BubbleSystem
             UpdateBackground(info[0], info[1], Convert.ToSingle(info[2]), Convert.ToSingle(info[3]), reason);
         }
 
-        //<< SetNextDialogueState MARIA HAPPINESS 0.5 5 [showEffects effect1 [curve] ...] [hideEffects effect1 [curve] ...] >>
+        //<< SetNextDialogueData MARIA HAPPINESS 0.5 5 [showEffects effect1 [curve] ...] [hideEffects effect1 [curve] ...] >>
         public void SetNextDialogueData(string[] info)
         {
             NextDialogueData nextData = new NextDialogueData();
