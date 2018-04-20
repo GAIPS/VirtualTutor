@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,6 +31,21 @@ namespace BubbleSystem
         {
             backgroundManager = GetComponent<BackgroundManager>();
             balloonManager = GetComponent<BalloonManager>();
+        }
+
+        public void Handle(string[] info)
+        {
+            string[] parameters = info.Skip(1).ToArray();
+
+            if (info[0].Equals("SetNextDialogueState"))
+            {
+                SetNextDialogueData(parameters);
+            }
+
+            else if (info[0].Equals("UpdateBackground"))
+            {
+                UpdateBackground(parameters);
+            }
         }
 
         private int SetNextDataEffects(string[] info, ref NextDialogueData nextData, int i, bool show)
@@ -75,7 +91,7 @@ namespace BubbleSystem
             UpdateBackground(info[0], info[1], Convert.ToSingle(info[2]), Convert.ToSingle(info[3]), reason);
         }
 
-        //<< SETNEXTDIALOGUEDATA MARIA HAPPINESS 0.5 5 [showEffects effect1 [curve] ...] [hideEffects effect1 [curve] ...] >>
+        //<< SetNextDialogueState MARIA HAPPINESS 0.5 5 [showEffects effect1 [curve] ...] [hideEffects effect1 [curve] ...] >>
         public void SetNextDialogueData(string[] info)
         {
             NextDialogueData nextData = new NextDialogueData();
