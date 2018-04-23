@@ -104,7 +104,7 @@ namespace BubbleSystem
         {
             foreach(AnimatorControllerParameter parameter in animator.parameters)
             {
-                if(!parameter.name.Equals("Showing"))
+                if(!parameter.name.Equals("Showing") && !parameter.name.Equals("Default"))
                 {
                     animator.SetFloat(parameter.name, 0.0f);
                 }
@@ -116,6 +116,7 @@ namespace BubbleSystem
             Animator animator = hooks.GetComponent<Animator>();
             ResetAllFloats(animator);
             animator.SetFloat(data.emotion.ToString(), data.intensity);
+            animator.SetFloat("Neutral", 1.0f - data.intensity);
         }
 
         private void SetAnimator(BalloonsHooks hooks, BubbleSystem.Emotion emotion, float intensity)
@@ -123,6 +124,7 @@ namespace BubbleSystem
             Animator animator = hooks.GetComponent<Animator>();
             ResetAllFloats(animator);
             animator.SetFloat(emotion.ToString(), intensity);
+            animator.SetFloat("Neutral", 1.0f - intensity);
         }
 
         private void SetEffects(BalloonsHooks hooks, Dictionary<Effect, AnimationCurve> effects, float intensity, float duration, bool show = true)
@@ -216,8 +218,6 @@ namespace BubbleSystem
                 if (hooks.Content != null)
                 {
                     hooks.Hide();
-
-                    //SetAnimator(hooks, data.emotion, 1.0f);
 
                     var animationClips = hooks.GetComponent<Animator>().runtimeAnimatorController.animationClips;
                     float length = 1f;
