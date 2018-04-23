@@ -1,19 +1,29 @@
-﻿[System.Serializable]
-public class HeadAction : IState
+﻿public enum MovementEnum
 {
-    public string Name { get; set; }
-    public string Mode { get; set; }
+    Talk,
+    Nod,
+    Gazeat,
+    Gazeback
+}
 
-    public HeadAction() { }
-    public HeadAction(string name, string mode)
+[System.Serializable]
+public class Movement
+{
+    public MovementEnum Name { get; set; }
+    public State State { get; set; }
+    public Property Property { get; set; }
+
+    public Movement() { }
+    public Movement(MovementEnum name)
     {
         Name = name;
-        Mode = mode;
     }
-
-    string IState.Param1
+    public Movement(MovementEnum name, State state) : this(name)
     {
-        get { return this.Mode; }
-        set { this.Mode = value; }
+        State = state;
+    }
+    public Movement(MovementEnum name, Property property) : this(name)
+    {
+        Property = property;
     }
 }

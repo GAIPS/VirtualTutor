@@ -9,84 +9,72 @@ using System;
 public partial class AvatarController : MonoBehaviour
 {
     private Animator animator;
-    private AnimatorParameters animParams;
-    float NODDURATION = 3.0f;
-    // TODO: DECIDE ON THE BEST WAY TO DEFINE THE MAXIMUM INTERVAL BETWEEN NODS
-    float NODMAXINTERVAL = 20.0f;
+    private AvatarParameters parameters;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+        parameters = GetComponent<AvatarParameters>();
+    }
 
     void Start()
     {
-        animator = GetComponent<Animator>();
-
-        //TODO: MOVE ANIMATION PARAMETERS TO A SEPARATE CLASS
-        animParams.talkSpeed = new KeyValuePair<string, float>("Talk Speed", 1.0f);
-        animParams.nodSpeed = new KeyValuePair<string, float>("Nod Speed", 1.0f);
-        animParams.nodFrequency = 1.0f;
-        animParams.gazeAtSpeed = new KeyValuePair<string, float>("Gaze At Speed", 1.0f);
-        animParams.gazeBackSpeed = new KeyValuePair<string, float>("Gaze Back Speed", 1.0f);
-        animParams.gazeFrequency = 1.0f;
+        float[][] paramPreset = AvatarParameters.Presets.Neutral();
+        parameters.setAllParameters<AnimatorParams>(paramPreset[0]);
+        parameters.setAllParameters<ControllerParams>(paramPreset[1]);
 
         StartCoroutine("NoddingRoutine");
-        //StartCoroutine("DEBUGRoutine");
+        //StartCoroutine("controllerParameterDebugRoutine");
     }
 
-    void FixedUpdate()
+    void FixedUpdate(){
+    }
+
+    public void SetMood(EmotionalState mood, float intensity)
     {
-        // Updates the parameters of the animator
-        if (animator.gameObject.activeSelf)
-        {  
-            animator.SetFloat(animParams.talkSpeed.Key, animParams.talkSpeed.Value);
-            animator.SetFloat(animParams.nodSpeed.Key, animParams.nodSpeed.Value);
-            animator.SetFloat(animParams.gazeAtSpeed.Key, animParams.gazeAtSpeed.Value);
-            animator.SetFloat(animParams.gazeBackSpeed.Key, animParams.gazeBackSpeed.Value);
+        float[][] preset;
+        switch (mood)
+        {
+            case EmotionalState.NEUTRAL:
+                preset = AvatarParameters.Presets.Neutral();
+                break;
+            case EmotionalState.HAPPINESS:
+                if(intensity < 0.5)
+                    preset = AvatarParameters.Presets.Happiness();
+                else
+                    preset = AvatarParameters.Presets.HappinessHigh();
+                break;
+            case EmotionalState.SADNESS:
+                if (intensity < 0.5)
+                    preset = AvatarParameters.Presets.Sadness();
+                else
+                    preset = AvatarParameters.Presets.SadnessHigh();
+                break;
+            case EmotionalState.FEAR:
+                preset = AvatarParameters.Presets.Fear();
+                break;
+            case EmotionalState.SURPRISE:
+                preset = AvatarParameters.Presets.Surprise();
+                break;
+            case EmotionalState.ANGER:
+            case EmotionalState.DISGUST:
+            default:
+                preset = AvatarParameters.Presets.Neutral();
+                break;
         }
+
+        parameters.setAllParameters<AnimatorParams>(preset[0]);
+        parameters.setAllParameters<ControllerParams>(preset[1]);
+        parameters.setParameter(AnimatorParams.MOOD_INTENSITY, intensity);
+
+        animator.SetInteger("Mood", (int)mood);
     }
 
-    // Method for setting the controller animation parameters.
-    // This method does NOT update the parameters in the animator. These are updated in the FixedUpdate() method
-    private void setControllerParameters(float[] param)
+    public void ExpressEmotion(EmotionalState expression, float intensity)
     {
-        //talk
-        animParams.talkSpeed = new KeyValuePair<string, float>(animParams.talkSpeed.Key, param[0]);
-        //nod
-        animParams.nodSpeed = new KeyValuePair<string, float>(animParams.nodSpeed.Key, param[1]);
-        animParams.nodFrequency = param[2];
-        //gaze
-        animParams.gazeAtSpeed = new KeyValuePair<string, float>(animParams.gazeAtSpeed.Key, param[3]);
-        animParams.gazeBackSpeed = new KeyValuePair<string, float>(animParams.gazeBackSpeed.Key, param[4]);
-        animParams.gazeFrequency = param[5];
-    }
-
-    public void ExpressEmotion(ExpressionState expression)
-    {
+        parameters.setParameter(AnimatorParams.EXPRESSION_INTENSITY, intensity);
         animator.SetInteger("Expression", (int)expression);
         animator.SetTrigger("Express");
-    }
-
-    public void SetMood(MoodState moodState)
-    {
-        switch (moodState)
-        {
-            case MoodState.NEUTRAL:
-                setControllerParameters(new float[] {1.0f, 1.0f, 0.75f, 1.0f, 1.0f, 1.0f});
-                break;
-            case MoodState.HAPPY_LOW:
-                setControllerParameters(new float[] { 1.5f, 1.5f, 0.75f, 1.5f, 1.2f, 1.0f });
-                break;
-            case MoodState.HAPPY_HIGH:
-                setControllerParameters(new float[] { 2f, 2f, 0.90f, 1.5f, 1.2f, 1.0f });
-                break;
-            case MoodState.SAD_LOW:
-                setControllerParameters(new float[] { 1.0f, 1.0f, 0.75f, 0.75f, 0.75f, 0.75f });
-                break;
-            case MoodState.SAD_HIGH:
-                setControllerParameters(new float[] { 1.5f, 0.75f, 0.5f, 1.0f, 1.0f, 0.5f });
-                break;
-            default:
-                break;
-        }
-
-        animator.SetInteger("Mood", (int)moodState);
     }
 
     public void DoNodding(NodState nodState)
@@ -97,18 +85,20 @@ public partial class AvatarController : MonoBehaviour
 
     IEnumerator NoddingRoutine()
     {
+        float nodSpeed, nodFrequency, nodDuration, nodInterval;
         while (true)
         {
-            if (animator.gameObject.activeSelf)
+            nodFrequency = parameters.getParameter(ControllerParams.NOD_FREQUENCY);
+            nodInterval = parameters.nodInterval * (1 - nodFrequency) + 0.001f;
+            yield return new WaitForSeconds(nodInterval);
+            if (animator.gameObject.activeSelf && animator.GetBool("Listening"))
             {
-                if (animator.GetBool("Listening"))
-                {
-                    DoNodding(NodState.NOD);
-                    //TODO: USE NOD LENGTH (FROM ANIMATOR) AS THE WAIT TIME BETWEEN NODS
-                    yield return new WaitForSeconds(Mathf.Abs(NODDURATION / (animParams.nodSpeed.Value == 0.0f ? 0.001f : animParams.nodSpeed.Value) ));
-                }
+                DoNodding(NodState.NOD_START);
+                //TODO: USE NOD LENGTH (FROM ANIMATOR) AS THE WAIT TIME BETWEEN NODS
+                nodSpeed = parameters.getParameter(AnimatorParams.NOD_SPEED);
+                nodDuration = Mathf.Abs(parameters.nodDuration) / (nodSpeed < 0.001f ? 0.001f : nodSpeed);
+                yield return new WaitForSeconds(nodDuration);
             }
-            yield return new WaitForSeconds(NODMAXINTERVAL * (1 - animParams.nodFrequency) + 0.001f);
         }
     }
 
@@ -125,9 +115,9 @@ public partial class AvatarController : MonoBehaviour
         animator.SetInteger("Direction", (int)gazeState);
 
         // Randomizer for gaze frequency
-        if (UnityEngine.Random.value <= animParams.gazeFrequency)
+        if (UnityEngine.Random.value <= parameters.getParameter(ControllerParams.GAZEAT_FREQUENCY))
         {  
-            if ((int)gazeState % 2 != 0)
+            if ((int)gazeState % 2 != 0) // (gazeAt anim. are all odd numbered states)
                 animator.SetTrigger("Gaze");
         }
     }
@@ -137,67 +127,25 @@ public partial class AvatarController : MonoBehaviour
         animator.SetBool("Listening", state);
     }
 
-    public void setAnimationSpeed(string parameter, float value)
+    public void setParameter(AnimatorParams param, float value)
     {
-        CultureInfo culture = CultureInfo.InvariantCulture;
-
-        if (culture.CompareInfo.IndexOf(parameter, "nod", CompareOptions.IgnoreCase) >= 0)
-            animParams.nodSpeed = new KeyValuePair<string, float>(animParams.nodSpeed.Key, value);
-
-        if (culture.CompareInfo.IndexOf(parameter, "talk", CompareOptions.IgnoreCase) >= 0)
-            animParams.talkSpeed = new KeyValuePair<string, float>(animParams.talkSpeed.Key, value);
-
-        string[] matchStrings = { "gaze", "at" };
-        if (matchStrings.All(parameter.ToLowerInvariant().Contains))
-            animParams.gazeAtSpeed = new KeyValuePair<string, float>(animParams.gazeAtSpeed.Key, value);
-
-        matchStrings = new string[] { "gaze", "back" };
-        if (matchStrings.All(parameter.ToLowerInvariant().Contains))
-            animParams.gazeBackSpeed = new KeyValuePair<string, float>(animParams.gazeBackSpeed.Key, value);
+        parameters.setParameter(param, value);
     }
-
-    public void setAnimationFrequency(string parameter, float value)
+    public void setParameter(ControllerParams param, float value)
     {
-        CultureInfo culture = CultureInfo.InvariantCulture;
-
-        if (culture.CompareInfo.IndexOf(parameter, "nod", CompareOptions.IgnoreCase) >= 0)
-            animParams.nodFrequency = Mathf.Clamp(value, 0.0f, 1.0f);
-
-        // TODO: SEE IF 0 TO 1 RANGE IS OK FOR GAZE FREQUENCY
-        if (culture.CompareInfo.IndexOf(parameter, "gaze", CompareOptions.IgnoreCase) >= 0)
-            animParams.gazeFrequency = Mathf.Clamp(value, 0.0f, 1.0f);
-    }
-
-    IEnumerator DEBUGRoutine()
-    {
-        while (true)
+        // Gaze frequency is set for both "at" and "back" animations
+        if(param == ControllerParams.GAZEAT_FREQUENCY || param == ControllerParams.GAZEBACK_FREQUENCY)
         {
-            if (CultureInfo.InvariantCulture.CompareInfo.IndexOf(animator.ToString(), "Maria", CompareOptions.IgnoreCase) >= 0)
-            {
-                Debug.Log(String.Format("animParams.talkSpeed: {0}", animParams.talkSpeed.Value));
-                Debug.Log(String.Format("animParams.nodSpeed: {0}", animParams.nodSpeed.Value));
-                Debug.Log(String.Format("animParams.nodFrequency: {0}", animParams.nodFrequency));
-                Debug.Log(String.Format("animParams.gazeAtSpeed: {0}", animParams.gazeAtSpeed.Value));
-                Debug.Log(String.Format("animParams.gazeBackSpeed: {0}", animParams.gazeBackSpeed.Value));
-                Debug.Log(String.Format("animParams.gazeFrequency: {0}", animParams.gazeFrequency));
-                //
-
-                Debug.Log(String.Format("NODDURATIONF: {0}", Mathf.Abs(NODDURATION * animParams.nodSpeed.Value)));
-                Debug.Log(String.Format("NODINTERVAL: {0}", NODMAXINTERVAL * (1 - animParams.nodFrequency) + 0.001f));
-            }
-            yield return new WaitForSeconds(5.0f);
+            parameters.setParameter(ControllerParams.GAZEAT_FREQUENCY, value);
+            parameters.setParameter(ControllerParams.GAZEBACK_FREQUENCY, value);
         }
+        else
+            parameters.setParameter(param, value);
     }
-}  
 
-struct AnimatorParameters
-{
-    public KeyValuePair<string, float> talkSpeed;
+    public AvatarParameters getParameters()
+    {
+        return parameters;
+    }
 
-    public KeyValuePair<string, float> nodSpeed;
-    public float nodFrequency;
-
-    public KeyValuePair<string, float> gazeAtSpeed;
-    public KeyValuePair<string, float> gazeBackSpeed;
-    public float gazeFrequency;
 }

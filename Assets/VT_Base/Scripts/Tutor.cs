@@ -10,4 +10,9 @@ public class Tutor
     {
         Name = name;
     }
+    public Tutor(string name, Emotion emotion)
+    {
+        Name = name;
+        Emotion = emotion;
+    }
 }

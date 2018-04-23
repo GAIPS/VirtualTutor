@@ -41,7 +41,7 @@ namespace YarnDialog
             if (manager.BubbleManager != null && manager.HeadAnimationManager != null)
             {
                 manager.BubbleManager.Speak(line.speaker, new string[] { line.message }, duration);
-                manager.HeadAnimationManager.Act(line.speaker, new HeadAction("Talk", ""));
+                manager.HeadAnimationManager.Act(line.speaker, new Movement(MovementEnum.Talk, new State(StateEnum.Start)));
             }
         }
 
@@ -49,7 +49,7 @@ namespace YarnDialog
         {
             if (manager.HeadAnimationManager != null)
             {
-                manager.HeadAnimationManager.Act(line.speaker, new HeadAction("Talk", "End"));
+                manager.HeadAnimationManager.Act(line.speaker, new Movement(MovementEnum.Talk, new State(StateEnum.End)));
             }
         }
     }
