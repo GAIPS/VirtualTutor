@@ -1,0 +1,9 @@
+title: ChangePlan
+tags: 
+colorID: 6
+position: 748,795
+---
+Maria: Parece que não queres falar deste tema.
+Joao: Que tal falarmos de outra coisa?
+<<changePlan>>
+===

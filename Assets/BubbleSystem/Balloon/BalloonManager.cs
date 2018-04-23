@@ -2,12 +2,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace BubbleSystem
 {
-    public class BalloonManager : ImageManager
+    public class BalloonManager : MonoBehaviour
     {
         [Serializable]
         public struct Balloon
@@ -22,45 +23,27 @@ namespace BubbleSystem
         private Dictionary<string, Control> controllers = new Dictionary<string, Control>();
         private Dictionary<string, IEnumerator> hideCoroutines = new Dictionary<string, IEnumerator>();
 
-        [SerializeField]
-        private BalloonModifier balloonModifier;
-        [SerializeField]
-        private TextManager textManager;
-        [SerializeField]
-        private BalloonAnimationSelector balloonAnimationSelector;
-
         private void Start()
         {
             foreach(Balloon balloon in balloons)
             {
                 controllers.Add(balloon.name, new Control(balloon.balloon));
-                balloon.balloon.GetComponent<BalloonsHooks>().SetPeak(balloon.isPeakTop, balloon.isPeakLeft);
+                if(balloon.name != "Options")
+                    balloon.balloon.GetComponentInChildren<BalloonsHooks>().SetPeak(balloon.isPeakTop, balloon.isPeakLeft);
             }
         }
 
-        private SpriteData SelectBalloon(Data data)
-        {
-            return balloonModifier.SelectSprite(data);
-        }
-
-        private BalloonAnimationData SelectAnimator(Data data)
-        {
-            return balloonAnimationSelector.SelectBalloonAnimation(data);
-        }
-
-        private TextData SelectText(Data data)
-        {
-            return textManager.SelectText(data);
-        }
-
-        public void HideBalloon(string tutor, float duration)
+        public void HideBalloon(string tutor, float duration, SpeakData data)
         {
             var controller = controllers[tutor];
             try
             {
-                var hooks = controller.instance.GetComponent<BalloonsHooks>();
-                StopCoroutineWithCheck(hideCoroutines[tutor]);
-                StartCoroutine(Clean(hooks, duration));
+                var balloonHooks = controller.instance.GetComponentsInChildren<BalloonsHooks>();
+                foreach (BalloonsHooks hooks in balloonHooks)
+                {
+                    CoroutineStopper.Instance.StopCoroutineWithCheck(hideCoroutines[tutor]);
+                    StartCoroutine(Clean(hooks, duration, data));
+                }
             }
             catch
             {
@@ -68,162 +51,131 @@ namespace BubbleSystem
             }
         }
 
-        private void SetSprite(GameObject hooksTopic, Sprite sprite)
+        private void SetBeaks(Emotion emotion, GameObject beakObject, Sprite beak, float intensity)
         {
-            if(hooksTopic)
-                hooksTopic.GetComponentInChildren<Image>().sprite = sprite;
+            beakObject.GetComponent<Image>().sprite = beak;
+            DefaultData.PositionData positionData = DefaultData.Instance.GetDefaultPositions(emotion, intensity, beakObject.name);
+            beakObject.GetComponent<RectTransform>().anchorMin = positionData.anchorMin;
+            beakObject.GetComponent<RectTransform>().anchorMax = positionData.anchorMax;
+            beakObject.GetComponent<RectTransform>().localRotation = positionData.localRotation;
         }
 
-        private void SetSprites(BalloonsHooks hooks, SpriteData spriteData)
+        private void SetSprites(Emotion emotion, BalloonsHooks hooks, SpriteData spriteData, float intensity)
         {
-            SetSprite(hooks.topicTop, spriteData.sprite);
-            SetSprite(hooks.topicLeft, spriteData.sprite);
-            SetSprite(hooks.topicRight, spriteData.sprite);
-            SetSprite(hooks.topicExtra, spriteData.sprite);
-        }
-
-        private void SetAnimator(GameObject hooksTopic, AnimatorOverrideController animator)
-        {
-            if (hooksTopic)
-                hooksTopic.GetComponent<Animator>().runtimeAnimatorController = animator;
-        }
-
-        private void SetAnimator(GameObject hooksTopic, RuntimeAnimatorController animator)
-        {
-            if (hooksTopic)
-                hooksTopic.GetComponent<Animator>().runtimeAnimatorController = animator;
-        }
-
-        private void SetAnimators(BalloonsHooks hooks, BalloonAnimationData animatorData)
-        {
-            SetAnimator(hooks.topicTop, animatorData.animator);
-            SetAnimator(hooks.topicLeft, animatorData.animator);
-            SetAnimator(hooks.topicRight, animatorData.animator);
-            SetAnimator(hooks.topicExtra, animatorData.animator);
-        }
-
-        private void SetAnimators(BalloonsHooks hooks, DefaultBalloonAnimationData animatorData)
-        {
-            SetAnimator(hooks.topicTop, animatorData.animator);
-            SetAnimator(hooks.topicLeft, animatorData.animator);
-            SetAnimator(hooks.topicRight, animatorData.animator);
-            SetAnimator(hooks.topicExtra, animatorData.animator);
-        }
-
-        private void SetText(Text hooksTopicText, TextData textData)
-        {
-            if (hooksTopicText)
+            if (hooks)
             {
-                hooksTopicText.font = textData.font;
-                hooksTopicText.fontSize = (int)textData.size;
-                hooksTopicText.color = textData.colorData.color;
+                hooks.balloon.GetComponent<Image>().sprite = spriteData.sprite;
+                SetBeaks(emotion, hooks.peakTopLeft, spriteData.beak, intensity);
+                SetBeaks(emotion, hooks.peakBotLeft, spriteData.beak, intensity);
+                SetBeaks(emotion, hooks.peakTopRight, spriteData.beak, intensity);
+                SetBeaks(emotion, hooks.peakBotRight, spriteData.beak, intensity);
+            }
+        }
+
+        private void SetAnimators(BalloonsHooks hooks, BalloonAnimationData animatorData, float intensity)
+        {
+            if (hooks)
+            {
+                Animator anim = hooks.GetComponent<Animator>();
+                anim.runtimeAnimatorController = animatorData.animator;
+                anim.speed = intensity + 1f;
+            }
+        }
+
+        private void SetAnimators(BalloonsHooks hooks, DefaultBalloonAnimationData animatorData, float intensity)
+        {
+            if (hooks)
+            {
+                Animator anim = hooks.GetComponent<Animator>();
+                anim.runtimeAnimatorController = animatorData.animator;
+                anim.speed = intensity + 1f;
+            }
+        }
+
+        private void SetEffects(BalloonsHooks hooks, Dictionary<Effect, AnimationCurve> effects, float intensity, float duration, bool show = true)
+        {
+            if (hooks.text)
+            {
+                hooks.text.GetComponent<Effects>().SetEffect(effects, intensity, duration, show);
             }
         }
 
         private void SetTexts(BalloonsHooks hooks, TextData textData)
         {
-            SetText(hooks.topicTextTop, textData);
-            SetText(hooks.topicTextLeft, textData);
-            SetText(hooks.topicTextRight, textData);
-            SetText(hooks.topicTextExtra, textData);
-        }
-
-        private void SetContent(BalloonsHooks hooks, string[] texts)
-        {
-            int size = texts.Length, i = 0;
-            hooks.ContentTop = size > i ? texts[i++] : null;
-            hooks.ContentLeft = size > i ? texts[i++] : null;
-            hooks.ContentRight = size > i ? texts[i++] : null;
-            hooks.ContentExtra = size > i ? texts[i++] : null;
-        }
-        
-        private void SetCallbacks(BalloonsHooks hooks, IntFunc[] callbacks)
-        {
-            List<VoidFunc> funcs = new List<VoidFunc>();
-            for (int i = 0; i < callbacks.Length; i++)
+            if (hooks.text)
             {
-                int index = i;
-                funcs.Add(() => {
-                    callbacks[index](index);
-                });
+                hooks.text.font = textData.font;
+                hooks.text.fontSize = textData.size;
+                hooks.text.color = textData.color;
             }
-            int size = callbacks.Length, f = 0;
-            hooks.onTop = size > f ? funcs[f++] : (VoidFunc) null;
-            hooks.onLeft = size > f ? funcs[f++] : (VoidFunc)null;
-            hooks.onRight = size > f ? funcs[f++] : (VoidFunc)null;
-            hooks.onExtra = size > f ? funcs[f++] : (VoidFunc)null;
         }
 
-        public void ShowBalloon(string balloon, Data data, float duration, IntFunc[] callbacks = null)
+        private void SetContent(BalloonsHooks hooks, string text)
+        {
+            hooks.Content = text;
+        }
+
+        private void SetCallback(BalloonsHooks hooks, IntFunc callback, int index)
+        {
+            hooks.onClick = () => {
+                callback(index);
+            };
+        }
+
+        public void ShowBalloon(string balloon, SpeakData data, float duration, IntFunc[] callbacks = null)
         {
             var controller = controllers[balloon];
 
             if (controller.Show() != ShowResult.FAIL)
             {
-                var hooks = controller.instance.GetComponent<BalloonsHooks>();
+                var balloonHooks = controller.instance.GetComponentsInChildren<BalloonsHooks>();
+                int i = 0;
 
-                if (hooks != null)
+                foreach (BalloonsHooks hooks in balloonHooks)
                 {
-                    float realDuration = DefaultData.Instance.defaultBalloonAnimationData.duration;
-                    SetContent(hooks, data.text);
-
-                    try
+                    if (hooks != null)
                     {
-                        SpriteData spriteData;
-                        TextData textData;
-                        if (data.emotion.Equals(Emotion.Neutral))
+                        DefaultBalloonAnimationData defaultBalloonAnimationData = DefaultData.Instance.GetNeutralBalloonAnimationData(data.intensity);
+                        float realDuration = defaultBalloonAnimationData.duration;
+                        SetContent(hooks, data.text.Length > i ? data.text[i] : null);
+
+                        SpriteData spriteData = DefaultData.Instance.GetDefaultBalloonData(data.emotion, data.intensity);
+                        TextData textData = DefaultData.Instance.GetDefaultTextData(data.emotion, data.intensity);
+                        if (data.emotion.Equals(Emotion.Neutral) || data.emotion.Equals(Emotion.Default))
                         {
-                            spriteData = DefaultData.Instance.defaultBalloonData;
-                            textData = DefaultData.Instance.defaultTextData;
-                            SetAnimators(hooks, DefaultData.Instance.defaultBalloonAnimationData);
+                            SetAnimators(hooks, defaultBalloonAnimationData, data.intensity);
                         }
                         else
                         {
-                            try
-                            {
-                                spriteData = SelectBalloon(data);
-                            }
-                            catch
-                            {
-                                spriteData = DefaultData.Instance.defaultBalloonData;
-                            }
-                            try
-                            {
-                                textData = SelectText(data);
-                            }
-                            catch
-                            {
-                                textData = DefaultData.Instance.defaultTextData;
-                            }
-                            try
-                            {
-                                var balloonAnimationData = SelectAnimator(data);
-                                SetAnimators(hooks, balloonAnimationData);
-                                realDuration = balloonAnimationData.duration;
-                            }
-                            catch
-                            {
-                                realDuration = DefaultData.Instance.defaultBalloonAnimationData.duration;
-                                SetAnimators(hooks, DefaultData.Instance.defaultBalloonAnimationData);
-                            }
+                            BalloonAnimationData balloonAnimationData = DefaultData.Instance.GetBalloonAnimationData(data.emotion, data.intensity);
+                            realDuration = balloonAnimationData.duration;
+                            SetAnimators(hooks, balloonAnimationData, data.intensity);
                         }
-                        SetSprites(hooks, spriteData);
+                        SetSprites(data.emotion, hooks, spriteData, data.intensity);
                         SetTexts(hooks, textData);
-                        SetCallbacks(hooks, callbacks);
+                        if(callbacks != null && i < callbacks.Length)
+                            SetCallback(hooks, callbacks[i], i);
+
+                        realDuration = duration > 0 ? duration : realDuration;
+
+                        if (data.showEffects != null)
+                            SetEffects(hooks, data.showEffects, data.intensity, realDuration);
+                        else
+                        {
+                            SetEffects(hooks, textData.showEffect, data.intensity, realDuration);
+                        }
+
+                        hooks.Show();
+                        AddCoroutine(balloon, hooks, realDuration, data);
                     }
-                    catch { }
-
-                    realDuration = duration > 0 ? duration : realDuration;
-
-                    hooks.Show();
-                    AddCoroutine(balloon, hooks, realDuration);
+                    i++;
                 }
             }
         }
 
-        public void AddCoroutine(string balloon, BalloonsHooks hooks, float duration)
+        public void AddCoroutine(string balloon, BalloonsHooks hooks, float duration, SpeakData data)
         {
-            IEnumerator clean = Clean(hooks, duration);
+            IEnumerator clean = Clean(hooks, duration, data);
             if (hideCoroutines.ContainsKey(balloon))
                 hideCoroutines[balloon] = clean;
             else
@@ -231,12 +183,35 @@ namespace BubbleSystem
             StartCoroutine(clean);
         }
 
-        IEnumerator Clean(BalloonsHooks hooks, float duration)
+        IEnumerator Clean(BalloonsHooks hooks, float duration, SpeakData data)
         {
             yield return new WaitForSeconds(duration);
+
             if (hooks)
             {
-                hooks.Hide();
+                if (hooks.Content != null)
+                {
+                    hooks.Hide();
+
+                    var animationClips = (data.emotion.Equals(BubbleSystem.Emotion.Neutral) || data.emotion.Equals(BubbleSystem.Emotion.Default)) ? DefaultData.Instance.GetNeutralBalloonAnimationData(data.intensity).animator.animationClips : DefaultData.Instance.GetBalloonAnimationData(data.emotion, data.intensity).animator.animationClips;
+                    float length = 1f;
+                    foreach (AnimationClip clip in animationClips)
+                    {
+                        if (clip.name.Contains("hide"))
+                            length = clip.length;
+                    }
+
+
+                    if (data.hideEffects != null)
+                    {
+                        SetEffects(hooks, data.hideEffects, data.intensity, length, false);
+                    }
+                    else
+                    {
+                        TextData textData = DefaultData.Instance.GetDefaultTextData(data.emotion, data.intensity);
+                        SetEffects(hooks, textData.hideEffect, data.intensity, length, false);
+                    }
+                }
             }
         }
     }

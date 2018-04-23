@@ -1,15 +1,25 @@
 ﻿using UnityEngine;
 using Utilities;
+using YarnDialog;
 
-public class VT_Main : MonoBehaviour {
+public class VT_Main : MonoBehaviour
+{
 
     private SystemManager manager;
 
-    public TextAsset yarnDialogDatabase;
+    public TextAsset[] yarnDialogDatabase;
 
     public AvatarManager headAnimationManager;
 
     public BubbleSystem.BubbleSystemManager bubbleManager;
+    
+    public string[] intentions;
+    public bool forceIntention;
+    public string forceIntentionName;
+
+    public bool playSplashScreen = true;
+    public GameObject splashScreenPrefab;
+    public bool playing = false;
 
     // Use this for initialization
     void Start() {
@@ -36,15 +46,30 @@ public class VT_Main : MonoBehaviour {
             // Setup Empathic Strategy
             manager.EmpathicStrategySelector = new SS_SelectFirst();
             BasicStrategy strategy = new BasicStrategy();
-            strategy.Intentions.Add(new Intention("Target-focused.Good-grades"));
-            strategy.Intentions.Add(new Intention("DiscussGrades"));
+            if (forceIntention)
+            {
+                strategy.Intentions.Add(new Intention(forceIntentionName));
+            }
+            else
+            {
+                foreach (string intention in intentions)
+                {
+                    strategy.Intentions.Add(new Intention(intention));
+                }
+            }
             manager.Strategies.Add(strategy);
         }
 
         {
             // Setup Dialog Selector
             if (yarnDialogDatabase != null) {
-                var dialogSelector = new YarnDialogSelector(yarnDialogDatabase.text);
+                string[] yarnFilesContent = new string[yarnDialogDatabase.Length];
+                for (int i = 0; i < yarnDialogDatabase.Length; i++)
+                {
+                    yarnFilesContent[i] = yarnDialogDatabase[i].text;
+                }
+
+                var dialogSelector = new YarnDialogSelector(yarnFilesContent);
 
                 manager.DialogSelector = dialogSelector;
             }
@@ -52,22 +77,43 @@ public class VT_Main : MonoBehaviour {
 
         {
             // Setup Dialog Manager
-            var dialogManager = new YarnDialogManager();
+            var dialogManager = new YarnDialogManager(false);
+            manager.DialogManager = dialogManager;
             dialogManager.Tutors.Add(joao);
             dialogManager.Tutors.Add(maria);
             dialogManager.HeadAnimationManager = this.headAnimationManager;
             dialogManager.BubbleManager = this.bubbleManager;
-            manager.DialogManager = dialogManager;
-        }
 
-        // Testing
-        //manager.Update();
+
+            // Order matters
+            //dialogManager.Handlers.Add(new ParallelLineHandler());
+            dialogManager.Handlers.Add(new SequenceLineHandler());
+            dialogManager.Handlers.Add(new SequenceOptionsHandler());
+            dialogManager.Handlers.Add(new LogCommandHandler());
+            dialogManager.Handlers.Add(new ExitCommandHandler());
+            dialogManager.Handlers.Add(new LogCompleteNodeHandler());
+
+        }
+        
+        if (splashScreenPrefab != null && playSplashScreen)
+        {
+            VT.SplashScreenControl splashScreenControl = new VT.SplashScreenControl(splashScreenPrefab);
+            splashScreenControl.SetAndShow(/*OnEndFunction*/() => {
+                playing = true;
+                splashScreenControl.Destroy();
+            });
+        }
+        else
+        {
+            playing = true;
+        }
     }
     
     // Update is called once per frame
     void Update() {
-        // TODO When should I update the manager?
-        manager.Update();
-        //manager.DialogManager.Update();
+        if (playing)
+        {
+            manager.Update(); 
+        }
     }
 }

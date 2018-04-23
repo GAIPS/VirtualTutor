@@ -6,6 +6,7 @@ namespace BubbleSystem
 {
     public enum Emotion
     {
+        Default,
         Neutral,
         Happiness,
         Sadness,
@@ -21,30 +22,20 @@ namespace BubbleSystem
         Grades
     }
 
-    public struct ColorData
-    {
-        public Color32 color;
-
-        public void SetColor(List<System.Object> list)
-        {
-            color.r = Convert.ToByte(list[0]);
-            color.g = Convert.ToByte(list[1]);
-            color.b = Convert.ToByte(list[2]);
-            color.a = Convert.ToByte(list[3]);
-        }
-    }
-
     public struct TextData
     {
-        public Font font;
+        public TMPro.TMP_FontAsset font;
         public float size;
-        public ColorData colorData;
+        public Color32 color;
+        public Dictionary<Effect, AnimationCurve> showEffect;
+        public Dictionary<Effect, AnimationCurve> hideEffect;
     }
 
     public struct BackgroundAnimationData
     {
-        public float imageFadePercentage;
-        public ColorTransitionData colorTransitionData;
+        public Dictionary<BackgroundEffect, AnimationCurve> showBannerEffect;
+        public Dictionary<BackgroundEffect, AnimationCurve> hideBannerEffect;
+        public Dictionary<BackgroundEffect, AnimationCurve> colorEffect;
     }
 
     public struct BalloonAnimationData
@@ -59,30 +50,35 @@ namespace BubbleSystem
         public float duration;
     }
 
-    public struct ColorTransitionData
-    {
-        public float duration;
-        public float smoothness;
-    }
-
     public struct SpriteData
     {
         public Sprite sprite;
-        public ColorData colorData;
+        public Sprite beak;
+        public Color32 color;
     }
 
     public struct TextureData
     {
         public Texture2D texture;
-        public ColorData colorData;
+        public Color32 color;
     }
 
-    public struct Data
+    public struct SpeakData
+    {
+        public Emotion emotion;
+        public float intensity;
+        //Top, Left, Right, Extra
+        public string[] text;
+
+        public Dictionary<Effect, AnimationCurve> showEffects;
+        public Dictionary<Effect, AnimationCurve> hideEffects;
+    }
+
+    public struct BackgroundData
     {
         public Emotion emotion;
         public float intensity;
         public Reason reason;
-        //Top, Left, Right, Extra
-        public string[] text;
+        public BackgroundAnimationData animationData;
     }
 }
