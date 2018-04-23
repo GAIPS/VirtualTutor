@@ -62,7 +62,6 @@ namespace BubbleSystem
                 foreach (BalloonsHooks hooks in balloonHooks)
                 {
                     CoroutineStopper.Instance.StopCoroutineWithCheck(hideCoroutines[tutor]);
-                    //StartCoroutine(Clean(hooks, duration, data));
                     AddCoroutine(tutor, hooks, duration, data);
                 }
             }
@@ -101,24 +100,29 @@ namespace BubbleSystem
             }
         }
 
-        private void SetAnimators(BalloonsHooks hooks, BalloonAnimationData animatorData, float intensity)
+        private void ResetAllFloats(Animator animator)
         {
-            if (hooks)
+            foreach(AnimatorControllerParameter parameter in animator.parameters)
             {
-                Animator anim = hooks.GetComponent<Animator>();
-                anim.runtimeAnimatorController = animatorData.animator;
-                anim.speed = intensity + 1f;
+                if(!parameter.name.Equals("Showing"))
+                {
+                    animator.SetFloat(parameter.name, 0.0f);
+                }
             }
         }
 
-        private void SetAnimators(BalloonsHooks hooks, DefaultBalloonAnimationData animatorData, float intensity)
+        private void SetAnimators(BalloonsHooks hooks, SpeakData data)
         {
-            if (hooks)
-            {
-                Animator anim = hooks.GetComponent<Animator>();
-                anim.runtimeAnimatorController = animatorData.animator;
-                anim.speed = intensity + 1f;
-            }
+            Animator animator = hooks.GetComponent<Animator>();
+            ResetAllFloats(animator);
+            animator.SetFloat(data.emotion.ToString(), data.intensity);
+        }
+
+        private void SetAnimator(BalloonsHooks hooks, BubbleSystem.Emotion emotion, float intensity)
+        {
+            Animator animator = hooks.GetComponent<Animator>();
+            ResetAllFloats(animator);
+            animator.SetFloat(emotion.ToString(), intensity);
         }
 
         private void SetEffects(BalloonsHooks hooks, Dictionary<Effect, AnimationCurve> effects, float intensity, float duration, bool show = true)
@@ -164,28 +168,19 @@ namespace BubbleSystem
                 {
                     if (hooks != null)
                     {
-                        DefaultBalloonAnimationData defaultBalloonAnimationData = DefaultData.Instance.GetNeutralBalloonAnimationData(data.intensity);
-                        float realDuration = defaultBalloonAnimationData.duration;
                         SetContent(hooks, data.text.Length > i ? data.text[i] : null);
 
                         SpriteData spriteData = DefaultData.Instance.GetDefaultBalloonData(data.emotion, data.intensity);
                         TextData textData = DefaultData.Instance.GetDefaultTextData(data.emotion, data.intensity);
-                        if (data.emotion.Equals(Emotion.Neutral) || data.emotion.Equals(Emotion.Default))
-                        {
-                            SetAnimators(hooks, defaultBalloonAnimationData, data.intensity);
-                        }
-                        else
-                        {
-                            BalloonAnimationData balloonAnimationData = DefaultData.Instance.GetBalloonAnimationData(data.emotion, data.intensity);
-                            realDuration = balloonAnimationData.duration;
-                            SetAnimators(hooks, balloonAnimationData, data.intensity);
-                        }
+
+                        SetAnimators(hooks, data);
+
                         SetSprites(data.emotion, hooks, spriteData, data.intensity);
                         SetTexts(hooks, textData);
                         if (callbacks != null && i < callbacks.Length)
                             SetCallback(hooks, callbacks[i], i);
 
-                        realDuration = duration > 0 ? duration : realDuration;
+                        float realDuration = duration > 0 ? duration : DefaultData.Instance.duration;
 
                         if (data.showEffects != null)
                             SetEffects(hooks, data.showEffects, data.intensity, realDuration);
@@ -222,7 +217,9 @@ namespace BubbleSystem
                 {
                     hooks.Hide();
 
-                    var animationClips = (data.emotion.Equals(BubbleSystem.Emotion.Neutral) || data.emotion.Equals(BubbleSystem.Emotion.Default)) ? DefaultData.Instance.GetNeutralBalloonAnimationData(data.intensity).animator.animationClips : DefaultData.Instance.GetBalloonAnimationData(data.emotion, data.intensity).animator.animationClips;
+                    //SetAnimator(hooks, data.emotion, 1.0f);
+
+                    var animationClips = hooks.GetComponent<Animator>().runtimeAnimatorController.animationClips;
                     float length = 1f;
                     foreach (AnimationClip clip in animationClips)
                     {

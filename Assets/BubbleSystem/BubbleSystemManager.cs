@@ -46,10 +46,67 @@ namespace BubbleSystem
             {
                 UpdateBackground(parameters);
             }
+
+            else if (info[0].Equals("OverrideBackgroundColor"))
+            {
+                OverrideBackgroundColor(parameters);
+            }
+
+            else if (info[0].Equals("OverrideTextEffects"))
+            {
+                OverrideTextEffects(parameters);
+            }
         }
 
-        private int SetNextDataEffects(string[] info, ref NextDialogueData nextData, int i, bool show)
+        //<< OverrideBackgroundColor emotion intensity reason color >>  Color in #RRGGBBAA format
+        private void OverrideBackgroundColor(string[] info)
         {
+            Emotion emotion = (Emotion)Enum.Parse(typeof(Emotion), info[0]);
+            float intensity = Mathf.Clamp01(Convert.ToSingle(info[1]));
+            Reason reason = (Reason)Enum.Parse(typeof(Reason), info[2]);
+            Color color;
+            ColorUtility.TryParseHtmlString(info[3], out color);
+            DefaultData.Instance.SetBackgroundColor(emotion, intensity, reason, color);
+        }
+
+        //<< OverrideTextEffects emotion intensity [showEffects [curve] ...] [hideEffects effect1 [curve] ...] >>
+        private void OverrideTextEffects(string[] info)
+        {
+            Emotion emotion = (Emotion)Enum.Parse(typeof(Emotion), info[0]);
+            float intensity = Mathf.Clamp01(Convert.ToSingle(info[1]));
+            Dictionary<Effect, AnimationCurve> showEffects = null;
+            Dictionary<Effect, AnimationCurve> hideEffects = null;
+
+            int size = info.Length;
+            KeyValuePair<int, Dictionary<Effect, AnimationCurve>> kvp;
+
+            if (size > 2) {
+                if (info[2].Equals("showEffects"))
+                {
+                    kvp = GetEffects(info, 3);
+                    showEffects = kvp.Value;
+                    if (size > kvp.Key)
+                    {
+                        if (info[kvp.Key].Equals("hideEffects"))
+                        {
+                            kvp = GetEffects(info, kvp.Key + 1);
+                            hideEffects = kvp.Value;
+                        }
+                    }
+                }
+                else if (info[2].Equals("hideEffects"))
+                {
+                    kvp = GetEffects(info, 3);
+                    hideEffects = kvp.Value;
+                }
+            }
+
+            DefaultData.Instance.SetTextEffects(emotion, intensity, showEffects, hideEffects);
+        }
+
+        private KeyValuePair<int, Dictionary<Effect, AnimationCurve>> GetEffects(string[] info, int i)
+        {
+            Dictionary<Effect, AnimationCurve> effects = new Dictionary<Effect, AnimationCurve>();
             string stringToLook = "hideEffects";
             while (i < info.Length)
             {
@@ -61,13 +118,10 @@ namespace BubbleSystem
                 try
                 {
                     effect = (Effect)Enum.Parse(typeof(Effect), info[i]);
-                    animationCurve = i + 1 >= info.Length ? null : DefaultData.Instance.GetCurve(info[i + 1]);// >= info.Length ? null : info[i+1]);
+                    animationCurve = (i + 1 >= info.Length) ? null : (info[i+1].Equals(stringToLook)) ? null : DefaultData.Instance.GetCurve(info[i + 1]);
                     i += (animationCurve != null) ? 2 : 1;
 
-                    if (show)
-                        nextData.showEffects.Add(effect, animationCurve);
-                    else
-                        nextData.hideEffects.Add(effect, animationCurve);
+                    effects.Add(effect, animationCurve);
                     continue;
                 }
                 catch
@@ -76,7 +130,19 @@ namespace BubbleSystem
                     continue;
                 }
             }
-            return i;
+
+            return new KeyValuePair<int, Dictionary<Effect, AnimationCurve>>(i, effects);
+        }
+
+        private int SetNextDataEffects(string[] info, ref NextDialogueData nextData, int i, bool show)
+        {
+            KeyValuePair<int, Dictionary<Effect, AnimationCurve>> kvp = GetEffects(info, i);
+            if (show)
+                nextData.showEffects = kvp.Value;
+            else
+                nextData.hideEffects = kvp.Value;
+
+            return kvp.Key;
         }
 
         //<< UpdateBackground MARIA HAPPINESS 0.5 5 Grades>>
@@ -128,7 +194,7 @@ namespace BubbleSystem
 
             nextData.isSet = true;
 
-            if (tutorNextData.ContainsKey(info[1]))
+            if (tutorNextData.ContainsKey(info[0]))
                 tutorNextData[info[0]] = nextData;
             else
                 tutorNextData.Add(info[0], nextData);
