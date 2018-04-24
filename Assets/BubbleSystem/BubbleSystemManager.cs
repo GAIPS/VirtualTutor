@@ -10,8 +10,7 @@ namespace BubbleSystem
     {
         public struct NextDialogueData
         {
-            public string emotion;
-            public float intensity;
+            public Dictionary<string, float> emotions;
             public float duration;
             public Dictionary<Effect, AnimationCurve> showEffects;
             public Dictionary<Effect, AnimationCurve> hideEffects;
@@ -145,6 +144,21 @@ namespace BubbleSystem
             return kvp.Key;
         }
 
+        private int SetNextEmotions(string[] info, ref NextDialogueData nextData, int i)
+        {
+            string stringToLook = "duration";
+            Dictionary<string, float> dict = new Dictionary<string, float>();
+
+            while (!info[i].Equals(stringToLook))
+            {
+                dict.Add(info[i], Mathf.Clamp01(System.Convert.ToSingle(info[i + 1])));
+                i+=2;
+            }
+
+            nextData.emotions = dict;
+            return ++i;
+        }
+
         //<< UpdateBackground MARIA HAPPINESS 0.5 5 Grades>>
         public void UpdateBackground(string[] info)
         {
@@ -157,20 +171,19 @@ namespace BubbleSystem
             UpdateBackground(info[0], info[1], Convert.ToSingle(info[2]), Convert.ToSingle(info[3]), reason);
         }
 
-        //<< SetNextDialogueData MARIA HAPPINESS 0.5 5 [showEffects effect1 [curve] ...] [hideEffects effect1 [curve] ...] >>
+        //<< SetNextDialogueData MARIA HAPPINESS 0.5 duration 5 [showEffects effect1 [curve] ...] [hideEffects effect1 [curve] ...] >>
         public void SetNextDialogueData(string[] info)
         {
-            NextDialogueData nextData = new NextDialogueData();
+            NextDialogueData nextData = new NextDialogueData();            
+            int i = SetNextEmotions(info, ref nextData, 1);
+
             int size = info.Length;
 
-            nextData.emotion = info[1];
-            nextData.intensity = Mathf.Clamp01(Convert.ToSingle(info[2]));
-            nextData.duration = Convert.ToSingle(info[3]);
+            nextData.duration = Convert.ToSingle(info[i++]);
 
-            if (size > 4)
+            if (size > i)
             {
-                int i = 5;
-                if (info[4].Equals("showEffects"))
+                if (info[i].Equals("showEffects"))
                 {
                     nextData.showEffects = new Dictionary<Effect, AnimationCurve>();
                     i = SetNextDataEffects(info, ref nextData, i, true);
@@ -185,7 +198,7 @@ namespace BubbleSystem
                     }
                 }
 
-                else if (info[4].Equals("hideEffects"))
+                else if (info[i].Equals("hideEffects"))
                 {
                     nextData.hideEffects = new Dictionary<Effect, AnimationCurve>();
                     i = SetNextDataEffects(info, ref nextData, i, false);
@@ -210,14 +223,36 @@ namespace BubbleSystem
             return false;
         }
 
-        private void SetSpeakData(string tutor, string emotion = "Neutral", float intensity = 0.0f, string[] text = null, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
+        private void SetSpeakData(string tutor, Dictionary<string, float> emotions, string[] text = null, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
         {
             SpeakData data = new SpeakData();
+            Dictionary<Emotion, float> emotionsDict = new Dictionary<Emotion, float>();
+            float sum;
+
             if (CheckNextData(tutor))
             {
                 NextDialogueData nextData = tutorNextData[tutor];
-                data.emotion = (Emotion)Enum.Parse(typeof(Emotion), nextData.emotion);
-                data.intensity = nextData.intensity;
+
+                if (nextData.emotions.Count > 1 && nextData.emotions.ContainsKey(Emotion.Default.ToString()))
+                {
+                    nextData.emotions.Remove(Emotion.Default.ToString());
+                }
+                if (nextData.emotions.Count > 1 && nextData.emotions.ContainsKey(Emotion.Neutral.ToString()))
+                {
+                    nextData.emotions.Remove(Emotion.Neutral.ToString());
+                }
+
+                sum = nextData.emotions.Sum(x => x.Value);
+                if (sum == 0) sum = 1;
+
+                foreach (string emotionString in nextData.emotions.Keys)
+                {
+                    Emotion emotion = (Emotion)Enum.Parse(typeof(Emotion), emotionString);
+                    emotionsDict.Add(emotion, nextData.emotions[emotionString] / sum);
+                }
+
+                data.emotions = emotionsDict;
+
                 data.text = text;
                 data.showEffects = nextData.showEffects;
                 data.hideEffects = nextData.hideEffects;
@@ -226,17 +261,26 @@ namespace BubbleSystem
             }
             else
             {
-                try
+                if (emotions.Count > 1 && emotions.ContainsKey(Emotion.Default.ToString()))
                 {
-                    data.emotion = (Emotion)Enum.Parse(typeof(Emotion), emotion);
+                    emotions.Remove(Emotion.Default.ToString());
                 }
-                catch
+                if (emotions.Count > 1 && emotions.ContainsKey(Emotion.Neutral.ToString()))
                 {
-                    throw new MissingFieldException("Emotion enum does not contain " + emotion + ".");
+                    emotions.Remove(Emotion.Neutral.ToString());
                 }
 
-                intensity = Mathf.Clamp01(intensity);
-                data.intensity = intensity;
+                sum = emotions.Sum(x => x.Value);
+                if (sum == 0) sum = 1;
+
+                foreach (string emotionString in emotions.Keys)
+                {
+                    Emotion emotion = (Emotion)Enum.Parse(typeof(Emotion), emotionString);
+                    emotionsDict.Add(emotion, Mathf.Clamp01(emotions[emotionString]) / sum);
+                }
+
+                data.emotions = emotionsDict;
+
                 data.text = text;
                 data.showEffects = getEffectsDictionary(showEffects);
                 data.hideEffects = getEffectsDictionary(hideEffects);
@@ -296,7 +340,7 @@ namespace BubbleSystem
             return null;
         }
 
-        public void Speak(string tutor, string emotion, float intensity, string[] text, float duration = 0.0f, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
+        public void Speak(string tutor, Dictionary<string, float> emotions, string[] text, float duration = 0.0f, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
         {
             if (firstTutor)
             {
@@ -304,13 +348,15 @@ namespace BubbleSystem
                 firstTutor = false;
             }
 
-            SetSpeakData(tutor, emotion, intensity, text, showEffects, hideEffects);
+            SetSpeakData(tutor, emotions, text, showEffects, hideEffects);
             balloonManager.ShowBalloon(tutor, tutorSpeakData[tutor], duration);
         }
 
         public void Speak(Tutor tutor, string[] text, float duration = 0.0f, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
         {
-            Speak(tutor.Name, tutor.Emotion.Name.ToString(), tutor.Emotion.Intensity, text, duration, showEffects, hideEffects);
+            Dictionary<string, float> dict = new Dictionary<string, float>();
+            dict.Add(tutor.Emotion.Name.ToString(), tutor.Emotion.Intensity);
+            Speak(tutor.Name, dict, text, duration, showEffects, hideEffects);
         }
 
         public void HideBalloon(string tutor, float duration = 0.0f)
@@ -330,9 +376,11 @@ namespace BubbleSystem
             HideBalloon(tutor.Name, duration);
         }
 
-        public void UpdateOptions(string[] text, float intensity = 0.0f, float duration = 5.0f, HookControl.IntFunc[] callbacks = null, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
+        public void UpdateOptions(string[] text, float duration = 5.0f, HookControl.IntFunc[] callbacks = null, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
         {
-            SetSpeakData("Options", "Default", intensity, text, showEffects, hideEffects);
+            Dictionary<string, float> dict = new Dictionary<string, float>();
+            dict.Add("Default", 0.0f);
+            SetSpeakData("Options", dict, text, showEffects, hideEffects);
             balloonManager.ShowBalloon("Options", tutorSpeakData["Options"], duration, callbacks);
         }
 

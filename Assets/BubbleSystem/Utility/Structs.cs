@@ -65,8 +65,7 @@ namespace BubbleSystem
 
     public struct SpeakData
     {
-        public Emotion emotion;
-        public float intensity;
+        public Dictionary<Emotion, float> emotions;
         //Top, Left, Right, Extra
         public string[] text;
 

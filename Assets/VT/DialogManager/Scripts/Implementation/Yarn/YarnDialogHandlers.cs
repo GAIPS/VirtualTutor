@@ -171,7 +171,7 @@ namespace YarnDialog
                 float duration = 60; // One minute wait.
                 IList<string> options = new List<string>(optionSetResult.options.options);
                 options.Remove("BLANK");
-                manager.BubbleManager.UpdateOptions(options.ToArray(), 0.0f, duration, callbacks.ToArray());
+                manager.BubbleManager.UpdateOptions(options.ToArray(), duration, callbacks.ToArray());
                 float count = 0;
                 while (count <= duration && !continueLoop)
                 {

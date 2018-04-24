@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -115,8 +116,18 @@ namespace BubbleSystem
         {
             Animator animator = hooks.GetComponent<Animator>();
             ResetAllFloats(animator);
-            animator.SetFloat(data.emotion.ToString(), data.intensity);
-            animator.SetFloat("Neutral", 1.0f - data.intensity);
+
+            float sum = 0;
+
+            foreach (Emotion emotion in data.emotions.Keys)
+            {
+                if (emotion.Equals(Emotion.Neutral))
+                    continue;
+
+                sum += data.emotions[emotion];
+                animator.SetFloat(emotion.ToString(), data.emotions[emotion]);
+            }
+            animator.SetFloat("Neutral", 1.0f - sum);
         }
 
         private void SetAnimator(BalloonsHooks hooks, BubbleSystem.Emotion emotion, float intensity)
@@ -172,12 +183,17 @@ namespace BubbleSystem
                     {
                         SetContent(hooks, data.text.Length > i ? data.text[i] : null);
 
-                        SpriteData spriteData = DefaultData.Instance.GetDefaultBalloonData(data.emotion, data.intensity);
-                        TextData textData = DefaultData.Instance.GetDefaultTextData(data.emotion, data.intensity);
+                        Emotion highestEmotion = data.emotions.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
+                        float intensity = data.emotions[highestEmotion];
+                        float sum = data.emotions.Sum(x => x.Value);
 
-                        SetAnimators(hooks, data);
+                        SpriteData spriteData = DefaultData.Instance.GetDefaultBalloonData(highestEmotion, intensity);
+                        TextData textData = DefaultData.Instance.GetDefaultTextData(highestEmotion, intensity);
 
-                        SetSprites(data.emotion, hooks, spriteData, data.intensity);
+                        if (!balloon.Equals("Options"))
+                            SetAnimators(hooks, data);
+
+                        SetSprites(highestEmotion, hooks, spriteData, intensity);
                         SetTexts(hooks, textData);
                         if (callbacks != null && i < callbacks.Length)
                             SetCallback(hooks, callbacks[i], i);
@@ -185,10 +201,10 @@ namespace BubbleSystem
                         float realDuration = duration > 0 ? duration : DefaultData.Instance.duration;
 
                         if (data.showEffects != null)
-                            SetEffects(hooks, data.showEffects, data.intensity, realDuration);
+                            SetEffects(hooks, data.showEffects, sum, realDuration);
                         else
                         {
-                            SetEffects(hooks, textData.showEffect, data.intensity, realDuration);
+                            SetEffects(hooks, textData.showEffect, sum, realDuration);
                         }
 
                         hooks.Show();
@@ -227,15 +243,18 @@ namespace BubbleSystem
                             length = clip.length;
                     }
 
+                    Emotion highestEmotion = data.emotions.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
+                    float intensity = data.emotions[highestEmotion];
+                    float sum = data.emotions.Sum(x => x.Value);
 
                     if (data.hideEffects != null)
                     {
-                        SetEffects(hooks, data.hideEffects, data.intensity, length, false);
+                        SetEffects(hooks, data.hideEffects, sum, length, false);
                     }
                     else
                     {
-                        TextData textData = DefaultData.Instance.GetDefaultTextData(data.emotion, data.intensity);
-                        SetEffects(hooks, textData.hideEffect, data.intensity, length, false);
+                        TextData textData = DefaultData.Instance.GetDefaultTextData(highestEmotion, intensity);
+                        SetEffects(hooks, textData.hideEffect, sum, length, false);
                     }
                 }
             }

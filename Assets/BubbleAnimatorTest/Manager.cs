@@ -76,8 +76,10 @@ public class Manager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.S))
         {
-            manager.Speak(tutor, emotion.ToString(), intensity, new string[] { "hi" }, duration);
-            Debug.Log(tutor + " " + emotion.ToString() + " " +intensity);
+            Dictionary<string, float> dict = new Dictionary<string, float>();
+            dict.Add(emotion.ToString(), intensity);
+            manager.Speak(tutor, dict, new string[] { "hi" }, duration);
+            Debug.Log(tutor + " " + emotion.ToString() + " " + intensity);
         }
 
         if (Input.GetKeyDown(KeyCode.B))
@@ -93,12 +95,17 @@ public class Manager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.X))
         {
-            manager.Handle(new string[] { "SetNextDialogueData", "Maria", "Happiness", "1.0", "5", "showEffects", "Shake", "hideEffects", "FadeOut", "fadeCurve" });
+            manager.Handle(new string[] { "SetNextDialogueData", "Maria", "Happiness", "1.0", "duration", "5", "showEffects", "Shake", "hideEffects", "FadeOut", "fadeCurve" });
         }
 
         if (Input.GetKeyDown(KeyCode.C))
         {
             manager.Handle(new string[] { "OverrideTextEffects", "Happiness", "0.5", "showEffects", "Shake", "hideEffects", "FadeOut", "fadeCurve" });
+        }
+
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            manager.UpdateOptions(new string[] { "hi", "asd" });
         }
     }
     
