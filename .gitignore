@@ -38,3 +38,9 @@ Thumbs.db
 # Others #
 # ====== #
 # *.dll
+
+# ====== #
+# Others #
+# ====== #
+.idea
+Assets/Plugins/Editor/JetBrains*
