@@ -332,7 +332,7 @@ public class AvatarManager : MonoBehaviour
     {
         foreach (var controller in Controllers)
         {
-            if (tutor.Name.Equals(controller.name))
+            if (controller.name.Contains(tutor.Name))
                 return controller;
         }
         return null;
@@ -341,7 +341,7 @@ public class AvatarManager : MonoBehaviour
     {
         foreach (var controller in Controllers)
         {
-            if (!tutor.Name.Equals(controller.name))
+            if (!controller.name.Contains(tutor.Name))
                 return controller;
         }
         return null;
