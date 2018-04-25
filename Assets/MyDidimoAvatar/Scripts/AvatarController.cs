@@ -15,7 +15,6 @@ public partial class AvatarController : MonoBehaviour
         parameters = GetComponent<AvatarParameters>();
 
     }
-
     void Start()
     {
         float[][] paramPreset = AvatarParameters.Presets.Neutral();
@@ -23,8 +22,8 @@ public partial class AvatarController : MonoBehaviour
         parameters.setAllParameters<ControllerParams>(paramPreset[1]);
 
         StartCoroutine("NoddingRoutine");
+        StartCoroutine("PassiveRoutine");
     }
-
     void FixedUpdate(){
         //AnimationClip c = getClipByName("Head_Nod");
         //Debug.Log("CURRENT STATE INFO: [NAME = " + c.name + ", LENGHT = " + c.length + "]");
@@ -72,68 +71,32 @@ public partial class AvatarController : MonoBehaviour
 
         animator.SetInteger("Mood", (int)mood);
     }
-
     public void ExpressEmotion(EmotionalState expression, float intensity)
     {
         parameters.setParameter(AnimatorParams.EXPRESSION_INTENSITY, intensity);
         animator.SetInteger("Expression", (int)expression);
         animator.SetTrigger("Express");
     }
-
     public void DoNodding(NodState nodState)
     {
         animator.SetInteger("Nod Style", (int)nodState);
         animator.SetTrigger("Nod");
     }
-
-    IEnumerator NoddingRoutine()
-    {
-        int maxSuccesses = 2, rollCounter=0;
-        float length, frequency;
-        while (true)
-        {   
-            if (animator.gameObject.activeSelf && animator.GetBool("Listening"))
-            {
-                length = parameters.nodLength / parameters.getParameter(AnimatorParams.NOD_SPEED);
-                frequency = parameters.getParameter(ControllerParams.NOD_FREQUENCY);
-                if ((Random.value < frequency) && (rollCounter < maxSuccesses) &&  
-                    (Random.value < frequency)) // Unlucky Rolls
-                {
-                    DoNodding(NodState.NOD_START);
-                    rollCounter++;
-                }
-                else
-                {
-                    DoNodding(NodState.NOD_END);
-                    rollCounter = 0;
-                }
-                yield return new WaitForSeconds(length);    
-            }
-            yield return null;      
-        }
-    }
-
     public void DoTalking(TalkState talkState)
     {
         animator.SetInteger("Talk State", (int)talkState);
         animator.SetTrigger("Talk");
     }
-
     public void DoGazing(GazeState gazeState)
     {
         animator.SetInteger("Direction", (int)gazeState);
 
         // Randomizer for gaze frequency
         if (Random.value < parameters.getParameter(ControllerParams.GAZEAT_FREQUENCY))
-        {  
+        {
             if ((int)gazeState % 2 != 0) // (gazeAt anim. are all odd numbered states)
                 animator.SetTrigger("Gaze");
         }
-    }
-
-    public void isListening(bool state)
-    {
-        animator.SetBool("Listening", state);
     }
 
     public void setParameter(AnimatorParams param, float value)
@@ -143,7 +106,7 @@ public partial class AvatarController : MonoBehaviour
     public void setParameter(ControllerParams param, float value)
     {
         // Gaze frequency is set for both "at" and "back" animations
-        if(param == ControllerParams.GAZEAT_FREQUENCY || param == ControllerParams.GAZEBACK_FREQUENCY)
+        if (param == ControllerParams.GAZEAT_FREQUENCY || param == ControllerParams.GAZEBACK_FREQUENCY)
         {
             parameters.setParameter(ControllerParams.GAZEAT_FREQUENCY, value);
             parameters.setParameter(ControllerParams.GAZEBACK_FREQUENCY, value);
@@ -152,9 +115,85 @@ public partial class AvatarController : MonoBehaviour
             parameters.setParameter(param, value);
     }
 
+    IEnumerator NoddingRoutine()
+    {
+        float length, frequency;
+        while (true)
+        {   
+            if (animator.gameObject.activeSelf && animator.GetBool("Listening"))
+            {
+                length = parameters.nodLength / parameters.getParameter(AnimatorParams.NOD_SPEED);
+                frequency = parameters.getParameter(ControllerParams.NOD_FREQUENCY);
+                if ((Random.value < frequency) && (Random.value < frequency)) // Unlucky Rolls
+                {
+                    DoNodding(NodState.NOD_START);
+                }
+                else
+                {
+                    DoNodding(NodState.NOD_END);
+                }
+                yield return new WaitForSeconds(length);    
+            }
+            yield return null;      
+        }
+    }
+    IEnumerator PassiveRoutine()
+    {
+        float length, gazelength;
+        while (true)
+        {
+            yield return new WaitForSeconds(Random.Range(3, 5)); //delay
+            if (!animator.GetBool("Listening") && animator.GetInteger("Talk State") == 0)
+            {
+                switch (Random.Range(1, 9))
+                { //Testing some random expressive motions
+                    case 1:
+                        length = parameters.nodLength / parameters.getParameter(AnimatorParams.NOD_SPEED);
+                        DoNodding(NodState.NOD_START);
+                        yield return new WaitForSeconds(length);
+                        DoNodding(NodState.NOD_END);
+                        break;
+                    case 2:
+                        animator.SetInteger("Move Eyes State", 1);
+                        animator.SetTrigger("Move Eyes");
+                        break;
+                    case 3:
+                    case 4:
+                        ExpressEmotion(EmotionalState.HAPPINESS, 0.5f);
+                        break;
+                    case 5:
+                        DoGazing(GazeState.GAZEAT_PARTNER);
+                        gazelength = getParameters().getClipByName("Gaze_Right").length / parameters.getParameter(AnimatorParams.GAZEAT_SPEED);
+                        yield return new WaitForSeconds(0.5f + gazelength);
+                        DoGazing(GazeState.GAZEBACK_PARTNER);
+                        break;
+                    case 6:
+                        DoGazing(GazeState.GAZEAT_USER);
+                        gazelength = getParameters().getClipByName("Gaze_Right").length / parameters.getParameter(AnimatorParams.GAZEAT_SPEED);
+                        yield return new WaitForSeconds(0.5f + gazelength);
+                        DoGazing(GazeState.GAZEBACK_USER);
+                        break;
+                    case 7:
+                        animator.SetInteger("Move Eyes State", 3);
+                        animator.SetTrigger("Move Eyes");
+                        break;
+                    case 8:
+                    case 9:
+                        ExpressEmotion(EmotionalState.SURPRISE, 0.35f);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
+    public void isListening(bool state)
+    {
+        animator.SetBool("Listening", state);
+    }
     public AvatarParameters getParameters()
     {
         return parameters;
     }
-
 }

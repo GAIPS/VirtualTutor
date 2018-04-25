@@ -143,7 +143,7 @@ public class AvatarParameters : MonoBehaviour
         }     
     }
 
-    private AnimationClip getClipByName(string name)
+    public AnimationClip getClipByName(string name)
     {
         if (animator != null)
         {
