@@ -33,80 +33,66 @@ public class AvatarManager : MonoBehaviour
 
         controller.ExpressEmotion(expressionState, tutor.Emotion.Intensity);
     }
-    public void Act(Tutor tutor, Movement action)
+    public void Act(Tutor tutor, IMovement movement)
     {
         AvatarController controller = getController(tutor);
         if (controller == null)
             return;
 
-        string actionString = string.Concat(getStateString(action),"_",getStateString(action.State));
+        string s1 = getFirstMovementString(movement), s2;
 
-        try
+        if (movement is MovementWithState) {
+            s2 = getSecondMovementString((MovementWithState)movement);
+            s1 = string.Concat(s1, "_", s2);
+        }
+        else if (movement is MovementWithTarget) {
+            s2 = getSecondMovementString((MovementWithTarget)movement);
+            s1 = string.Concat(s1, "_", s2);
+        }
+        else {
+            Debug.Log(String.Format("\"{0}\" is not a valid action.", s1));
+            return;
+        }
+
+        try // NOD
         {
-            NodState actionState = getStateType<NodState>(actionString);
+            NodState actionState = getStateType<NodState>(s1);
             controller.DoNodding(actionState);
         }
         catch (ArgumentException)
         {
-            try
+            try // GAZE
             {
-                TalkState actionState = getStateType<TalkState>(actionString);
-                controller.DoTalking(actionState);
-                StartCoroutine(React(tutor, actionState));
+                GazeState actionState = getStateType<GazeState>(s1);
+                controller.DoGazing(actionState);
             }
-            catch (ArgumentException ae)
+            catch (ArgumentException)
             {
-                Debug.Log(ae.Message);
+                try // TALK 
+                {
+                    TalkState actionState = getStateType<TalkState>(s1);
+                    controller.DoTalking(actionState);
+                    StartCoroutine(React(tutor, actionState));
+                }
+                catch (ArgumentException ae)
+                {
+                    Debug.Log(ae.Message);
+                }
             }
-        }  
-    }
-    public void Gaze(Tutor tutor1, Movement movement, Tutor tutor2)
-    {
-        AvatarController controller = getController(tutor1);
-        if (controller == null)
-            return;
-   
-        string actionString = string.Concat(getStateString(movement), "_PARTNER");
-
-        try
-        {
-            GazeState actionState = getStateType<GazeState>(actionString);
-            controller.DoGazing(actionState);
-        }
-        catch (ArgumentException ae)
-        {
-            Debug.Log(ae.Message);
         }
     }
-    public void Gaze(Tutor tutor, Movement movement, User user)
-    {
-        AvatarController controller = getController(tutor);
-        if (controller == null)
-            return;
 
-        string actionString = string.Concat(getStateString(movement), "_USER");
-
-        try
-        {
-            GazeState actionState = getStateType<GazeState>(actionString);
-            controller.DoGazing(actionState);
-        }
-        catch (ArgumentException ae)
-        {
-            Debug.Log(ae.Message);
-        }
-    }
-    public int setParameter(Tutor tutor, Movement movement)
+    public int setParameter(Tutor tutor, MovementWithProperty movement)
     {
         AvatarController controller = getController(tutor);
         if (controller == null)
             return -1;
         object paramEnum;
-        string parameterString = string.Concat(getStateString(movement), "_", getStateString(movement.Property));
+        string parameterString = string.Concat(getFirstMovementString(movement), "_", getSecondMovementString(movement));
         if (EnumUtils.TryParse(typeof(AnimatorParams), parameterString, out paramEnum))
-            controller.setParameter((AnimatorParams)paramEnum, movement.Property.Value);
+            controller.setParameter((AnimatorParams)paramEnum, movement.Value);
         else if (EnumUtils.TryParse(typeof(ControllerParams), parameterString, out paramEnum))
-            controller.setParameter((ControllerParams)paramEnum, movement.Property.Value);
+            controller.setParameter((ControllerParams)paramEnum, movement.Value);
         else
             return -1;
         return 0;
@@ -120,7 +106,6 @@ public class AvatarManager : MonoBehaviour
 
         if (EnumUtils.TryParse(typeof(ActionGroup), input[0], out parsedEnum))
         {
-            //Debug.Log(String.Format("{0} was parsed as a {1} command", input[0], (ActionGroup)parsedEnum));
             switch ((ActionGroup)parsedEnum)
             {
                 case ActionGroup.EXPRESS:
@@ -162,7 +147,6 @@ public class AvatarManager : MonoBehaviour
         object emotionEnum;
         if (EnumUtils.TryParse(typeof(EmotionEnum), parameters[1], out emotionEnum))
         {
-            //Debug.Log(String.Format("{0} was parsed as a {1} emotion", parameters[1], (EmotionEnum)emotionEnum)); 
             float parsedFloat;
             tutor.Emotion = new Emotion((EmotionEnum)emotionEnum);
             if (float.TryParse(parameters[2], out parsedFloat))
@@ -186,7 +170,6 @@ public class AvatarManager : MonoBehaviour
         object emotionEnum;
         if (EnumUtils.TryParse(typeof(EmotionEnum), parameters[1], out emotionEnum))
         {
-            //Debug.Log(String.Format("{0} was parsed as a {1} emotion", parameters[1], (EmotionEnum)emotionEnum)); 
             float parsedFloat;
             tutor.Emotion = new Emotion((EmotionEnum)emotionEnum);
             if (float.TryParse(parameters[2], out parsedFloat))
@@ -214,7 +197,7 @@ public class AvatarManager : MonoBehaviour
             EnumUtils.TryParse(typeof(PropertyEnum), arguments[1], out property);
             float parsedFloat = 0.0f;
             if (float.TryParse(arguments[2], out parsedFloat))
-                setParameter(tutor, new Movement(MovementEnum.Talk, new Property((PropertyEnum)property, parsedFloat)));
+                setParameter(tutor, new MovementWithProperty(MovementEnum.Talk, (PropertyEnum)property, parsedFloat));
             else
             {
                 Debug.Log(String.Format("{0} could not be parsed as a float.", arguments[2]));
@@ -224,9 +207,9 @@ public class AvatarManager : MonoBehaviour
         else if (arguments.Length == 2 && EnumUtils.TryParse(typeof(ArgumentType2), arguments[1], out action))
         { // this is an animation command
             if ((ArgumentType2)action == ArgumentType2.START)
-                Act(tutor, new Movement(MovementEnum.Talk, new State(StateEnum.Start)));
+                Act(tutor, new MovementWithState(MovementEnum.Talk, StateEnum.Start)); 
             else
-                Act(tutor, new Movement(MovementEnum.Talk, new State(StateEnum.End)));
+                Act(tutor, new MovementWithState(MovementEnum.Talk, StateEnum.End)); 
         }
         else
             Debug.Log(String.Format("[{0}] are not valid arguments for this command", string.Join(", ", arguments)));
@@ -244,7 +227,7 @@ public class AvatarManager : MonoBehaviour
             EnumUtils.TryParse(typeof(PropertyEnum), arguments[1], out property);
             float parsedFloat = 0.0f;
             if (float.TryParse(arguments[2], out parsedFloat))
-                setParameter(tutor, new Movement(MovementEnum.Nod, new Property((PropertyEnum)property, parsedFloat)));
+                setParameter(tutor, new MovementWithProperty(MovementEnum.Nod, (PropertyEnum)property, parsedFloat));
             else
             {
                 Debug.Log(String.Format("{0} could not be parsed as a float.", arguments[2]));
@@ -254,9 +237,9 @@ public class AvatarManager : MonoBehaviour
         else if (arguments.Length == 2 && EnumUtils.TryParse(typeof(ArgumentType2), arguments[1], out action))
         { // this is an animation command
             if ((ArgumentType2)action == ArgumentType2.START)
-                Act(tutor, new Movement(MovementEnum.Nod, new State(StateEnum.Start)));
+                Act(tutor, new MovementWithState(MovementEnum.Nod, StateEnum.Start));
             else
-                Act(tutor, new Movement(MovementEnum.Nod, new State(StateEnum.End)));
+                Act(tutor, new MovementWithState(MovementEnum.Nod, StateEnum.End)); 
         }
         else
             Debug.Log(String.Format("[{0}] are not valid arguments for this command", string.Join(", ", arguments)));
@@ -278,7 +261,7 @@ public class AvatarManager : MonoBehaviour
             EnumUtils.TryParse(typeof(PropertyEnum), arguments[1], out property);
             float parsedFloat = 0.0f;
             if (float.TryParse(arguments[2], out parsedFloat))
-                setParameter(tutor, new Movement(MovementEnum.Gazeback, new Property((PropertyEnum)property, parsedFloat)));
+                setParameter(tutor, new MovementWithProperty(MovementEnum.Gazeback, (PropertyEnum)property, parsedFloat));
             else
             {
                 Debug.Log(String.Format("{0} could not be parsed as a float.", arguments[2]));
@@ -288,12 +271,9 @@ public class AvatarManager : MonoBehaviour
         else if (arguments.Length == 2 && EnumUtils.TryParse(typeof(ArgumentType1), arguments[1], out action))
         { // this is an animation command
             if ((ArgumentType1)action == ArgumentType1.USER)
-                Gaze(tutor, new Movement(MovementEnum.Gazeback), new User());
+                Act(tutor, new MovementWithTarget(MovementEnum.Gazeback, TargetEnum.User));
             else
-            {
-                Tutor partner = new Tutor(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(arguments[1].ToLower()));
-                Gaze(tutor, new Movement(MovementEnum.Gazeback), partner);
-            }
+                Act(tutor, new MovementWithTarget(MovementEnum.Gazeback, TargetEnum.Partner));
         }
         else
             Debug.Log(String.Format("[{0}] are not valid arguments for this command", string.Join(", ", arguments)));
@@ -311,7 +291,7 @@ public class AvatarManager : MonoBehaviour
             EnumUtils.TryParse(typeof(PropertyEnum), arguments[1], out property);
             float parsedFloat = 0.0f;
             if (float.TryParse(arguments[2], out parsedFloat))
-                setParameter(tutor, new Movement(MovementEnum.Gazeat, new Property((PropertyEnum)property, parsedFloat)));
+                setParameter(tutor, new MovementWithProperty(MovementEnum.Gazeat, (PropertyEnum)property, parsedFloat));
             else
             {
                 Debug.Log(String.Format("{0} could not be parsed as a float.", arguments[2]));
@@ -321,12 +301,9 @@ public class AvatarManager : MonoBehaviour
         else if (arguments.Length == 2 && EnumUtils.TryParse(typeof(ArgumentType1), arguments[1], out action))
         { // this is an animation command
             if ((ArgumentType1)action == ArgumentType1.USER)
-                Gaze(tutor, new Movement(MovementEnum.Gazeat), new User());
+                Act(tutor, new MovementWithTarget(MovementEnum.Gazeat, TargetEnum.User));
             else
-            {
-                Tutor partner = new Tutor(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(arguments[1].ToLower()));
-                Gaze(tutor, new Movement(MovementEnum.Gazeat), partner);
-            }
+                Act(tutor, new MovementWithTarget(MovementEnum.Gazeat, TargetEnum.Partner));
         }
         else
             Debug.Log(String.Format("[{0}] are not valid arguments for this command", string.Join(", ", arguments)));
@@ -370,21 +347,25 @@ public class AvatarManager : MonoBehaviour
         return null;
     }
 
-    private string getStateString(State state)
+    private string getSecondMovementString(MovementWithProperty movement)
     {
-        return state.Name.ToString().ToUpperInvariant();
+        return movement.Property.ToString().ToUpperInvariant();
     }
-    private string getStateString(Movement movement)
+    private string getSecondMovementString(MovementWithState movement)
+    {
+        return movement.State.ToString().ToUpperInvariant();
+    }
+    private string getSecondMovementString(MovementWithTarget movement)
+    {
+        return movement.Target.ToString().ToUpperInvariant();
+    }
+    private string getFirstMovementString(IMovement movement)
     {
         return movement.Name.ToString().ToUpperInvariant();
     }
     private string getStateString(Emotion emotion)
     {
         return emotion.Name.ToString().ToUpperInvariant();
-    }
-    private string getStateString(Property property)
-    {
-        return property.Name.ToString().ToUpperInvariant();
     }
 
     //Outdated, similar to EnumUtils.TryParse()

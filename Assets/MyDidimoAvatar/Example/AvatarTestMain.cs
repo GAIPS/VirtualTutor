@@ -211,56 +211,56 @@ public class AvatarTestMain : MonoBehaviour
             if (testCommands)
                 manager.sendCommand(new string[] { "Nod", tutorName, "Start" });
             else
-                manager.Act(new Tutor(tutorName), new Movement(MovementEnum.Nod, new State(StateEnum.Start)));
+                manager.Act(new Tutor(tutorName), new MovementWithState(MovementEnum.Nod, StateEnum.Start));
         }
         if (Input.GetKey(movementCommands.nodStop))
         {
             if (testCommands)
                 manager.sendCommand(new string[] { "Nod", tutorName, "End" });
             else
-                manager.Act(new Tutor(tutorName), new Movement(MovementEnum.Nod, new State(StateEnum.End)));
+                manager.Act(new Tutor(tutorName), new MovementWithState(MovementEnum.Nod, StateEnum.End));
         }
         if (Input.GetKey(movementCommands.talkStart))
         {
             if (testCommands)
                 manager.sendCommand(new string[] { "Talk", tutorName, "Start" });
             else
-                manager.Act(new Tutor(tutorName), new Movement(MovementEnum.Talk, new State(StateEnum.Start)));
+                manager.Act(new Tutor(tutorName), new MovementWithState(MovementEnum.Talk, StateEnum.Start));
         }
         if (Input.GetKey(movementCommands.talkStop))
         {
             if (testCommands)
                 manager.sendCommand(new string[] { "Talk", tutorName, "End" });
             else
-                manager.Act(new Tutor(tutorName), new Movement(MovementEnum.Talk, new State(StateEnum.End)));
+                manager.Act(new Tutor(tutorName), new MovementWithState(MovementEnum.Talk, StateEnum.End));
         }
         if (Input.GetKey(movementCommands.gazeAtPartner))
         {
             if (testCommands)
                 manager.sendCommand(new string[] { "Gazeat", tutorName, tutorName=="Maria" ? "Joao" : "Maria" });
             else
-                manager.Gaze(new Tutor(tutorName), new Movement(MovementEnum.Gazeat), new Tutor(tutorName == "Maria" ? "Joao" : "Maria"));
+                manager.Act(new Tutor(tutorName), new MovementWithTarget(MovementEnum.Gazeat, TargetEnum.Partner));
         }
         if (Input.GetKey(movementCommands.gazeBackFromPartner))
         {
             if (testCommands)
                 manager.sendCommand(new string[] { "Gazeback", tutorName, tutorName == "Maria" ? "Joao" : "Maria" });
             else
-                manager.Gaze(new Tutor(tutorName), new Movement(MovementEnum.Gazeback), new Tutor(tutorName == "Maria" ? "Joao" : "Maria"));
+                manager.Act(new Tutor(tutorName), new MovementWithTarget(MovementEnum.Gazeback, TargetEnum.Partner));
         }
         if (Input.GetKey(movementCommands.gazeAtUser))
         {
             if (testCommands)
                 manager.sendCommand(new string[] { "Gazeat", tutorName, "User" });
             else
-                manager.Gaze(new Tutor(tutorName), new Movement(MovementEnum.Gazeat), new User());
+                manager.Act(new Tutor(tutorName), new MovementWithTarget(MovementEnum.Gazeat, TargetEnum.User));
         }
         if (Input.GetKey(movementCommands.gazeBackFromUser))
         {
             if (testCommands)
                 manager.sendCommand(new string[] { "Gazeback", tutorName, "User" });
             else
-                manager.Gaze(new Tutor(tutorName), new Movement(MovementEnum.Gazeback), new User());
+                manager.Act(new Tutor(tutorName), new MovementWithTarget(MovementEnum.Gazeback, TargetEnum.User));
         }
 
         // Action Speed\Frequency
@@ -269,21 +269,21 @@ public class AvatarTestMain : MonoBehaviour
             if (testCommands)
                 manager.sendCommand(new string[] { "Nod", tutorName, "Frequency", "0.5" });
             else
-                manager.setParameter(new Tutor(tutorName), new Movement(MovementEnum.Nod, new Property(PropertyEnum.Frequency, 0.5f)));
+                manager.setParameter(new Tutor(tutorName), new MovementWithProperty(MovementEnum.Nod, PropertyEnum.Frequency, 0.5f));
         }
         if (Input.GetKey(changeParameterCommands.nodSpeed))
         {
             if (testCommands)
                 manager.sendCommand(new string[] { "Nod", tutorName, "Speed", "2.0" });
             else
-                manager.setParameter(new Tutor(tutorName), new Movement(MovementEnum.Nod, new Property(PropertyEnum.Speed, 2.0f)));
+                manager.setParameter(new Tutor(tutorName), new MovementWithProperty(MovementEnum.Nod, PropertyEnum.Speed, 2.0f));
         }
         if (Input.GetKey(changeParameterCommands.gazeFrequency))
         {
             if (testCommands)
                 manager.sendCommand(new string[] { "Gazeat", tutorName, "Frequency", "0.5" });
             else
-                manager.setParameter(new Tutor(tutorName), new Movement(MovementEnum.Gazeat, new Property(PropertyEnum.Frequency, 0.5f)));
+                manager.setParameter(new Tutor(tutorName), new MovementWithProperty(MovementEnum.Gazeat, PropertyEnum.Frequency, 0.5f));
         }
         if (Input.GetKey(changeParameterCommands.gazeSpeed))
         {
@@ -294,19 +294,19 @@ public class AvatarTestMain : MonoBehaviour
             }
             else
             {
-                manager.setParameter(new Tutor(tutorName), new Movement(MovementEnum.Gazeat, new Property(PropertyEnum.Speed, 1.5f)));
-                manager.setParameter(new Tutor(tutorName), new Movement(MovementEnum.Gazeback, new Property(PropertyEnum.Speed, 2.0f)));
+                manager.setParameter(new Tutor(tutorName), new MovementWithProperty(MovementEnum.Gazeat, PropertyEnum.Speed, 1.5f));
+                manager.setParameter(new Tutor(tutorName), new MovementWithProperty(MovementEnum.Gazeback, PropertyEnum.Speed, 2.0f));
             }
         }
     }
     // UI driven commands
     public void talk(string who)
     {
-        manager.Act(new Tutor(who), new Movement(MovementEnum.Talk, new State(StateEnum.Start)));
+        manager.Act(new Tutor(who), new MovementWithState(MovementEnum.Talk, StateEnum.Start));
     }
     public void stopTalking(string who)
     {
-        manager.Act(new Tutor(who), new Movement(MovementEnum.Talk, new State(StateEnum.End)));
+        manager.Act(new Tutor(who), new MovementWithState(MovementEnum.Talk, StateEnum.End));
     }
 
     IEnumerator controllerParameterDebugRoutine()
@@ -318,7 +318,7 @@ public class AvatarTestMain : MonoBehaviour
             {
                 nodSpeed = parameters.getParameter(AnimatorParams.NOD_SPEED);
                 nodFrequency = parameters.getParameter(ControllerParams.NOD_FREQUENCY);
-                nodDuration = Mathf.Abs(parameters.nodDuration) / (nodSpeed < 0.001f ? 0.001f : nodSpeed);
+                nodDuration = Mathf.Abs(parameters.nodLength) / (nodSpeed < 0.001f ? 0.001f : nodSpeed);
                 nodInterval = parameters.nodInterval * (1 - nodFrequency) + 0.001f;
 
                 Debug.Log(String.Format("animParams.nodFrequency: {0}", parameters.getParameter(ControllerParams.NOD_FREQUENCY)));

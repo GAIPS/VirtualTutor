@@ -1,9 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Globalization;
-using System.Linq;
-using System;
 
 [RequireComponent(typeof(Animator))]
 public partial class AvatarController : MonoBehaviour
@@ -11,10 +7,13 @@ public partial class AvatarController : MonoBehaviour
     private Animator animator;
     private AvatarParameters parameters;
 
+    private static float LOWINTENSITYTHRESHOLD = 0.5f;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
         parameters = GetComponent<AvatarParameters>();
+
     }
 
     void Start()
@@ -24,10 +23,14 @@ public partial class AvatarController : MonoBehaviour
         parameters.setAllParameters<ControllerParams>(paramPreset[1]);
 
         StartCoroutine("NoddingRoutine");
-        //StartCoroutine("controllerParameterDebugRoutine");
     }
 
     void FixedUpdate(){
+        //AnimationClip c = getClipByName("Head_Nod");
+        //Debug.Log("CURRENT STATE INFO: [NAME = " + c.name + ", LENGHT = " + c.length + "]");
+        //currentBaseState = animator.GetCurrentAnimatorStateInfo(3);
+        //if (currentBaseState.IsName("Head_Nod"))
+        //    Debug.Log("CURRENT STATE INFO: [LENGHT = " + currentBaseState.length + ", SPEEDMULT = " + currentBaseState.speedMultiplier + "]");
     }
 
     public void SetMood(EmotionalState mood, float intensity)
@@ -39,16 +42,16 @@ public partial class AvatarController : MonoBehaviour
                 preset = AvatarParameters.Presets.Neutral();
                 break;
             case EmotionalState.HAPPINESS:
-                if(intensity < 0.5)
-                    preset = AvatarParameters.Presets.Happiness();
-                else
+                if(intensity > LOWINTENSITYTHRESHOLD)
                     preset = AvatarParameters.Presets.HappinessHigh();
+                else
+                    preset = AvatarParameters.Presets.HappinessLow();
                 break;
             case EmotionalState.SADNESS:
-                if (intensity < 0.5)
-                    preset = AvatarParameters.Presets.Sadness();
-                else
+                if (intensity > LOWINTENSITYTHRESHOLD)
                     preset = AvatarParameters.Presets.SadnessHigh();
+                else
+                    preset = AvatarParameters.Presets.SadnessLow();
                 break;
             case EmotionalState.FEAR:
                 preset = AvatarParameters.Presets.Fear();
@@ -85,20 +88,28 @@ public partial class AvatarController : MonoBehaviour
 
     IEnumerator NoddingRoutine()
     {
-        float nodSpeed, nodFrequency, nodDuration, nodInterval;
+        int maxSuccesses = 2, rollCounter=0;
+        float length, frequency;
         while (true)
-        {
-            nodFrequency = parameters.getParameter(ControllerParams.NOD_FREQUENCY);
-            nodInterval = parameters.nodInterval * (1 - nodFrequency) + 0.001f;
-            yield return new WaitForSeconds(nodInterval);
+        {   
             if (animator.gameObject.activeSelf && animator.GetBool("Listening"))
             {
-                DoNodding(NodState.NOD_START);
-                //TODO: USE NOD LENGTH (FROM ANIMATOR) AS THE WAIT TIME BETWEEN NODS
-                nodSpeed = parameters.getParameter(AnimatorParams.NOD_SPEED);
-                nodDuration = Mathf.Abs(parameters.nodDuration) / (nodSpeed < 0.001f ? 0.001f : nodSpeed);
-                yield return new WaitForSeconds(nodDuration);
+                length = parameters.nodLength / parameters.getParameter(AnimatorParams.NOD_SPEED);
+                frequency = parameters.getParameter(ControllerParams.NOD_FREQUENCY);
+                if ((Random.value < frequency) && (rollCounter < maxSuccesses) &&  
+                    (Random.value < frequency)) // Unlucky Rolls
+                {
+                    DoNodding(NodState.NOD_START);
+                    rollCounter++;
+                }
+                else
+                {
+                    DoNodding(NodState.NOD_END);
+                    rollCounter = 0;
+                }
+                yield return new WaitForSeconds(length);    
             }
+            yield return null;      
         }
     }
 
@@ -110,12 +121,10 @@ public partial class AvatarController : MonoBehaviour
 
     public void DoGazing(GazeState gazeState)
     {
-        float rand = UnityEngine.Random.value;
-
         animator.SetInteger("Direction", (int)gazeState);
 
         // Randomizer for gaze frequency
-        if (UnityEngine.Random.value <= parameters.getParameter(ControllerParams.GAZEAT_FREQUENCY))
+        if (Random.value < parameters.getParameter(ControllerParams.GAZEAT_FREQUENCY))
         {  
             if ((int)gazeState % 2 != 0) // (gazeAt anim. are all odd numbered states)
                 animator.SetTrigger("Gaze");

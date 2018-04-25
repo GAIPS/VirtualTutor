@@ -18,8 +18,7 @@ public enum NodState
 
 public enum GazeState
 {
-    NEUTRAL,
-    GAZEAT_PARTNER,
+    GAZEAT_PARTNER=1,
     GAZEBACK_PARTNER,
     GAZEAT_USER,
     GAZEBACK_USER

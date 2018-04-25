@@ -33,9 +33,11 @@ struct Parameter
 [RequireComponent(typeof(Animator))]
 public class AvatarParameters : MonoBehaviour
 {
-    [Header("Constants")]
-    public float nodInterval = 20.0f;
-    public float nodDuration = 3.0f;
+    //[Header("Default Values")]
+    [HideInInspector]
+    public float nodInterval = 2.083f;
+    [HideInInspector]
+    public float nodLength;
 
     Dictionary<AnimatorParams, Parameter> animParams;
     Dictionary<ControllerParams, Parameter> contParams;
@@ -60,27 +62,42 @@ public class AvatarParameters : MonoBehaviour
         //NOTE: currently GAZEAT_FREQUENCY shares the same parameter as GAZEBACK_FREQUENCY
         contParams.Add(ControllerParams.GAZEAT_FREQUENCY, new Parameter("Gaze At Frequency", 0.0f));
         contParams.Add(ControllerParams.GAZEBACK_FREQUENCY, new Parameter("Gaze Back Frequency", 0.0f));
-        contParams.Add(ControllerParams.NOD_FREQUENCY, new Parameter("Nod Frequency", 0.0f));
+        contParams.Add(ControllerParams.NOD_FREQUENCY, new Parameter("Nod Frequency", 0.0f));      
     }
 
     void Start()
     {
+        AnimationClip ac = getClipByName("Head_Nod");
+        nodLength = (ac != null) ? Math.Abs(ac.length) : 2.083f; // Default Length, just in case
     }
 
     public void setParameter<TEnum>(TEnum paramaterKey, float value)
     {
+        float cleanValue = Math.Abs(value);
+
         if (!typeof(TEnum).IsEnum)
             throw new ArgumentException("T must be an enumerated type");
 
         object key;
         if (EnumUtils.TryParse(typeof(AnimatorParams), paramaterKey.ToString(), out key))
-        {
-            Parameter auxParam = new Parameter(animParams[(AnimatorParams)key].NAME, value);
+        {         
+            switch ((AnimatorParams)key)
+            {
+                case AnimatorParams.EXPRESSION_INTENSITY:
+                case AnimatorParams.MOOD_INTENSITY:
+                    cleanValue = Mathf.Clamp(cleanValue, 0.0f, 1.0f); //clamping Intensity [0, 1]
+                    break;
+                default:
+                    cleanValue = Mathf.Clamp(cleanValue, 0.01f, 5.0f); //clamping Speed [0.01, 5]
+                    break;
+            }
+            Parameter auxParam = new Parameter(animParams[(AnimatorParams)key].NAME, cleanValue);
             animParams[(AnimatorParams)key] = auxParam;
             animator.SetFloat(auxParam.NAME, auxParam.VALUE);
         }
         else if (EnumUtils.TryParse(typeof(ControllerParams), paramaterKey.ToString(), out key))
-            contParams[(ControllerParams)key] = new Parameter(contParams[(ControllerParams)key].NAME, value);
+            contParams[(ControllerParams)key] = 
+                new Parameter(contParams[(ControllerParams)key].NAME, Mathf.Clamp(cleanValue,0.0f,1.0f)); //clamping Frequency [0,1]
         else
             throw new ArgumentException("Could not parse the parameterKey");       
     }
@@ -126,6 +143,18 @@ public class AvatarParameters : MonoBehaviour
         }     
     }
 
+    private AnimationClip getClipByName(string name)
+    {
+        if (animator != null)
+        {
+            RuntimeAnimatorController ac = animator.runtimeAnimatorController;
+            foreach (var clip in ac.animationClips)
+                if (clip.name == name)
+                    return clip;
+        }
+        return null;
+    }
+
     public static class Presets
     {
         //  element order:
@@ -146,7 +175,7 @@ public class AvatarParameters : MonoBehaviour
                 new float[] { 0.75f, 0.75f, 0.55f }
             };
         }
-        public static float[][] Happiness()
+        public static float[][] HappinessLow()
         {
             return new float[][]
             {
@@ -162,7 +191,7 @@ public class AvatarParameters : MonoBehaviour
                 new float[] { 0.9f, 0.9f, 1.00f }
             };
         }
-        public static float[][] Sadness()
+        public static float[][] SadnessLow()
         {
             return new float[][]
             {
