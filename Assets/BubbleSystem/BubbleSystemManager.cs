@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,10 +25,27 @@ namespace BubbleSystem
         private Dictionary<string, BackgroundData> tutorBackgroundData = new Dictionary<string, BackgroundData>();
         private Dictionary<string, NextDialogueData> tutorNextData = new Dictionary<string, NextDialogueData>();
 
+        private bool firstTutor = true;
+
         private void Start()
         {
             backgroundManager = GetComponent<BackgroundManager>();
             balloonManager = GetComponent<BalloonManager>();
+        }
+
+        public void Handle(string[] info)
+        {
+            string[] parameters = info.Skip(1).ToArray();
+
+            if (info[0].Equals("SetNextDialogueData"))
+            {
+                SetNextDialogueData(parameters);
+            }
+
+            else if (info[0].Equals("UpdateBackground"))
+            {
+                UpdateBackground(parameters);
+            }
         }
 
         private int SetNextDataEffects(string[] info, ref NextDialogueData nextData, int i, bool show)
@@ -73,12 +91,12 @@ namespace BubbleSystem
             UpdateBackground(info[0], info[1], Convert.ToSingle(info[2]), Convert.ToSingle(info[3]), reason);
         }
 
-        //<< SETNEXTDIALOGUEDATA MARIA HAPPINESS 0.5 5 [showEffects effect1 [curve] ...] [hideEffects effect1 [curve] ...] >>
+        //<< SetNextDialogueData MARIA HAPPINESS 0.5 5 [showEffects effect1 [curve] ...] [hideEffects effect1 [curve] ...] >>
         public void SetNextDialogueData(string[] info)
         {
             NextDialogueData nextData = new NextDialogueData();
             int size = info.Length;
-            
+
             nextData.emotion = info[1];
             nextData.intensity = Mathf.Clamp01(Convert.ToSingle(info[2]));
             nextData.duration = Convert.ToSingle(info[3]);
@@ -91,7 +109,8 @@ namespace BubbleSystem
                     nextData.showEffects = new Dictionary<Effect, AnimationCurve>();
                     i = SetNextDataEffects(info, ref nextData, i, true);
 
-                    if (size > i) {
+                    if (size > i)
+                    {
                         if (info[i].Equals("hideEffects"))
                         {
                             nextData.hideEffects = new Dictionary<Effect, AnimationCurve>();
@@ -213,6 +232,12 @@ namespace BubbleSystem
 
         public void Speak(string tutor, string emotion, float intensity, string[] text, float duration = 0.0f, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
         {
+            if (firstTutor)
+            {
+                balloonManager.ReverseTutorsBalloons(tutor);
+                firstTutor = false;
+            }
+
             SetSpeakData(tutor, emotion, intensity, text, showEffects, hideEffects);
             balloonManager.ShowBalloon(tutor, tutorSpeakData[tutor], duration);
         }
@@ -239,7 +264,7 @@ namespace BubbleSystem
             HideBalloon(tutor.Name, duration);
         }
 
-        public void UpdateOptions(string[] text, float intensity = 0.0f, float duration = 0.0f, HookControl.IntFunc[] callbacks = null, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
+        public void UpdateOptions(string[] text, float intensity = 0.0f, float duration = 5.0f, HookControl.IntFunc[] callbacks = null, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
         {
             SetSpeakData("Options", "Default", intensity, text, showEffects, hideEffects);
             balloonManager.ShowBalloon("Options", tutorSpeakData["Options"], duration, callbacks);

@@ -198,7 +198,7 @@ namespace YarnDialog
                 }
                 // Hide Options
                 // HACK
-                manager.BubbleManager.UpdateOptions(new string[] { "", "", "", "" });
+                manager.BubbleManager.HideBalloon("Options");
             }
         }
 
