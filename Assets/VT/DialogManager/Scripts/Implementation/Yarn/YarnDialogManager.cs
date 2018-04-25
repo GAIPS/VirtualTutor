@@ -70,7 +70,7 @@ namespace YarnDialog
         {
             if (HeadAnimationManager != null)
             {
-                HeadAnimationManager.Feel(tutor, tutor.Emotion);
+                HeadAnimationManager.Feel(tutor);
                 BubbleManager.UpdateBackground(tutor, 5f, BubbleSystem.Reason.None);
             }
         }
