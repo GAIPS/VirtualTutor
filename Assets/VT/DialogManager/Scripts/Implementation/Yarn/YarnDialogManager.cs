@@ -15,8 +15,8 @@ namespace YarnDialog
             void Reset(YarnDialogManager manager);
         }
 
-        YarnDialogTree dialogTree;
-        IEnumerator<Yarn.Dialogue.RunnerResult> enumerator;
+        private YarnDialogTree _dialogTree;
+        private IEnumerator<Yarn.Dialogue.RunnerResult> _enumerator;
 
         public ICollection<Tutor> Tutors { get; set; }
 
@@ -49,7 +49,7 @@ namespace YarnDialog
                 return;
             }
 
-            if (dialogTree.Equals(this.dialogTree))
+            if (dialogTree.Equals(this._dialogTree))
             {
                 Reset();
                 return;
@@ -57,7 +57,7 @@ namespace YarnDialog
 
             if (dialogTree is YarnDialogTree)
             {
-                this.dialogTree = (YarnDialogTree)dialogTree;
+                this._dialogTree = (YarnDialogTree)dialogTree;
                 Reset();
             }
             else
@@ -77,11 +77,11 @@ namespace YarnDialog
 
         public void Reset()
         {
-            if (dialogTree != null)
+            if (_dialogTree != null)
             {
-                dialogTree.Dialogue.Stop();
+                _dialogTree.Dialogue.Stop();
             }
-            enumerator = null;
+            _enumerator = null;
             step = null;
             foreach (IDialogHandler handler in Handlers)
             {
@@ -94,7 +94,7 @@ namespace YarnDialog
 
         public bool Update()
         {
-            if (dialogTree == null)
+            if (_dialogTree == null)
             {
                 DebugLog.Warn("Dialog Tree is null");
                 return true;
@@ -120,14 +120,14 @@ namespace YarnDialog
 
         private IEnumerator DialogStep()
         {
-            if (enumerator == null)
+            if (_enumerator == null)
             {
-                RunNode(dialogTree.StartNode);
+                RunNode(_dialogTree.StartNode);
             }
 
-            if (enumerator.MoveNext())
+            if (_enumerator.MoveNext())
             {
-                Yarn.Dialogue.RunnerResult step = enumerator.Current;
+                Yarn.Dialogue.RunnerResult step = _enumerator.Current;
 
                 foreach (IDialogHandler handler in Handlers)
                 {
@@ -153,7 +153,7 @@ namespace YarnDialog
             {
                 handler.Reset(this);
             }
-            enumerator = dialogTree.Dialogue.Run(node).GetEnumerator();
+            _enumerator = _dialogTree.Dialogue.Run(node).GetEnumerator();
         }
     }
 
