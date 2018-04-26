@@ -1,0 +1,57 @@
+title: Start.Start
+tags: User.Emotion.Happy
+colorID: 1
+position: 539,256
+---
+Joao: A situação parece complicada, mas não te preocupes.
+Maria: Até agora, tens tido um bom desempenho.
+Joao: É verdade, se continuares a estudar vai correr tudo bem.
+
+Joao: Gostavas de discutir as tuas notas?
+Maria: Ou talvez fazer um plano de estudo?
+
+[[Ver Notas|Grades.good]]
+[[Plano de Estudo|StudyPlan.propose]]
+===
+title: StudyPlan.propose
+tags: 
+colorID: 2
+position: 626,539
+---
+Maria: Proponho estudares 2 horas por semana para cada disciplina.
+Joao: Talvez 3 horas na disciplina que tens mais dificuldade.
+Maria: Queres adicionar ao teu calendário?
+
+[[Vamos a isso|StudyPlan.CreatePlan]]
+[[Não, obrigado|ChangePlan]]
+[[Podes explicar melhor?|StudyPlan.Explain]]
+===
+title: Grades.good
+tags: 
+colorID: 2
+position: 376,539
+---
+Joao: Vamos então rever as tuas notas.
+<<openMenu ClassesMenu>>
+Joao: As notas parecem-me favoráveis. O que achas?
+->Não sei...
+    Maria: Não te preocupes, estás a ir bem!
+->Estão bem.
+    Maria: Estão, sim senhor!
+->BLANK
+    Maria: Não sejas tímido. Estás a ir bem!
+Joao: Continua o bom trabalho.
+<<exit>>
+===
+title: StudyPlan.Explain
+tags: 
+colorID: 2
+position: 879,542
+---
+Maria: Um plano de estudo é um horário de estudo para uma ou mais disciplinas.
+Joao: Nós propomos um número de horas que deves estudar por disciplina e tu crias o teu horário.
+Maria: Que tal criar-mos um plano?
+
+[[Vamos a isso|StudyPlan.CreatePlan]]
+[[Não, obrigado|ChangePlan]]
+===

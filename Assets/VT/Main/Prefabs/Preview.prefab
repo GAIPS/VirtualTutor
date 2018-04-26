@@ -9,59 +9,53 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1513231979095446}
+  m_RootGameObject: {fileID: 1985465398951560}
   m_IsPrefabParent: 1
---- !u!1 &1513231979095446
+--- !u!1 &1985465398951560
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4434590133045196}
-  - component: {fileID: 114024936420302880}
+  - component: {fileID: 4150082423855930}
+  - component: {fileID: 114533080406871572}
   m_Layer: 0
-  m_Name: VT_MainScript
+  m_Name: Preview
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4434590133045196
+--- !u!4 &4150082423855930
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1513231979095446}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_GameObject: {fileID: 1985465398951560}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -83.835144, y: 162.03769, z: -37.147034}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114024936420302880
+--- !u!114 &114533080406871572
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1513231979095446}
+  m_GameObject: {fileID: 1985465398951560}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d002bc32eb050e84287d63fa0c99ea88, type: 3}
+  m_Script: {fileID: 11500000, guid: 9cac034f71fa81447ba6e35853b277d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  yarnDialogDatabase:
+  YarnDialogDatabase:
   - {fileID: 4900000, guid: 1de6bee36403ff94e82d3ef01ea75d69, type: 3}
-  - {fileID: 4900000, guid: aa7e8ea07966544d7918b3bf9d726f81, type: 3}
-  headAnimationManager: {fileID: 0}
-  bubbleManager: {fileID: 0}
-  intentions:
-  - Target-focused.Good-grades
-  - DiscussGrades
-  forceIntention: 0
-  forceIntentionName: Start
-  playSplashScreen: 1
-  splashScreenPrefab: {fileID: 1053785833174996, guid: fb0767da147884d968de2aa2168a4ac1,
+  HeadAnimationManager: {fileID: 0}
+  BubbleManager: {fileID: 0}
+  IntentionName: Start
+  Playing: 1
+  _stringInput: {fileID: 1839400628711484, guid: a1fcfc231072ef84895f91e952106fcf,
     type: 2}
-  playing: 0
