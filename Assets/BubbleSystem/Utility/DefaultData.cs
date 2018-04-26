@@ -8,8 +8,6 @@ using UnityEngine;
 public class DefaultData : Singleton<DefaultData>
 {
     private Dictionary<BubbleSystem.Emotion, Dictionary<float, TextData>> defaultTextData = new Dictionary<BubbleSystem.Emotion, Dictionary<float, TextData>>();
-    //private Dictionary<float, DefaultBalloonAnimationData> neutralBalloonAnimationData = new Dictionary<float, DefaultBalloonAnimationData>();
-    //private Dictionary<BubbleSystem.Emotion, Dictionary<float, BalloonAnimationData>> balloonAnimationData = new Dictionary<BubbleSystem.Emotion, Dictionary<float, BalloonAnimationData>>();
     private Dictionary<BubbleSystem.Emotion, Dictionary<float, SpriteData>> defaultBalloonData = new Dictionary<BubbleSystem.Emotion, Dictionary<float, SpriteData>>();
     private Dictionary<BubbleSystem.Emotion, Dictionary<float, BackgroundAnimationData>> defaultBackgroundAnimationData = new Dictionary<BubbleSystem.Emotion, Dictionary<float, BackgroundAnimationData>>();
     private Dictionary<BubbleSystem.Emotion, Dictionary<float, Dictionary<Reason, TextureData>>> defaultBackgroundDataDictionary = new Dictionary<BubbleSystem.Emotion, Dictionary<float, Dictionary<Reason, TextureData>>>();
@@ -53,29 +51,17 @@ public class DefaultData : Singleton<DefaultData>
     private void Awake()
     {
         SetTextData();
-        //SetBalloonAnimation();
         SetBallon();
         SetBackground();
         SetBackgroundAnimation();
         SetBalloonPositions();
     }
 
-    //public DefaultBalloonAnimationData GetNeutralBalloonAnimationData(float intensity)
-    //{
-    //    return neutralBalloonAnimationData.Where(key => intensity <= key.Key).OrderBy(key => key.Key).FirstOrDefault().Value;
-    //}
-
     public TextData GetDefaultTextData(BubbleSystem.Emotion emotion, float intensity)
     {
         Dictionary<float, TextData> dict = defaultTextData[emotion];
         return dict.Where(key => intensity <= key.Key).OrderBy(key => key.Key).FirstOrDefault().Value;
     }
-
-    //public BalloonAnimationData GetBalloonAnimationData(BubbleSystem.Emotion emotion, float intensity)
-    //{
-    //    Dictionary<float, BalloonAnimationData> dict = balloonAnimationData[emotion];
-    //    return dict.Where(key => intensity <= key.Key).OrderBy(key => key.Key).FirstOrDefault().Value;
-    //}
 
     public SpriteData GetDefaultBalloonData(BubbleSystem.Emotion emotion, float intensity)
     {
@@ -864,12 +850,6 @@ public class DefaultData : Singleton<DefaultData>
     private void SetTextData()
     {
         TMPro.TMP_FontAsset neutralFont = (TMPro.TMP_FontAsset)Resources.Load("Text/TextMesh_Fonts/arial");
-        //TMPro.TMP_FontAsset happinessFont = (TMPro.TMP_FontAsset)Resources.Load("Text/TextMesh_Fonts/coiny-regular");       //NO
-        //TMPro.TMP_FontAsset sadnessFont = (TMPro.TMP_FontAsset)Resources.Load("Text/TextMesh_Fonts/AftaSansThin-Regular");  //NO
-        //TMPro.TMP_FontAsset angerFont = (TMPro.TMP_FontAsset)Resources.Load("Text/TextMesh_Fonts/AlfaSlabOne-Regular");     //NO
-        //TMPro.TMP_FontAsset fearFont = (TMPro.TMP_FontAsset)Resources.Load("Text/TextMesh_Fonts/Adler");                    //NO
-        //TMPro.TMP_FontAsset disgustFont = (TMPro.TMP_FontAsset)Resources.Load("Text/TextMesh_Fonts/1942");                  //NO
-        //TMPro.TMP_FontAsset surpriseFont = (TMPro.TMP_FontAsset)Resources.Load("Text/TextMesh_Fonts/Courier-Prime");        //NO
         float initialSize = 40.0f;
         Color color = Color.black;
 
@@ -984,58 +964,6 @@ public class DefaultData : Singleton<DefaultData>
         defaultTextData[BubbleSystem.Emotion.Surprise][1f].hideEffect.Add(Effect.SwingCharacters, null);
     }
 
-    //private void SetBalloonAnimation()
-    //{
-    //    DefaultBalloonAnimationData defaultBalloon = new DefaultBalloonAnimationData();
-    //    defaultBalloon.animator = (RuntimeAnimatorController)Resources.Load("Balloons/Animators/BallonPopup_v2");
-    //    defaultBalloon.duration = 5;
-
-    //    neutralBalloonAnimationData.Add(1f, defaultBalloon);
-
-    //    Dictionary<float, BalloonAnimationData> dict = new Dictionary<float, BalloonAnimationData>();
-
-    //    BalloonAnimationData balloon = new BalloonAnimationData();
-    //    balloon.animator = (AnimatorOverrideController)Resources.Load("Balloons/Animators/HappyAnimator");
-    //    balloon.duration = 5;
-    //    dict.Add(1f, balloon);
-    //    balloonAnimationData.Add(BubbleSystem.Emotion.Happiness, dict);
-
-    //    dict = new Dictionary<float, BalloonAnimationData>();
-    //    balloon = new BalloonAnimationData();
-    //    balloon.animator = (AnimatorOverrideController)Resources.Load("Balloons/Animators/SadAnimator");
-    //    balloon.duration = 5;
-    //    dict.Add(1f, balloon);
-    //    balloonAnimationData.Add(BubbleSystem.Emotion.Sadness, dict);
-
-    //    dict = new Dictionary<float, BalloonAnimationData>();
-    //    balloon = new BalloonAnimationData();
-    //    balloon.animator = (AnimatorOverrideController)Resources.Load("Balloons/Animators/AngerAnimator");
-    //    balloon.duration = 5;
-    //    dict.Add(1f, balloon);
-    //    balloonAnimationData.Add(BubbleSystem.Emotion.Anger, dict);
-
-    //    dict = new Dictionary<float, BalloonAnimationData>();
-    //    balloon = new BalloonAnimationData();
-    //    balloon.animator = (AnimatorOverrideController)Resources.Load("Balloons/Animators/FearAnimator");
-    //    balloon.duration = 5;
-    //    dict.Add(1f, balloon);
-    //    balloonAnimationData.Add(BubbleSystem.Emotion.Fear, dict);
-
-    //    dict = new Dictionary<float, BalloonAnimationData>();
-    //    balloon = new BalloonAnimationData();
-    //    balloon.animator = (AnimatorOverrideController)Resources.Load("Balloons/Animators/DisgustAnimator");
-    //    balloon.duration = 5;
-    //    dict.Add(1f, balloon);
-    //    balloonAnimationData.Add(BubbleSystem.Emotion.Disgust, dict);
-
-    //    dict = new Dictionary<float, BalloonAnimationData>();
-    //    balloon = new BalloonAnimationData();
-    //    balloon.animator = (AnimatorOverrideController)Resources.Load("Balloons/Animators/SurpriseAnimator");
-    //    balloon.duration = 5;
-    //    dict.Add(1f, balloon);
-    //    balloonAnimationData.Add(BubbleSystem.Emotion.Surprise, dict);
-    //}
-
     private void SetBallon()
     {
         Dictionary<float, SpriteData> dict = new Dictionary<float, SpriteData>();
@@ -1125,6 +1053,7 @@ public class DefaultData : Singleton<DefaultData>
         backgroundData.colorEffect.Add(BackgroundEffect.FadeColor, fadeCurve);
 
         dict.Add(1f, backgroundData);
+        defaultBackgroundAnimationData.Add(BubbleSystem.Emotion.Default, dict);
         defaultBackgroundAnimationData.Add(BubbleSystem.Emotion.Neutral, dict);
         defaultBackgroundAnimationData.Add(BubbleSystem.Emotion.Happiness, dict);
         defaultBackgroundAnimationData.Add(BubbleSystem.Emotion.Sadness, dict);
@@ -1138,6 +1067,7 @@ public class DefaultData : Singleton<DefaultData>
     {
         TextureData defaultBackgroundData;
         Dictionary<float, Dictionary<Reason, TextureData>> dict = new Dictionary<float, Dictionary<Reason, TextureData>>();
+        Dictionary<Reason, TextureData> defaultDict = new Dictionary<Reason, TextureData>();
         Dictionary<Reason, TextureData> neutralDict = new Dictionary<Reason, TextureData>();
         Dictionary<Reason, TextureData> happinessDict = new Dictionary<Reason, TextureData>();
         Dictionary<Reason, TextureData> sadnessDict = new Dictionary<Reason, TextureData>();
@@ -1149,6 +1079,7 @@ public class DefaultData : Singleton<DefaultData>
 
         defaultBackgroundData.texture = (Texture2D)Resources.Load("Backgrounds/Images/joaoBackground");
         defaultBackgroundData.color = defaultColor;
+        defaultDict.Add(Reason.None, defaultBackgroundData);
         neutralDict.Add(Reason.None, defaultBackgroundData);
         defaultBackgroundData.color = happinessColor;
         happinessDict.Add(Reason.None, defaultBackgroundData);
@@ -1165,6 +1096,7 @@ public class DefaultData : Singleton<DefaultData>
 
         defaultBackgroundData.texture = (Texture2D)Resources.Load("Backgrounds/Images/graph");
         defaultBackgroundData.color = defaultColor;
+        defaultDict.Add(Reason.Grades, defaultBackgroundData);
         neutralDict.Add(Reason.Grades, defaultBackgroundData);
         defaultBackgroundData.color = happinessColor;
         happinessDict.Add(Reason.Grades, defaultBackgroundData);
@@ -1181,6 +1113,9 @@ public class DefaultData : Singleton<DefaultData>
 
         dict.Add(1f, neutralDict);
         defaultBackgroundDataDictionary.Add(BubbleSystem.Emotion.Neutral, dict);
+        dict = new Dictionary<float, Dictionary<Reason, TextureData>>();
+        dict.Add(1f, defaultDict);
+        defaultBackgroundDataDictionary.Add(BubbleSystem.Emotion.Default, dict);
         dict = new Dictionary<float, Dictionary<Reason, TextureData>>();
         dict.Add(1f, happinessDict);
         defaultBackgroundDataDictionary.Add(BubbleSystem.Emotion.Happiness, dict);

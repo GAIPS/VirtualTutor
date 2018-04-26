@@ -57,18 +57,11 @@ namespace BubbleSystem
         public void HideBalloon(string tutor, float duration, SpeakData data)
         {
             var controller = controllers[tutor];
-            try
+            var balloonHooks = controller.instance.GetComponentsInChildren<BalloonsHooks>();
+            foreach (BalloonsHooks hooks in balloonHooks)
             {
-                var balloonHooks = controller.instance.GetComponentsInChildren<BalloonsHooks>();
-                foreach (BalloonsHooks hooks in balloonHooks)
-                {
-                    CoroutineStopper.Instance.StopCoroutineWithCheck(hideCoroutines[tutor]);
-                    AddCoroutine(tutor, hooks, duration, data);
-                }
-            }
-            catch
-            {
-                throw new NotSupportedException("Balloon can not disappear, since it does not exist yet.");
+                CoroutineStopper.Instance.StopCoroutineWithCheck(hideCoroutines[tutor]);
+                AddCoroutine(tutor, hooks, duration, data);
             }
         }
 
@@ -87,7 +80,7 @@ namespace BubbleSystem
             {
                 hooks.balloon.GetComponent<Image>().sprite = spriteData.sprite;
 
-                if (!emotion.Equals(BubbleSystem.Emotion.Default))
+                if (!emotion.Equals(Emotion.Default))
                 {
                     DefaultData.PositionData positionData = DefaultData.Instance.GetDefaultPositions(emotion, intensity, "balloon");
                     hooks.balloon.GetComponent<RectTransform>().anchorMin = positionData.anchorMin;
@@ -105,7 +98,7 @@ namespace BubbleSystem
         {
             foreach(AnimatorControllerParameter parameter in animator.parameters)
             {
-                if(!parameter.name.Equals("Showing") && !parameter.name.Equals("Default"))
+                if(!parameter.name.Equals("Showing") && !parameter.name.Equals(Emotion.Default.ToString()))
                 {
                     animator.SetFloat(parameter.name, 0.0f);
                 }
@@ -127,15 +120,7 @@ namespace BubbleSystem
                 sum += data.emotions[emotion];
                 animator.SetFloat(emotion.ToString(), data.emotions[emotion]);
             }
-            animator.SetFloat("Neutral", 1.0f - sum);
-        }
-
-        private void SetAnimator(BalloonsHooks hooks, BubbleSystem.Emotion emotion, float intensity)
-        {
-            Animator animator = hooks.GetComponent<Animator>();
-            ResetAllFloats(animator);
-            animator.SetFloat(emotion.ToString(), intensity);
-            animator.SetFloat("Neutral", 1.0f - intensity);
+            animator.SetFloat(Emotion.Neutral.ToString(), 1.0f - sum);
         }
 
         private void SetEffects(BalloonsHooks hooks, Dictionary<Effect, AnimationCurve> effects, float intensity, float duration, bool show = true)
@@ -168,7 +153,7 @@ namespace BubbleSystem
             };
         }
 
-        public void ShowBalloon(string balloon, SpeakData data, float duration, IntFunc[] callbacks = null)
+        public void ShowBalloon(string balloon, SpeakData data, float duration, IntFunc[] callbacks = null, bool options = false)
         {
             var controller = controllers[balloon];
 
@@ -183,20 +168,27 @@ namespace BubbleSystem
                     {
                         SetContent(hooks, data.text.Length > i ? data.text[i] : null);
 
-                        Emotion highestEmotion = data.emotions.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
-                        float intensity = data.emotions[highestEmotion];
-                        float sum = data.emotions.Sum(x => x.Value);
+                        KeyValuePair<Emotion, float> emotionPair = new KeyValuePair<Emotion, float>(Emotion.Default, 0.0f);
+                        float sum = 0.0f;
 
-                        SpriteData spriteData = DefaultData.Instance.GetDefaultBalloonData(highestEmotion, intensity);
-                        TextData textData = DefaultData.Instance.GetDefaultTextData(highestEmotion, intensity);
+                        if (options)
+                        {
+                            if (callbacks != null && i < callbacks.Length)
+                                SetCallback(hooks, callbacks[i], i);
+                        }
+                        else
+                        {
+                            emotionPair = BubbleSystemUtility.GetHighestEmotion(data.emotions);
+                            sum = BubbleSystemUtility.GetEmotionsSum(data.emotions);
 
-                        if (!balloon.Equals("Options"))
                             SetAnimators(hooks, data);
 
-                        SetSprites(highestEmotion, hooks, spriteData, intensity);
+                            SpriteData spriteData = DefaultData.Instance.GetDefaultBalloonData(emotionPair.Key, emotionPair.Value);
+                            SetSprites(emotionPair.Key, hooks, spriteData, emotionPair.Value);
+                        }
+                        
+                        TextData textData = DefaultData.Instance.GetDefaultTextData(emotionPair.Key, emotionPair.Value);                        
                         SetTexts(hooks, textData);
-                        if (callbacks != null && i < callbacks.Length)
-                            SetCallback(hooks, callbacks[i], i);
 
                         float realDuration = duration > 0 ? duration : DefaultData.Instance.duration;
 
@@ -213,6 +205,21 @@ namespace BubbleSystem
                     i++;
                 }
             }
+        }
+
+        private float GetClipsDuration(BalloonsHooks hooks)
+        {
+            var animationClips = hooks.GetComponent<Animator>().runtimeAnimatorController.animationClips;
+            float duration = 0.0f;
+            foreach (AnimationClip clip in animationClips)
+            {
+                if (clip.name.Contains("hide"))
+                {
+                    duration = clip.length;
+                    break;
+                }
+            }
+            return duration;
         }
 
         public void AddCoroutine(string balloon, BalloonsHooks hooks, float duration, SpeakData data)
@@ -236,16 +243,10 @@ namespace BubbleSystem
                     hooks.Hide();
 
                     var animationClips = hooks.GetComponent<Animator>().runtimeAnimatorController.animationClips;
-                    float length = 1f;
-                    foreach (AnimationClip clip in animationClips)
-                    {
-                        if (clip.name.Contains("hide"))
-                            length = clip.length;
-                    }
-
-                    Emotion highestEmotion = data.emotions.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
-                    float intensity = data.emotions[highestEmotion];
-                    float sum = data.emotions.Sum(x => x.Value);
+                    float length = GetClipsDuration(hooks);
+                    
+                    KeyValuePair<Emotion, float> emotionPair = BubbleSystemUtility.GetHighestEmotion(data.emotions);
+                    float sum = BubbleSystemUtility.GetEmotionsSum(data.emotions);
 
                     if (data.hideEffects != null)
                     {
@@ -253,7 +254,7 @@ namespace BubbleSystem
                     }
                     else
                     {
-                        TextData textData = DefaultData.Instance.GetDefaultTextData(highestEmotion, intensity);
+                        TextData textData = DefaultData.Instance.GetDefaultTextData(emotionPair.Key, emotionPair.Value);
                         SetEffects(hooks, textData.hideEffect, sum, length, false);
                     }
                 }

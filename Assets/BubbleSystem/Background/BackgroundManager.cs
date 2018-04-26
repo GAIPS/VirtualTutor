@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,8 +35,10 @@ namespace BubbleSystem
             if (!colorCoroutines.ContainsKey(bg))
                 colorCoroutines.Add(bg, new Dictionary<BackgroundEffect, IEnumerator>());
 
-            TextureData textureData = DefaultData.Instance.GetDefaultBackgroundDataDictionary(data.emotion, data.intensity, data.reason);
-            BackgroundAnimationData backgroundAnimationData = DefaultData.Instance.GetDefaultBackgroundAnimationData(data.emotion, data.intensity);
+            KeyValuePair<Emotion, float> emotionPair = BubbleSystemUtility.GetHighestEmotion(data.emotions);
+
+            TextureData textureData = DefaultData.Instance.GetDefaultBackgroundDataDictionary(emotionPair.Key, emotionPair.Value, data.reason);
+            BackgroundAnimationData backgroundAnimationData = DefaultData.Instance.GetDefaultBackgroundAnimationData(emotionPair.Key, emotionPair.Value);
             StartCoroutine(ChangeImage(bg, textureData, backgroundAnimationData, duration));
         }
 
@@ -73,7 +76,7 @@ namespace BubbleSystem
                 foreach (BackgroundEffect fx in backgroundAnimationData.hideBannerEffect.Keys)
                 {
                     if (fx == BackgroundEffect.FadeTexture)
-                        textureCoroutines[bg].Add(fx, FadeOutTexture(renderer, backgroundAnimationData.hideBannerEffect[fx], realDuration));
+                        textureCoroutines[bg].Add(fx, FadeTexture(renderer, backgroundAnimationData.hideBannerEffect[fx], realDuration));
                 }
 
                 foreach (BackgroundEffect fx in backgroundAnimationData.hideBannerEffect.Keys)
@@ -88,7 +91,7 @@ namespace BubbleSystem
                 foreach (BackgroundEffect fx in backgroundAnimationData.showBannerEffect.Keys)
                 {
                     if (fx == BackgroundEffect.FadeTexture)
-                        textureCoroutines[bg].Add(fx, FadeInTexture(renderer, backgroundAnimationData.showBannerEffect[fx], realDuration, initialAlpha));
+                        textureCoroutines[bg].Add(fx, FadeTexture(renderer, backgroundAnimationData.showBannerEffect[fx], realDuration, initialAlpha));
                 }
 
                 foreach (BackgroundEffect fx in backgroundAnimationData.showBannerEffect.Keys)
@@ -117,33 +120,7 @@ namespace BubbleSystem
             }
         }
 
-        private IEnumerator FadeOutTexture(Renderer renderer, AnimationCurve curve, float duration, float wantedAlpha = 0)
-        {
-            float finalAlpha;
-            float initialAlpha = renderer.material.color.a;
-            Color finalColor = renderer.material.color;
-
-            float initialTime = Time.time;
-            Keyframe lastframe = curve[curve.length - 1];
-            float lastKeyTime = lastframe.time;
-            float yValue;
-
-            while (((Time.time - initialTime) / duration) < 1)
-            {
-                yValue = Mathf.Clamp01(curve.Evaluate((Time.time - initialTime) * lastKeyTime / duration));
-
-                finalAlpha = initialAlpha + yValue * (wantedAlpha - initialAlpha);
-                finalColor.a = finalAlpha;
-
-                renderer.material.color = finalColor;
-                yield return new WaitForSeconds(Time.deltaTime);
-            }
-
-            finalColor.a = wantedAlpha;
-            renderer.material.color = finalColor;
-        }
-
-        private IEnumerator FadeInTexture(Renderer renderer, AnimationCurve curve, float duration, float wantedAlpha = 1)
+        private IEnumerator FadeTexture(Renderer renderer, AnimationCurve curve, float duration, float wantedAlpha = 0)
         {
             float finalAlpha;
             float initialAlpha = renderer.material.color.a;

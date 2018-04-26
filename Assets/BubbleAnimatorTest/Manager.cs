@@ -84,7 +84,9 @@ public class Manager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.B))
         {
-            manager.UpdateBackground(tutor, emotion.ToString(), intensity, duration, reason);
+            Dictionary<string, float> dict = new Dictionary<string, float>();
+            dict.Add(emotion.ToString(), intensity);
+            manager.UpdateBackground(tutor, dict, duration, reason);
             Debug.Log(tutor + " " + emotion.ToString() + " " + intensity + " " + reason);
         }
 
