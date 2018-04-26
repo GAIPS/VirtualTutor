@@ -1,62 +1,78 @@
 ﻿using System;
 using UnityEngine;
 
-namespace HookControl {
+namespace HookControl
+{
     [Serializable]
-    public class Control : IControl {
-
+    public class Control : IControl
+    {
         /* SUPPORT to create or destroy UI
         */
-        [SerializeField]
-
-        public GameObject prefab;
+        [SerializeField] public GameObject prefab;
         public GameObject instance;
+        
+        public bool DontDestroyOnLoad { get; set; }
 
-        public Control() {
+        public Control()
+        {
+            DontDestroyOnLoad = false;
         }
 
-        public Control(GameObject prefab) {
+        public Control(GameObject prefab) : this()
+        {
             this.prefab = prefab;
         }
 
-        public ShowResult Show() {
-            if (instance == null) {
+        public ShowResult Show()
+        {
+            if (instance == null)
+            {
                 if (prefab == null)
                     return ShowResult.FAIL;
-                instance = (GameObject)GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity);
+                instance = (GameObject) GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity);
                 if (!instance)
                     return ShowResult.FAIL;
-                GameObject.DontDestroyOnLoad(instance.gameObject);
+                if (DontDestroyOnLoad)
+                {
+                    GameObject.DontDestroyOnLoad(instance.gameObject);
+                }
+
                 return ShowResult.FIRST;
-            } else if (instance.activeSelf == false) {
+            }
+            else if (instance.activeSelf == false)
+            {
                 instance.SetActive(true);
             }
+
             return ShowResult.OK;
         }
 
-        public void Destroy() {
+        public void Destroy()
+        {
             if (instance == null)
                 return;
             GameObject.Destroy(instance.gameObject);
             instance = null;
         }
 
-        public void Disable() {
+        public void Disable()
+        {
             if (instance == null)
                 return;
             instance.SetActive(false);
         }
 
-        public bool IsVisible() {
+        public bool IsVisible()
+        {
             return instance != null && instance.activeSelf;
         }
 
-        public void Enable() {
+        public void Enable()
+        {
             if (instance == null)
                 return;
             if (!IsVisible())
                 instance.SetActive(true);
         }
-
     }
 }
