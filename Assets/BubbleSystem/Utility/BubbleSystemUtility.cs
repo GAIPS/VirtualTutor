@@ -19,6 +19,14 @@ namespace BubbleSystem
         {
             return emotions.Sum(x => x.Value);
         }
+
+        public static int RandomExcludingNumbers(int[] index, int length)
+        {
+            var exclude = new HashSet<int>(index);
+            IEnumerable<int> range = Enumerable.Range(0, length).Where(i => !exclude.Contains(i));
+            int finalIndex = Random.Range(0, length - exclude.Count - 1);
+            return range.ElementAt(finalIndex);
+        }
     }
 
     public class CoroutineStopper : Singleton<CoroutineStopper>

@@ -16,41 +16,46 @@ namespace BubbleSystem
         {
             public string name;
             public GameObject balloon;
+            public bool dontSwitch;
             public bool isPeakTop, isPeakLeft;
         }
 
         public Balloon[] balloons;
+        public Balloon options;
 
         private Dictionary<string, Control> controllers = new Dictionary<string, Control>();
         private Dictionary<string, IEnumerator> hideCoroutines = new Dictionary<string, IEnumerator>();
+
+        private float durationThreshold = 0.3f;
 
         private void Start()
         {
             foreach (Balloon balloon in balloons)
             {
                 controllers.Add(balloon.name, new Control(balloon.balloon));
-                if (!balloon.name.Equals("Options"))
-                    balloon.balloon.GetComponentInChildren<BalloonsHooks>().SetPeak(balloon.isPeakTop, balloon.isPeakLeft);
+                balloon.balloon.GetComponentInChildren<BalloonsHooks>().SetPeak(balloon.isPeakTop, balloon.isPeakLeft);
             }
-        }
 
-        //QUICK HACK: SHOULD NOT USE TUTOR NAMES
+            controllers.Add(options.name, new Control(options.balloon));
+        }
+        
         public void ReverseTutorsBalloons(string tutor)
         {
-            if (tutor.Equals("Joao"))
-                return;
-            else
-            {
-                Control maria = controllers["Maria"];
-                Control joao = controllers["Joao"];
-                controllers["Maria"] = joao;
-                controllers["Joao"] = maria;
+            int index = Array.FindIndex(balloons, balloon => balloon.name == tutor);
 
-                foreach (Balloon balloon in balloons)
-                {
-                    if (!balloon.name.Equals("Options"))
-                        balloon.balloon.GetComponentInChildren<BalloonsHooks>().SetPeak(balloon.isPeakTop, !balloon.name.Equals(tutor));
-                }
+            if (balloons[index].dontSwitch)
+                return;
+            
+            int element = BubbleSystemUtility.RandomExcludingNumbers(new int[] { index }, balloons.Length);
+
+            Control first = controllers[tutor];
+            Control second = controllers[balloons[element].name];
+            controllers[tutor] = second;
+            controllers[balloons[element].name] = first;
+
+            foreach (Balloon balloon in balloons)
+            {
+                balloon.balloon.GetComponentInChildren<BalloonsHooks>().SetPeak(balloon.isPeakTop, !balloon.name.Equals(tutor));
             }
         }
 
@@ -153,7 +158,17 @@ namespace BubbleSystem
             };
         }
 
-        public void ShowBalloon(string balloon, SpeakData data, float duration, IntFunc[] callbacks = null, bool options = false)
+        public void Speak(string balloon, SpeakData data, float duration)
+        {
+            ShowBalloon(balloon, data, duration, null, false);
+        }
+
+        public void ShowOptions(string balloon, SpeakData data, float duration, IntFunc[] callbacks)
+        {
+            ShowBalloon(balloon, data, duration, callbacks, true);
+        }
+
+        private void ShowBalloon(string balloon, SpeakData data, float duration, IntFunc[] callbacks, bool options)
         {
             var controller = controllers[balloon];
 
@@ -191,12 +206,13 @@ namespace BubbleSystem
                         SetTexts(hooks, textData);
 
                         float realDuration = duration > 0 ? duration : DefaultData.Instance.duration;
+                        float textDuration = realDuration - durationThreshold; // so it finishes before hide
 
                         if (data.showEffects != null)
-                            SetEffects(hooks, data.showEffects, sum, realDuration);
+                            SetEffects(hooks, data.showEffects, sum, textDuration);
                         else
                         {
-                            SetEffects(hooks, textData.showEffect, sum, realDuration);
+                            SetEffects(hooks, textData.showEffect, sum, textDuration);
                         }
 
                         hooks.Show();
@@ -207,19 +223,10 @@ namespace BubbleSystem
             }
         }
 
+        // ANIMATIONS ARE NORMALIZED WITH A LENGTH OF 1 (WE CAN GET THE FIRST ONE)
         private float GetClipsDuration(BalloonsHooks hooks)
         {
-            var animationClips = hooks.GetComponent<Animator>().runtimeAnimatorController.animationClips;
-            float duration = 0.0f;
-            foreach (AnimationClip clip in animationClips)
-            {
-                if (clip.name.Contains("hide"))
-                {
-                    duration = clip.length;
-                    break;
-                }
-            }
-            return duration;
+            return hooks.GetComponent<Animator>().runtimeAnimatorController.animationClips[0].length;
         }
 
         public void AddCoroutine(string balloon, BalloonsHooks hooks, float duration, SpeakData data)
@@ -243,7 +250,7 @@ namespace BubbleSystem
                     hooks.Hide();
 
                     var animationClips = hooks.GetComponent<Animator>().runtimeAnimatorController.animationClips;
-                    float length = GetClipsDuration(hooks);
+                    float length = GetClipsDuration(hooks) * 2; //times 2, to give it a little more time
                     
                     KeyValuePair<Emotion, float> emotionPair = BubbleSystemUtility.GetHighestEmotion(data.emotions);
                     float sum = BubbleSystemUtility.GetEmotionsSum(data.emotions);

@@ -24,13 +24,14 @@ namespace BubbleSystem
         private Dictionary<string, BackgroundData> tutorBackgroundData = new Dictionary<string, BackgroundData>();
         private Dictionary<string, NextDialogueData> tutorNextData = new Dictionary<string, NextDialogueData>();
 
-        private string options = "Options";
+        private string options;
         private bool firstTutor = true;
 
         private void Start()
         {
             backgroundManager = GetComponent<BackgroundManager>();
             balloonManager = GetComponent<BalloonManager>();
+            options = balloonManager.options.name;
         }
 
         public void Handle(string[] info)
@@ -299,7 +300,7 @@ namespace BubbleSystem
                 }
 
                 SetSpeakData(tutor, emotions, text, showEffects, hideEffects);
-                balloonManager.ShowBalloon(tutor, tutorSpeakData[tutor], duration);
+                balloonManager.Speak(tutor, tutorSpeakData[tutor], duration);
             }
         }
 
@@ -326,7 +327,7 @@ namespace BubbleSystem
             dict.Add(Emotion.Default.ToString(), 0.0f);
 
             SetSpeakData(options, dict, text, showEffects, hideEffects);
-            balloonManager.ShowBalloon(options, tutorSpeakData[options], duration, callbacks, true);
+            balloonManager.ShowOptions(options, tutorSpeakData[options], duration, callbacks);
         }
 
     }
