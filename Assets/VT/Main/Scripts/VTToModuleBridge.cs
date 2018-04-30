@@ -44,7 +44,7 @@ public class VTToModuleBridge : MonoBehaviour
 
     }
 
-    public void Act(Tutor speaker, HeadAction headAction)
+    public void Act(Tutor speaker, MovementWithState movement)
     {
         
     }

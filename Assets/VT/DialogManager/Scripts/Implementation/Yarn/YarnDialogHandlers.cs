@@ -41,7 +41,7 @@ namespace YarnDialog
             if (manager.ModuleManager != null && manager.ModuleManager != null)
             {
                 manager.ModuleManager.Speak(line.speaker, new string[] { line.message }, duration);
-                manager.ModuleManager.Act(line.speaker, new HeadAction("Talk", ""));
+                manager.ModuleManager.Act(line.speaker, new MovementWithState(MovementEnum.Talk, StateEnum.Start));
             }
         }
 
@@ -49,7 +49,7 @@ namespace YarnDialog
         {
             if (manager.ModuleManager != null)
             {
-                manager.ModuleManager.Act(line.speaker, new HeadAction("Talk", "End"));
+                manager.ModuleManager.Act(line.speaker, new MovementWithState(MovementEnum.Talk, StateEnum.End));
             }
         }
     }
