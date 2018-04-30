@@ -191,7 +191,7 @@ public class EnumUtils {
     /// Returns an array containing all the names defined in the enumerator
     /// </summary>
     /// <returns>
-    /// true if s was converted successfully; otherwise, false.
+    /// array of enum names.
     /// </returns>
     public static Array AsArray<T>() where T : struct, IConvertible
     {
