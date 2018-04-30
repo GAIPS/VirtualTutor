@@ -1,9 +1,9 @@
 ﻿using BubbleSystem;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using UnityEngine;
-using System;
-using System.Globalization;
 
 public class VTToModuleBridge : MonoBehaviour
 {
@@ -23,24 +23,31 @@ public class VTToModuleBridge : MonoBehaviour
                 case ActionGroup.FEEL:
                     Feel(parameters);
                     break;
+
                 case ActionGroup.EXPRESS:
                     Express(parameters);
                     break;
+
                 case ActionGroup.GAZEAT:
                     GazeAt(parameters);
                     break;
+
                 case ActionGroup.GAZEBACK:
                     GazeBack(parameters);
                     break;
+
                 case ActionGroup.MOVEEYES:
                     MoveEyes(parameters);
                     break;
+
                 case ActionGroup.NOD:
                     Nod(parameters);
                     break;
+
                 case ActionGroup.TALK:
                     Talk(parameters);
                     break;
+
                 default:
                     break;
             }
@@ -53,18 +60,23 @@ public class VTToModuleBridge : MonoBehaviour
                 case "SetNextDialogueData":
                     bubbleSystem.SetNextDialogueData(parameters);
                     break;
+
                 case "UpdateBackground":
                     bubbleSystem.UpdateBackground(parameters);
                     break;
+
                 case "OverrideBackgroundColor":
                     bubbleSystem.OverrideBackgroundColor(parameters);
                     break;
+
                 case "OverrideTextEffects":
                     bubbleSystem.OverrideTextEffects(parameters);
                     break;
+
                 case "SetMixColors":
                     bubbleSystem.SetMixColors(parameters);
                     break;
+
                 default:
                     break;
             }
@@ -74,30 +86,20 @@ public class VTToModuleBridge : MonoBehaviour
     /**********************************************************************************************************
                                                  HEAD SYSTEM
     **********************************************************************************************************/
+
     // Main Parsers and Invokers
     private void Feel(string[] parameters)
     {
-        Tutor tutor = new Tutor();
-        tutor.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(parameters[0].ToLower());
+        Tutor tutor;
+        Emotion emotion;
 
-        //Parse the emotion field of the command
-        object emotionEnum;
-        if (EnumUtils.TryParse(typeof(EmotionEnum), parameters[1], out emotionEnum))
+        if(parseTutorName(parameters[0], out tutor) && parseEmotion(parameters[1], parameters[2], out emotion))
         {
-            float parsedFloat;
-            tutor.Emotion = new Emotion((EmotionEnum)emotionEnum);
-            if (float.TryParse(parameters[2], out parsedFloat))
-                tutor.Emotion.Intensity = parsedFloat;
-            else
-            {
-                Debug.Log(String.Format("{0} could not be parsed as a float.", parameters[2]));
-                return;
-            }
+            tutor.Emotion = emotion;
             Feel(tutor);
         }
-        else
-            Debug.Log(String.Format("{0} is not a reconizable emotion.", parameters[1]));
     }
+
     private void Express(string[] parameters)
     {
         Tutor tutor = new Tutor();
@@ -121,6 +123,7 @@ public class VTToModuleBridge : MonoBehaviour
         else
             Debug.Log(String.Format("{0} is not a reconizable emotion.", parameters[1]));
     }
+
     private void Talk(string[] arguments)
     {
         Tutor tutor = new Tutor(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(arguments[0].ToLower()));
@@ -151,6 +154,7 @@ public class VTToModuleBridge : MonoBehaviour
         else
             Debug.Log(String.Format("[{0}] are not valid arguments for this command", string.Join(", ", arguments)));
     }
+
     private void Nod(string[] parameters)
     {
         Tutor tutor = new Tutor(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(parameters[0].ToLower()));
@@ -181,6 +185,7 @@ public class VTToModuleBridge : MonoBehaviour
         else
             Debug.Log(String.Format("[{0}] are not valid arguments for this command", string.Join(", ", parameters)));
     }
+
     private void GazeAt(string[] parameters)
     {
         Tutor tutor = new Tutor(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(parameters[0].ToLower()));
@@ -211,6 +216,7 @@ public class VTToModuleBridge : MonoBehaviour
         else
             Debug.Log(String.Format("[{0}] are not valid arguments for this command", string.Join(", ", parameters)));
     }
+
     private void GazeBack(string[] parameters)
     {
         Tutor tutor = new Tutor(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(parameters[0].ToLower()));
@@ -241,6 +247,7 @@ public class VTToModuleBridge : MonoBehaviour
         else
             Debug.Log(String.Format("[{0}] are not valid arguments for this command", string.Join(", ", parameters)));
     }
+
     private void MoveEyes(string[] parameters)
     {
         throw new NotImplementedException();
@@ -252,15 +259,16 @@ public class VTToModuleBridge : MonoBehaviour
         EmotionalState emotionalState = getStateType<EmotionalState>(moodString);
         avatarManager.Feel(tutor.Name, emotionalState, tutor.Emotion.Intensity);
     }
+
     public void Express(Tutor tutor)
     {
         string expressionString = getStateString(tutor.Emotion);
         EmotionalState expressionState = getStateType<EmotionalState>(expressionString);
         avatarManager.Express(tutor.Name, expressionState, tutor.Emotion.Intensity);
     }
+
     public void Act(Tutor tutor, IMovement movement)
     {
-
         string s1 = getFirstMovementString(movement), s2;
 
         if (movement is MovementWithState)
@@ -293,7 +301,7 @@ public class VTToModuleBridge : MonoBehaviour
             }
             catch (ArgumentException)
             {
-                try // TALK 
+                try // TALK
                 {
                     TalkState actionState = getStateType<TalkState>(s1);
                     avatarManager.Talk(tutor.Name, actionState);
@@ -305,6 +313,7 @@ public class VTToModuleBridge : MonoBehaviour
             }
         }
     }
+
     public void setParameter(Tutor tutor, MovementWithProperty movement)
     {
         object paramEnum;
@@ -315,27 +324,32 @@ public class VTToModuleBridge : MonoBehaviour
             avatarManager.setParameter(tutor.Name, (ControllerParams)paramEnum, movement.Value);
     }
 
-    // Auxiliary Parsers
+    // Auxiliary Methods
     private string getSecondMovementString(MovementWithProperty movement)
     {
         return movement.Property.ToString().ToUpperInvariant();
     }
+
     private string getSecondMovementString(MovementWithState movement)
     {
         return movement.State.ToString().ToUpperInvariant();
     }
+
     private string getSecondMovementString(MovementWithTarget movement)
     {
         return movement.Target.ToString().ToUpperInvariant();
     }
+
     private string getFirstMovementString(IMovement movement)
     {
         return movement.Name.ToString().ToUpperInvariant();
     }
+
     private string getStateString(Emotion emotion)
     {
         return emotion.Name.ToString().ToUpperInvariant();
     }
+
     // Outdated, similar to EnumUtils.TryParse()
     private static T getStateType<T>(string stateString)
     {
@@ -352,11 +366,40 @@ public class VTToModuleBridge : MonoBehaviour
                 //    Debug.Log(String.Format("Converted '{0}' to {1}.", stateString, value.ToString()));
                 return value;
             }
-
         }
         catch (ArgumentException)
         {
             throw new ArgumentException(String.Format("'{0}' is not a member of the {1} enumeration.", stateString, typeof(T)));
+        }
+    }
+
+    // Aux Methods
+    private bool parseTutorName(string input, out Tutor tutor)
+    {
+        tutor = new Tutor(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(input.ToLower()));
+        return true;
+    }
+    private bool parseEmotion(string emotion, string intensity, out Emotion parsedEmotion)
+    {
+        object parsedEnum;
+        float parsedFloat;
+
+        bool successfulEnumParse = EnumUtils.TryParse(typeof(EmotionEnum), emotion, out parsedEnum);
+        bool successfulFloatParse = float.TryParse(intensity, out parsedFloat);
+
+        if (successfulEnumParse && successfulFloatParse)
+        {
+            parsedEmotion = new Emotion((EmotionEnum)parsedEnum, parsedFloat);
+            return true;
+        }
+        else
+        {
+            if (!successfulEnumParse)
+                Debug.Log(String.Format("{0} is not a reconizable emotion.", emotion));
+            else
+                Debug.Log(String.Format("{0} could not be parsed as a float.", intensity));
+            parsedEmotion = null;
+            return false;
         }
     }
 
