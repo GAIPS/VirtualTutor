@@ -9,9 +9,7 @@ public class VT_Main : MonoBehaviour
 
     public TextAsset[] yarnDialogDatabase;
 
-    public AvatarManager headAnimationManager;
-
-    public BubbleSystem.BubbleSystemManager bubbleManager;
+    public VTToModuleBridge moduleManager;
     
     public string[] intentions;
     public bool forceIntention;
@@ -81,8 +79,7 @@ public class VT_Main : MonoBehaviour
             manager.DialogManager = dialogManager;
             dialogManager.Tutors.Add(joao);
             dialogManager.Tutors.Add(maria);
-            dialogManager.HeadAnimationManager = this.headAnimationManager;
-            dialogManager.BubbleManager = this.bubbleManager;
+            dialogManager.ModuleManager = this.moduleManager;
 
 
             // Order matters
