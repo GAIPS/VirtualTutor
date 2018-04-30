@@ -69,7 +69,7 @@ namespace YarnDialog
         {
             if (ModuleManager != null)
             {
-                ModuleManager.Feel(tutor, tutor.Emotion);
+                ModuleManager.Feel(tutor);
                 ModuleManager.UpdateBackground(tutor, 5f, BubbleSystem.Reason.None);
             }
         }

@@ -7,7 +7,7 @@ public class AvatarTestMain : MonoBehaviour
     //This will be the main animation manager for the synthetic characters
     [Header("Object Hooks")]
     [SerializeField]
-    private AvatarManager manager;
+    private VTToModuleBridge bridge;
     private AvatarParameters parameters;
     //Placeholder, system should be aware of the available tutors (by name)
     [SerializeField]
@@ -36,7 +36,7 @@ public class AvatarTestMain : MonoBehaviour
 
     void Awake()
     {
-        if (manager == null || tutor == null)
+        if (bridge == null || tutor == null)
             Debug.Log("[WARNING]: One or more editor references (required for testing) are currently unassigned.");
         else
             OnValidate();
@@ -52,261 +52,261 @@ public class AvatarTestMain : MonoBehaviour
         movementCommands = new MovementVariables();
         changeParameterCommands = new ParameterVariables();
         tutorName = tutor.name;
-        parameters = manager.getController(new Tutor(tutorName)).getParameters();
+        parameters = bridge.avatarManager.getControllerParameters(tutorName);
     }
 
     // Input driven commands
     void FixedUpdate()
     {
-        if (manager == null || tutor == null)
+        if (bridge == null || tutor == null)
             return;
 
         // Emotion
         if (Input.GetKey(moodCommands.neutral))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Feel", tutorName, "Neutral", "0.0" });
+                bridge.Handle(new string[] { "Feel", tutorName, "Neutral", "0.0" });
             else
-                manager.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Neutral, 0.0f)));
+                bridge.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Neutral, 0.0f)));
         }   
         if (Input.GetKey(moodCommands.happy))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Feel", tutorName, "Happiness", "0.5" });
+                bridge.Handle(new string[] { "Feel", tutorName, "Happiness", "0.5" });
             else
-                manager.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Happiness, 0.5f)));
+                bridge.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Happiness, 0.5f)));
         }
         if (Input.GetKey(moodCommands.veryHappy))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Feel", tutorName, "Happiness", "1.0" });
+                bridge.Handle(new string[] { "Feel", tutorName, "Happiness", "1.0" });
             else
-                manager.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Happiness, 1.0f)));
+                bridge.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Happiness, 1.0f)));
         }
         if (Input.GetKey(moodCommands.sad))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Feel", tutorName, "Sadness", "0.5" });
+                bridge.Handle(new string[] { "Feel", tutorName, "Sadness", "0.5" });
             else
-                manager.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Sadness, 0.5f)));
+                bridge.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Sadness, 0.5f)));
         }
         if (Input.GetKey(moodCommands.verySad))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Feel", tutorName, "Sadness", "1.0" });
+                bridge.Handle(new string[] { "Feel", tutorName, "Sadness", "1.0" });
             else
-                manager.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Sadness, 1.0f)));
+                bridge.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Sadness, 1.0f)));
         }
         if (Input.GetKey(moodCommands.afraid))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Feel", tutorName, "Fear", "0.0" });
+                bridge.Handle(new string[] { "Feel", tutorName, "Fear", "0.0" });
             else
-                manager.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Fear, 0.0f)));
+                bridge.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Fear, 0.0f)));
         }
         if (Input.GetKey(moodCommands.surprised))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Feel", tutorName, "Surprise", "0.0" });
+                bridge.Handle(new string[] { "Feel", tutorName, "Surprise", "0.0" });
             else
-                manager.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Surprise, 0.0f)));
+                bridge.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Surprise, 0.0f)));
         }
 
         // Expression
         if (Input.GetKey(expressionCommands.neutral))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Express", tutorName, "Neutral", "0.0" });
+                bridge.Handle(new string[] { "Express", tutorName, "Neutral", "0.0" });
             else
-                manager.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Neutral, 1.0f)));
+                bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Neutral, 1.0f)));
         }
         if (Input.GetKey(expressionCommands.happinessLow))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Express", tutorName, "Happiness", "0.5" });
+                bridge.Handle(new string[] { "Express", tutorName, "Happiness", "0.5" });
             else
-                manager.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Happiness, 0.5f)));
+                bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Happiness, 0.5f)));
         }
         if (Input.GetKey(expressionCommands.happinessHigh))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Express", tutorName, "Happiness", "1.0" });
+                bridge.Handle(new string[] { "Express", tutorName, "Happiness", "1.0" });
             else
-                manager.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Happiness, 1.0f)));
+                bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Happiness, 1.0f)));
         }
         if (Input.GetKey(expressionCommands.sadnessLow))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Express", tutorName, "Sadness", "0.5" });
+                bridge.Handle(new string[] { "Express", tutorName, "Sadness", "0.5" });
             else
-                manager.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Sadness, 0.5f)));
+                bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Sadness, 0.5f)));
         }
         if (Input.GetKey(expressionCommands.sadnessHigh))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Express", tutorName, "Sadness", "1.0" });
+                bridge.Handle(new string[] { "Express", tutorName, "Sadness", "1.0" });
             else
-                manager.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Sadness, 1.0f)));
+                bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Sadness, 1.0f)));
         }
         if (Input.GetKey(expressionCommands.fearLow))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Express", tutorName, "Fear", "0.5" });
+                bridge.Handle(new string[] { "Express", tutorName, "Fear", "0.5" });
             else
-                manager.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Fear, 0.5f)));
+                bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Fear, 0.5f)));
         }
         if (Input.GetKey(expressionCommands.fearHigh))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Express", tutorName, "Fear", "1.0" });
+                bridge.Handle(new string[] { "Express", tutorName, "Fear", "1.0" });
             else
-                manager.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Fear, 1.0f)));
+                bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Fear, 1.0f)));
         }
         if (Input.GetKey(expressionCommands.surpriseLow))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Express", tutorName, "Surprise", "0.5" });
+                bridge.Handle(new string[] { "Express", tutorName, "Surprise", "0.5" });
             else
-                manager.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Surprise, 0.5f)));
+                bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Surprise, 0.5f)));
         }
         if (Input.GetKey(expressionCommands.surpriseHigh))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Express", tutorName, "Surprise", "1.0" });
+                bridge.Handle(new string[] { "Express", tutorName, "Surprise", "1.0" });
             else
-                manager.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Surprise, 1.0f)));
+                bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Surprise, 1.0f)));
         }
         if (Input.GetKey(expressionCommands.angerLow))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Express", tutorName, "Anger", "0.5" });
+                bridge.Handle(new string[] { "Express", tutorName, "Anger", "0.5" });
             else
-                manager.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Anger, 0.5f)));
+                bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Anger, 0.5f)));
         }
         if (Input.GetKey(expressionCommands.angerHigh))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Express", tutorName, "Anger", "1.0" });
+                bridge.Handle(new string[] { "Express", tutorName, "Anger", "1.0" });
             else
-                manager.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Anger, 1.0f)));
+                bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Anger, 1.0f)));
         }
         if (Input.GetKey(expressionCommands.disgustLow))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Express", tutorName, "Disgust", "0.5" });
+                bridge.Handle(new string[] { "Express", tutorName, "Disgust", "0.5" });
             else
-                manager.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Disgust, 0.5f)));
+                bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Disgust, 0.5f)));
         }
         if (Input.GetKey(expressionCommands.disgustHigh))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Express", tutorName, "Disgust", "1.0" });
+                bridge.Handle(new string[] { "Express", tutorName, "Disgust", "1.0" });
             else
-                manager.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Disgust, 1.0f)));
+                bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Disgust, 1.0f)));
         }
 
         // Actions
         if (Input.GetKey(movementCommands.nodStart))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Nod", tutorName, "Start" });
+                bridge.Handle(new string[] { "Nod", tutorName, "Start" });
             else
-                manager.Act(new Tutor(tutorName), new MovementWithState(MovementEnum.Nod, StateEnum.Start));
+                bridge.Act(new Tutor(tutorName), new MovementWithState(MovementEnum.Nod, StateEnum.Start));
         }
         if (Input.GetKey(movementCommands.nodStop))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Nod", tutorName, "End" });
+                bridge.Handle(new string[] { "Nod", tutorName, "End" });
             else
-                manager.Act(new Tutor(tutorName), new MovementWithState(MovementEnum.Nod, StateEnum.End));
+                bridge.Act(new Tutor(tutorName), new MovementWithState(MovementEnum.Nod, StateEnum.End));
         }
         if (Input.GetKey(movementCommands.talkStart))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Talk", tutorName, "Start" });
+                bridge.Handle(new string[] { "Talk", tutorName, "Start" });
             else
-                manager.Act(new Tutor(tutorName), new MovementWithState(MovementEnum.Talk, StateEnum.Start));
+                bridge.Act(new Tutor(tutorName), new MovementWithState(MovementEnum.Talk, StateEnum.Start));
         }
         if (Input.GetKey(movementCommands.talkStop))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Talk", tutorName, "End" });
+                bridge.Handle(new string[] { "Talk", tutorName, "End" });
             else
-                manager.Act(new Tutor(tutorName), new MovementWithState(MovementEnum.Talk, StateEnum.End));
+                bridge.Act(new Tutor(tutorName), new MovementWithState(MovementEnum.Talk, StateEnum.End));
         }
         if (Input.GetKey(movementCommands.gazeAtPartner))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Gazeat", tutorName, tutorName=="Maria" ? "Joao" : "Maria" });
+                bridge.Handle(new string[] { "Gazeat", tutorName, tutorName=="Maria" ? "Joao" : "Maria" });
             else
-                manager.Act(new Tutor(tutorName), new MovementWithTarget(MovementEnum.Gazeat, TargetEnum.Partner));
+                bridge.Act(new Tutor(tutorName), new MovementWithTarget(MovementEnum.Gazeat, TargetEnum.Partner));
         }
         if (Input.GetKey(movementCommands.gazeBackFromPartner))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Gazeback", tutorName, tutorName == "Maria" ? "Joao" : "Maria" });
+                bridge.Handle(new string[] { "Gazeback", tutorName, tutorName == "Maria" ? "Joao" : "Maria" });
             else
-                manager.Act(new Tutor(tutorName), new MovementWithTarget(MovementEnum.Gazeback, TargetEnum.Partner));
+                bridge.Act(new Tutor(tutorName), new MovementWithTarget(MovementEnum.Gazeback, TargetEnum.Partner));
         }
         if (Input.GetKey(movementCommands.gazeAtUser))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Gazeat", tutorName, "User" });
+                bridge.Handle(new string[] { "Gazeat", tutorName, "User" });
             else
-                manager.Act(new Tutor(tutorName), new MovementWithTarget(MovementEnum.Gazeat, TargetEnum.User));
+                bridge.Act(new Tutor(tutorName), new MovementWithTarget(MovementEnum.Gazeat, TargetEnum.User));
         }
         if (Input.GetKey(movementCommands.gazeBackFromUser))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Gazeback", tutorName, "User" });
+                bridge.Handle(new string[] { "Gazeback", tutorName, "User" });
             else
-                manager.Act(new Tutor(tutorName), new MovementWithTarget(MovementEnum.Gazeback, TargetEnum.User));
+                bridge.Act(new Tutor(tutorName), new MovementWithTarget(MovementEnum.Gazeback, TargetEnum.User));
         }
 
         // Action Speed\Frequency
         if (Input.GetKey(changeParameterCommands.nodFrequency))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Nod", tutorName, "Frequency", "0.5" });
+                bridge.Handle(new string[] { "Nod", tutorName, "Frequency", "0.5" });
             else
-                manager.setParameter(new Tutor(tutorName), new MovementWithProperty(MovementEnum.Nod, PropertyEnum.Frequency, 0.5f));
+                bridge.setParameter(new Tutor(tutorName), new MovementWithProperty(MovementEnum.Nod, PropertyEnum.Frequency, 0.5f));
         }
         if (Input.GetKey(changeParameterCommands.nodSpeed))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Nod", tutorName, "Speed", "2.0" });
+                bridge.Handle(new string[] { "Nod", tutorName, "Speed", "2.0" });
             else
-                manager.setParameter(new Tutor(tutorName), new MovementWithProperty(MovementEnum.Nod, PropertyEnum.Speed, 2.0f));
+                bridge.setParameter(new Tutor(tutorName), new MovementWithProperty(MovementEnum.Nod, PropertyEnum.Speed, 2.0f));
         }
         if (Input.GetKey(changeParameterCommands.gazeFrequency))
         {
             if (testCommands)
-                manager.sendCommand(new string[] { "Gazeat", tutorName, "Frequency", "0.5" });
+                bridge.Handle(new string[] { "Gazeat", tutorName, "Frequency", "0.5" });
             else
-                manager.setParameter(new Tutor(tutorName), new MovementWithProperty(MovementEnum.Gazeat, PropertyEnum.Frequency, 0.5f));
+                bridge.setParameter(new Tutor(tutorName), new MovementWithProperty(MovementEnum.Gazeat, PropertyEnum.Frequency, 0.5f));
         }
         if (Input.GetKey(changeParameterCommands.gazeSpeed))
         {
             if (testCommands)
             {
-                manager.sendCommand(new string[] { "Gazeat", tutorName, "Speed", "1.5" });
-                manager.sendCommand(new string[] { "Gazeback", tutorName, "Speed", "2.0" });
+                bridge.Handle(new string[] { "Gazeat", tutorName, "Speed", "1.5" });
+                bridge.Handle(new string[] { "Gazeback", tutorName, "Speed", "2.0" });
             }
             else
             {
-                manager.setParameter(new Tutor(tutorName), new MovementWithProperty(MovementEnum.Gazeat, PropertyEnum.Speed, 1.5f));
-                manager.setParameter(new Tutor(tutorName), new MovementWithProperty(MovementEnum.Gazeback, PropertyEnum.Speed, 2.0f));
+                bridge.setParameter(new Tutor(tutorName), new MovementWithProperty(MovementEnum.Gazeat, PropertyEnum.Speed, 1.5f));
+                bridge.setParameter(new Tutor(tutorName), new MovementWithProperty(MovementEnum.Gazeback, PropertyEnum.Speed, 2.0f));
             }
         }
     }
     // UI driven commands
     public void talk(string who)
     {
-        manager.Act(new Tutor(who), new MovementWithState(MovementEnum.Talk, StateEnum.Start));
+        bridge.Act(new Tutor(who), new MovementWithState(MovementEnum.Talk, StateEnum.Start));
     }
     public void stopTalking(string who)
     {
-        manager.Act(new Tutor(who), new MovementWithState(MovementEnum.Talk, StateEnum.End));
+        bridge.Act(new Tutor(who), new MovementWithState(MovementEnum.Talk, StateEnum.End));
     }
 
     IEnumerator controllerParameterDebugRoutine()
