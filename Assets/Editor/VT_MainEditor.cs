@@ -29,9 +29,8 @@ public class VT_MainEditor : Editor
 
         GUILayout.Space(15); 
         EditorGUILayout.LabelField("Dialog Manager Options", EditorStyles.largeLabel, GUILayout.MinHeight(20));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("headAnimationManager"), true);
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("bubbleManager"), true);
-        
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("moduleManager"), true);
+
         serializedObject.ApplyModifiedProperties();
     }
 }

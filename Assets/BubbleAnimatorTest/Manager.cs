@@ -1,18 +1,30 @@
 ﻿using BubbleSystem;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Manager : MonoBehaviour {
 
-    public BubbleSystemManager manager;
+    public VTToModuleBridge manager;
     private float intensity = 0.0f;
-    private BubbleSystem.Emotion emotion = BubbleSystem.Emotion.Neutral;
-    private string tutor = "Maria";
+    private EmotionEnum emotion = EmotionEnum.Neutral;
+    private Tutor[] tutors;
     private Reason reason = Reason.None;
     public float duration = 5.0f;
+    private int currentTutor = 0;
+    private int mix = 0;
 
-	void Update () {
+    private void Start()
+    {
+        tutors = new Tutor[2];
+        tutors[0] = new Tutor("Maria");
+        tutors[0].Emotion = new Emotion();
+        tutors[1] = new Tutor("Joao");
+        tutors[1].Emotion = new Emotion();
+    }
+
+    void Update () {
         if(Input.GetKeyDown(KeyCode.Plus) || Input.GetKeyDown(KeyCode.KeypadPlus))
         {
             intensity += 0.1f;
@@ -25,35 +37,31 @@ public class Manager : MonoBehaviour {
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            emotion = BubbleSystem.Emotion.Happiness;
+            emotion = EmotionEnum.Happiness;
         }
         if (Input.GetKeyDown(KeyCode.W))
         {
-            emotion = BubbleSystem.Emotion.Sadness;
+            emotion = EmotionEnum.Sadness;
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            emotion = BubbleSystem.Emotion.Anger;
+            emotion = EmotionEnum.Anger;
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            emotion = BubbleSystem.Emotion.Fear;
+            emotion = EmotionEnum.Fear;
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
-            emotion = BubbleSystem.Emotion.Disgust;
+            emotion = EmotionEnum.Disgust;
         }
         if (Input.GetKeyDown(KeyCode.Y))
         {
-            emotion = BubbleSystem.Emotion.Surprise;
+            emotion = EmotionEnum.Surprise;
         }
         if (Input.GetKeyDown(KeyCode.U))
         {
-            emotion = BubbleSystem.Emotion.Neutral;
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            emotion = BubbleSystem.Emotion.Default;
+            emotion = EmotionEnum.Neutral;
         }
 
         if (Input.GetKeyDown(KeyCode.G))
@@ -67,27 +75,28 @@ public class Manager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.M))
         {
-            tutor = "Maria";
+            currentTutor = 0;
         }
         if (Input.GetKeyDown(KeyCode.J))
         {
-            tutor = "Joao";
+            currentTutor = 1;
         }
 
         if (Input.GetKeyDown(KeyCode.S))
         {
-            Dictionary<string, float> dict = new Dictionary<string, float>();
-            dict.Add(emotion.ToString(), intensity);
-            manager.Speak(tutor, dict, new string[] { "hi" }, duration);
-            Debug.Log(tutor + " " + emotion.ToString() + " " + intensity);
+            tutors[currentTutor].Emotion.Name = emotion;
+            tutors[currentTutor].Emotion.Intensity = intensity;
+
+            manager.Speak(tutors[currentTutor], new string[] { "hi" }, duration);
+            Debug.Log(tutors[currentTutor] + " " + emotion.ToString() + " " + intensity);
         }
 
         if (Input.GetKeyDown(KeyCode.B))
         {
-            Dictionary<string, float> dict = new Dictionary<string, float>();
-            dict.Add(emotion.ToString(), intensity);
-            manager.UpdateBackground(tutor, dict, duration, reason);
-            Debug.Log(tutor + " " + emotion.ToString() + " " + intensity + " " + reason);
+            tutors[currentTutor].Emotion.Name = emotion;
+            tutors[currentTutor].Emotion.Intensity = intensity;
+            manager.UpdateBackground(tutors[currentTutor], duration, reason);
+            Debug.Log(tutors[currentTutor] + " " + emotion.ToString() + " " + intensity + " " + reason);
         }
 
         if (Input.GetKeyDown(KeyCode.Z))
@@ -108,6 +117,13 @@ public class Manager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.V))
         {
             manager.UpdateOptions(new string[] { "hi", "asd" });
+        }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            mix = (mix + 1) % 2;
+            Debug.Log(Convert.ToBoolean(mix));
+            manager.Handle(new string[] { "SetMixColors", mix.ToString() });
         }
     }
     

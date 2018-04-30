@@ -27,6 +27,20 @@ namespace BubbleSystem
             int finalIndex = Random.Range(0, length - exclude.Count - 1);
             return range.ElementAt(finalIndex);
         }
+
+        public static Color32 MixColors(Dictionary<Emotion, float> emotions)
+        {
+            Color color = new Color(0,0,0,1);
+            foreach (Emotion emotion in emotions.Keys)
+            {
+                color += ((Color)DefaultData.Instance.GetColor(emotion) * emotions[emotion]);
+            }
+
+            if (color.Equals(Color.black))
+                color = DefaultData.Instance.GetColor(Emotion.Default);
+
+            return color;
+        }
     }
 
     public class CoroutineStopper : Singleton<CoroutineStopper>

@@ -34,39 +34,111 @@ namespace BubbleSystem
             options = balloonManager.options.name;
         }
 
-        public void Handle(string[] info)
-        {
-            string[] parameters = info.Skip(1).ToArray();
+        /**********************************************************************************************************
+                                                        FUNCTIONS
+        **********************************************************************************************************/
 
-            switch (info[0])
+        public void UpdateBackground(string tutor, Dictionary<string, float> emotions, float duration, Reason reason)
+        {
+            SetBackgroundData(tutor, emotions, reason);
+            backgroundManager.SetBackground(tutor, tutorBackgroundData[tutor], duration);
+        }
+
+        public void Speak(string tutor, Dictionary<string, float> emotions, string[] text, float duration = 0.0f, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
+        {
+            if (!tutor.Equals(options))
             {
-                case "SetNextDialogueData":
-                    SetNextDialogueData(parameters);
-                    break;
-                case "UpdateBackground":
-                    UpdateBackground(parameters);
-                    break;
-                case "OverrideBackgroundColor":
-                    OverrideBackgroundColor(parameters);
-                    break;
-                case "OverrideTextEffects":
-                    OverrideTextEffects(parameters);
-                    break;
-                default:
-                    break;
+                if (firstTutor)
+                {
+                    balloonManager.ReverseTutorsBalloons(tutor);
+                    firstTutor = false;
+                }
+
+                SetSpeakData(tutor, emotions, text, showEffects, hideEffects);
+                balloonManager.Speak(tutor, tutorSpeakData[tutor], duration);
             }
         }
 
-        //<< OverrideBackgroundColor emotion intensity reason color >>  Color in #RRGGBBAA format
-        private void OverrideBackgroundColor(string[] info)
+        public void HideBalloon(string tutor, float duration = 0.0f)
         {
-            Emotion emotion = (Emotion)Enum.Parse(typeof(Emotion), info[0]);
+            balloonManager.HideBalloon(tutor, duration, tutorSpeakData[tutor]);
+        }
+
+        public void UpdateOptions(string[] text, float duration = 5.0f, HookControl.IntFunc[] callbacks = null, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
+        {
+            Dictionary<string, float> dict = new Dictionary<string, float>();
+            dict.Add(Emotion.Default.ToString(), 0.0f);
+
+            SetSpeakData(options, dict, text, showEffects, hideEffects);
+            balloonManager.ShowOptions(options, tutorSpeakData[options], duration, callbacks);
+        }
+
+
+        /**********************************************************************************************************
+                                                        COMMANDS
+        **********************************************************************************************************/
+
+        //<< OverrideBackgroundColor emotion intensity reason color >>  Color in #RRGGBBAA format
+        public void OverrideBackgroundColor(string[] info)
+        {
+            BubbleSystem.Emotion emotion = (BubbleSystem.Emotion)Enum.Parse(typeof(BubbleSystem.Emotion), info[0]);
             float intensity = Mathf.Clamp01(Convert.ToSingle(info[1]));
             Reason reason = (Reason)Enum.Parse(typeof(Reason), info[2]);
             Color color;
             ColorUtility.TryParseHtmlString(info[3], out color);
             DefaultData.Instance.SetBackgroundColor(emotion, intensity, reason, color);
         }
+
+        //<< OverrideTextEffects emotion intensity [showEffects [curve] ...] [hideEffects effect1 [curve] ...] >>
+        public void OverrideTextEffects(string[] info)
+        {
+            BubbleSystem.Emotion emotion = (BubbleSystem.Emotion)Enum.Parse(typeof(BubbleSystem.Emotion), info[0]);
+            float intensity = Mathf.Clamp01(Convert.ToSingle(info[1]));
+
+            KeyValuePair<Dictionary<Effect, AnimationCurve>, Dictionary<Effect, AnimationCurve>> effects = SetTextEffects(info, 2);
+            DefaultData.Instance.SetTextEffects(emotion, intensity, effects.Key, effects.Value);
+        }
+
+        //<< UpdateBackground tutor emotion intensity duration intensityValue reason>>
+        public void UpdateBackground(string[] info)
+        {
+            Reason reason = (Reason)Enum.Parse(typeof(Reason), info[info.Length - 1]);
+            KeyValuePair<int, Dictionary<string, float>> kvp = GetEmotions(info, 1);
+            UpdateBackground(info[0], kvp.Value, Convert.ToSingle(info[kvp.Key + 1]), reason);
+        }
+
+        //<< SetNextDialogueData tutor emotion intensity duration intensityValue [showEffects effect1 [curve] ...] [hideEffects effect1 [curve] ...] >>
+        public void SetNextDialogueData(string[] info)
+        {
+            NextDialogueData nextData = new NextDialogueData();
+            KeyValuePair<int, Dictionary<string, float>> kvp = GetEmotions(info, 1);
+
+            nextData.emotions = kvp.Value;
+            int i = kvp.Key + 1;
+
+            nextData.duration = Convert.ToSingle(info[i++]);
+
+            KeyValuePair<Dictionary<Effect, AnimationCurve>, Dictionary<Effect, AnimationCurve>> effects = SetTextEffects(info, i);
+            nextData.showEffects = effects.Key;
+            nextData.hideEffects = effects.Value;
+
+            nextData.isSet = true;
+
+            if (tutorNextData.ContainsKey(info[0]))
+                tutorNextData[info[0]] = nextData;
+            else
+                tutorNextData.Add(info[0], nextData);
+        }
+
+        //<< SetMixColors boolInIntFormat >>   0 -> false; 1 -> true
+        public void SetMixColors(string[] mix)
+        {
+            DefaultData.Instance.SetMixColors(Convert.ToBoolean(Convert.ToInt16(mix[0])));
+        }
+
+        /**********************************************************************************************************
+                                                        HELP FUNCTIONS
+        **********************************************************************************************************/
 
         private KeyValuePair<Dictionary<Effect, AnimationCurve>, Dictionary<Effect, AnimationCurve>> SetTextEffects(string[] info, int i)
         {
@@ -99,16 +171,6 @@ namespace BubbleSystem
             return new KeyValuePair<Dictionary<Effect, AnimationCurve>, Dictionary<Effect, AnimationCurve>>(showEffects, hideEffects);
         }
 
-        //<< OverrideTextEffects emotion intensity [showEffects [curve] ...] [hideEffects effect1 [curve] ...] >>
-        private void OverrideTextEffects(string[] info)
-        {
-            Emotion emotion = (Emotion)Enum.Parse(typeof(Emotion), info[0]);
-            float intensity = Mathf.Clamp01(Convert.ToSingle(info[1]));
-
-            KeyValuePair<Dictionary<Effect, AnimationCurve>, Dictionary<Effect, AnimationCurve>> effects = SetTextEffects(info, 2);
-            DefaultData.Instance.SetTextEffects(emotion, intensity, effects.Key, effects.Value);
-        }
-
         private KeyValuePair<int, Dictionary<Effect, AnimationCurve>> GetEffects(string[] info, int i)
         {
             Dictionary<Effect, AnimationCurve> effects = new Dictionary<Effect, AnimationCurve>();
@@ -123,7 +185,7 @@ namespace BubbleSystem
                 try
                 {
                     effect = (Effect)Enum.Parse(typeof(Effect), info[i]);
-                    animationCurve = (i + 1 >= info.Length) ? null : (info[i+1].Equals(stringToLook)) ? null : DefaultData.Instance.GetCurve(info[i + 1]);
+                    animationCurve = (i + 1 >= info.Length) ? null : (info[i + 1].Equals(stringToLook)) ? null : DefaultData.Instance.GetCurve(info[i + 1]);
                     i += (animationCurve != null) ? 2 : 1;
 
                     effects.Add(effect, animationCurve);
@@ -150,37 +212,6 @@ namespace BubbleSystem
             }
 
             return new KeyValuePair<int, Dictionary<string, float>>(i, dict);
-        }
-
-        //<< UpdateBackground MARIA HAPPINESS 0.5 duration 5 Grades>>
-        public void UpdateBackground(string[] info)
-        {
-            Reason reason = (Reason)Enum.Parse(typeof(Reason), info[info.Length - 1]);
-            KeyValuePair<int, Dictionary<string, float>> kvp = GetEmotions(info, 1);
-            UpdateBackground(info[0], kvp.Value, Convert.ToSingle(info[kvp.Key + 1]), reason);
-        }
-
-        //<< SetNextDialogueData MARIA HAPPINESS 0.5 duration 5 [showEffects effect1 [curve] ...] [hideEffects effect1 [curve] ...] >>
-        public void SetNextDialogueData(string[] info)
-        {
-            NextDialogueData nextData = new NextDialogueData();
-            KeyValuePair<int, Dictionary<string, float>> kvp = GetEmotions(info, 1);
-
-            nextData.emotions = kvp.Value;
-            int i = kvp.Key + 1;
-
-            nextData.duration = Convert.ToSingle(info[i++]);
-
-            KeyValuePair<Dictionary<Effect, AnimationCurve>, Dictionary<Effect, AnimationCurve>> effects = SetTextEffects(info, i);
-            nextData.showEffects = effects.Key;
-            nextData.hideEffects = effects.Value;
-
-            nextData.isSet = true;
-
-            if (tutorNextData.ContainsKey(info[0]))
-                tutorNextData[info[0]] = nextData;
-            else
-                tutorNextData.Add(info[0], nextData);
         }
 
         private bool CheckNextData(string tutor)
@@ -261,18 +292,6 @@ namespace BubbleSystem
                 tutorBackgroundData.Add(tutor, data);
         }
 
-        public void UpdateBackground(string tutor, Dictionary<string, float> emotions, float duration, Reason reason)
-        {
-            SetBackgroundData(tutor, emotions, reason);
-            backgroundManager.SetBackground(tutor, tutorBackgroundData[tutor], duration);
-        }
-
-        public void UpdateBackground(Tutor tutor, float duration, Reason reason)
-        {
-            Dictionary<string, float> dict = new Dictionary<string, float>();
-            dict.Add(tutor.Emotion.Name.ToString(), tutor.Emotion.Intensity);
-            UpdateBackground(tutor.Name, dict, duration, reason);
-        }
 
         private Dictionary<Effect, AnimationCurve> getEffectsDictionary(Dictionary<string, string> effects)
         {
@@ -289,46 +308,5 @@ namespace BubbleSystem
             }
             return null;
         }
-
-        public void Speak(string tutor, Dictionary<string, float> emotions, string[] text, float duration = 0.0f, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
-        {
-            if (!tutor.Equals(options)) {
-                if (firstTutor)
-                {
-                    balloonManager.ReverseTutorsBalloons(tutor);
-                    firstTutor = false;
-                }
-
-                SetSpeakData(tutor, emotions, text, showEffects, hideEffects);
-                balloonManager.Speak(tutor, tutorSpeakData[tutor], duration);
-            }
-        }
-
-        public void Speak(Tutor tutor, string[] text, float duration = 0.0f, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
-        {
-            Dictionary<string, float> dict = new Dictionary<string, float>();
-            dict.Add(tutor.Emotion.Name.ToString(), tutor.Emotion.Intensity);
-            Speak(tutor.Name, dict, text, duration, showEffects, hideEffects);
-        }
-
-        public void HideBalloon(string tutor, float duration = 0.0f)
-        {
-            balloonManager.HideBalloon(tutor, duration, tutorSpeakData[tutor]);
-        }
-
-        public void HideBalloon(Tutor tutor, float duration = 0.0f)
-        {
-            HideBalloon(tutor.Name, duration);
-        }
-        
-        public void UpdateOptions(string[] text, float duration = 5.0f, HookControl.IntFunc[] callbacks = null, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
-        {
-            Dictionary<string, float> dict = new Dictionary<string, float>();
-            dict.Add(Emotion.Default.ToString(), 0.0f);
-
-            SetSpeakData(options, dict, text, showEffects, hideEffects);
-            balloonManager.ShowOptions(options, tutorSpeakData[options], duration, callbacks);
-        }
-
     }
 }

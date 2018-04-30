@@ -39,7 +39,10 @@ namespace BubbleSystem
 
             TextureData textureData = DefaultData.Instance.GetDefaultBackgroundDataDictionary(emotionPair.Key, emotionPair.Value, data.reason);
             BackgroundAnimationData backgroundAnimationData = DefaultData.Instance.GetDefaultBackgroundAnimationData(emotionPair.Key, emotionPair.Value);
-            StartCoroutine(ChangeImage(bg, textureData, backgroundAnimationData, duration));
+
+            Color32 colorToLerpTo = DefaultData.Instance.GetMixColors() ? BubbleSystemUtility.MixColors(data.emotions) : textureData.color;
+
+            StartCoroutine(ChangeImage(bg, textureData, backgroundAnimationData, duration, colorToLerpTo));
         }
 
         private GameObject GetBackground(string bg)
@@ -55,7 +58,7 @@ namespace BubbleSystem
             throw new KeyNotFoundException("Background with name: " + bg + " not found.");
         }
         
-        private IEnumerator ChangeImage(string bg, TextureData textureData, BackgroundAnimationData backgroundAnimationData, float duration)
+        private IEnumerator ChangeImage(string bg, TextureData textureData, BackgroundAnimationData backgroundAnimationData, float duration, Color32 colorToLerpTo)
         {
             Renderer renderer = GetBackground(bg).GetComponent<Renderer>();
             float initialAlpha = renderer.material.color.a;
@@ -104,13 +107,13 @@ namespace BubbleSystem
                 realDuration = duration;
             }
 
-            if (!renderer.material.color.Equals(textureData.color))
+            if (!renderer.material.color.Equals(colorToLerpTo))
             {
 
                 foreach (BackgroundEffect fx in backgroundAnimationData.colorEffect.Keys)
                 {
                     if (fx == BackgroundEffect.FadeColor)
-                        colorCoroutines[bg].Add(fx, LerpColor(renderer, textureData.color, backgroundAnimationData.colorEffect[fx], realDuration));
+                        colorCoroutines[bg].Add(fx, LerpColor(renderer, colorToLerpTo, backgroundAnimationData.colorEffect[fx], realDuration));
                 }
 
                 foreach (BackgroundEffect fx in backgroundAnimationData.colorEffect.Keys)

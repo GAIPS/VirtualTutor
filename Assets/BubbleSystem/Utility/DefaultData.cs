@@ -14,6 +14,7 @@ public class DefaultData : Singleton<DefaultData>
     private Dictionary<BubbleSystem.Emotion, Dictionary<float, Dictionary<string, List<PositionData>>>> defaultPositions = new Dictionary<BubbleSystem.Emotion, Dictionary<float, Dictionary<string, List<PositionData>>>>();
 
     public float duration = 5.0f;
+    private bool mixColors = false;
 
     public Color blushColor = Color.red;
     public AnimationCurve bellCurve = new AnimationCurve(new Keyframe(0, 0), new Keyframe(0.5f, 1.0f), new Keyframe(1.0f, 0));
@@ -23,6 +24,7 @@ public class DefaultData : Singleton<DefaultData>
     public AnimationCurve palpitationCurve = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(0.5f, 1f), new Keyframe(1f, 0f), new Keyframe(1.5f, 1f), new Keyframe(2f, 0f), new Keyframe(3f, 0f));
 
     private Color32 defaultColor = Color.white;
+    private Color32 neutralColor = new Color32(0x8C, 0xDB, 0xA1, 0xFF);
     private Color32 happinessColor = new Color32(0xF0, 0xE6, 0x4D, 0xFF);
     private Color32 sadnessColor = new Color32(0x1D, 0x33, 0xCE, 0xFF);
     private Color32 angerColor = new Color32(0xFF, 0x00, 0xFF, 0xFF);
@@ -109,7 +111,6 @@ public class DefaultData : Singleton<DefaultData>
         {
             defaultBackgroundDataDictionary[emotion].Add(intensity, newDict);
         }
-        
     }
 
     public void SetTextEffects(BubbleSystem.Emotion emotion, float intensity, Dictionary<Effect, AnimationCurve> showEffects, Dictionary<Effect, AnimationCurve> hideEffects)
@@ -149,6 +150,40 @@ public class DefaultData : Singleton<DefaultData>
                 return palpitationCurve;
         }
         throw new KeyNotFoundException("Animation Curve with name " + name + " does not exist.");
+    }
+
+    public Color32 GetColor(BubbleSystem.Emotion emotion)
+    {
+        switch (emotion)
+        {
+            case BubbleSystem.Emotion.Happiness:
+                return happinessColor;
+            case BubbleSystem.Emotion.Sadness:
+                return sadnessColor;
+            case BubbleSystem.Emotion.Anger:
+                return angerColor;
+            case BubbleSystem.Emotion.Fear:
+                return fearColor;
+            case BubbleSystem.Emotion.Disgust:
+                return disgustColor;
+            case BubbleSystem.Emotion.Surprise:
+                return surpriseColor;
+            case BubbleSystem.Emotion.Neutral:
+                return neutralColor;
+            case BubbleSystem.Emotion.Default:
+                return defaultColor;
+        }
+        throw new KeyNotFoundException("Emotion " + emotion + " does not exist.");
+    }
+
+    public bool GetMixColors()
+    {
+        return mixColors;
+    }
+
+    public void SetMixColors(bool mix)
+    {
+        mixColors = mix;
     }
 
     private void SetBalloonPositions()

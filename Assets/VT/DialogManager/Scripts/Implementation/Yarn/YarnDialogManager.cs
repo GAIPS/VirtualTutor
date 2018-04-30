@@ -20,8 +20,7 @@ namespace YarnDialog
 
         public ICollection<Tutor> Tutors { get; set; }
 
-        public AvatarManager HeadAnimationManager { get; set; }
-        public BubbleSystem.BubbleSystemManager BubbleManager { get; set; }
+        public VTToModuleBridge ModuleManager { get; set; }
 
         public IList<IDialogHandler> Handlers { get; set; }
 
@@ -68,10 +67,10 @@ namespace YarnDialog
 
         public void SetTutorEmotion(Tutor tutor)
         {
-            if (HeadAnimationManager != null)
+            if (ModuleManager != null)
             {
-                HeadAnimationManager.Feel(tutor, tutor.Emotion);
-                BubbleManager.UpdateBackground(tutor, 5f, BubbleSystem.Reason.None);
+                ModuleManager.Feel(tutor, tutor.Emotion);
+                ModuleManager.UpdateBackground(tutor, 5f, BubbleSystem.Reason.None);
             }
         }
 

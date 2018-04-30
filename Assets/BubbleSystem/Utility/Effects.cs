@@ -5,9 +5,6 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 
-//MISSING
-//THINK OF WHERE TO USE INTENSITY
-
 public enum Effect
     {
         None,
