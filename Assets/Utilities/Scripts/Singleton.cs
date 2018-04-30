@@ -39,18 +39,22 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
                         DontDestroyOnLoad(singleton);
                     }
-                    else if (_instance.gameObject.transform.parent == null)
-                    {
-                        DontDestroyOnLoad(_instance.gameObject);
-                    }
                     else
                     {
-                        DontDestroyOnLoad(_instance.gameObject.transform.parent.gameObject);
+                        GameObject parent = getParent(_instance.gameObject);
+                        if (parent == null)
+                            DontDestroyOnLoad(_instance.gameObject);
+                        else
+                            DontDestroyOnLoad(parent);
                     }
                 }
-
                 return _instance;
             }
         }
+    }
+
+    private static GameObject getParent(GameObject gameObject)
+    {
+        return gameObject.transform.parent.gameObject;
     }
 }
