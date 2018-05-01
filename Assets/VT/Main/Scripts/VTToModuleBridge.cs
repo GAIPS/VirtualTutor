@@ -88,43 +88,49 @@ public class VTToModuleBridge : MonoBehaviour
     **********************************************************************************************************/
 
     // Main Parsers and Invokers
-    private void Feel(string[] parameters)
+    private void Feel(string[] arguments)
     {
         Tutor tutor;
         Emotion emotion;
 
-        if(parseTutorName(parameters[0], out tutor) && parseEmotion(parameters[1], parameters[2], out emotion))
+        if(parseTutorName(arguments[0], out tutor) && parseEmotion(arguments[1], arguments[2], out emotion))
         {
             tutor.Emotion = emotion;
             Feel(tutor);
         }
     }
-
-    private void Express(string[] parameters)
+    private void Express(string[] arguments)
     {
-        Tutor tutor = new Tutor();
-        tutor.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(parameters[0].ToLower());
+        Tutor tutor;
+        Emotion emotion;
 
-        //Parse the emotion field of the command
-        object emotionEnum;
-        if (EnumUtils.TryParse(typeof(EmotionEnum), parameters[1], out emotionEnum))
+        if (parseTutorName(arguments[0], out tutor) && parseEmotion(arguments[1], arguments[2], out emotion))
         {
-            float parsedFloat;
-            tutor.Emotion = new Emotion((EmotionEnum)emotionEnum);
-            if (float.TryParse(parameters[2], out parsedFloat))
-                tutor.Emotion.Intensity = parsedFloat;
-            else
-            {
-                Debug.Log(String.Format("{0} could not be parsed as a float.", parameters[2]));
-                return;
-            }
+            tutor.Emotion = emotion;
             Express(tutor);
         }
-        else
-            Debug.Log(String.Format("{0} is not a reconizable emotion.", parameters[1]));
     }
-
     private void Talk(string[] arguments)
+    {
+        Tutor tutor;
+        MovementWithProperty movementWithProperty;
+        MovementWithState movementWithState;
+
+        if (parseTutorName(arguments[0], out tutor))
+        {
+            if (arguments.Length == 3 && parseProperty(arguments[1], arguments[2], out movementWithProperty))
+            {
+                movementWithProperty.Name = MovementEnum.Talk;
+                setParameter(tutor, movementWithProperty);
+            }
+            if (arguments.Length == 2 && parseState(arguments[1], out movementWithState))
+            {
+                movementWithState.Name = MovementEnum.Talk;
+                Act(tutor, movementWithState);
+            }
+        }       
+    }
+    private void Nod(string[] arguments)
     {
         Tutor tutor = new Tutor(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(arguments[0].ToLower()));
 
@@ -137,7 +143,7 @@ public class VTToModuleBridge : MonoBehaviour
             EnumUtils.TryParse(typeof(PropertyEnum), arguments[1], out property);
             float parsedFloat = 0.0f;
             if (float.TryParse(arguments[2], out parsedFloat))
-                setParameter(tutor, new MovementWithProperty(MovementEnum.Talk, (PropertyEnum)property, parsedFloat));
+                setParameter(tutor, new MovementWithProperty(MovementEnum.Nod, (PropertyEnum)property, parsedFloat));
             else
             {
                 Debug.Log(String.Format("{0} could not be parsed as a float.", arguments[2]));
@@ -147,66 +153,34 @@ public class VTToModuleBridge : MonoBehaviour
         else if (arguments.Length == 2 && EnumUtils.TryParse(typeof(ArgumentType2), arguments[1], out action))
         { // this is an animation command
             if ((ArgumentType2)action == ArgumentType2.START)
-                Act(tutor, new MovementWithState(MovementEnum.Talk, StateEnum.Start));
-            else
-                Act(tutor, new MovementWithState(MovementEnum.Talk, StateEnum.End));
-        }
-        else
-            Debug.Log(String.Format("[{0}] are not valid arguments for this command", string.Join(", ", arguments)));
-    }
-
-    private void Nod(string[] parameters)
-    {
-        Tutor tutor = new Tutor(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(parameters[0].ToLower()));
-
-        //Parse the action type field of the command
-        object action;
-
-        if (parameters.Length == 3 && EnumUtils.TryParse(typeof(ArgumentType3), parameters[1], out action))
-        { // this is a parameter set command
-            object property;
-            EnumUtils.TryParse(typeof(PropertyEnum), parameters[1], out property);
-            float parsedFloat = 0.0f;
-            if (float.TryParse(parameters[2], out parsedFloat))
-                setParameter(tutor, new MovementWithProperty(MovementEnum.Nod, (PropertyEnum)property, parsedFloat));
-            else
-            {
-                Debug.Log(String.Format("{0} could not be parsed as a float.", parameters[2]));
-                return;
-            }
-        }
-        else if (parameters.Length == 2 && EnumUtils.TryParse(typeof(ArgumentType2), parameters[1], out action))
-        { // this is an animation command
-            if ((ArgumentType2)action == ArgumentType2.START)
                 Act(tutor, new MovementWithState(MovementEnum.Nod, StateEnum.Start));
             else
                 Act(tutor, new MovementWithState(MovementEnum.Nod, StateEnum.End));
         }
         else
-            Debug.Log(String.Format("[{0}] are not valid arguments for this command", string.Join(", ", parameters)));
+            Debug.Log(String.Format("[{0}] are not valid arguments for this command", string.Join(", ", arguments)));
     }
-
-    private void GazeAt(string[] parameters)
+    private void GazeAt(string[] arguments)
     {
-        Tutor tutor = new Tutor(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(parameters[0].ToLower()));
+        Tutor tutor = new Tutor(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(arguments[0].ToLower()));
 
         //Parse the action type field of the command
         object action;
 
-        if (parameters.Length == 3 && EnumUtils.TryParse(typeof(ArgumentType3), parameters[1], out action))
+        if (arguments.Length == 3 && EnumUtils.TryParse(typeof(ArgumentType3), arguments[1], out action))
         { // this is a parameter set command
             object property;
-            EnumUtils.TryParse(typeof(PropertyEnum), parameters[1], out property);
+            EnumUtils.TryParse(typeof(PropertyEnum), arguments[1], out property);
             float parsedFloat = 0.0f;
-            if (float.TryParse(parameters[2], out parsedFloat))
+            if (float.TryParse(arguments[2], out parsedFloat))
                 setParameter(tutor, new MovementWithProperty(MovementEnum.Gazeat, (PropertyEnum)property, parsedFloat));
             else
             {
-                Debug.Log(String.Format("{0} could not be parsed as a float.", parameters[2]));
+                Debug.Log(String.Format("{0} could not be parsed as a float.", arguments[2]));
                 return;
             }
         }
-        else if (parameters.Length == 2 && EnumUtils.TryParse(typeof(ArgumentType1), parameters[1], out action))
+        else if (arguments.Length == 2 && EnumUtils.TryParse(typeof(ArgumentType1), arguments[1], out action))
         { // this is an animation command
             if ((ArgumentType1)action == ArgumentType1.USER)
                 Act(tutor, new MovementWithTarget(MovementEnum.Gazeat, TargetEnum.User));
@@ -214,30 +188,29 @@ public class VTToModuleBridge : MonoBehaviour
                 Act(tutor, new MovementWithTarget(MovementEnum.Gazeat, TargetEnum.Partner));
         }
         else
-            Debug.Log(String.Format("[{0}] are not valid arguments for this command", string.Join(", ", parameters)));
+            Debug.Log(String.Format("[{0}] are not valid arguments for this command", string.Join(", ", arguments)));
     }
-
-    private void GazeBack(string[] parameters)
+    private void GazeBack(string[] arguments)
     {
-        Tutor tutor = new Tutor(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(parameters[0].ToLower()));
+        Tutor tutor = new Tutor(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(arguments[0].ToLower()));
 
         //Parse the action type field of the command
         object action;
 
-        if (parameters.Length == 3 && EnumUtils.TryParse(typeof(ArgumentType3), parameters[1], out action))
+        if (arguments.Length == 3 && EnumUtils.TryParse(typeof(ArgumentType3), arguments[1], out action))
         { // this is a parameter set command
             object property;
-            EnumUtils.TryParse(typeof(PropertyEnum), parameters[1], out property);
+            EnumUtils.TryParse(typeof(PropertyEnum), arguments[1], out property);
             float parsedFloat = 0.0f;
-            if (float.TryParse(parameters[2], out parsedFloat))
+            if (float.TryParse(arguments[2], out parsedFloat))
                 setParameter(tutor, new MovementWithProperty(MovementEnum.Gazeback, (PropertyEnum)property, parsedFloat));
             else
             {
-                Debug.Log(String.Format("{0} could not be parsed as a float.", parameters[2]));
+                Debug.Log(String.Format("{0} could not be parsed as a float.", arguments[2]));
                 return;
             }
         }
-        else if (parameters.Length == 2 && EnumUtils.TryParse(typeof(ArgumentType1), parameters[1], out action))
+        else if (arguments.Length == 2 && EnumUtils.TryParse(typeof(ArgumentType1), arguments[1], out action))
         { // this is an animation command
             if ((ArgumentType1)action == ArgumentType1.USER)
                 Act(tutor, new MovementWithTarget(MovementEnum.Gazeback, TargetEnum.User));
@@ -245,28 +218,25 @@ public class VTToModuleBridge : MonoBehaviour
                 Act(tutor, new MovementWithTarget(MovementEnum.Gazeback, TargetEnum.Partner));
         }
         else
-            Debug.Log(String.Format("[{0}] are not valid arguments for this command", string.Join(", ", parameters)));
+            Debug.Log(String.Format("[{0}] are not valid arguments for this command", string.Join(", ", arguments)));
     }
-
-    private void MoveEyes(string[] parameters)
+    private void MoveEyes(string[] arguments)
     {
         throw new NotImplementedException();
     } //TODO
 
     public void Feel(Tutor tutor)
     {
-        string moodString = getStateString(tutor.Emotion);
+        string moodString = getEmotionName(tutor.Emotion);
         EmotionalState emotionalState = getStateType<EmotionalState>(moodString);
         avatarManager.Feel(tutor.Name, emotionalState, tutor.Emotion.Intensity);
     }
-
     public void Express(Tutor tutor)
     {
-        string expressionString = getStateString(tutor.Emotion);
+        string expressionString = getEmotionName(tutor.Emotion);
         EmotionalState expressionState = getStateType<EmotionalState>(expressionString);
         avatarManager.Express(tutor.Name, expressionState, tutor.Emotion.Intensity);
     }
-
     public void Act(Tutor tutor, IMovement movement)
     {
         string s1 = getFirstMovementString(movement), s2;
@@ -313,7 +283,6 @@ public class VTToModuleBridge : MonoBehaviour
             }
         }
     }
-
     public void setParameter(Tutor tutor, MovementWithProperty movement)
     {
         object paramEnum;
@@ -329,27 +298,22 @@ public class VTToModuleBridge : MonoBehaviour
     {
         return movement.Property.ToString().ToUpperInvariant();
     }
-
     private string getSecondMovementString(MovementWithState movement)
     {
         return movement.State.ToString().ToUpperInvariant();
     }
-
     private string getSecondMovementString(MovementWithTarget movement)
     {
         return movement.Target.ToString().ToUpperInvariant();
     }
-
     private string getFirstMovementString(IMovement movement)
     {
         return movement.Name.ToString().ToUpperInvariant();
     }
-
-    private string getStateString(Emotion emotion)
+    private string getEmotionName(Emotion emotion)
     {
         return emotion.Name.ToString().ToUpperInvariant();
     }
-
     // Outdated, similar to EnumUtils.TryParse()
     private static T getStateType<T>(string stateString)
     {
@@ -399,6 +363,45 @@ public class VTToModuleBridge : MonoBehaviour
             else
                 Debug.Log(String.Format("{0} could not be parsed as a float.", intensity));
             parsedEmotion = null;
+            return false;
+        }
+    }
+    private bool parseProperty(string type, string intensity, out MovementWithProperty parsedProperty)
+    {
+        object parsedEnum;
+        float parsedFloat;
+
+        bool successfulEnumParse = EnumUtils.TryParse(typeof(PropertyEnum), type, out parsedEnum);
+        bool successfulFloatParse = float.TryParse(intensity, out parsedFloat);
+
+        if (successfulEnumParse && successfulFloatParse)
+        {
+            parsedProperty = new MovementWithProperty((PropertyEnum)parsedEnum, parsedFloat);
+            return true;
+        }
+        else
+        {
+            if (!successfulEnumParse)
+                Debug.Log(String.Format("{0} is not a reconizable movement property.", type));
+            else
+                Debug.Log(String.Format("{0} could not be parsed as a float.", intensity));
+            parsedProperty = null;
+            return false;
+        }
+    }
+    private bool parseState(string state, out MovementWithState parsedState)
+    {
+        object parsedEnum;
+
+        if (EnumUtils.TryParse(typeof(StateEnum), state, out parsedEnum))
+        {
+            parsedState = new MovementWithState((StateEnum)parsedEnum);
+            return true;
+        }
+        else
+        {
+            Debug.Log(String.Format("{0} is not a reconizable movement state.", state));
+            parsedState = null;
             return false;
         }
     }

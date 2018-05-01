@@ -302,11 +302,18 @@ public class AvatarTestMain : MonoBehaviour
     // UI driven commands
     public void talk(string who)
     {
-        bridge.Act(new Tutor(who), new MovementWithState(MovementEnum.Talk, StateEnum.Start));
+        if (testCommands)
+            bridge.Handle(new string[] { "Talk", tutorName, "Start" });
+        else
+            bridge.Act(new Tutor(who), new MovementWithState(MovementEnum.Talk, StateEnum.Start));
+
     }
     public void stopTalking(string who)
     {
-        bridge.Act(new Tutor(who), new MovementWithState(MovementEnum.Talk, StateEnum.End));
+        if (testCommands)
+            bridge.Handle(new string[] { "Talk", tutorName, "Start" });
+        else
+            bridge.Act(new Tutor(who), new MovementWithState(MovementEnum.Talk, StateEnum.End));
     }
 
     IEnumerator controllerParameterDebugRoutine()
