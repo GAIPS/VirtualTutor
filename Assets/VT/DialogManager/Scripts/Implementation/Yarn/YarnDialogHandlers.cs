@@ -304,7 +304,7 @@ namespace YarnDialog
 
     public class EmotionTagNodeHandler : YarnDialogManager.IDialogHandler
     {
-        private string _currentNode = String.Empty;
+        private string _currentNode = string.Empty;
 
         public IEnumerator Handle(Dialogue.RunnerResult result, YarnDialogManager manager)
         {
