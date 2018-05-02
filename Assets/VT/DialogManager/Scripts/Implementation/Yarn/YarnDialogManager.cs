@@ -155,6 +155,12 @@ namespace YarnDialog
             }
             _enumerator = _dialogTree.Dialogue.Run(node).GetEnumerator();
         }
+
+        public Yarn.Dialogue GetDialogue()
+        {
+            if (_dialogTree == null) return null;
+            return _dialogTree.Dialogue;
+        }
     }
 
 }

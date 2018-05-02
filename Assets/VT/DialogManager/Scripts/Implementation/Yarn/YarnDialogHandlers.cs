@@ -301,4 +301,58 @@ namespace YarnDialog
 
         public void Update(YarnDialogManager manager) { }
     }
+
+    public class EmotionTagNodeHandler : YarnDialogManager.IDialogHandler
+    {
+        private string _currentNode = String.Empty;
+
+        public IEnumerator Handle(Dialogue.RunnerResult result, YarnDialogManager manager)
+        {
+            var dialogue = manager.GetDialogue();
+            if (dialogue == null || string.IsNullOrEmpty(dialogue.currentNode)) return null;
+
+            if (_currentNode.Equals(dialogue.currentNode)) return null;
+            _currentNode = dialogue.currentNode;
+
+            var tags = dialogue.GetTagsForNode(_currentNode);
+            foreach (var tag in tags)
+            {
+                var tagSplit = tag.Split('.');
+
+                if (tagSplit.Length < 3)
+                {
+                    continue;
+                }
+
+                var action = tagSplit[1].ToLower();
+                if (!action.Equals("emotion"))
+                {
+                    continue;
+                }
+                
+                var target = tagSplit[0].ToLower();
+
+                if (target.Equals("user"))
+                {
+                    
+                } else if (target.Equals("joao"))
+                {
+                    
+                } else if (target.Equals("maria"))
+                {
+                    
+                }
+            }
+
+            return null;
+        }
+
+        public void Reset(YarnDialogManager manager)
+        {
+        }
+
+        public void Update(YarnDialogManager manager)
+        {
+        }
+    }
 }
