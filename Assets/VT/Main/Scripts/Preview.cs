@@ -84,8 +84,8 @@ public class Preview : MonoBehaviour
             _manager.DialogManager = dialogManager;
             dialogManager.Tutors.Add(joao);
             dialogManager.Tutors.Add(maria);
-            dialogManager.HeadAnimationManager = HeadAnimationManager;
-            dialogManager.BubbleManager = BubbleManager;
+            dialogManager.ModuleManager.avatarManager = HeadAnimationManager;
+            dialogManager.ModuleManager.bubbleSystem = BubbleManager;
 
 
             // Order matters

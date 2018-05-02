@@ -38,18 +38,6 @@ namespace BubbleSystem
         public Dictionary<BackgroundEffect, AnimationCurve> colorEffect;
     }
 
-    public struct BalloonAnimationData
-    {
-        public AnimatorOverrideController animator;
-        public float duration;
-    }
-
-    public struct DefaultBalloonAnimationData
-    {
-        public RuntimeAnimatorController animator;
-        public float duration;
-    }
-
     public struct SpriteData
     {
         public Sprite sprite;
@@ -65,8 +53,7 @@ namespace BubbleSystem
 
     public struct SpeakData
     {
-        public Emotion emotion;
-        public float intensity;
+        public Dictionary<Emotion, float> emotions;
         //Top, Left, Right, Extra
         public string[] text;
 
@@ -76,8 +63,7 @@ namespace BubbleSystem
 
     public struct BackgroundData
     {
-        public Emotion emotion;
-        public float intensity;
+        public Dictionary<Emotion, float> emotions;
         public Reason reason;
         public BackgroundAnimationData animationData;
     }
