@@ -1,5 +1,5 @@
 title: Start.Start
-tags: User.Emotion.Happy
+tags: User.Emotion.Happiness.1,0 Joao.Emotion.Happiness.1,0 Maria.Emotion.Happiness.1,0
 colorID: 1
 position: 539,256
 ---

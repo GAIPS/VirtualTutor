@@ -56,7 +56,7 @@ namespace YarnDialog
 
             if (dialogTree is YarnDialogTree)
             {
-                this._dialogTree = (YarnDialogTree)dialogTree;
+                this._dialogTree = (YarnDialogTree) dialogTree;
                 Reset();
             }
             else
@@ -80,6 +80,7 @@ namespace YarnDialog
             {
                 _dialogTree.Dialogue.Stop();
             }
+
             _enumerator = null;
             step = null;
             foreach (IDialogHandler handler in Handlers)
@@ -98,6 +99,7 @@ namespace YarnDialog
                 DebugLog.Warn("Dialog Tree is null");
                 return true;
             }
+
             newAppraisal = false;
 
             foreach (IDialogHandler handler in Handlers)
@@ -114,6 +116,7 @@ namespace YarnDialog
             {
                 step = DialogStep();
             }
+
             return newAppraisal;
         }
 
@@ -152,6 +155,7 @@ namespace YarnDialog
             {
                 handler.Reset(this);
             }
+
             _enumerator = _dialogTree.Dialogue.Run(node).GetEnumerator();
         }
 
@@ -160,6 +164,18 @@ namespace YarnDialog
             if (_dialogTree == null) return null;
             return _dialogTree.Dialogue;
         }
-    }
 
+        public Tutor GetTutor(string name)
+        {
+            foreach (var tutor in Tutors)
+            {
+                if (tutor.Name.ToLower().Contains(name.ToLower()))
+                {
+                    return tutor;
+                }
+            }
+
+            return null;
+        }
+    }
 }

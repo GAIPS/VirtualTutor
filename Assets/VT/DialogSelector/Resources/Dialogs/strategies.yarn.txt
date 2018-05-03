@@ -1,5 +1,5 @@
 title: Start.Target-focused.Good-grades
-tags: User.Emotion.Happy
+tags: User.Emotion.Happiness.1,0 Joao.Emotion.Happiness.1,0 Maria.Emotion.Happiness.1,0
 colorID: 1
 position: 539,256
 ---
@@ -14,7 +14,7 @@ Maria: Ou talvez fazer um plano de estudo?
 [[Plano de Estudo|StudyPlan.propose]]
 ===
 title: Start.Attention
-tags: User.Emotion.Neutral Maria.Emotion.Happy Joao.Emotion.Neutral
+tags: User.Emotion.Neutral.1 Maria.Emotion.Happyness.0,5 Joao.Emotion.Neutral.1
 colorID: 1
 position: 1039,257
 ---
@@ -58,7 +58,7 @@ Joao: Continua o bom trabalho.
 <<exit>>
 ===
 title: Start.Humor
-tags: User.Emotion.Happy Maria.Emotion.Happy Joao.Emotion.Happy
+tags: User.Emotion.Neutral.1 Maria.Emotion.Happyness.0,5 Joao.Emotion.Neutral.1
 colorID: 1
 position: 1289,257
 ---
@@ -67,9 +67,9 @@ Joao: Não é que tenhamos escolha! :D
 Joao: Ao menos temos bom humor!
 ===
 title: Start.cognitive-engagement.bad-grades
-tags: User.Emotion.Sad Maria.Emotion.Sad Joao.Emotion.Neutral
+tags: User.Emotion.Sadness.0 Joao.Emotion.Sadness.1 Maria.Emotion.Sadness.1
 colorID: 1
-position: 789,257
+position: 788,257
 ---
 Joao: Estas notas não estão muito boas.
 Maria: Pois não... Mas podemos melhorar!

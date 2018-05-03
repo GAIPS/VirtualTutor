@@ -11,12 +11,9 @@ public class VT_MainEditor : Editor
         var vt_main = target as VT_Main;
         serializedObject.Update();
 
-        EditorGUILayout.LabelField("UI Options", EditorStyles.largeLabel, GUILayout.MinHeight(20));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("playSplashScreen"), true);
-        if (vt_main.playSplashScreen)
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("splashScreenPrefab"), true);
+//        EditorGUILayout.LabelField("UI Options", EditorStyles.largeLabel, GUILayout.MinHeight(20));
 
-        GUILayout.Space(15);
+//        GUILayout.Space(15);
         EditorGUILayout.LabelField("Dialog Options", EditorStyles.largeLabel, GUILayout.MinHeight(20));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("yarnDialogDatabase"), true);
 
