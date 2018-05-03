@@ -38,20 +38,18 @@ namespace YarnDialog
 
         protected void ShowLine(LineInfo line, float duration, YarnDialogManager manager)
         {
-            if (manager.BubbleManager != null && manager.HeadAnimationManager != null)
+            if (manager.ModuleManager != null && manager.ModuleManager != null)
             {
-                manager.BubbleManager.Speak(line.speaker, new string[] { line.message }, duration);
-                manager.HeadAnimationManager.Act(line.speaker, new MovementWithState(MovementEnum.Talk, StateEnum.Start));
-                //manager.HeadAnimationManager.Act(line.speaker, new Movement(MovementEnum.Talk, new State(StateEnum.Start)));
+                manager.ModuleManager.Speak(line.speaker, new string[] { line.message }, duration);
+                manager.ModuleManager.Act(line.speaker, new MovementWithState(MovementEnum.Talk, StateEnum.Start));
             }
         }
 
         protected void HideLine(LineInfo line, YarnDialogManager manager)
         {
-            if (manager.HeadAnimationManager != null)
+            if (manager.ModuleManager != null)
             {
-                manager.HeadAnimationManager.Act(line.speaker, new MovementWithState(MovementEnum.Talk, StateEnum.End));
-                //manager.HeadAnimationManager.Act(line.speaker, new Movement(MovementEnum.Talk, new State(StateEnum.End)));
+                manager.ModuleManager.Act(line.speaker, new MovementWithState(MovementEnum.Talk, StateEnum.End));
             }
         }
     }
@@ -168,12 +166,12 @@ namespace YarnDialog
                 });
             }
 
-            if (manager.BubbleManager != null)
+            if (manager.ModuleManager != null)
             {
                 float duration = 60; // One minute wait.
                 IList<string> options = new List<string>(optionSetResult.options.options);
                 options.Remove("BLANK");
-                manager.BubbleManager.UpdateOptions(options.ToArray(), 0.0f, duration, callbacks.ToArray());
+                manager.ModuleManager.UpdateOptions(options.ToArray(), duration, callbacks.ToArray());
                 float count = 0;
                 while (count <= duration && !continueLoop)
                 {
@@ -200,7 +198,7 @@ namespace YarnDialog
                 }
                 // Hide Options
                 // HACK
-                manager.BubbleManager.HideBalloon("Options");
+                manager.ModuleManager.HideBalloon("Options");
             }
         }
 

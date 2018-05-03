@@ -34,10 +34,14 @@ public class MovementWithState : IMovement
     public MovementEnum Name { get; set; }
     public StateEnum State { get; set; }
 
-    public MovementWithState(MovementEnum name, StateEnum state)
+    public MovementWithState(StateEnum state)
+    {
+        State = state;
+    }
+
+    public MovementWithState(MovementEnum name, StateEnum state) : this (state)
     {
         Name = name;
-        State = state;
     }
 }
 
@@ -47,11 +51,15 @@ public class MovementWithProperty : IMovement
     public PropertyEnum Property { get; set; }
     public float Value { get; set; }
 
-    public MovementWithProperty(MovementEnum name, PropertyEnum property, float value)
+    public MovementWithProperty(PropertyEnum property, float value)
     {
-        Name = name;
         Property = property;
         Value = value;
+    }
+
+    public MovementWithProperty(MovementEnum name, PropertyEnum property, float value) : this(property, value)
+    {
+        Name = name;
     }
 }
 
