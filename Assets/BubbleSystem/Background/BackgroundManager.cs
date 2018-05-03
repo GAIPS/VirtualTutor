@@ -37,10 +37,10 @@ namespace BubbleSystem
 
             KeyValuePair<Emotion, float> emotionPair = BubbleSystemUtility.GetHighestEmotion(data.emotions);
 
-            TextureData textureData = DefaultData.Instance.GetDefaultBackgroundDataDictionary(emotionPair.Key, emotionPair.Value, data.reason);
+            Texture2D textureData = DefaultData.Instance.GetDefaultBackgroundDataDictionary(emotionPair.Key, emotionPair.Value, data.reason);
             BackgroundAnimationData backgroundAnimationData = DefaultData.Instance.GetDefaultBackgroundAnimationData(emotionPair.Key, emotionPair.Value);
 
-            Color32 colorToLerpTo = DefaultData.Instance.GetMixColors() ? BubbleSystemUtility.MixColors(data.emotions) : textureData.color;
+            Color32 colorToLerpTo = DefaultData.Instance.mixColors ? BubbleSystemUtility.MixColors(data.emotions) : DefaultData.Instance.GetColor(emotionPair.Key);
 
             StartCoroutine(ChangeImage(bg, textureData, backgroundAnimationData, duration, colorToLerpTo));
         }
@@ -58,7 +58,7 @@ namespace BubbleSystem
             throw new KeyNotFoundException("Background with name: " + bg + " not found.");
         }
         
-        private IEnumerator ChangeImage(string bg, TextureData textureData, BackgroundAnimationData backgroundAnimationData, float duration, Color32 colorToLerpTo)
+        private IEnumerator ChangeImage(string bg, Texture2D textureData, BackgroundAnimationData backgroundAnimationData, float duration, Color32 colorToLerpTo)
         {
             Renderer renderer = GetBackground(bg).GetComponent<Renderer>();
             float initialAlpha = renderer.material.color.a;
@@ -74,7 +74,7 @@ namespace BubbleSystem
                 foreach (BackgroundEffect fx in colorCoroutines[bg].Keys)
                     CoroutineStopper.Instance.StopCoroutineWithCheck(colorCoroutines[bg][fx]);
 
-            if (!textureData.texture.name.Equals(renderer.material.mainTexture.name))
+            if (!textureData.name.Equals(renderer.material.mainTexture.name))
             {
                 foreach (BackgroundEffect fx in backgroundAnimationData.hideBannerEffect.Keys)
                 {
@@ -88,7 +88,7 @@ namespace BubbleSystem
                 yield return new WaitForSeconds(realDuration);
 
                 textureCoroutines[bg].Clear();
-                renderer.material.mainTexture = textureData.texture;
+                renderer.material.mainTexture = textureData;
                 renderer.material.mainTexture.wrapMode = TextureWrapMode.Mirror;
 
                 foreach (BackgroundEffect fx in backgroundAnimationData.showBannerEffect.Keys)

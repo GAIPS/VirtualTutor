@@ -78,17 +78,6 @@ namespace BubbleSystem
                                                         COMMANDS
         **********************************************************************************************************/
 
-        //<< OverrideBackgroundColor emotion intensity reason color >>  Color in #RRGGBBAA format
-        public void OverrideBackgroundColor(string[] info)
-        {
-            BubbleSystem.Emotion emotion = (BubbleSystem.Emotion)Enum.Parse(typeof(BubbleSystem.Emotion), info[0]);
-            float intensity = Mathf.Clamp01(Convert.ToSingle(info[1]));
-            Reason reason = (Reason)Enum.Parse(typeof(Reason), info[2]);
-            Color color;
-            ColorUtility.TryParseHtmlString(info[3], out color);
-            DefaultData.Instance.SetBackgroundColor(emotion, intensity, reason, color);
-        }
-
         //<< OverrideTextEffects emotion intensity [showEffects [curve] ...] [hideEffects effect1 [curve] ...] >>
         public void OverrideTextEffects(string[] info)
         {
@@ -131,9 +120,41 @@ namespace BubbleSystem
         }
 
         //<< SetMixColors boolInIntFormat >>   0 -> false; 1 -> true
-        public void SetMixColors(string[] mix)
+        public void SetMixColors(string[] info)
         {
-            DefaultData.Instance.SetMixColors(Convert.ToBoolean(Convert.ToInt16(mix[0])));
+            DefaultData.Instance.mixColors = Convert.ToBoolean(Convert.ToInt16(info[0]));
+        }
+
+        //<< OverrideBlushColor color >>   Color in #RRGGBBAA format
+        public void OverrideBlushColor(string[] info)
+        {
+            Color color;
+            ColorUtility.TryParseHtmlString(info[0], out color);
+            DefaultData.Instance.SetBlushColor(color);
+        }
+
+        //Only works for backgrounds
+        //<< OverrideEmotionColor emotion color >>   Color in #RRGGBBAA format
+        public void OverrideEmotionColor(string[] info)
+        {
+            BubbleSystem.Emotion emotion = (BubbleSystem.Emotion)Enum.Parse(typeof(BubbleSystem.Emotion), info[0]);
+            Color color;
+            ColorUtility.TryParseHtmlString(info[1], out color);
+            DefaultData.Instance.SetColor(emotion, color);
+        }
+
+        //Can also override
+        //<< AddAnimationCurve name time1 value1 time2 value2 ... >>   Color in #RRGGBBAA format
+        public void AddAnimationCurve(string[] info)
+        {
+            string name = info[0];
+            AnimationCurve curve = new AnimationCurve();
+            for(int i = 1; i < info.Length; i = i + 2)
+            {
+                curve.AddKey(new Keyframe(Convert.ToSingle(info[i]), Convert.ToSingle(info[i + 1])));
+            }
+
+            DefaultData.Instance.AddCurve(name, curve);
         }
 
         /**********************************************************************************************************

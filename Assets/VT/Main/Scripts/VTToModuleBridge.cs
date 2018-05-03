@@ -65,16 +65,24 @@ public class VTToModuleBridge : MonoBehaviour
                     bubbleSystem.UpdateBackground(parameters);
                     break;
 
-                case "OverrideBackgroundColor":
-                    bubbleSystem.OverrideBackgroundColor(parameters);
-                    break;
-
                 case "OverrideTextEffects":
                     bubbleSystem.OverrideTextEffects(parameters);
                     break;
 
                 case "SetMixColors":
                     bubbleSystem.SetMixColors(parameters);
+                    break;
+
+                case "OverrideBlushColor":
+                    bubbleSystem.OverrideBlushColor(parameters);
+                    break;
+
+                case "OverrideEmotionColor":
+                    bubbleSystem.OverrideEmotionColor(parameters);
+                    break;
+
+                case "AddAnimationCurve":
+                    bubbleSystem.AddAnimationCurve(parameters);
                     break;
 
                 default:

@@ -48,7 +48,6 @@ namespace BubbleSystem
     public struct TextureData
     {
         public Texture2D texture;
-        public Color32 color;
     }
 
     public struct SpeakData

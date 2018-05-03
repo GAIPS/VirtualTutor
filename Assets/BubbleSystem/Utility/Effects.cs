@@ -368,14 +368,16 @@ public class Effects : MonoBehaviour
         float lastKeyTime = lastframe.time;
         float yValue;
 
+        Color blushColor = DefaultData.Instance.GetBlushColor();
+
         while (((Time.time - initialTime) / duration) < 1)
         {
             yValue = Mathf.Clamp01(curve.Evaluate((Time.time - initialTime) * lastKeyTime / duration));
 
-            red = (int)(initialColor.r + yValue * (((byte)(DefaultData.Instance.blushColor.r * 255)) - initialColor.r));
-            green = (int)(initialColor.g + yValue * (((byte)(DefaultData.Instance.blushColor.g * 255)) - initialColor.g));
-            blue = (int)(initialColor.b + yValue * (((byte)(DefaultData.Instance.blushColor.b * 255)) - initialColor.b));
-            alpha = (int)(initialColor.a + yValue * (((byte)(DefaultData.Instance.blushColor.a * 255)) - initialColor.a));
+            red = (int)(initialColor.r + yValue * (((byte)(blushColor.r * 255)) - initialColor.r));
+            green = (int)(initialColor.g + yValue * (((byte)(blushColor.g * 255)) - initialColor.g));
+            blue = (int)(initialColor.b + yValue * (((byte)(blushColor.b * 255)) - initialColor.b));
+            alpha = (int)(initialColor.a + yValue * (((byte)(blushColor.a * 255)) - initialColor.a));
 
             finalColor.r = (byte)red;
             finalColor.g = (byte)green;
@@ -386,7 +388,7 @@ public class Effects : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        m_TextComponent.color = DefaultData.Instance.blushColor;
+        m_TextComponent.color = blushColor;
     }
 
     IEnumerator BlushCharacters(float duration, float intensity, AnimationCurve curve)
@@ -404,6 +406,8 @@ public class Effects : MonoBehaviour
         Keyframe lastframe = curve[curve.length - 1];
         float lastKeyTime = lastframe.time;
         float yValue;
+
+        Color blushColor = DefaultData.Instance.GetBlushColor();
 
         for (int i = 0; i < characterCount; i++)
         {
@@ -426,10 +430,10 @@ public class Effects : MonoBehaviour
             {
                 yValue = Mathf.Clamp01(curve.Evaluate((Time.time - initialCharTime) * lastKeyTime * characterCount / duration));
 
-                red = (int)(initialColor.r + yValue * (((byte)(DefaultData.Instance.blushColor.r * 255)) - initialColor.r));
-                green = (int)(initialColor.g + yValue * (((byte)(DefaultData.Instance.blushColor.g * 255)) - initialColor.g));
-                blue = (int)(initialColor.b + yValue * (((byte)(DefaultData.Instance.blushColor.b * 255)) - initialColor.b));
-                alpha = (int)(initialColor.a + yValue * (((byte)(DefaultData.Instance.blushColor.a * 255)) - initialColor.a));
+                red = (int)(initialColor.r + yValue * (((byte)(blushColor.r * 255)) - initialColor.r));
+                green = (int)(initialColor.g + yValue * (((byte)(blushColor.g * 255)) - initialColor.g));
+                blue = (int)(initialColor.b + yValue * (((byte)(blushColor.b * 255)) - initialColor.b));
+                alpha = (int)(initialColor.a + yValue * (((byte)(blushColor.a * 255)) - initialColor.a));
 
                 finalColor.r = (byte)red;
                 finalColor.g = (byte)green;
@@ -444,10 +448,10 @@ public class Effects : MonoBehaviour
                 yield return new WaitForSeconds(Time.deltaTime);
             }
 
-            newVertexColors[vertexIndex + 0] = DefaultData.Instance.blushColor;
-            newVertexColors[vertexIndex + 1] = DefaultData.Instance.blushColor;
-            newVertexColors[vertexIndex + 2] = DefaultData.Instance.blushColor;
-            newVertexColors[vertexIndex + 3] = DefaultData.Instance.blushColor;
+            newVertexColors[vertexIndex + 0] = blushColor;
+            newVertexColors[vertexIndex + 1] = blushColor;
+            newVertexColors[vertexIndex + 2] = blushColor;
+            newVertexColors[vertexIndex + 3] = blushColor;
             m_TextComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
         }
     }
