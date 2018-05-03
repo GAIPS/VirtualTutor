@@ -4,23 +4,21 @@ using YarnDialog;
 
 public class VT_Main : MonoBehaviour
 {
-
     private SystemManager manager;
 
     public TextAsset[] yarnDialogDatabase;
 
     public VTToModuleBridge moduleManager;
-    
+
     public string[] intentions;
     public bool forceIntention;
     public string forceIntentionName;
 
-    public bool playSplashScreen = true;
-    public GameObject splashScreenPrefab;
     public bool playing = false;
 
     // Use this for initialization
-    void Start() {
+    void Start()
+    {
         DebugLog.logger = new UnityDebugLogger();
 
         manager = new SystemManager();
@@ -33,10 +31,10 @@ public class VT_Main : MonoBehaviour
         {
             // Setup Affective Appraisal
             ModularAffectiveAppraisal appraisal = new ModularAffectiveAppraisal(
-                                                      new UserAA_OneEmotion(new Emotion(EmotionEnum.Happiness,
-                                                          0.2f)),
-                                                      new TutorAA_CopyUser()
-                                                  );
+                new UserAA_OneEmotion(new Emotion(EmotionEnum.Happiness,
+                    0.2f)),
+                new TutorAA_CopyUser()
+            );
             manager.AffectiveAppraisal = appraisal;
         }
 
@@ -55,12 +53,14 @@ public class VT_Main : MonoBehaviour
                     strategy.Intentions.Add(new Intention(intention));
                 }
             }
+
             manager.Strategies.Add(strategy);
         }
 
         {
             // Setup Dialog Selector
-            if (yarnDialogDatabase != null) {
+            if (yarnDialogDatabase != null)
+            {
                 string[] yarnFilesContent = new string[yarnDialogDatabase.Length];
                 for (int i = 0; i < yarnDialogDatabase.Length; i++)
                 {
@@ -84,33 +84,23 @@ public class VT_Main : MonoBehaviour
 
             // Order matters
             //dialogManager.Handlers.Add(new ParallelLineHandler());
+            dialogManager.Handlers.Add(new EmotionTagNodeHandler());
+            dialogManager.Handlers.Add(new LogCommandHandler());
+            dialogManager.Handlers.Add(new LogCompleteNodeHandler());
             dialogManager.Handlers.Add(new SequenceLineHandler());
             dialogManager.Handlers.Add(new SequenceOptionsHandler());
-            dialogManager.Handlers.Add(new LogCommandHandler());
             dialogManager.Handlers.Add(new ExitCommandHandler());
-            dialogManager.Handlers.Add(new LogCompleteNodeHandler());
+        }
 
-        }
-        
-        if (splashScreenPrefab != null && playSplashScreen)
-        {
-            VT.SplashScreenControl splashScreenControl = new VT.SplashScreenControl(splashScreenPrefab);
-            splashScreenControl.SetAndShow(/*OnEndFunction*/() => {
-                playing = true;
-                splashScreenControl.Destroy();
-            });
-        }
-        else
-        {
-            playing = true;
-        }
+        playing = true;
     }
-    
+
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
         if (playing)
         {
-            manager.Update(); 
+            manager.Update();
         }
     }
 }
