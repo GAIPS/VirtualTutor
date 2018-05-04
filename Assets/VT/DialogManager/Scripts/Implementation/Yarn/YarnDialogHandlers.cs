@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using BubbleSystem;
 using UnityEngine;
@@ -45,6 +46,10 @@ namespace YarnDialog
             {
                 manager.ModuleManager.Speak(line.speaker, new string[] {line.message}, duration);
                 manager.ModuleManager.Act(line.speaker, new MovementWithState(MovementEnum.Talk, StateEnum.Start));
+            }
+            else
+            {
+                DebugLog.Warn("No Module Manager defined.");
             }
         }
 
@@ -386,7 +391,8 @@ namespace YarnDialog
                 // What is the emotion's intention?
                 var intentityStr = tagSplit[3];
                 float intensity;
-                if (!float.TryParse(intentityStr, out intensity))
+                if (!float.TryParse(intentityStr, NumberStyles.Any,
+                    System.Globalization.CultureInfo.CreateSpecificCulture("pt-PT"), out intensity))
                 {
                     continue;
                 }

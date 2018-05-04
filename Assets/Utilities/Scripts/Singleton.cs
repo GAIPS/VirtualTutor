@@ -43,9 +43,12 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                     {
                         GameObject parent = getParent(_instance.gameObject);
                         if (parent == null)
+                        {
 //                            DontDestroyOnLoad(_instance.gameObject);
-                        else
+                        }
+                        else {
 //                            DontDestroyOnLoad(parent);
+                        }
                     }
                 }
                 return _instance;
@@ -55,6 +58,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
     private static GameObject getParent(GameObject gameObject)
     {
-        return gameObject.transform.parent.gameObject;
+//        return gameObject.transform.parent.gameObject;
+        return null;
     }
 }

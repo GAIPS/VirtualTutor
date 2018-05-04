@@ -12,9 +12,7 @@ public class Preview : MonoBehaviour
 
     public TextAsset[] YarnDialogDatabase;
 
-    public AvatarManager HeadAnimationManager;
-
-    public BubbleSystem.BubbleSystemManager BubbleManager;
+    public VTToModuleBridge moduleManager;
 
     public string IntentionName;
 
@@ -84,12 +82,12 @@ public class Preview : MonoBehaviour
             _manager.DialogManager = dialogManager;
             dialogManager.Tutors.Add(joao);
             dialogManager.Tutors.Add(maria);
-            dialogManager.ModuleManager.avatarManager = HeadAnimationManager;
-            dialogManager.ModuleManager.bubbleSystem = BubbleManager;
+            dialogManager.ModuleManager = this.moduleManager;
 
 
             // Order matters
             //dialogManager.Handlers.Add(new ParallelLineHandler());
+            dialogManager.Handlers.Add(new EmotionTagNodeHandler());
             dialogManager.Handlers.Add(new SequenceLineHandler());
             dialogManager.Handlers.Add(new SequenceOptionsHandler());
             dialogManager.Handlers.Add(new LogCommandHandler());
