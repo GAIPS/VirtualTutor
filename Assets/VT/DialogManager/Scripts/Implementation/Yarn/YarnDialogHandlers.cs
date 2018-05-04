@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using BubbleSystem;
 using UnityEngine;
 using Utilities;
 using Yarn;
@@ -33,25 +35,24 @@ namespace YarnDialog
                     tutor = tut;
                 }
             }
-            return new LineInfo() { speaker = tutor, message = message };
+
+            return new LineInfo() {speaker = tutor, message = message};
         }
 
         protected void ShowLine(LineInfo line, float duration, YarnDialogManager manager)
         {
-            if (manager.BubbleManager != null && manager.HeadAnimationManager != null)
+            if (manager.ModuleManager != null && manager.ModuleManager != null)
             {
-                manager.BubbleManager.Speak(line.speaker, new string[] { line.message }, duration);
-                manager.HeadAnimationManager.Act(line.speaker, new MovementWithState(MovementEnum.Talk, StateEnum.Start));
-                //manager.HeadAnimationManager.Act(line.speaker, new Movement(MovementEnum.Talk, new State(StateEnum.Start)));
+                manager.ModuleManager.Speak(line.speaker, new string[] {line.message}, duration);
+                manager.ModuleManager.Act(line.speaker, new MovementWithState(MovementEnum.Talk, StateEnum.Start));
             }
         }
 
         protected void HideLine(LineInfo line, YarnDialogManager manager)
         {
-            if (manager.HeadAnimationManager != null)
+            if (manager.ModuleManager != null)
             {
-                manager.HeadAnimationManager.Act(line.speaker, new MovementWithState(MovementEnum.Talk, StateEnum.End));
-                //manager.HeadAnimationManager.Act(line.speaker, new Movement(MovementEnum.Talk, new State(StateEnum.End)));
+                manager.ModuleManager.Act(line.speaker, new MovementWithState(MovementEnum.Talk, StateEnum.End));
             }
         }
     }
@@ -79,12 +80,17 @@ namespace YarnDialog
                 yield return null;
                 count += Time.deltaTime;
             }
+
             HideLine(lineInfo, manager);
         }
 
-        public override void Reset(YarnDialogManager manager) { }
+        public override void Reset(YarnDialogManager manager)
+        {
+        }
 
-        public override void Update(YarnDialogManager manager) { }
+        public override void Update(YarnDialogManager manager)
+        {
+        }
     }
 
     public class ParallelLineHandler : LineHandler
@@ -105,7 +111,6 @@ namespace YarnDialog
             }
 
             lines.Add(InterpretLine(lineResult.line.text, manager));
-            
         }
 
         public override void Update(YarnDialogManager manager)
@@ -130,6 +135,7 @@ namespace YarnDialog
                     HideLine(playingLine, manager);
                     playingLine = null;
                 }
+
                 count += Time.deltaTime;
             }
         }
@@ -168,12 +174,12 @@ namespace YarnDialog
                 });
             }
 
-            if (manager.BubbleManager != null)
+            if (manager.ModuleManager != null)
             {
                 float duration = 60; // One minute wait.
                 IList<string> options = new List<string>(optionSetResult.options.options);
                 options.Remove("BLANK");
-                manager.BubbleManager.UpdateOptions(options.ToArray(), 0.0f, duration, callbacks.ToArray());
+                manager.ModuleManager.UpdateOptions(options.ToArray(), duration, callbacks.ToArray());
                 float count = 0;
                 while (count <= duration && !continueLoop)
                 {
@@ -181,6 +187,7 @@ namespace YarnDialog
                     yield return null;
                     count += Time.deltaTime;
                 }
+
                 if (count > duration)
                 {
                     bool foundBlank = false;
@@ -192,21 +199,27 @@ namespace YarnDialog
                             optionSetResult.setSelectedOptionDelegate(i);
                         }
                     }
+
                     // If BLANK is not found do something else...
                     if (!foundBlank)
                     {
                         manager.RunNode("ChangePlan");
                     }
                 }
+
                 // Hide Options
                 // HACK
-                manager.BubbleManager.HideBalloon("Options");
+                manager.ModuleManager.HideBalloon("Options");
             }
         }
 
-        public void Reset(YarnDialogManager manager) { }
+        public void Reset(YarnDialogManager manager)
+        {
+        }
 
-        public void Update(YarnDialogManager manager) { }
+        public void Update(YarnDialogManager manager)
+        {
+        }
     }
 
     public class ExitCommandHandler : YarnDialogManager.IDialogHandler
@@ -226,9 +239,13 @@ namespace YarnDialog
             }
         }
 
-        public void Reset(YarnDialogManager manager) { }
+        public void Reset(YarnDialogManager manager)
+        {
+        }
 
-        public void Update(YarnDialogManager manager) { }
+        public void Update(YarnDialogManager manager)
+        {
+        }
     }
 
     public class BubbleSystemCommandHandler : YarnDialogManager.IDialogHandler
@@ -244,9 +261,13 @@ namespace YarnDialog
             //manager.BubbleManager.Handle(commandResult.command.text);
         }
 
-        public void Reset(YarnDialogManager manager) { }
+        public void Reset(YarnDialogManager manager)
+        {
+        }
 
-        public void Update(YarnDialogManager manager) { }
+        public void Update(YarnDialogManager manager)
+        {
+        }
     }
 
     public class HeadSystemCommandHandler : YarnDialogManager.IDialogHandler
@@ -258,12 +279,17 @@ namespace YarnDialog
             {
                 yield break;
             }
+
             //manager.HeadAnimationManager.Handle(commandResult.command.text);
         }
 
-        public void Reset(YarnDialogManager manager) { }
+        public void Reset(YarnDialogManager manager)
+        {
+        }
 
-        public void Update(YarnDialogManager manager) { }
+        public void Update(YarnDialogManager manager)
+        {
+        }
     }
 
     public class LogCommandHandler : YarnDialogManager.IDialogHandler
@@ -275,12 +301,17 @@ namespace YarnDialog
             {
                 yield break;
             }
+
             DebugLog.Log("Command: " + commandResult.command.text);
         }
 
-        public void Reset(YarnDialogManager manager) { }
+        public void Reset(YarnDialogManager manager)
+        {
+        }
 
-        public void Update(YarnDialogManager manager) { }
+        public void Update(YarnDialogManager manager)
+        {
+        }
     }
 
     public class LogCompleteNodeHandler : YarnDialogManager.IDialogHandler
@@ -292,13 +323,99 @@ namespace YarnDialog
             {
                 yield break;
             }
+
             string nextNode = nodeResult.nextNode;
 
             DebugLog.Log("Next Node: " + nextNode);
         }
 
-        public void Reset(YarnDialogManager manager) { }
+        public void Reset(YarnDialogManager manager)
+        {
+        }
 
-        public void Update(YarnDialogManager manager) { }
+        public void Update(YarnDialogManager manager)
+        {
+        }
+    }
+
+    public class EmotionTagNodeHandler : YarnDialogManager.IDialogHandler
+    {
+        private string _currentNode = string.Empty;
+
+        public IEnumerator Handle(Dialogue.RunnerResult result, YarnDialogManager manager)
+        {
+            var dialogue = manager.GetDialogue();
+            if (dialogue == null || string.IsNullOrEmpty(dialogue.currentNode)) yield break;
+
+            if (_currentNode.Equals(dialogue.currentNode)) yield break;
+            _currentNode = dialogue.currentNode;
+
+            var tags = dialogue.GetTagsForNode(_currentNode);
+            foreach (var tag in tags)
+            {
+                // The split to work should be formated as [target].emotion.[emotion].[intensity]
+
+                var tagSplit = tag.Split('.');
+
+                // Does it have 4 elements
+                if (tagSplit.Length != 4)
+                {
+                    continue;
+                }
+
+                // Is the second element `emotion`
+                var action = tagSplit[1].ToLower();
+                if (!action.Equals("emotion"))
+                {
+                    continue;
+                }
+
+                // What is the emotion?
+                var emotion = tagSplit[2];
+                EmotionEnum emotionEnum;
+                try
+                {
+                    emotionEnum = (EmotionEnum) Enum.Parse(typeof(EmotionEnum), emotion, true);
+                }
+                catch (OverflowException)
+                {
+                    // If unable to convert, skip
+                    continue;
+                }
+
+                // What is the emotion's intention?
+                var intentityStr = tagSplit[3];
+                float intensity;
+                if (!float.TryParse(intentityStr, out intensity))
+                {
+                    continue;
+                }
+
+                DebugLog.Log(intensity);
+
+                var target = tagSplit[0];
+                if (target.ToLower().Equals("user"))
+                {
+                    // Update background
+                }
+                else
+                {
+                    var tutor = manager.GetTutor(target);
+                    if (tutor == null) continue;
+                    tutor.Emotion.Intensity = intensity;
+                    tutor.Emotion.Name = emotionEnum;
+                    manager.ModuleManager.Feel(tutor);
+                    manager.ModuleManager.UpdateBackground(tutor, 5f, Reason.None);
+                }
+            }
+        }
+
+        public void Reset(YarnDialogManager manager)
+        {
+        }
+
+        public void Update(YarnDialogManager manager)
+        {
+        }
     }
 }

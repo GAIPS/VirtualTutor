@@ -92,7 +92,7 @@ public partial class AvatarController : MonoBehaviour
         animator.SetInteger("Direction", (int)gazeState);
 
         // Randomizer for gaze frequency
-        if (Random.value < parameters.getParameter(ControllerParams.GAZEAT_FREQUENCY))
+        if (UnityEngine.Random.value < parameters.getParameter(ControllerParams.GAZEAT_FREQUENCY))
         {
             if ((int)gazeState % 2 != 0) // (gazeAt anim. are all odd numbered states)
                 animator.SetTrigger("Gaze");
@@ -124,13 +124,14 @@ public partial class AvatarController : MonoBehaviour
             {
                 length = parameters.nodLength / parameters.getParameter(AnimatorParams.NOD_SPEED);
                 frequency = parameters.getParameter(ControllerParams.NOD_FREQUENCY);
-                if ((Random.value < frequency) && (Random.value < frequency)) // Unlucky Rolls
+                if ((UnityEngine.Random.value < frequency) && (UnityEngine.Random.value < frequency)) // Unlucky Rolls
                 {
                     DoNodding(NodState.NOD_START);
                 }
                 else
                 {
                     DoNodding(NodState.NOD_END);
+
                 }
                 yield return new WaitForSeconds(length);    
             }
@@ -142,10 +143,10 @@ public partial class AvatarController : MonoBehaviour
         float length, gazelength;
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(3, 5)); //delay
+            yield return new WaitForSeconds(UnityEngine.Random.Range(3, 5)); //delay
             if (!animator.GetBool("Listening") && animator.GetInteger("Talk State") == 0)
             {
-                switch (Random.Range(1, 9))
+                switch (UnityEngine.Random.Range(1, 9))
                 { //Testing some random expressive motions
                     case 1:
                         length = parameters.nodLength / parameters.getParameter(AnimatorParams.NOD_SPEED);

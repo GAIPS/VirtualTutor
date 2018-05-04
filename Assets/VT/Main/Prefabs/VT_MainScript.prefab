@@ -54,8 +54,7 @@ MonoBehaviour:
   yarnDialogDatabase:
   - {fileID: 4900000, guid: 1de6bee36403ff94e82d3ef01ea75d69, type: 3}
   - {fileID: 4900000, guid: aa7e8ea07966544d7918b3bf9d726f81, type: 3}
-  headAnimationManager: {fileID: 0}
-  bubbleManager: {fileID: 0}
+  moduleManager: {fileID: 0}
   intentions:
   - Target-focused.Good-grades
   - DiscussGrades
