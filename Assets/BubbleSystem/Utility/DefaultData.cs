@@ -15,7 +15,6 @@ public class DefaultData : Singleton<DefaultData>
 
     private Dictionary<string, AnimationCurve> curves = new Dictionary<string, AnimationCurve>();
     private Dictionary<BubbleSystem.Emotion, Color32> colors = new Dictionary<BubbleSystem.Emotion, Color32>();
-    private Dictionary<BubbleSystem.Emotion, Color32> textColors = new Dictionary<BubbleSystem.Emotion, Color32>();
     private Dictionary<BubbleSystem.Emotion, float> sizeRatios = new Dictionary<BubbleSystem.Emotion, float>();
 
     public float duration = 5.0f;
@@ -36,7 +35,6 @@ public class DefaultData : Singleton<DefaultData>
     private void Awake()
     {
         SetEmotionColors();
-        SetTextColors();
         SetAnimationCurves();
         SetSizeRatios();
         SetTextData();
@@ -109,11 +107,6 @@ public class DefaultData : Singleton<DefaultData>
         return colors[emotion];
     }
 
-    public Color32 GetTextColor(BubbleSystem.Emotion emotion)
-    {
-        return textColors[emotion];
-    }
-
     public void SetBlushColor(Color color)
     {
         blushColor = color;
@@ -156,19 +149,6 @@ public class DefaultData : Singleton<DefaultData>
         colors.Add(BubbleSystem.Emotion.Fear, fearColor);
         colors.Add(BubbleSystem.Emotion.Disgust, disgustColor);
         colors.Add(BubbleSystem.Emotion.Surprise, surpriseColor);
-    }
-
-    private void SetTextColors()
-    {
-        Color32 textColor = Color.black;
-        textColors.Add(BubbleSystem.Emotion.Default, textColor);
-        textColors.Add(BubbleSystem.Emotion.Neutral, textColor);
-        textColors.Add(BubbleSystem.Emotion.Happiness, textColor);
-        textColors.Add(BubbleSystem.Emotion.Sadness, textColor);
-        textColors.Add(BubbleSystem.Emotion.Anger, textColor);
-        textColors.Add(BubbleSystem.Emotion.Fear, textColor);
-        textColors.Add(BubbleSystem.Emotion.Disgust, textColor);
-        textColors.Add(BubbleSystem.Emotion.Surprise, textColor);
     }
 
     private void SetAnimationCurves()
