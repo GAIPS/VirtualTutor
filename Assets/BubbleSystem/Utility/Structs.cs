@@ -26,7 +26,6 @@ namespace BubbleSystem
     {
         public TMPro.TMP_FontAsset font;
         public float size;
-        public Color32 color;
         public Dictionary<Effect, AnimationCurve> showEffect;
         public Dictionary<Effect, AnimationCurve> hideEffect;
     }
@@ -42,7 +41,6 @@ namespace BubbleSystem
     {
         public Sprite sprite;
         public Sprite beak;
-        public Color32 color;
     }
 
     public struct TextureData

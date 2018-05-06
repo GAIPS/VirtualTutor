@@ -30,16 +30,35 @@ namespace BubbleSystem
 
         public static Color32 MixColors(Dictionary<Emotion, float> emotions)
         {
-            Color color = new Color(0,0,0,1);
+            Color color = Color.white;
             foreach (Emotion emotion in emotions.Keys)
             {
-                color += ((Color)DefaultData.Instance.GetColor(emotion) * emotions[emotion]);
+                color = Color.Lerp(color, (Color)DefaultData.Instance.GetColor(emotion), emotions[emotion]);
             }
 
-            if (color.Equals(Color.black))
+            if (color.Equals(Color.white))
                 color = DefaultData.Instance.GetColor(Emotion.Default);
 
             return color;
+        }
+
+        public static Color GetTextColor(Color color)
+        {
+            float red = ConvertToLinear(color.r);
+            float green = ConvertToLinear(color.g);
+            float blue = ConvertToLinear(color.b);
+
+            float luminance = 0.2126f * red + 0.7152f * green + 0.0722f * blue;
+            if ((luminance + 0.05f) / 0.05f > 1.05 / (luminance + 0.05))
+                return Color.black;
+            else
+                return Color.white;
+        }
+
+        //sRGB to linear RGB
+        private static float ConvertToLinear(float value)
+        {
+            return value <= 0.03928f ? value / 12.92f : Mathf.Pow((value + 0.055f) / 1.055f, 2.4f);
         }
     }
 

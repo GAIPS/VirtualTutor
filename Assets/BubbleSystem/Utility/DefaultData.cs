@@ -15,10 +15,11 @@ public class DefaultData : Singleton<DefaultData>
 
     private Dictionary<string, AnimationCurve> curves = new Dictionary<string, AnimationCurve>();
     private Dictionary<BubbleSystem.Emotion, Color32> colors = new Dictionary<BubbleSystem.Emotion, Color32>();
+    private Dictionary<BubbleSystem.Emotion, Color32> textColors = new Dictionary<BubbleSystem.Emotion, Color32>();
     private Dictionary<BubbleSystem.Emotion, float> sizeRatios = new Dictionary<BubbleSystem.Emotion, float>();
 
     public float duration = 5.0f;
-    public bool mixColors = false;
+    public bool mixColors = true;
     private Color32 blushColor = Color.red;
 
     static System.Random rnd = new System.Random();
@@ -35,6 +36,7 @@ public class DefaultData : Singleton<DefaultData>
     private void Awake()
     {
         SetEmotionColors();
+        SetTextColors();
         SetAnimationCurves();
         SetSizeRatios();
         SetTextData();
@@ -107,6 +109,11 @@ public class DefaultData : Singleton<DefaultData>
         return colors[emotion];
     }
 
+    public Color32 GetTextColor(BubbleSystem.Emotion emotion)
+    {
+        return textColors[emotion];
+    }
+
     public void SetBlushColor(Color color)
     {
         blushColor = color;
@@ -149,6 +156,19 @@ public class DefaultData : Singleton<DefaultData>
         colors.Add(BubbleSystem.Emotion.Fear, fearColor);
         colors.Add(BubbleSystem.Emotion.Disgust, disgustColor);
         colors.Add(BubbleSystem.Emotion.Surprise, surpriseColor);
+    }
+
+    private void SetTextColors()
+    {
+        Color32 textColor = Color.black;
+        textColors.Add(BubbleSystem.Emotion.Default, textColor);
+        textColors.Add(BubbleSystem.Emotion.Neutral, textColor);
+        textColors.Add(BubbleSystem.Emotion.Happiness, textColor);
+        textColors.Add(BubbleSystem.Emotion.Sadness, textColor);
+        textColors.Add(BubbleSystem.Emotion.Anger, textColor);
+        textColors.Add(BubbleSystem.Emotion.Fear, textColor);
+        textColors.Add(BubbleSystem.Emotion.Disgust, textColor);
+        textColors.Add(BubbleSystem.Emotion.Surprise, textColor);
     }
 
     private void SetAnimationCurves()
@@ -820,12 +840,10 @@ public class DefaultData : Singleton<DefaultData>
     {
         TMPro.TMP_FontAsset neutralFont = (TMPro.TMP_FontAsset)Resources.Load("Text/TextMesh_Fonts/arial");
         float initialSize = 40.0f;
-        Color color = Color.black;
 
         TextData text = new TextData();
         Dictionary<float, TextData> dict = new Dictionary<float, TextData>();
         text.font = neutralFont;
-        text.color = color;
         text.size = initialSize;
         text.showEffect = new Dictionary<Effect, AnimationCurve>();
         text.hideEffect = new Dictionary<Effect, AnimationCurve>();
@@ -838,7 +856,6 @@ public class DefaultData : Singleton<DefaultData>
 
         dict = new Dictionary<float, TextData>();
         text.font = neutralFont;
-        text.color = color;
         text.size = initialSize;
         text.showEffect = new Dictionary<Effect, AnimationCurve>();
         text.hideEffect = new Dictionary<Effect, AnimationCurve>();
@@ -852,7 +869,6 @@ public class DefaultData : Singleton<DefaultData>
         text = new TextData();
         dict = new Dictionary<float, TextData>();
         text.font = neutralFont;
-        text.color = color;
         text.size = initialSize * sizeRatios[BubbleSystem.Emotion.Happiness];
         text.showEffect = new Dictionary<Effect, AnimationCurve>();
         text.hideEffect = new Dictionary<Effect, AnimationCurve>();
@@ -866,7 +882,6 @@ public class DefaultData : Singleton<DefaultData>
         text = new TextData();
         dict = new Dictionary<float, TextData>();
         text.font = neutralFont;
-        text.color = color;
         text.size = initialSize * sizeRatios[BubbleSystem.Emotion.Sadness];
         text.showEffect = new Dictionary<Effect, AnimationCurve>();
         text.hideEffect = new Dictionary<Effect, AnimationCurve>();
@@ -880,7 +895,6 @@ public class DefaultData : Singleton<DefaultData>
         text = new TextData();
         dict = new Dictionary<float, TextData>();
         text.font = neutralFont;
-        text.color = color;
         text.size = initialSize * sizeRatios[BubbleSystem.Emotion.Anger];
         text.showEffect = new Dictionary<Effect, AnimationCurve>();
         text.hideEffect = new Dictionary<Effect, AnimationCurve>();
@@ -894,7 +908,6 @@ public class DefaultData : Singleton<DefaultData>
         text = new TextData();
         dict = new Dictionary<float, TextData>();
         text.font = neutralFont;
-        text.color = color;
         text.size = initialSize * sizeRatios[BubbleSystem.Emotion.Fear];
         text.showEffect = new Dictionary<Effect, AnimationCurve>();
         text.hideEffect = new Dictionary<Effect, AnimationCurve>();
@@ -908,7 +921,6 @@ public class DefaultData : Singleton<DefaultData>
         text = new TextData();
         dict = new Dictionary<float, TextData>();
         text.font = neutralFont;
-        text.color = color;
         text.size = initialSize * sizeRatios[BubbleSystem.Emotion.Disgust];
         text.showEffect = new Dictionary<Effect, AnimationCurve>();
         text.hideEffect = new Dictionary<Effect, AnimationCurve>();
@@ -922,7 +934,6 @@ public class DefaultData : Singleton<DefaultData>
         text = new TextData();
         dict = new Dictionary<float, TextData>();
         text.font = neutralFont;
-        text.color = color;
         text.size = initialSize * sizeRatios[BubbleSystem.Emotion.Surprise];
         text.showEffect = new Dictionary<Effect, AnimationCurve>();
         text.hideEffect = new Dictionary<Effect, AnimationCurve>();
@@ -942,10 +953,19 @@ public class DefaultData : Singleton<DefaultData>
         SpriteData spriteData = new SpriteData();
         spriteData.sprite = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
         spriteData.beak = Sprite.Create(beak, new Rect(0.0f, 0.0f, beak.width, beak.height), new Vector2(0.5f, 0.5f), 100.0f);
-        spriteData.color = Color.white;
+        dict.Add(1f, spriteData);
+        defaultBalloonData.Add(BubbleSystem.Emotion.Default, dict);
+
+
+        dict = new Dictionary<float, SpriteData>();
+        tex = (Texture2D)Resources.Load("Balloons/Images/SpeechBubbles/Scaled/Neutral/neutral_balloon");
+        beak = (Texture2D)Resources.Load("Balloons/Images/SpeechBubbles/Scaled/Neutral/neutral_beak");
+        spriteData = new SpriteData();
+        spriteData.sprite = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
+        spriteData.beak = Sprite.Create(beak, new Rect(0.0f, 0.0f, beak.width, beak.height), new Vector2(0.5f, 0.5f), 100.0f);
         dict.Add(1f, spriteData);
         defaultBalloonData.Add(BubbleSystem.Emotion.Neutral, dict);
-        defaultBalloonData.Add(BubbleSystem.Emotion.Default, dict);
+
 
         dict = new Dictionary<float, SpriteData>();
         tex = (Texture2D)Resources.Load("Balloons/Images/SpeechBubbles/Scaled/Happiness/happiness_balloon");
@@ -953,7 +973,6 @@ public class DefaultData : Singleton<DefaultData>
         spriteData = new SpriteData();
         spriteData.sprite = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
         spriteData.beak = Sprite.Create(beak, new Rect(0.0f, 0.0f, beak.width, beak.height), new Vector2(0.5f, 0.5f), 100.0f);
-        spriteData.color = Color.white;
         dict.Add(1f, spriteData);
         defaultBalloonData.Add(BubbleSystem.Emotion.Happiness, dict);
 
@@ -963,7 +982,6 @@ public class DefaultData : Singleton<DefaultData>
         spriteData = new SpriteData();
         spriteData.sprite = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
         spriteData.beak = Sprite.Create(beak, new Rect(0.0f, 0.0f, beak.width, beak.height), new Vector2(0.5f, 0.5f), 100.0f);
-        spriteData.color = Color.white;
         dict.Add(1f, spriteData);
         defaultBalloonData.Add(BubbleSystem.Emotion.Sadness, dict);
 
@@ -973,7 +991,6 @@ public class DefaultData : Singleton<DefaultData>
         spriteData = new SpriteData();
         spriteData.sprite = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
         spriteData.beak = Sprite.Create(beak, new Rect(0.0f, 0.0f, beak.width, beak.height), new Vector2(0.5f, 0.5f), 100.0f);
-        spriteData.color = Color.white;
         dict.Add(1f, spriteData);
         defaultBalloonData.Add(BubbleSystem.Emotion.Anger, dict);
 
@@ -983,7 +1000,6 @@ public class DefaultData : Singleton<DefaultData>
         spriteData = new SpriteData();
         spriteData.sprite = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
         spriteData.beak = Sprite.Create(beak, new Rect(0.0f, 0.0f, beak.width, beak.height), new Vector2(0.5f, 0.5f), 100.0f);
-        spriteData.color = Color.white;
         dict.Add(1f, spriteData);
         defaultBalloonData.Add(BubbleSystem.Emotion.Fear, dict);
 
@@ -993,7 +1009,6 @@ public class DefaultData : Singleton<DefaultData>
         spriteData = new SpriteData();
         spriteData.sprite = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
         spriteData.beak = Sprite.Create(beak, new Rect(0.0f, 0.0f, beak.width, beak.height), new Vector2(0.5f, 0.5f), 100.0f);
-        spriteData.color = Color.white;
         dict.Add(1f, spriteData);
         defaultBalloonData.Add(BubbleSystem.Emotion.Disgust, dict);
 
@@ -1003,7 +1018,6 @@ public class DefaultData : Singleton<DefaultData>
         spriteData = new SpriteData();
         spriteData.sprite = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
         spriteData.beak = Sprite.Create(beak, new Rect(0.0f, 0.0f, beak.width, beak.height), new Vector2(0.5f, 0.5f), 100.0f);
-        spriteData.color = Color.white;
         dict.Add(1f, spriteData);
         defaultBalloonData.Add(BubbleSystem.Emotion.Surprise, dict);
     }
