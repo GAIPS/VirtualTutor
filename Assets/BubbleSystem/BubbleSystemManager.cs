@@ -113,10 +113,7 @@ namespace BubbleSystem
 
             nextData.isSet = true;
 
-            if (tutorNextData.ContainsKey(info[0]))
-                tutorNextData[info[0]] = nextData;
-            else
-                tutorNextData.Add(info[0], nextData);
+            BubbleSystemUtility.AddToDictionary(ref tutorNextData, info[0], nextData);
         }
 
         //<< SetMixColors boolInIntFormat >>   0 -> false; 1 -> true
@@ -295,10 +292,7 @@ namespace BubbleSystem
                 data.hideEffects = getEffectsDictionary(hideEffects);
             }
 
-            if (tutorSpeakData.ContainsKey(tutor))
-                tutorSpeakData[tutor] = data;
-            else
-                tutorSpeakData.Add(tutor, data);
+            BubbleSystemUtility.AddToDictionary(ref tutorSpeakData, tutor, data);
         }
 
         private void SetBackgroundData(string tutor, Dictionary<string, float> emotions, Reason reason)
@@ -307,10 +301,7 @@ namespace BubbleSystem
             data.emotions = GetEmotionDictionary(emotions);
             data.reason = reason;
 
-            if (tutorBackgroundData.ContainsKey(tutor))
-                tutorBackgroundData[tutor] = data;
-            else
-                tutorBackgroundData.Add(tutor, data);
+            BubbleSystemUtility.AddToDictionary(ref tutorBackgroundData, tutor, data);
         }
 
 

@@ -60,13 +60,32 @@ namespace BubbleSystem
         {
             return value <= 0.03928f ? value / 12.92f : Mathf.Pow((value + 0.055f) / 1.055f, 2.4f);
         }
+
+        public static void AddToDictionary<T1, T2>(ref Dictionary<T1, T2> dict, T1 first, T2 second)
+        {
+            if (dict.ContainsKey(first))
+                dict[first] = second;
+            else
+                dict.Add(first, second);
+        }
+
+        public static void AddToDictionary<T1, T2, T3>(ref Dictionary<T1, Dictionary<T2, T3>> dict, T1 first, T2 second, T3 third)
+        {
+            if (dict.ContainsKey(first))
+            {
+                if (dict[first].ContainsKey(second))
+                    dict[first][second] = third;
+                else
+                    dict[first].Add(second, third);
+            }
+        }
     }
 
     public class CoroutineStopper : Singleton<CoroutineStopper>
     {
         private CoroutineStopper() { }
 
-        public void StopCoroutineWithCheck(IEnumerator coroutine)
+        public void StopCoroutineWithCheck(ref IEnumerator coroutine)
         {
             if (coroutine != null)
             {
@@ -74,12 +93,21 @@ namespace BubbleSystem
             }
         }
 
-        public void StopCoroutineWithCheck(Coroutine coroutine)
+        public void StopCoroutineWithCheck<T1>(ref Dictionary<T1, IEnumerator> dict, T1 first)
         {
-            if (coroutine != null)
-            {
-                StopCoroutine(coroutine);
-            }
+            if (dict.ContainsKey(first))
+                if (dict[first] != null)
+                    StopCoroutine(dict[first]);
+
+        }
+
+        public void StopCoroutineWithCheck<T1, T2>(ref Dictionary<T1, Dictionary<T2, IEnumerator>> dict, T1 first, T2 second)
+        {
+            if (dict.ContainsKey(first))
+                if (dict[first].ContainsKey(second))
+                    if (dict[first][second] != null)
+                        StopCoroutine(dict[first][second]);
+
         }
     }
 }

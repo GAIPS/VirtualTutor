@@ -87,14 +87,7 @@ public class DefaultData : Singleton<DefaultData>
         if (hideEffects != null)
             textData.hideEffect = hideEffects;
 
-        if (defaultTextData[emotion].ContainsKey(intensity))
-        {
-            defaultTextData[emotion][intensity] = textData;
-        }
-        else
-        {
-            defaultTextData[emotion].Add(intensity, textData);
-        }
+        BubbleSystemUtility.AddToDictionary(ref defaultTextData, emotion, intensity, textData);
     }
 
     public AnimationCurve GetCurve(string name)
@@ -124,10 +117,7 @@ public class DefaultData : Singleton<DefaultData>
 
     public void AddCurve(string name, AnimationCurve curve)
     {
-        if (curves.ContainsKey(name))
-            curves[name] = curve;
-        else
-            curves.Add(name, curve);
+        BubbleSystemUtility.AddToDictionary(ref curves, name, curve);
     }
 
     private void SetEmotionColors()

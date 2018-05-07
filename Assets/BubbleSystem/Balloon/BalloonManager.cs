@@ -65,7 +65,7 @@ namespace BubbleSystem
             var balloonHooks = controller.instance.GetComponentsInChildren<BalloonsHooks>();
             foreach (BalloonsHooks hooks in balloonHooks)
             {
-                CoroutineStopper.Instance.StopCoroutineWithCheck(hideCoroutines[tutor]);
+                CoroutineStopper.Instance.StopCoroutineWithCheck(ref hideCoroutines, tutor);
                 AddCoroutine(tutor, hooks, duration, data);
             }
         }
@@ -243,14 +243,12 @@ namespace BubbleSystem
             return hooks.GetComponent<Animator>().runtimeAnimatorController.animationClips[0].length;
         }
 
-        public void AddCoroutine(string balloon, BalloonsHooks hooks, float duration, SpeakData data)
+
+
+        public void AddCoroutine(string tutor, BalloonsHooks hooks, float duration, SpeakData data)
         {
-            IEnumerator clean = Clean(hooks, duration, data);
-            if (hideCoroutines.ContainsKey(balloon))
-                hideCoroutines[balloon] = clean;
-            else
-                hideCoroutines.Add(balloon, clean);
-            StartCoroutine(clean);
+            BubbleSystemUtility.AddToDictionary(ref hideCoroutines, tutor, Clean(hooks, duration, data));
+            StartCoroutine(hideCoroutines[tutor]);
         }
 
         IEnumerator Clean(BalloonsHooks hooks, float duration, SpeakData data)

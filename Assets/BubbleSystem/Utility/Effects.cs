@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 
 public enum Effect
@@ -138,22 +136,6 @@ public class Effects : MonoBehaviour
         m_TextComponent.maxVisibleCharacters = m_TextComponent.textInfo.characterCount;
     }
 
-    private void AddCoroutine(Effect effect, IEnumerator function)
-    {
-        if (coroutines.ContainsKey(effect))
-            coroutines[effect] = StartCoroutine(function);
-        else
-            coroutines.Add(effect, StartCoroutine(function));
-    }
-
-    private void AddIenumerator(Effect effect, IEnumerator function)
-    {
-        if (enumerators.ContainsKey(effect))
-            enumerators[effect] = function;
-        else
-            enumerators.Add(effect, function);
-    }
-
     //HACK TO CALCULATE FONTSIZE (ENABLE AUTO SIZE TAKES TIME TO CALCULATE)
     private IEnumerator ResetFontSize()
     {
@@ -171,7 +153,7 @@ public class Effects : MonoBehaviour
         if (m_TextComponent.IsActive())
         {
             initialColor = m_TextComponent.color;
-        
+
             StopAllCoroutines();
 
             if (show)
@@ -193,107 +175,107 @@ public class Effects : MonoBehaviour
                         break;
                     case Effect.Appear:
                         ResetCharacterCount();
-                        AddIenumerator(effect, Appear(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Appear(duration, intensity, effects[effect]));
                         break;
                     case Effect.Blush:
                         ResetColor(false, false);
-                        AddIenumerator(effect, Blush(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Blush(duration, intensity, effects[effect]));
                         break;
                     case Effect.BlushCharacters:
                         ResetColor(false, true);
-                        AddIenumerator(effect, BlushCharacters(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, BlushCharacters(duration, intensity, effects[effect]));
                         break;
                     case Effect.DeflectionFont:
-                        AddIenumerator(effect, DeflectionFontSize(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, DeflectionFontSize(duration, intensity, effects[effect]));
                         break;
                     case Effect.Erase:
                         ResetColor(true, true);
-                        AddIenumerator(effect, Erase(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Erase(duration, intensity, effects[effect]));
                         break;
                     case Effect.FadeIn:
                         ResetColor(false, false);
-                        AddIenumerator(effect, FadeIn(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, FadeIn(duration, intensity, effects[effect]));
                         break;
                     case Effect.FadeInCharacters:
                         ResetColor(false, true);
-                        AddIenumerator(effect, FadeInCharacters(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, FadeInCharacters(duration, intensity, effects[effect]));
                         break;
                     case Effect.FadeOut:
                         ResetColor(true, false);
-                        AddIenumerator(effect, FadeOut(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, FadeOut(duration, intensity, effects[effect]));
                         break;
                     case Effect.FadeOutCharacters:
                         ResetColor(true, true);
-                        AddIenumerator(effect, FadeOutCharacters(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, FadeOutCharacters(duration, intensity, effects[effect]));
                         break;
                     case Effect.Flashing:
                         ResetColor(true, false);
-                        AddIenumerator(effect, Flash(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Flash(duration, intensity, effects[effect]));
                         break;
                     case Effect.Jitter:
-                        AddIenumerator(effect, Jitter(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Jitter(duration, intensity, effects[effect]));
                         break;
                     case Effect.Palpitations:
                         ResetRectTransform(true, false, false);
-                        AddIenumerator(effect, Palpitations(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Palpitations(duration, intensity, effects[effect]));
                         break;
                     case Effect.Shake:
-                        AddIenumerator(effect, Shake(duration, intensity, effects[effect], false));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Shake(duration, intensity, effects[effect], false));
                         break;
                     case Effect.ShakeCharacters:
-                        AddIenumerator(effect, Shake(duration, intensity, effects[effect], true));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Shake(duration, intensity, effects[effect], true));
                         break;
                     case Effect.Squash:
                         ResetRectTransform(true, false, false);
-                        AddIenumerator(effect, Squash(duration, intensity, effects[effect], true, true));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Squash(duration, intensity, effects[effect], true, true));
                         break;
                     case Effect.SquashX:
                         ResetRectTransform(true, false, false);
-                        AddIenumerator(effect, Squash(duration, intensity, effects[effect], true, false));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Squash(duration, intensity, effects[effect], true, false));
                         break;
                     case Effect.SquashY:
                         ResetRectTransform(true, false, false);
-                        AddIenumerator(effect, Squash(duration, intensity, effects[effect], false, true));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Squash(duration, intensity, effects[effect], false, true));
                         break;
                     case Effect.Stretch:
                         ResetRectTransform(false, true, true);
-                        AddIenumerator(effect, Stretch(duration, intensity, effects[effect], true, true));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Stretch(duration, intensity, effects[effect], true, true));
                         break;
                     case Effect.StretchX:
                         ResetRectTransform(false, true, false);
-                        AddIenumerator(effect, Stretch(duration, intensity, effects[effect], true, false));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Stretch(duration, intensity, effects[effect], true, false));
                         break;
                     case Effect.StretchY:
                         ResetRectTransform(false, false, true);
-                        AddIenumerator(effect, Stretch(duration, intensity, effects[effect], false, true));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Stretch(duration, intensity, effects[effect], false, true));
                         break;
                     case Effect.SwellingFont:
-                        AddIenumerator(effect, SwellingFontSize(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, SwellingFontSize(duration, intensity, effects[effect]));
                         break;
                     case Effect.Swing:
-                        AddIenumerator(effect, Swing(duration, intensity));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Swing(duration, intensity));
                         break;
                     case Effect.SwingCharacters:
-                        AddIenumerator(effect, SwingCharacters(duration, intensity));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, SwingCharacters(duration, intensity));
                         break;
                     case Effect.Warp:
-                        AddIenumerator(effect, WarpText(duration, intensity, effects[effect], false));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, WarpText(duration, intensity, effects[effect], false));
                         break;
                     case Effect.WarpCharacters:
-                        AddIenumerator(effect, WarpTextCharacters(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, WarpTextCharacters(duration, intensity, effects[effect]));
                         break;
                     case Effect.Wave:
-                        AddIenumerator(effect, Wave(duration, intensity, effects[effect], false));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Wave(duration, intensity, effects[effect], false));
                         break;
                     case Effect.WaveCharacters:
-                        AddIenumerator(effect, Wave(duration, intensity, effects[effect], true));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Wave(duration, intensity, effects[effect], true));
                         break;
                 }
             }
 
             foreach (Effect effect in enumerators.Keys)
             {
-                AddCoroutine(effect, enumerators[effect]);
+                BubbleSystem.BubbleSystemUtility.AddToDictionary(ref coroutines, effect, StartCoroutine(enumerators[effect]));
             }
         }
     }

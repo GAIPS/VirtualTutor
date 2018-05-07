@@ -27,6 +27,7 @@ namespace BubbleSystem
 
         private Dictionary<string, Dictionary<BackgroundEffect, IEnumerator>> textureCoroutines = new Dictionary<string, Dictionary<BackgroundEffect, IEnumerator>>();
         private Dictionary<string, Dictionary<BackgroundEffect, IEnumerator>> colorCoroutines = new Dictionary<string, Dictionary<BackgroundEffect, IEnumerator>>();
+        private Dictionary<string, IEnumerator> changeImageCoroutines = new Dictionary<string, IEnumerator>();
 
         public void SetBackground(string bg, BackgroundData data, float duration)
         {
@@ -42,7 +43,16 @@ namespace BubbleSystem
 
             Color32 colorToLerpTo = DefaultData.Instance.mixColors ? BubbleSystemUtility.MixColors(data.emotions) : DefaultData.Instance.GetColor(emotionPair.Key);
 
-            StartCoroutine(ChangeImage(bg, textureData, backgroundAnimationData, duration, colorToLerpTo));
+            if (textureCoroutines.ContainsKey(bg))
+                foreach (BackgroundEffect fx in textureCoroutines[bg].Keys)
+                    CoroutineStopper.Instance.StopCoroutineWithCheck(ref textureCoroutines, bg, fx);
+            if (colorCoroutines.ContainsKey(bg))
+                foreach (BackgroundEffect fx in colorCoroutines[bg].Keys)
+                    CoroutineStopper.Instance.StopCoroutineWithCheck(ref colorCoroutines, bg, fx);
+
+            CoroutineStopper.Instance.StopCoroutineWithCheck(ref changeImageCoroutines, bg);
+            BubbleSystemUtility.AddToDictionary(ref changeImageCoroutines, bg, ChangeImage(bg, textureData, backgroundAnimationData, duration, colorToLerpTo));
+            StartCoroutine(changeImageCoroutines[bg]);
         }
 
         private GameObject GetBackground(string bg)
@@ -64,26 +74,16 @@ namespace BubbleSystem
             float initialAlpha = renderer.material.color.a;
             float realDuration = duration / 3;
 
-            textureCoroutines[bg].Clear();
-            colorCoroutines[bg].Clear();
-
-            if (textureCoroutines.ContainsKey(bg))
-                foreach (BackgroundEffect fx in textureCoroutines[bg].Keys)
-                    CoroutineStopper.Instance.StopCoroutineWithCheck(textureCoroutines[bg][fx]);
-            if (colorCoroutines.ContainsKey(bg))
-                foreach (BackgroundEffect fx in colorCoroutines[bg].Keys)
-                    CoroutineStopper.Instance.StopCoroutineWithCheck(colorCoroutines[bg][fx]);
-
             if (!textureData.name.Equals(renderer.material.mainTexture.name))
             {
                 foreach (BackgroundEffect fx in backgroundAnimationData.hideBannerEffect.Keys)
                 {
                     if (fx == BackgroundEffect.FadeTexture)
-                        textureCoroutines[bg].Add(fx, FadeTexture(renderer, backgroundAnimationData.hideBannerEffect[fx], realDuration));
+                    {
+                        BubbleSystemUtility.AddToDictionary(ref textureCoroutines, bg, fx, FadeTexture(renderer, backgroundAnimationData.hideBannerEffect[fx], realDuration));
+                        StartCoroutine(textureCoroutines[bg][fx]);
+                    }
                 }
-
-                foreach (BackgroundEffect fx in backgroundAnimationData.hideBannerEffect.Keys)
-                    StartCoroutine(textureCoroutines[bg][fx]);
 
                 yield return new WaitForSeconds(realDuration);
 
@@ -94,11 +94,11 @@ namespace BubbleSystem
                 foreach (BackgroundEffect fx in backgroundAnimationData.showBannerEffect.Keys)
                 {
                     if (fx == BackgroundEffect.FadeTexture)
-                        textureCoroutines[bg].Add(fx, FadeTexture(renderer, backgroundAnimationData.showBannerEffect[fx], realDuration, initialAlpha));
+                    {
+                        BubbleSystemUtility.AddToDictionary(ref textureCoroutines, bg, fx, FadeTexture(renderer, backgroundAnimationData.showBannerEffect[fx], realDuration, initialAlpha));
+                        StartCoroutine(textureCoroutines[bg][fx]);
+                    }
                 }
-
-                foreach (BackgroundEffect fx in backgroundAnimationData.showBannerEffect.Keys)
-                    StartCoroutine(textureCoroutines[bg][fx]);
 
                 yield return new WaitForSeconds(realDuration);
             }
@@ -113,11 +113,11 @@ namespace BubbleSystem
                 foreach (BackgroundEffect fx in backgroundAnimationData.colorEffect.Keys)
                 {
                     if (fx == BackgroundEffect.FadeColor)
-                        colorCoroutines[bg].Add(fx, LerpColor(renderer, colorToLerpTo, backgroundAnimationData.colorEffect[fx], realDuration));
+                    {
+                        BubbleSystemUtility.AddToDictionary(ref colorCoroutines, bg, fx, LerpColor(renderer, colorToLerpTo, backgroundAnimationData.colorEffect[fx], realDuration));
+                        StartCoroutine(colorCoroutines[bg][fx]);
+                    }
                 }
-
-                foreach (BackgroundEffect fx in backgroundAnimationData.colorEffect.Keys)
-                    StartCoroutine(colorCoroutines[bg][fx]);
 
                 yield return new WaitForSeconds(realDuration);
             }
