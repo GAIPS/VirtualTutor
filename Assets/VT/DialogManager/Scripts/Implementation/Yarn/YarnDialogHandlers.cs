@@ -38,19 +38,14 @@ namespace YarnDialog
 
         protected void ShowLine(LineInfo line, float duration, YarnDialogManager manager)
         {
-            if (manager.ModuleManager != null && manager.ModuleManager != null)
-            {
-                manager.ModuleManager.Speak(line.speaker, new string[] { line.message }, duration);
-                manager.ModuleManager.Act(line.speaker, new MovementWithState(MovementEnum.Talk, StateEnum.Start));
-            }
+            if (manager.ModuleManager != null)
+                manager.ModuleManager.StartSpeaking(line.speaker, line.message, duration);
         }
 
         protected void HideLine(LineInfo line, YarnDialogManager manager)
         {
             if (manager.ModuleManager != null)
-            {
-                manager.ModuleManager.Act(line.speaker, new MovementWithState(MovementEnum.Talk, StateEnum.End));
-            }
+                manager.ModuleManager.StopSpeaking(line.speaker);
         }
     }
 
