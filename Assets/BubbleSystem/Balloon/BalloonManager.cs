@@ -24,7 +24,7 @@ namespace BubbleSystem
         public Balloon options;
 
         private Dictionary<string, Control> controllers = new Dictionary<string, Control>();
-        private Dictionary<string, IEnumerator> hideCoroutines = new Dictionary<string, IEnumerator>();
+        private Dictionary<BalloonsHooks, IEnumerator> hideCoroutines = new Dictionary<BalloonsHooks, IEnumerator>();
 
         private float durationThreshold = 0.3f;
 
@@ -63,11 +63,12 @@ namespace BubbleSystem
         {
             var controller = controllers[tutor];
             var balloonHooks = controller.instance.GetComponentsInChildren<BalloonsHooks>();
+
             foreach (BalloonsHooks hooks in balloonHooks)
             {
-                if (BubbleSystemUtility.CheckCoroutine(ref hideCoroutines, tutor))
-                    StopCoroutine(hideCoroutines[tutor]);
-                AddCoroutine(tutor, hooks, duration, data);
+                if (BubbleSystemUtility.CheckCoroutine(ref hideCoroutines, hooks))
+                    StopCoroutine(hideCoroutines[hooks]);
+                AddCoroutine(hooks, duration, data);
             }
         }
 
@@ -188,8 +189,8 @@ namespace BubbleSystem
                 {
                     if (hooks != null)
                     {
-                        if (BubbleSystemUtility.CheckCoroutine(ref hideCoroutines, balloon))
-                            StopCoroutine(hideCoroutines[balloon]);
+                        if (BubbleSystemUtility.CheckCoroutine(ref hideCoroutines, hooks))
+                            StopCoroutine(hideCoroutines[hooks]);
 
                         SetContent(hooks, data.text.Length > i ? data.text[i] : null);
 
@@ -234,7 +235,7 @@ namespace BubbleSystem
                         }
 
                         hooks.Show();
-                        AddCoroutine(balloon, hooks, realDuration, data);
+                        AddCoroutine(hooks, realDuration, data);
                     }
                     i++;
                 }
@@ -247,12 +248,10 @@ namespace BubbleSystem
             return hooks.GetComponent<Animator>().runtimeAnimatorController.animationClips[0].length;
         }
 
-
-
-        public void AddCoroutine(string tutor, BalloonsHooks hooks, float duration, SpeakData data)
+        public void AddCoroutine(BalloonsHooks hooks, float duration, SpeakData data)
         {
-            BubbleSystemUtility.AddToDictionary(ref hideCoroutines, tutor, Clean(hooks, duration, data));
-            StartCoroutine(hideCoroutines[tutor]);
+            BubbleSystemUtility.AddToDictionary(ref hideCoroutines, hooks, Clean(hooks, duration, data));
+            StartCoroutine(hideCoroutines[hooks]);
         }
 
         IEnumerator Clean(BalloonsHooks hooks, float duration, SpeakData data)
