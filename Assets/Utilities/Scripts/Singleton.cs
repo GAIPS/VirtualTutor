@@ -55,6 +55,9 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
     private static GameObject getParent(GameObject gameObject)
     {
-        return gameObject.transform.parent.gameObject;
+        if (gameObject.transform.parent != null)
+            return gameObject.transform.parent.gameObject;
+        else
+            return null;
     }
 }

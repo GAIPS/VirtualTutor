@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using BubbleSystem;
 using UnityEngine;
@@ -41,19 +42,16 @@ namespace YarnDialog
 
         protected void ShowLine(LineInfo line, float duration, YarnDialogManager manager)
         {
-            if (manager.ModuleManager != null && manager.ModuleManager != null)
+            if (manager.ModuleManager != null)
             {
-                manager.ModuleManager.Speak(line.speaker, new string[] {line.message}, duration);
-                manager.ModuleManager.Act(line.speaker, new MovementWithState(MovementEnum.Talk, StateEnum.Start));
+                manager.ModuleManager.StartSpeaking(line.speaker, line.message, duration);
             }
         }
 
         protected void HideLine(LineInfo line, YarnDialogManager manager)
         {
             if (manager.ModuleManager != null)
-            {
-                manager.ModuleManager.Act(line.speaker, new MovementWithState(MovementEnum.Talk, StateEnum.End));
-            }
+                manager.ModuleManager.StopSpeaking(line.speaker);
         }
     }
 
@@ -208,7 +206,6 @@ namespace YarnDialog
                 }
 
                 // Hide Options
-                // HACK
                 manager.ModuleManager.HideBalloon("Options");
             }
         }
@@ -386,7 +383,8 @@ namespace YarnDialog
                 // What is the emotion's intention?
                 var intentityStr = tagSplit[3];
                 float intensity;
-                if (!float.TryParse(intentityStr, out intensity))
+                if (!float.TryParse(intentityStr, NumberStyles.Any, CultureInfo.CreateSpecificCulture("pt-PT"),
+                    out intensity))
                 {
                     continue;
                 }
@@ -402,8 +400,7 @@ namespace YarnDialog
                 {
                     var tutor = manager.GetTutor(target);
                     if (tutor == null) continue;
-                    tutor.Emotion.Intensity = intensity;
-                    tutor.Emotion.Name = emotionEnum;
+                    tutor.Emotion = new Emotion(emotionEnum, intensity);
                     manager.ModuleManager.Feel(tutor);
                     manager.ModuleManager.UpdateBackground(tutor, 5f, Reason.None);
                 }
