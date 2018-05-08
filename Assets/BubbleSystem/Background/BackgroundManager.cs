@@ -45,12 +45,15 @@ namespace BubbleSystem
 
             if (textureCoroutines.ContainsKey(bg))
                 foreach (BackgroundEffect fx in textureCoroutines[bg].Keys)
-                    CoroutineStopper.Instance.StopCoroutineWithCheck(ref textureCoroutines, bg, fx);
+                    if (BubbleSystemUtility.CheckCoroutine(ref textureCoroutines, bg, fx))
+                        StopCoroutine(textureCoroutines[bg][fx]);
             if (colorCoroutines.ContainsKey(bg))
                 foreach (BackgroundEffect fx in colorCoroutines[bg].Keys)
-                    CoroutineStopper.Instance.StopCoroutineWithCheck(ref colorCoroutines, bg, fx);
+                    if (BubbleSystemUtility.CheckCoroutine(ref colorCoroutines, bg, fx))
+                        StopCoroutine(colorCoroutines[bg][fx]);
 
-            CoroutineStopper.Instance.StopCoroutineWithCheck(ref changeImageCoroutines, bg);
+            if (BubbleSystemUtility.CheckCoroutine(ref changeImageCoroutines, bg))
+                StopCoroutine(changeImageCoroutines[bg]);
             BubbleSystemUtility.AddToDictionary(ref changeImageCoroutines, bg, ChangeImage(bg, textureData, backgroundAnimationData, duration, colorToLerpTo));
             StartCoroutine(changeImageCoroutines[bg]);
         }

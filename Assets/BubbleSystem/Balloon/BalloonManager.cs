@@ -65,7 +65,8 @@ namespace BubbleSystem
             var balloonHooks = controller.instance.GetComponentsInChildren<BalloonsHooks>();
             foreach (BalloonsHooks hooks in balloonHooks)
             {
-                CoroutineStopper.Instance.StopCoroutineWithCheck(ref hideCoroutines, tutor);
+                if (BubbleSystemUtility.CheckCoroutine(ref hideCoroutines, tutor))
+                    StopCoroutine(hideCoroutines[tutor]);
                 AddCoroutine(tutor, hooks, duration, data);
             }
         }
@@ -187,6 +188,9 @@ namespace BubbleSystem
                 {
                     if (hooks != null)
                     {
+                        if (BubbleSystemUtility.CheckCoroutine(ref hideCoroutines, balloon))
+                            StopCoroutine(hideCoroutines[balloon]);
+
                         SetContent(hooks, data.text.Length > i ? data.text[i] : null);
 
                         if (options)

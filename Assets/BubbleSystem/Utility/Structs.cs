@@ -64,4 +64,13 @@ namespace BubbleSystem
         public Reason reason;
         public BackgroundAnimationData animationData;
     }
+
+    public struct NextDialogueData
+    {
+        public Dictionary<string, float> emotions;
+        public float duration;
+        public Dictionary<Effect, AnimationCurve> showEffects;
+        public Dictionary<Effect, AnimationCurve> hideEffects;
+        public bool isSet;
+    }
 }

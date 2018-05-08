@@ -79,35 +79,27 @@ namespace BubbleSystem
                     dict[first].Add(second, third);
             }
         }
-    }
 
-    public class CoroutineStopper : Singleton<CoroutineStopper>
-    {
-        private CoroutineStopper() { }
-
-        public void StopCoroutineWithCheck(ref IEnumerator coroutine)
+        public static bool CheckCoroutine(ref IEnumerator coroutine)
         {
-            if (coroutine != null)
-            {
-                StopCoroutine(coroutine);
-            }
+            return coroutine != null;
         }
 
-        public void StopCoroutineWithCheck<T1>(ref Dictionary<T1, IEnumerator> dict, T1 first)
+        public static bool CheckCoroutine<T1>(ref Dictionary<T1, IEnumerator> dict, T1 first)
         {
             if (dict.ContainsKey(first))
                 if (dict[first] != null)
-                    StopCoroutine(dict[first]);
-
+                    return true;
+            return false;
         }
 
-        public void StopCoroutineWithCheck<T1, T2>(ref Dictionary<T1, Dictionary<T2, IEnumerator>> dict, T1 first, T2 second)
+        public static bool CheckCoroutine<T1, T2>(ref Dictionary<T1, Dictionary<T2, IEnumerator>> dict, T1 first, T2 second)
         {
             if (dict.ContainsKey(first))
                 if (dict[first].ContainsKey(second))
                     if (dict[first][second] != null)
-                        StopCoroutine(dict[first][second]);
-
+                        return true;
+            return false;
         }
     }
 }

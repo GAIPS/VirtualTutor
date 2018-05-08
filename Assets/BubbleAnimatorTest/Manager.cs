@@ -99,11 +99,6 @@ public class Manager : MonoBehaviour {
             Debug.Log(tutors[currentTutor] + " " + emotion.ToString() + " " + intensity + " " + reason);
         }
 
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            manager.Handle(new string[] { "OverrideBackgroundColor", "Happiness", "0.1", "None", "#FF0000FF" });
-        }
-
         if (Input.GetKeyDown(KeyCode.X))
         {
             manager.Handle(new string[] { "SetNextDialogueData", "Maria", "Happiness", "1.0", "duration", "5", "showEffects", "Blush", "fadeCurve", "hideEffects", "FadeOut", "fadeCurve" });
