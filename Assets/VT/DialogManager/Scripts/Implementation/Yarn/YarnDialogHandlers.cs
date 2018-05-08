@@ -44,17 +44,14 @@ namespace YarnDialog
         {
             if (manager.ModuleManager != null)
             {
-                manager.ModuleManager.Speak(line.speaker, new string[] {line.message}, duration);
-                manager.ModuleManager.Act(line.speaker, new MovementWithState(MovementEnum.Talk, StateEnum.Start));
+                manager.ModuleManager.StartSpeaking(line.speaker, line.message, duration);
             }
         }
 
         protected void HideLine(LineInfo line, YarnDialogManager manager)
         {
             if (manager.ModuleManager != null)
-            {
-                manager.ModuleManager.Act(line.speaker, new MovementWithState(MovementEnum.Talk, StateEnum.End));
-            }
+                manager.ModuleManager.StopSpeaking(line.speaker);
         }
     }
 

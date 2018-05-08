@@ -92,6 +92,27 @@ public class VTToModuleBridge : MonoBehaviour
     }
 
     /**********************************************************************************************************
+                                                SHARED CALLS
+    **********************************************************************************************************/
+
+    public void Feel(Tutor who, Reason why, float forHowLong)
+    {
+        Feel(who);
+        UpdateBackground(who, forHowLong, why);
+    }
+
+    public void StartSpeaking(Tutor who, string what, float forHowLong)
+    {
+        Speak(who, new string[] { what }, forHowLong);
+        Act(who, new MovementWithState(MovementEnum.Talk, StateEnum.Start));
+    }
+
+    public void StopSpeaking(Tutor who)
+    {
+        Act(who, new MovementWithState(MovementEnum.Talk, StateEnum.End));
+    }
+
+    /**********************************************************************************************************
                                                  HEAD SYSTEM
     **********************************************************************************************************/
 
@@ -101,12 +122,13 @@ public class VTToModuleBridge : MonoBehaviour
         Tutor tutor;
         Emotion emotion;
 
-        if(parseTutorName(arguments[0], out tutor) && parseEmotion(arguments[1], arguments[2], out emotion))
+        if (parseTutorName(arguments[0], out tutor) && parseEmotion(arguments[1], arguments[2], out emotion))
         {
             tutor.Emotion = emotion;
             Feel(tutor);
         }
     }
+
     private void Express(string[] arguments)
     {
         Tutor tutor;
@@ -118,6 +140,7 @@ public class VTToModuleBridge : MonoBehaviour
             Express(tutor);
         }
     }
+
     private void Talk(string[] arguments)
     {
         Tutor tutor;
@@ -136,8 +159,9 @@ public class VTToModuleBridge : MonoBehaviour
                 movementWithState.Name = MovementEnum.Talk;
                 Act(tutor, movementWithState);
             }
-        }       
+        }
     }
+
     private void Nod(string[] arguments)
     {
         Tutor tutor = new Tutor(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(arguments[0].ToLower()));
@@ -168,6 +192,7 @@ public class VTToModuleBridge : MonoBehaviour
         else
             Debug.Log(String.Format("[{0}] are not valid arguments for this command", string.Join(", ", arguments)));
     }
+
     private void GazeAt(string[] arguments)
     {
         Tutor tutor = new Tutor(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(arguments[0].ToLower()));
@@ -198,6 +223,7 @@ public class VTToModuleBridge : MonoBehaviour
         else
             Debug.Log(String.Format("[{0}] are not valid arguments for this command", string.Join(", ", arguments)));
     }
+
     private void GazeBack(string[] arguments)
     {
         Tutor tutor = new Tutor(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(arguments[0].ToLower()));
@@ -228,6 +254,7 @@ public class VTToModuleBridge : MonoBehaviour
         else
             Debug.Log(String.Format("[{0}] are not valid arguments for this command", string.Join(", ", arguments)));
     }
+
     private void MoveEyes(string[] arguments)
     {
         throw new NotImplementedException();
@@ -239,12 +266,14 @@ public class VTToModuleBridge : MonoBehaviour
         EmotionalState emotionalState = getStateType<EmotionalState>(moodString);
         avatarManager.Feel(tutor.Name, emotionalState, tutor.Emotion.Intensity);
     }
+
     public void Express(Tutor tutor)
     {
         string expressionString = getEmotionName(tutor.Emotion);
         EmotionalState expressionState = getStateType<EmotionalState>(expressionString);
         avatarManager.Express(tutor.Name, expressionState, tutor.Emotion.Intensity);
     }
+
     public void Act(Tutor tutor, IMovement movement)
     {
         string s1 = getFirstMovementString(movement), s2;
@@ -291,6 +320,7 @@ public class VTToModuleBridge : MonoBehaviour
             }
         }
     }
+
     public void setParameter(Tutor tutor, MovementWithProperty movement)
     {
         object paramEnum;
@@ -306,22 +336,27 @@ public class VTToModuleBridge : MonoBehaviour
     {
         return movement.Property.ToString().ToUpperInvariant();
     }
+
     private string getSecondMovementString(MovementWithState movement)
     {
         return movement.State.ToString().ToUpperInvariant();
     }
+
     private string getSecondMovementString(MovementWithTarget movement)
     {
         return movement.Target.ToString().ToUpperInvariant();
     }
+
     private string getFirstMovementString(IMovement movement)
     {
         return movement.Name.ToString().ToUpperInvariant();
     }
+
     private string getEmotionName(Emotion emotion)
     {
         return emotion.Name.ToString().ToUpperInvariant();
     }
+
     // Outdated, similar to EnumUtils.TryParse()
     private static T getStateType<T>(string stateString)
     {
@@ -351,6 +386,7 @@ public class VTToModuleBridge : MonoBehaviour
         tutor = new Tutor(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(input.ToLower()));
         return true;
     }
+
     private bool parseEmotion(string emotion, string intensity, out Emotion parsedEmotion)
     {
         object parsedEnum;
@@ -374,6 +410,7 @@ public class VTToModuleBridge : MonoBehaviour
             return false;
         }
     }
+
     private bool parseProperty(string type, string intensity, out MovementWithProperty parsedProperty)
     {
         object parsedEnum;
@@ -397,6 +434,7 @@ public class VTToModuleBridge : MonoBehaviour
             return false;
         }
     }
+
     private bool parseState(string state, out MovementWithState parsedState)
     {
         object parsedEnum;
