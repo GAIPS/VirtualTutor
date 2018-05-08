@@ -140,47 +140,51 @@ public partial class AvatarController : MonoBehaviour
     }
     IEnumerator PassiveRoutine()
     {
-        float length, gazelength;
+        //float length, gazelength;
         while (true)
         {
             yield return new WaitForSeconds(UnityEngine.Random.Range(3, 5)); //delay
             if (!animator.GetBool("Listening") && animator.GetInteger("Talk State") == 0)
             {
-                switch (UnityEngine.Random.Range(1, 9))
+                switch (UnityEngine.Random.Range(1,15))
                 { //Testing some random expressive motions
                     case 1:
-                        length = parameters.nodLength / parameters.getParameter(AnimatorParams.NOD_SPEED);
-                        DoNodding(NodState.NOD_START);
-                        yield return new WaitForSeconds(length);
-                        DoNodding(NodState.NOD_END);
+                        animator.SetInteger("Expression2", 0);
+                        animator.SetTrigger("Express2");
                         break;
                     case 2:
+                    case 9:
+                        animator.SetInteger("Expression2", 1);
+                        animator.SetTrigger("Express2");
+                        break;
+                    case 3:
+                    case 10:
+                        animator.SetInteger("Expression2", 2);
+                        animator.SetTrigger("Express2");
+                        break;
+                    case 4:
                         animator.SetInteger("Move Eyes State", 1);
                         animator.SetTrigger("Move Eyes");
                         break;
-                    case 3:
-                    case 4:
-                        ExpressEmotion(EmotionalState.HAPPINESS, 0.5f);
-                        break;
                     case 5:
-                        DoGazing(GazeState.GAZEAT_PARTNER);
-                        gazelength = getParameters().getClipByName("Gaze_Right").length / parameters.getParameter(AnimatorParams.GAZEAT_SPEED);
-                        yield return new WaitForSeconds(0.5f + gazelength);
-                        DoGazing(GazeState.GAZEBACK_PARTNER);
+                        animator.SetInteger("Move Eyes State", 2);
+                        animator.SetTrigger("Move Eyes");
                         break;
                     case 6:
-                        DoGazing(GazeState.GAZEAT_USER);
-                        gazelength = getParameters().getClipByName("Gaze_Right").length / parameters.getParameter(AnimatorParams.GAZEAT_SPEED);
-                        yield return new WaitForSeconds(0.5f + gazelength);
-                        DoGazing(GazeState.GAZEBACK_USER);
-                        break;
-                    case 7:
                         animator.SetInteger("Move Eyes State", 3);
                         animator.SetTrigger("Move Eyes");
                         break;
+                    case 7:
+                        animator.SetInteger("Move Eyes State", 4);
+                        animator.SetTrigger("Move Eyes");
+                        break;
                     case 8:
-                    case 9:
-                        ExpressEmotion(EmotionalState.SURPRISE, 0.35f);
+                        animator.SetInteger("Move Eyes State", 5);
+                        animator.SetTrigger("Move Eyes");
+                        break;
+                    case 11:
+                    case 12:
+                        ExpressEmotion(EmotionalState.SURPRISE, 0.1f);
                         break;
                     default:
                         break;

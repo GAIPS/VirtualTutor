@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class AvatarTestMain : MonoBehaviour
+public class AvatarTest_VT : MonoBehaviour
 {
     //This will be the main animation manager for the synthetic characters
     [Header("Object Hooks")]
@@ -100,16 +100,16 @@ public class AvatarTestMain : MonoBehaviour
         if (Input.GetKey(moodCommands.afraid))
         {
             if (testCommands)
-                bridge.Handle(new string[] { "Feel", tutorName, "Fear", "0.0" });
+                bridge.Handle(new string[] { "Feel", tutorName, "Fear", "0.6" });
             else
-                bridge.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Fear, 0.0f)));
+                bridge.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Fear, 0.6f)));
         }
         if (Input.GetKey(moodCommands.surprised))
         {
             if (testCommands)
-                bridge.Handle(new string[] { "Feel", tutorName, "Surprise", "0.0" });
+                bridge.Handle(new string[] { "Feel", tutorName, "Surprise", "0.6" });
             else
-                bridge.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Surprise, 0.0f)));
+                bridge.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Surprise, 0.6f)));
         }
 
         // Expression
@@ -338,52 +338,4 @@ public class AvatarTestMain : MonoBehaviour
             yield return new WaitForSeconds(displayInterval);
         }
     }
-}
-
-[Serializable]
-class MoodVariables {
-    public string neutral = "q"; 
-    public string happy = "w";
-    public string veryHappy = "e";
-    public string sad = "r";
-    public string verySad = "t";
-    public string afraid = "1";
-    public string surprised = "2";
-}
-[Serializable]
-class ExpressionVariables
-{
-    public string neutral = "a";
-    public string happinessLow = "s";
-    public string happinessHigh = "d";
-    public string sadnessLow = "f";
-    public string sadnessHigh = "g";
-    public string fearLow = "h";
-    public string fearHigh = "j";
-    public string surpriseLow = "k";
-    public string surpriseHigh = "l";
-    public string angerLow = "z";
-    public string angerHigh = "x";
-    public string disgustLow = "c";
-    public string disgustHigh = "v";
-}
-[Serializable]
-class MovementVariables
-{
-    public string nodStart = "n";
-    public string nodStop = "m";
-    public string talkStart = "u";
-    public string talkStop = "i";
-    public string gazeAtPartner = "o";
-    public string gazeBackFromPartner = "p";
-    public string gazeAtUser = "9";
-    public string gazeBackFromUser = "0";
-}
-[Serializable]
-class ParameterVariables
-{
-    public string nodFrequency = "[";
-    public string nodSpeed = "]";
-    public string gazeFrequency = ",";
-    public string gazeSpeed = ".";
 }
