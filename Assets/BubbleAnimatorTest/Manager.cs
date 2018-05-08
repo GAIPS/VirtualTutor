@@ -103,14 +103,9 @@ public class Manager : MonoBehaviour {
             Debug.Log(tutors[currentTutor] + " " + emotion.ToString() + " " + intensity + " " + reason);
         }
 
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            manager.Handle(new string[] { "OverrideBackgroundColor", "Happiness", "0.1", "None", "#FF0000FF" });
-        }
-
         if (Input.GetKeyDown(KeyCode.X))
         {
-            manager.Handle(new string[] { "SetNextDialogueData", "Maria", "Happiness", "1.0", "duration", "5", "showEffects", "Shake", "hideEffects", "FadeOut", "fadeCurve" });
+            manager.Handle(new string[] { "SetNextDialogueData", "Maria", "Happiness", "1.0", "duration", "5", "showEffects", "Blush", "fadeCurve", "hideEffects", "FadeOut", "fadeCurve" });
         }
 
         if (Input.GetKeyDown(KeyCode.C))
@@ -128,6 +123,21 @@ public class Manager : MonoBehaviour {
             mix = (mix + 1) % 2;
             Debug.Log(Convert.ToBoolean(mix));
             manager.Handle(new string[] { "SetMixColors", mix.ToString() });
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            manager.Handle(new string[] { "OverrideBlushColor", "#00FF00FF" });
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            manager.Handle(new string[] { "OverrideEmotionColor", "Happiness", "#00FF00FF" });
+        }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            manager.Handle(new string[] { "AddAnimationCurve", "abc", "0", "0", "1", "1" });
         }
     }
     
