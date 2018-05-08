@@ -362,7 +362,7 @@ public class VTToModuleBridge : MonoBehaviour
                 Debug.Log(String.Format("{0} is not a reconizable emotion.", emotion));
             else
                 Debug.Log(String.Format("{0} could not be parsed as a float.", intensity));
-            parsedEmotion = null;
+            parsedEmotion = new Emotion();
             return false;
         }
     }

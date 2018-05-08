@@ -84,8 +84,10 @@ public class Manager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.S))
         {
-            tutors[currentTutor].Emotion.Name = emotion;
-            tutors[currentTutor].Emotion.Intensity = intensity;
+            var emotion1 = tutors[currentTutor].Emotion;
+            emotion1.Name = emotion;
+            emotion1.Intensity = intensity;
+            tutors[currentTutor].Emotion = emotion1;
 
             manager.Speak(tutors[currentTutor], new string[] { "hi" }, duration);
             Debug.Log(tutors[currentTutor] + " " + emotion.ToString() + " " + intensity);
@@ -93,8 +95,10 @@ public class Manager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.B))
         {
-            tutors[currentTutor].Emotion.Name = emotion;
-            tutors[currentTutor].Emotion.Intensity = intensity;
+            var emotion1 = tutors[currentTutor].Emotion;
+            emotion1.Name = emotion;
+            emotion1.Intensity = intensity;
+            tutors[currentTutor].Emotion = emotion1;
             manager.UpdateBackground(tutors[currentTutor], duration, reason);
             Debug.Log(tutors[currentTutor] + " " + emotion.ToString() + " " + intensity + " " + reason);
         }

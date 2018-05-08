@@ -67,7 +67,7 @@ Joao: Não é que tenhamos escolha! :D
 Joao: Ao menos temos bom humor!
 ===
 title: Start.cognitive-engagement.bad-grades
-tags: User.Emotion.Sadness.0 Joao.Emotion.Sadness.1 Maria.Emotion.Sadness.1
+tags: User.Emotion.Sadness.0 Joao.Emotion.Sadness.1 Maria.Emotion.Happiness.1
 colorID: 1
 position: 788,257
 ---

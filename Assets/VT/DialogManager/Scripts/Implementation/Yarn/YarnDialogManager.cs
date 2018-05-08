@@ -17,10 +17,23 @@ namespace YarnDialog
 
         private YarnDialogTree _dialogTree;
         private IEnumerator<Yarn.Dialogue.RunnerResult> _enumerator;
+        private VTToModuleBridge _moduleManager;
 
         public ICollection<Tutor> Tutors { get; set; }
 
-        public VTToModuleBridge ModuleManager { get; set; }
+        public VTToModuleBridge ModuleManager
+        {
+            get
+            {
+                if (!_moduleManager)
+                {
+                    DebugLog.Warn("No Module Manager defined.");
+                }
+
+                return _moduleManager;
+            }
+            set { _moduleManager = value; }
+        }
 
         public IList<IDialogHandler> Handlers { get; set; }
 
