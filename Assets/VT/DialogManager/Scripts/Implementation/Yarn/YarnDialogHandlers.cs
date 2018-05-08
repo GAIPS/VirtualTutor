@@ -209,7 +209,6 @@ namespace YarnDialog
                 }
 
                 // Hide Options
-                // HACK
                 manager.ModuleManager.HideBalloon("Options");
             }
         }
