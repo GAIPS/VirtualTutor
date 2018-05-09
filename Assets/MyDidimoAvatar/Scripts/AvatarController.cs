@@ -4,6 +4,10 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public partial class AvatarController : MonoBehaviour
 {
+    [SerializeField]
+    public string controllerID;
+
+    [Space(2.0f)]
     [Header("Speech Approach Test")]
     //TEMP
     [SerializeField]
