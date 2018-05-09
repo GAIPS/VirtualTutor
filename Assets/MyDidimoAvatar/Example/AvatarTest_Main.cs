@@ -69,103 +69,103 @@ public class AvatarTest_Main : MonoBehaviour
             return;
 
         // Emotion
-        if (Input.GetKey(moodCommands.neutral))
+        if (Input.GetKeyDown(moodCommands.neutral))
             manager.Feel(tutorName, EmotionalState.NEUTRAL, 0.0f);
 
-        if (Input.GetKey(moodCommands.happy))
+        if (Input.GetKeyDown(moodCommands.happy))
             manager.Feel(tutorName, EmotionalState.HAPPINESS, 0.5f);
 
-        if (Input.GetKey(moodCommands.veryHappy))
+        if (Input.GetKeyDown(moodCommands.veryHappy))
             manager.Feel(tutorName, EmotionalState.HAPPINESS, 1.0f);
 
-        if (Input.GetKey(moodCommands.sad))
+        if (Input.GetKeyDown(moodCommands.sad))
             manager.Feel(tutorName, EmotionalState.SADNESS, 0.5f);
 
-        if (Input.GetKey(moodCommands.verySad))
+        if (Input.GetKeyDown(moodCommands.verySad))
             manager.Feel(tutorName, EmotionalState.SADNESS, 1.0f);
 
-        if (Input.GetKey(moodCommands.afraid))
+        if (Input.GetKeyDown(moodCommands.afraid))
             manager.Feel(tutorName, EmotionalState.FEAR, 0.6f);
 
-        if (Input.GetKey(moodCommands.surprised))
+        if (Input.GetKeyDown(moodCommands.surprised))
             manager.Feel(tutorName, EmotionalState.SURPRISE, 0.6f);
 
         // Expression
-        if (Input.GetKey(expressionCommands.neutral))
+        if (Input.GetKeyDown(expressionCommands.neutral))
             manager.Express(tutorName, EmotionalState.NEUTRAL, 1.0f);
 
-        if (Input.GetKey(expressionCommands.happinessLow))
+        if (Input.GetKeyDown(expressionCommands.happinessLow))
             manager.Express(tutorName, EmotionalState.HAPPINESS, 0.5f);
 
-        if (Input.GetKey(expressionCommands.happinessHigh))
+        if (Input.GetKeyDown(expressionCommands.happinessHigh))
             manager.Express(tutorName, EmotionalState.HAPPINESS, 1.0f);
 
-        if (Input.GetKey(expressionCommands.sadnessLow))
+        if (Input.GetKeyDown(expressionCommands.sadnessLow))
             manager.Express(tutorName, EmotionalState.SADNESS, 0.5f);
 
-        if (Input.GetKey(expressionCommands.sadnessHigh))
+        if (Input.GetKeyDown(expressionCommands.sadnessHigh))
             manager.Express(tutorName, EmotionalState.SADNESS, 1.0f);
 
-        if (Input.GetKey(expressionCommands.fearLow))
+        if (Input.GetKeyDown(expressionCommands.fearLow))
             manager.Express(tutorName, EmotionalState.FEAR, 0.5f);
 
-        if (Input.GetKey(expressionCommands.fearHigh))
+        if (Input.GetKeyDown(expressionCommands.fearHigh))
             manager.Express(tutorName, EmotionalState.FEAR, 1.0f);
 
-        if (Input.GetKey(expressionCommands.surpriseLow))
+        if (Input.GetKeyDown(expressionCommands.surpriseLow))
             manager.Express(tutorName, EmotionalState.SURPRISE, 0.5f);
 
-        if (Input.GetKey(expressionCommands.surpriseHigh))
+        if (Input.GetKeyDown(expressionCommands.surpriseHigh))
             manager.Express(tutorName, EmotionalState.SURPRISE, 1.0f);
 
-        if (Input.GetKey(expressionCommands.angerLow))
+        if (Input.GetKeyDown(expressionCommands.angerLow))
             manager.Express(tutorName, EmotionalState.ANGER, 0.5f);
 
-        if (Input.GetKey(expressionCommands.angerHigh))
+        if (Input.GetKeyDown(expressionCommands.angerHigh))
             manager.Express(tutorName, EmotionalState.ANGER, 1.0f);
 
-        if (Input.GetKey(expressionCommands.disgustLow))
+        if (Input.GetKeyDown(expressionCommands.disgustLow))
             manager.Express(tutorName, EmotionalState.DISGUST, 0.5f);
 
-        if (Input.GetKey(expressionCommands.disgustHigh))
+        if (Input.GetKeyDown(expressionCommands.disgustHigh))
             manager.Express(tutorName, EmotionalState.DISGUST, 1.0f);
 
         // Actions
-        if (Input.GetKey(movementCommands.nodStart))
+        if (Input.GetKeyDown(movementCommands.nodStart))
             manager.Nod(tutorName, NodState.NOD_START);
 
-        if (Input.GetKey(movementCommands.nodStop))
+        if (Input.GetKeyDown(movementCommands.nodStop))
             manager.Nod(tutorName, NodState.NOD_END);
 
-        if (Input.GetKey(movementCommands.talkStart))
+        if (Input.GetKeyDown(movementCommands.talkStart))
             manager.Talk(tutorName, TalkState.TALK_START);
 
-        if (Input.GetKey(movementCommands.talkStop))
+        if (Input.GetKeyDown(movementCommands.talkStop))
             manager.Talk(tutorName, TalkState.TALK_END);
 
-        if (Input.GetKey(movementCommands.gazeAtPartner))
+        if (Input.GetKeyDown(movementCommands.gazeAtPartner))
             manager.Gaze(tutorName, GazeState.GAZEAT_PARTNER);
 
-        if (Input.GetKey(movementCommands.gazeBackFromPartner))
+        if (Input.GetKeyDown(movementCommands.gazeBackFromPartner))
             manager.Gaze(tutorName, GazeState.GAZEBACK_PARTNER);
 
-        if (Input.GetKey(movementCommands.gazeAtUser))
+        if (Input.GetKeyDown(movementCommands.gazeAtUser))
             manager.Gaze(tutorName, GazeState.GAZEAT_USER);
 
-        if (Input.GetKey(movementCommands.gazeBackFromUser))
+        if (Input.GetKeyDown(movementCommands.gazeBackFromUser))
             manager.Gaze(tutorName, GazeState.GAZEBACK_USER);
 
         // Action Speed\Frequency
-        if (Input.GetKey(changeParameterCommands.nodFrequency))
+        if (Input.GetKeyDown(changeParameterCommands.nodFrequency))
             manager.setParameter(tutorName, ControllerParams.NOD_FREQUENCY, 0.5f);
 
-        if (Input.GetKey(changeParameterCommands.nodSpeed))
+        if (Input.GetKeyDown(changeParameterCommands.nodSpeed))
             manager.setParameter(tutorName, AnimatorParams.NOD_SPEED, 2.0f);
 
-        if (Input.GetKey(changeParameterCommands.gazeFrequency))
+        if (Input.GetKeyDown(changeParameterCommands.gazeFrequency))
             manager.setParameter(tutorName, ControllerParams.GAZEAT_FREQUENCY, 0.5f);
 
-        if (Input.GetKey(changeParameterCommands.gazeSpeed))
+        if (Input.GetKeyDown(changeParameterCommands.gazeSpeed))
         {
             manager.setParameter(tutorName, AnimatorParams.GAZEAT_SPEED, 1.5f);
             manager.setParameter(tutorName, AnimatorParams.GAZEBACK_SPEED, 2.0f);
@@ -175,12 +175,14 @@ public class AvatarTest_Main : MonoBehaviour
     // UI driven commands
     public void talk(string who)
     {
-        manager.Talk(who, TalkState.TALK_START);
+        if(isActiveAndEnabled)
+            manager.Talk(who, TalkState.TALK_START);
     }
 
     public void stopTalking(string who)
     {
-        manager.Talk(who, TalkState.TALK_END);
+        if (isActiveAndEnabled)
+            manager.Talk(who, TalkState.TALK_END);
     }
 
     private IEnumerator controllerParameterDebugRoutine()

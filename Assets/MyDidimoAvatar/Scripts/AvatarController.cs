@@ -4,6 +4,16 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public partial class AvatarController : MonoBehaviour
 {
+    [Header("Speech Approach Test")]
+    //TEMP
+    [SerializeField]
+    private bool ApproachNeutral;
+    [SerializeField]
+    private bool ApproachLowerIntensity;
+    //TEMPSTORE
+    private int storedMood;
+    private float storedMoodIntensity;
+
     private Animator animator;
     private AvatarParameters parameters;
 
@@ -95,6 +105,21 @@ public partial class AvatarController : MonoBehaviour
 
     public void DoTalking(TalkState talkState)
     {
+        if (talkState == TalkState.TALK_START)
+        {
+            storedMood = animator.GetInteger("Mood");
+            storedMoodIntensity = animator.GetFloat("Mood Intensity");
+            if (ApproachNeutral)
+                SetMood(EmotionalState.NEUTRAL, 0.0f);
+            if (ApproachLowerIntensity)
+                SetMood((EmotionalState)storedMood, (storedMoodIntensity / parameters.getMoodDampenerValue())*0.5f);
+        }
+        else
+        {
+            if (ApproachNeutral || ApproachLowerIntensity)
+                SetMood((EmotionalState)storedMood, storedMoodIntensity / parameters.getMoodDampenerValue());
+        }
+
         animator.SetInteger("Talk State", (int)talkState);
         animator.SetTrigger("Talk");
     }
