@@ -14,6 +14,7 @@ public class Manager : MonoBehaviour {
     public float duration = 5.0f;
     private int currentTutor = 0;
     private int mix = 0;
+    private int forceText = 0;
 
     private void Start()
     {
@@ -110,7 +111,7 @@ public class Manager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.C))
         {
-            manager.Handle(new string[] { "OverrideTextEffects", "Happiness", "0.5", "showEffects", "Shake", "hideEffects", "FadeOut", "fadeCurve" });
+            manager.Handle(new string[] { "OverrideTextEffects", "Happiness", "0.5", "showEffects", "FadeIn", "bellCurve", "hideEffects", "FadeOut", "fadeCurve" });
         }
 
         if (Input.GetKeyDown(KeyCode.V))
@@ -138,6 +139,13 @@ public class Manager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.K))
         {
             manager.Handle(new string[] { "AddAnimationCurve", "abc", "0", "0", "1", "1" });
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            forceText = (forceText + 1) % 2;
+            Debug.Log(Convert.ToBoolean(forceText));
+            manager.Handle(new string[] { "SetForceTextUpdate", forceText.ToString() });
         }
     }
     

@@ -280,13 +280,6 @@ public class Effects : MonoBehaviour
         }
     }
 
-    private AnimationCurve CopyAnimationCurve(AnimationCurve curve)
-    {
-        AnimationCurve newCurve = new AnimationCurve();
-        newCurve.keys = curve.keys;
-        return newCurve;
-    }
-
     void ON_TEXT_CHANGED(Object obj)
     {
         if (obj == m_TextComponent)
@@ -335,7 +328,8 @@ public class Effects : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        m_TextComponent.maxVisibleCharacters = totalVisibleCharacters;
+        if(DefaultData.Instance.forceTextUpdate)
+            m_TextComponent.maxVisibleCharacters = totalVisibleCharacters;
     }
 
     IEnumerator Blush(float duration, float intensity, AnimationCurve curve)
@@ -370,7 +364,8 @@ public class Effects : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        m_TextComponent.color = blushColor;
+        if (DefaultData.Instance.forceTextUpdate)
+            m_TextComponent.color = blushColor;
     }
 
     IEnumerator BlushCharacters(float duration, float intensity, AnimationCurve curve)
@@ -430,11 +425,14 @@ public class Effects : MonoBehaviour
                 yield return new WaitForSeconds(Time.deltaTime);
             }
 
-            newVertexColors[vertexIndex + 0] = blushColor;
-            newVertexColors[vertexIndex + 1] = blushColor;
-            newVertexColors[vertexIndex + 2] = blushColor;
-            newVertexColors[vertexIndex + 3] = blushColor;
-            m_TextComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+            if (DefaultData.Instance.forceTextUpdate)
+            {
+                newVertexColors[vertexIndex + 0] = blushColor;
+                newVertexColors[vertexIndex + 1] = blushColor;
+                newVertexColors[vertexIndex + 2] = blushColor;
+                newVertexColors[vertexIndex + 3] = blushColor;
+                m_TextComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+            }
         }
     }
 
@@ -461,7 +459,8 @@ public class Effects : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        m_TextComponent.fontSize = finalSize;
+        if (DefaultData.Instance.forceTextUpdate)
+            m_TextComponent.fontSize = finalSize;
     }
 
     IEnumerator Erase(float duration, float intensity, AnimationCurve curve, float wantedAlpha = 0)
@@ -517,24 +516,27 @@ public class Effects : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < characterCount; i++)
+        if (DefaultData.Instance.forceTextUpdate)
         {
-            // Get the index of the material used by the current character.
-            int materialIndex = textInfo.characterInfo[i].materialReferenceIndex;
+            for (int i = 0; i < characterCount; i++)
+            {
+                // Get the index of the material used by the current character.
+                int materialIndex = textInfo.characterInfo[i].materialReferenceIndex;
 
-            // Get the vertex colors of the mesh used by this text element (character or sprite).
-            newVertexColors = textInfo.meshInfo[materialIndex].colors32;
+                // Get the vertex colors of the mesh used by this text element (character or sprite).
+                newVertexColors = textInfo.meshInfo[materialIndex].colors32;
 
-            // Get the index of the first vertex used by this text element.
-            int vertexIndex = textInfo.characterInfo[i].vertexIndex;
+                // Get the index of the first vertex used by this text element.
+                int vertexIndex = textInfo.characterInfo[i].vertexIndex;
 
-            finalAlpha = (byte)wantedAlpha;
-            // Set new alpha values.
-            newVertexColors[vertexIndex + 0].a = finalAlpha;
-            newVertexColors[vertexIndex + 1].a = finalAlpha;
-            newVertexColors[vertexIndex + 2].a = finalAlpha;
-            newVertexColors[vertexIndex + 3].a = finalAlpha;
-            m_TextComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+                finalAlpha = (byte)wantedAlpha;
+                // Set new alpha values.
+                newVertexColors[vertexIndex + 0].a = finalAlpha;
+                newVertexColors[vertexIndex + 1].a = finalAlpha;
+                newVertexColors[vertexIndex + 2].a = finalAlpha;
+                newVertexColors[vertexIndex + 3].a = finalAlpha;
+                m_TextComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+            }
         }
     }
 
@@ -562,8 +564,11 @@ public class Effects : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        finalColor.a = (byte)wantedAlpha;
-        m_TextComponent.color = finalColor;
+        if (DefaultData.Instance.forceTextUpdate)
+        {
+            finalColor.a = (byte)wantedAlpha;
+            m_TextComponent.color = finalColor;
+        }
     }
 
     IEnumerator FadeInCharacters(float duration, float intensity, AnimationCurve curve, int wantedAlpha = 255)
@@ -616,12 +621,15 @@ public class Effects : MonoBehaviour
                 yield return new WaitForSeconds(Time.deltaTime);
             }
 
-            finalColor.a = (byte)wantedAlpha;
-            newVertexColors[vertexIndex + 0] = finalColor;
-            newVertexColors[vertexIndex + 1] = finalColor;
-            newVertexColors[vertexIndex + 2] = finalColor;
-            newVertexColors[vertexIndex + 3] = finalColor;
-            m_TextComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+            if (DefaultData.Instance.forceTextUpdate)
+            {
+                finalColor.a = (byte)wantedAlpha;
+                newVertexColors[vertexIndex + 0] = finalColor;
+                newVertexColors[vertexIndex + 1] = finalColor;
+                newVertexColors[vertexIndex + 2] = finalColor;
+                newVertexColors[vertexIndex + 3] = finalColor;
+                m_TextComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+            }
         }
     }
 
@@ -649,8 +657,11 @@ public class Effects : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        finalColor.a = (byte)wantedAlpha;
-        m_TextComponent.color = finalColor;
+        if (DefaultData.Instance.forceTextUpdate)
+        {
+            finalColor.a = (byte)wantedAlpha;
+            m_TextComponent.color = finalColor;
+        }
     }
 
     IEnumerator FadeOutCharacters(float duration, float intensity, AnimationCurve curve, float wantedAlpha = 0)
@@ -703,12 +714,15 @@ public class Effects : MonoBehaviour
                 yield return new WaitForSeconds(Time.deltaTime);
             }
 
-            finalColor.a = (byte)wantedAlpha;
-            newVertexColors[vertexIndex + 0] = finalColor;
-            newVertexColors[vertexIndex + 1] = finalColor;
-            newVertexColors[vertexIndex + 2] = finalColor;
-            newVertexColors[vertexIndex + 3] = finalColor;
-            m_TextComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+            if (DefaultData.Instance.forceTextUpdate)
+            {
+                finalColor.a = (byte)wantedAlpha;
+                newVertexColors[vertexIndex + 0] = finalColor;
+                newVertexColors[vertexIndex + 1] = finalColor;
+                newVertexColors[vertexIndex + 2] = finalColor;
+                newVertexColors[vertexIndex + 3] = finalColor;
+                m_TextComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+            }
         }
     }
 
@@ -736,6 +750,9 @@ public class Effects : MonoBehaviour
             m_TextComponent.maxVisibleCharacters = visibleCount;
             yield return new WaitForSeconds(Time.deltaTime);
         }
+
+        if (DefaultData.Instance.forceTextUpdate)
+            m_TextComponent.maxVisibleCharacters = totalVisibleCharacters;
     }
 
     IEnumerator Jitter(float duration, float intensity, AnimationCurve curve, bool keepAnimating = false, bool random = true)
@@ -848,7 +865,9 @@ public class Effects : MonoBehaviour
             rectTransform.localScale = stepScale;
             yield return new WaitForSeconds(Time.deltaTime);
         }
-        rectTransform.localScale = localScale;
+
+        if (DefaultData.Instance.forceTextUpdate)
+            rectTransform.localScale = localScale;
     }
 
     IEnumerator Shake(float duration, float intensity, AnimationCurve curve, bool characters, bool keepAnimating = false, bool random = true)
@@ -984,11 +1003,14 @@ public class Effects : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        if (x)
-            finalScale.x = wantedScaleX;
-        if (y)
-            finalScale.y = wantedScaleY;
-        rectTransform.localScale = finalScale;
+        if (DefaultData.Instance.forceTextUpdate)
+        {
+            if (x)
+                finalScale.x = wantedScaleX;
+            if (y)
+                finalScale.y = wantedScaleY;
+            rectTransform.localScale = finalScale;
+        }
     }
 
     IEnumerator Stretch(float duration, float intensity, AnimationCurve curve, bool x, bool y, float wantedScaleX = 1f, float wantedScaleY = 1f)
@@ -1022,11 +1044,14 @@ public class Effects : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        if (x)
-            finalScale.x = wantedScaleX;
-        if (y)
-            finalScale.y = wantedScaleY;
-        rectTransform.localScale = finalScale;
+        if (DefaultData.Instance.forceTextUpdate)
+        {
+            if (x)
+                finalScale.x = wantedScaleX;
+            if (y)
+                finalScale.y = wantedScaleY;
+            rectTransform.localScale = finalScale;
+        }
     }
 
     IEnumerator SwellingFontSize(float duration, float intensity, AnimationCurve curve)
@@ -1054,7 +1079,8 @@ public class Effects : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        m_TextComponent.fontSize = finalSize;
+        if (DefaultData.Instance.forceTextUpdate)
+            m_TextComponent.fontSize = finalSize;
     }
 
     IEnumerator Swing(float duration, float intensity, bool keepAnimating = false)
@@ -1100,7 +1126,8 @@ public class Effects : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        m_TextComponent.ForceMeshUpdate();
+        if (DefaultData.Instance.forceTextUpdate)
+            m_TextComponent.ForceMeshUpdate();
     }
 
     IEnumerator SwingCharacters(float duration, float intensity, bool keepAnimating = false)
@@ -1151,7 +1178,8 @@ public class Effects : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        m_TextComponent.ForceMeshUpdate();
+        if (DefaultData.Instance.forceTextUpdate)
+            m_TextComponent.ForceMeshUpdate();
     }
 
     IEnumerator WarpText(float duration, float intensity, AnimationCurve curve, bool keepAnimating = false)

@@ -85,6 +85,10 @@ public class VTToModuleBridge : MonoBehaviour
                     AddAnimationCurve(parameters);
                     break;
 
+                case "SetForceTextUpdate":
+                    SetForceTextUpdate(parameters);
+                    break;
+
                 default:
                     break;
             }
@@ -564,6 +568,12 @@ public class VTToModuleBridge : MonoBehaviour
         }
 
         DefaultData.Instance.AddCurve(name, curve);
+    }
+
+    //<< SetForceTextUpdate boolInIntFormat >>   0 -> false; 1 -> true
+    public void SetForceTextUpdate(string[] info)
+    {
+        DefaultData.Instance.forceTextUpdate = Convert.ToBoolean(Convert.ToInt16(info[0]));
     }
 
     /**********************************************************************************************************
