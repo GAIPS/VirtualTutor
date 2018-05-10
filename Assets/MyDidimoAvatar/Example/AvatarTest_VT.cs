@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class AvatarTestMain : MonoBehaviour
+public class AvatarTest_VT : MonoBehaviour
 {
     //This will be the main animation manager for the synthetic characters
     [Header("Object Hooks")]
@@ -62,142 +62,142 @@ public class AvatarTestMain : MonoBehaviour
             return;
 
         // Emotion
-        if (Input.GetKey(moodCommands.neutral))
+        if (Input.GetKeyDown(moodCommands.neutral))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Feel", tutorName, "Neutral", "0.0" });
             else
                 bridge.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Neutral, 0.0f)));
         }   
-        if (Input.GetKey(moodCommands.happy))
+        if (Input.GetKeyDown(moodCommands.happy))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Feel", tutorName, "Happiness", "0.5" });
             else
                 bridge.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Happiness, 0.5f)));
         }
-        if (Input.GetKey(moodCommands.veryHappy))
+        if (Input.GetKeyDown(moodCommands.veryHappy))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Feel", tutorName, "Happiness", "1.0" });
             else
                 bridge.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Happiness, 1.0f)));
         }
-        if (Input.GetKey(moodCommands.sad))
+        if (Input.GetKeyDown(moodCommands.sad))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Feel", tutorName, "Sadness", "0.5" });
             else
                 bridge.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Sadness, 0.5f)));
         }
-        if (Input.GetKey(moodCommands.verySad))
+        if (Input.GetKeyDown(moodCommands.verySad))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Feel", tutorName, "Sadness", "1.0" });
             else
                 bridge.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Sadness, 1.0f)));
         }
-        if (Input.GetKey(moodCommands.afraid))
+        if (Input.GetKeyDown(moodCommands.afraid))
         {
             if (testCommands)
-                bridge.Handle(new string[] { "Feel", tutorName, "Fear", "0.0" });
+                bridge.Handle(new string[] { "Feel", tutorName, "Fear", "0.6" });
             else
-                bridge.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Fear, 0.0f)));
+                bridge.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Fear, 0.6f)));
         }
-        if (Input.GetKey(moodCommands.surprised))
+        if (Input.GetKeyDown(moodCommands.surprised))
         {
             if (testCommands)
-                bridge.Handle(new string[] { "Feel", tutorName, "Surprise", "0.0" });
+                bridge.Handle(new string[] { "Feel", tutorName, "Surprise", "0.6" });
             else
-                bridge.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Surprise, 0.0f)));
+                bridge.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Surprise, 0.6f)));
         }
 
         // Expression
-        if (Input.GetKey(expressionCommands.neutral))
+        if (Input.GetKeyDown(expressionCommands.neutral))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Express", tutorName, "Neutral", "0.0" });
             else
                 bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Neutral, 1.0f)));
         }
-        if (Input.GetKey(expressionCommands.happinessLow))
+        if (Input.GetKeyDown(expressionCommands.happinessLow))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Express", tutorName, "Happiness", "0.5" });
             else
                 bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Happiness, 0.5f)));
         }
-        if (Input.GetKey(expressionCommands.happinessHigh))
+        if (Input.GetKeyDown(expressionCommands.happinessHigh))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Express", tutorName, "Happiness", "1.0" });
             else
                 bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Happiness, 1.0f)));
         }
-        if (Input.GetKey(expressionCommands.sadnessLow))
+        if (Input.GetKeyDown(expressionCommands.sadnessLow))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Express", tutorName, "Sadness", "0.5" });
             else
                 bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Sadness, 0.5f)));
         }
-        if (Input.GetKey(expressionCommands.sadnessHigh))
+        if (Input.GetKeyDown(expressionCommands.sadnessHigh))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Express", tutorName, "Sadness", "1.0" });
             else
                 bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Sadness, 1.0f)));
         }
-        if (Input.GetKey(expressionCommands.fearLow))
+        if (Input.GetKeyDown(expressionCommands.fearLow))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Express", tutorName, "Fear", "0.5" });
             else
                 bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Fear, 0.5f)));
         }
-        if (Input.GetKey(expressionCommands.fearHigh))
+        if (Input.GetKeyDown(expressionCommands.fearHigh))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Express", tutorName, "Fear", "1.0" });
             else
                 bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Fear, 1.0f)));
         }
-        if (Input.GetKey(expressionCommands.surpriseLow))
+        if (Input.GetKeyDown(expressionCommands.surpriseLow))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Express", tutorName, "Surprise", "0.5" });
             else
                 bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Surprise, 0.5f)));
         }
-        if (Input.GetKey(expressionCommands.surpriseHigh))
+        if (Input.GetKeyDown(expressionCommands.surpriseHigh))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Express", tutorName, "Surprise", "1.0" });
             else
                 bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Surprise, 1.0f)));
         }
-        if (Input.GetKey(expressionCommands.angerLow))
+        if (Input.GetKeyDown(expressionCommands.angerLow))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Express", tutorName, "Anger", "0.5" });
             else
                 bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Anger, 0.5f)));
         }
-        if (Input.GetKey(expressionCommands.angerHigh))
+        if (Input.GetKeyDown(expressionCommands.angerHigh))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Express", tutorName, "Anger", "1.0" });
             else
                 bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Anger, 1.0f)));
         }
-        if (Input.GetKey(expressionCommands.disgustLow))
+        if (Input.GetKeyDown(expressionCommands.disgustLow))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Express", tutorName, "Disgust", "0.5" });
             else
                 bridge.Express(new Tutor(tutorName, new Emotion(EmotionEnum.Disgust, 0.5f)));
         }
-        if (Input.GetKey(expressionCommands.disgustHigh))
+        if (Input.GetKeyDown(expressionCommands.disgustHigh))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Express", tutorName, "Disgust", "1.0" });
@@ -206,56 +206,56 @@ public class AvatarTestMain : MonoBehaviour
         }
 
         // Actions
-        if (Input.GetKey(movementCommands.nodStart))
+        if (Input.GetKeyDown(movementCommands.nodStart))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Nod", tutorName, "Start" });
             else
                 bridge.Act(new Tutor(tutorName), new MovementWithState(MovementEnum.Nod, StateEnum.Start));
         }
-        if (Input.GetKey(movementCommands.nodStop))
+        if (Input.GetKeyDown(movementCommands.nodStop))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Nod", tutorName, "End" });
             else
                 bridge.Act(new Tutor(tutorName), new MovementWithState(MovementEnum.Nod, StateEnum.End));
         }
-        if (Input.GetKey(movementCommands.talkStart))
+        if (Input.GetKeyDown(movementCommands.talkStart))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Talk", tutorName, "Start" });
             else
                 bridge.Act(new Tutor(tutorName), new MovementWithState(MovementEnum.Talk, StateEnum.Start));
         }
-        if (Input.GetKey(movementCommands.talkStop))
+        if (Input.GetKeyDown(movementCommands.talkStop))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Talk", tutorName, "End" });
             else
                 bridge.Act(new Tutor(tutorName), new MovementWithState(MovementEnum.Talk, StateEnum.End));
         }
-        if (Input.GetKey(movementCommands.gazeAtPartner))
+        if (Input.GetKeyDown(movementCommands.gazeAtPartner))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Gazeat", tutorName, tutorName=="Maria" ? "Joao" : "Maria" });
             else
                 bridge.Act(new Tutor(tutorName), new MovementWithTarget(MovementEnum.Gazeat, TargetEnum.Partner));
         }
-        if (Input.GetKey(movementCommands.gazeBackFromPartner))
+        if (Input.GetKeyDown(movementCommands.gazeBackFromPartner))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Gazeback", tutorName, tutorName == "Maria" ? "Joao" : "Maria" });
             else
                 bridge.Act(new Tutor(tutorName), new MovementWithTarget(MovementEnum.Gazeback, TargetEnum.Partner));
         }
-        if (Input.GetKey(movementCommands.gazeAtUser))
+        if (Input.GetKeyDown(movementCommands.gazeAtUser))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Gazeat", tutorName, "User" });
             else
                 bridge.Act(new Tutor(tutorName), new MovementWithTarget(MovementEnum.Gazeat, TargetEnum.User));
         }
-        if (Input.GetKey(movementCommands.gazeBackFromUser))
+        if (Input.GetKeyDown(movementCommands.gazeBackFromUser))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Gazeback", tutorName, "User" });
@@ -264,28 +264,28 @@ public class AvatarTestMain : MonoBehaviour
         }
 
         // Action Speed\Frequency
-        if (Input.GetKey(changeParameterCommands.nodFrequency))
+        if (Input.GetKeyDown(changeParameterCommands.nodFrequency))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Nod", tutorName, "Frequency", "0.5" });
             else
                 bridge.setParameter(new Tutor(tutorName), new MovementWithProperty(MovementEnum.Nod, PropertyEnum.Frequency, 0.5f));
         }
-        if (Input.GetKey(changeParameterCommands.nodSpeed))
+        if (Input.GetKeyDown(changeParameterCommands.nodSpeed))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Nod", tutorName, "Speed", "2.0" });
             else
                 bridge.setParameter(new Tutor(tutorName), new MovementWithProperty(MovementEnum.Nod, PropertyEnum.Speed, 2.0f));
         }
-        if (Input.GetKey(changeParameterCommands.gazeFrequency))
+        if (Input.GetKeyDown(changeParameterCommands.gazeFrequency))
         {
             if (testCommands)
                 bridge.Handle(new string[] { "Gazeat", tutorName, "Frequency", "0.5" });
             else
                 bridge.setParameter(new Tutor(tutorName), new MovementWithProperty(MovementEnum.Gazeat, PropertyEnum.Frequency, 0.5f));
         }
-        if (Input.GetKey(changeParameterCommands.gazeSpeed))
+        if (Input.GetKeyDown(changeParameterCommands.gazeSpeed))
         {
             if (testCommands)
             {
@@ -302,18 +302,23 @@ public class AvatarTestMain : MonoBehaviour
     // UI driven commands
     public void talk(string who)
     {
-        if (testCommands)
-            bridge.Handle(new string[] { "Talk", tutorName, "Start" });
-        else
-            bridge.Act(new Tutor(who), new MovementWithState(MovementEnum.Talk, StateEnum.Start));
+        if (isActiveAndEnabled) {
+            if (testCommands)
+                bridge.Handle(new string[] { "Talk", tutorName, "Start" });
+            else
+                bridge.Act(new Tutor(who), new MovementWithState(MovementEnum.Talk, StateEnum.Start));
+        }
 
     }
     public void stopTalking(string who)
     {
-        if (testCommands)
-            bridge.Handle(new string[] { "Talk", tutorName, "Start" });
-        else
-            bridge.Act(new Tutor(who), new MovementWithState(MovementEnum.Talk, StateEnum.End));
+        if (isActiveAndEnabled)
+        {
+            if (testCommands)
+                bridge.Handle(new string[] { "Talk", tutorName, "Start" });
+            else
+                bridge.Act(new Tutor(who), new MovementWithState(MovementEnum.Talk, StateEnum.End));
+        }
     }
 
     IEnumerator controllerParameterDebugRoutine()
@@ -338,52 +343,4 @@ public class AvatarTestMain : MonoBehaviour
             yield return new WaitForSeconds(displayInterval);
         }
     }
-}
-
-[Serializable]
-class MoodVariables {
-    public string neutral = "q"; 
-    public string happy = "w";
-    public string veryHappy = "e";
-    public string sad = "r";
-    public string verySad = "t";
-    public string afraid = "1";
-    public string surprised = "2";
-}
-[Serializable]
-class ExpressionVariables
-{
-    public string neutral = "a";
-    public string happinessLow = "s";
-    public string happinessHigh = "d";
-    public string sadnessLow = "f";
-    public string sadnessHigh = "g";
-    public string fearLow = "h";
-    public string fearHigh = "j";
-    public string surpriseLow = "k";
-    public string surpriseHigh = "l";
-    public string angerLow = "z";
-    public string angerHigh = "x";
-    public string disgustLow = "c";
-    public string disgustHigh = "v";
-}
-[Serializable]
-class MovementVariables
-{
-    public string nodStart = "n";
-    public string nodStop = "m";
-    public string talkStart = "u";
-    public string talkStop = "i";
-    public string gazeAtPartner = "o";
-    public string gazeBackFromPartner = "p";
-    public string gazeAtUser = "9";
-    public string gazeBackFromUser = "0";
-}
-[Serializable]
-class ParameterVariables
-{
-    public string nodFrequency = "[";
-    public string nodSpeed = "]";
-    public string gazeFrequency = ",";
-    public string gazeSpeed = ".";
 }

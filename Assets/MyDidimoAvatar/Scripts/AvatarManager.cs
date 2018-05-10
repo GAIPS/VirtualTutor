@@ -82,20 +82,20 @@ public class AvatarManager : MonoBehaviour
     }
 
     // controller fetchers
-    private AvatarController getController(string controllerID)
+    private AvatarController getController(string id)
     {
         foreach (var controller in Controllers)
         {
-            if (controller.name.Contains(controllerID))
+            if (controller.controllerID.Equals(id))
                 return controller;
         }
         return null;
     }
-    private AvatarController getPartnerController(string controllerID)
+    private AvatarController getPartnerController(string id)
     {
         foreach (var controller in Controllers)
         {
-            if (!controller.name.Contains(controllerID))
+            if (!controller.controllerID.Equals(id))
                 return controller;
         }
         return null;

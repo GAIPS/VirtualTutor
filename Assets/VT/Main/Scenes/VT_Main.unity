@@ -363,6 +363,10 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.75600004
       objectReference: {fileID: 0}
+    - target: {fileID: 1982475099233246, guid: 982c01d0d9b46a54a83bdc0d66133626, type: 2}
+      propertyPath: m_Name
+      value: Joao
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 982c01d0d9b46a54a83bdc0d66133626, type: 2}
   m_IsPrefabParent: 0
@@ -612,6 +616,10 @@ Prefab:
     - target: {fileID: 4147220023100572, guid: 41a9450a73d78ba408a8c0d697ef948b, type: 2}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777737157021428, guid: 41a9450a73d78ba408a8c0d697ef948b, type: 2}
+      propertyPath: m_Name
+      value: Maria
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 41a9450a73d78ba408a8c0d697ef948b, type: 2}
