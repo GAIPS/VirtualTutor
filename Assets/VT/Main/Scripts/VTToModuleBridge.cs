@@ -504,7 +504,7 @@ public class VTToModuleBridge : MonoBehaviour
         DefaultData.Instance.SetTextEffects(emotion, intensity, effects.Key, effects.Value);
     }
 
-    //<< UpdateBackground tutor emotion intensity duration intensityValue reason>>
+    //<< UpdateBackground tutor emotion intensity duration reason>>
     public void UpdateBackground(string[] info)
     {
         Reason reason = (Reason)Enum.Parse(typeof(Reason), info[info.Length - 1]);
@@ -512,7 +512,7 @@ public class VTToModuleBridge : MonoBehaviour
         bubbleSystem.UpdateBackground(info[0], kvp.Value, Convert.ToSingle(info[kvp.Key + 1]), reason);
     }
 
-    //<< SetNextDialogueData tutor emotion intensity duration intensityValue [showEffects effect1 [curve] ...] [hideEffects effect1 [curve] ...] >>
+    //<< SetNextDialogueData tutor emotion intensity duration [showEffects effect1 [curve] ...] [hideEffects effect1 [curve] ...] >>
     public void SetNextDialogueData(string[] info)
     {
         NextDialogueData nextData = new NextDialogueData();
@@ -557,14 +557,28 @@ public class VTToModuleBridge : MonoBehaviour
     }
 
     //Can also override
-    //<< AddAnimationCurve name time1 value1 time2 value2 ... >>   Color in #RRGGBBAA format
+    //<< AddAnimationCurve name time1 value1 [smooth weight1] time2 value2 [smooth weight2] ... >>
     public void AddAnimationCurve(string[] info)
     {
         string name = info[0];
         AnimationCurve curve = new AnimationCurve();
+        int indexToSmooth = -1;
+        List<KeyValuePair<int, float>> smoothTangents = new List<KeyValuePair<int, float>>();
+
         for (int i = 1; i < info.Length; i = i + 2)
         {
-            curve.AddKey(new Keyframe(Convert.ToSingle(info[i]), Convert.ToSingle(info[i + 1])));
+            if (info[i].Equals("smooth"))
+                smoothTangents.Add(new KeyValuePair<int, float>(indexToSmooth, Convert.ToSingle(info[i + 1])));
+            else
+            {
+                curve.AddKey(new Keyframe(Convert.ToSingle(info[i]), Convert.ToSingle(info[i + 1])));
+                indexToSmooth++;
+            }
+        }
+
+        foreach(KeyValuePair<int, float> kvp in smoothTangents)
+        {
+            curve.SmoothTangents(kvp.Key, kvp.Value);
         }
 
         DefaultData.Instance.AddCurve(name, curve);
