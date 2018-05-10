@@ -389,8 +389,6 @@ namespace YarnDialog
                     continue;
                 }
 
-                DebugLog.Log(intensity);
-
                 var target = tagSplit[0];
                 if (target.ToLower().Equals("user"))
                 {
