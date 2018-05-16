@@ -15,6 +15,7 @@ public class Manager : MonoBehaviour {
     private int currentTutor = 0;
     private int mix = 0;
     private int forceText = 0;
+    private int balloonAnimation = 0;
 
     private void Start()
     {
@@ -146,6 +147,13 @@ public class Manager : MonoBehaviour {
             forceText = (forceText + 1) % 2;
             Debug.Log(Convert.ToBoolean(forceText));
             manager.Handle(new string[] { "SetForceTextUpdate", forceText.ToString() });
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            balloonAnimation = (balloonAnimation + 1) % 2;
+            Debug.Log(Convert.ToBoolean(balloonAnimation));
+            manager.Handle(new string[] { "SetBalloonAnimationBlending", balloonAnimation.ToString() });
         }
     }
     

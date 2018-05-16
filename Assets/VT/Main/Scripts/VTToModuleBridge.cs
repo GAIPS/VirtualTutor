@@ -89,6 +89,10 @@ public class VTToModuleBridge : MonoBehaviour
                     SetForceTextUpdate(parameters);
                     break;
 
+                case "SetBalloonAnimationBlending":
+                    SetBalloonAnimationBlending(parameters);
+                    break;
+
                 default:
                     break;
             }
@@ -588,6 +592,12 @@ public class VTToModuleBridge : MonoBehaviour
     public void SetForceTextUpdate(string[] info)
     {
         DefaultData.Instance.forceTextUpdate = Convert.ToBoolean(Convert.ToInt16(info[0]));
+    }
+
+    //<< SetEmotionBlending boolInIntFormat >>   0 -> false; 1 -> true
+    public void SetBalloonAnimationBlending(string[] info)
+    {
+        DefaultData.Instance.blendBalloonAnimation = Convert.ToBoolean(Convert.ToInt16(info[0]));
     }
 
     /**********************************************************************************************************

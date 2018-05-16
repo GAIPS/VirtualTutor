@@ -117,6 +117,14 @@ namespace BubbleSystem
             }
         }
 
+        private void SetAnimators(BalloonsHooks hooks, Emotion emotion)
+        {
+            Animator animator = hooks.GetComponent<Animator>();
+            ResetAllFloats(animator);
+            animator.SetFloat(emotion.ToString(), 1.0f);
+            animator.SetFloat(Emotion.Default.ToString(), 1.0f);
+        }
+
         private void SetAnimators(BalloonsHooks hooks, SpeakData data)
         {
             Animator animator = hooks.GetComponent<Animator>();
@@ -193,6 +201,9 @@ namespace BubbleSystem
                             StopCoroutine(hideCoroutines[hooks]);
 
                         SetContent(hooks, data.text.Length > i ? data.text[i] : null);
+                        
+                        KeyValuePair<Emotion, float> emotionPair = BubbleSystemUtility.GetHighestEmotion(data.emotions);
+                        float sum = BubbleSystemUtility.GetEmotionsSum(data.emotions);
 
                         if (options)
                         {
@@ -201,11 +212,11 @@ namespace BubbleSystem
                         }
                         else
                         {
-                            SetAnimators(hooks, data);
+                            if (DefaultData.Instance.blendBalloonAnimation)
+                                SetAnimators(hooks, data);
+                            else
+                                SetAnimators(hooks, emotionPair.Key);
                         }
-
-                        KeyValuePair<Emotion, float> emotionPair = BubbleSystemUtility.GetHighestEmotion(data.emotions);
-                        float sum = BubbleSystemUtility.GetEmotionsSum(data.emotions);
 
                         SpriteData spriteData = DefaultData.Instance.GetDefaultBalloonData(emotionPair.Key, emotionPair.Value);
 
@@ -216,7 +227,7 @@ namespace BubbleSystem
                         }
                         else
                         {
-                            color = BubbleSystemUtility.MixColors(data.emotions);
+                            color = DefaultData.Instance.mixColors? BubbleSystemUtility.MixColors(data.emotions) : DefaultData.Instance.GetColor(emotionPair.Key);
                         }
                         SetSprites(emotionPair.Key, hooks, spriteData, emotionPair.Value, color);
 

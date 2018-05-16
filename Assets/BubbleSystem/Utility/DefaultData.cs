@@ -20,6 +20,7 @@ public class DefaultData : Singleton<DefaultData>
     public float duration = 5.0f;
     public bool mixColors = true;
     public bool forceTextUpdate = true;
+    public bool blendBalloonAnimation = true;
     private Color32 blushColor = Color.red;
 
     static System.Random rnd = new System.Random();
