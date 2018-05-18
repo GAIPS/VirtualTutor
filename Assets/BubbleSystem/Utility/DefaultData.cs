@@ -20,7 +20,7 @@ public class DefaultData : Singleton<DefaultData>
     public float duration = 5.0f;
     public bool mixColors = true;
     public bool forceTextUpdate = true;
-    public bool blendBalloonAnimation = true;
+    public bool blendBalloonAnimation = false;
     private Color32 blushColor = Color.red;
 
     static System.Random rnd = new System.Random();
@@ -1032,7 +1032,7 @@ public class DefaultData : Singleton<DefaultData>
         Dictionary<Reason, Texture2D> surpriseDict = new Dictionary<Reason, Texture2D>();
 
 
-        defaultBackgroundData = (Texture2D)Resources.Load("Backgrounds/Images/joaoBackground");
+        defaultBackgroundData = (Texture2D)Resources.Load("Backgrounds/Images/tutorBackground");
         defaultDict.Add(Reason.None, defaultBackgroundData);
         neutralDict.Add(Reason.None, defaultBackgroundData);
         happinessDict.Add(Reason.None, defaultBackgroundData);
@@ -1042,15 +1042,65 @@ public class DefaultData : Singleton<DefaultData>
         disgustDict.Add(Reason.None, defaultBackgroundData);
         surpriseDict.Add(Reason.None, defaultBackgroundData);
 
-        defaultBackgroundData = (Texture2D)Resources.Load("Backgrounds/Images/graph");
-        defaultDict.Add(Reason.Grades, defaultBackgroundData);
-        neutralDict.Add(Reason.Grades, defaultBackgroundData);
-        happinessDict.Add(Reason.Grades, defaultBackgroundData);
-        sadnessDict.Add(Reason.Grades, defaultBackgroundData);
-        angerDict.Add(Reason.Grades, defaultBackgroundData);
-        fearDict.Add(Reason.Grades, defaultBackgroundData);
-        disgustDict.Add(Reason.Grades, defaultBackgroundData);
-        surpriseDict.Add(Reason.Grades, defaultBackgroundData);
+        defaultBackgroundData = (Texture2D)Resources.Load("Backgrounds/Images/challenge");
+        defaultDict.Add(Reason.Challenge, defaultBackgroundData);
+        neutralDict.Add(Reason.Challenge, defaultBackgroundData);
+        happinessDict.Add(Reason.Challenge, defaultBackgroundData);
+        sadnessDict.Add(Reason.Challenge, defaultBackgroundData);
+        angerDict.Add(Reason.Challenge, defaultBackgroundData);
+        fearDict.Add(Reason.Challenge, defaultBackgroundData);
+        disgustDict.Add(Reason.Challenge, defaultBackgroundData);
+        surpriseDict.Add(Reason.Challenge, defaultBackgroundData);
+
+        defaultBackgroundData = (Texture2D)Resources.Load("Backgrounds/Images/effort");
+        defaultDict.Add(Reason.Effort, defaultBackgroundData);
+        neutralDict.Add(Reason.Effort, defaultBackgroundData);
+        happinessDict.Add(Reason.Effort, defaultBackgroundData);
+        sadnessDict.Add(Reason.Effort, defaultBackgroundData);
+        angerDict.Add(Reason.Effort, defaultBackgroundData);
+        fearDict.Add(Reason.Effort, defaultBackgroundData);
+        disgustDict.Add(Reason.Effort, defaultBackgroundData);
+        surpriseDict.Add(Reason.Effort, defaultBackgroundData);
+
+        defaultBackgroundData = (Texture2D)Resources.Load("Backgrounds/Images/engagement");
+        defaultDict.Add(Reason.Engagement, defaultBackgroundData);
+        neutralDict.Add(Reason.Engagement, defaultBackgroundData);
+        happinessDict.Add(Reason.Engagement, defaultBackgroundData);
+        sadnessDict.Add(Reason.Engagement, defaultBackgroundData);
+        angerDict.Add(Reason.Engagement, defaultBackgroundData);
+        fearDict.Add(Reason.Engagement, defaultBackgroundData);
+        disgustDict.Add(Reason.Engagement, defaultBackgroundData);
+        surpriseDict.Add(Reason.Engagement, defaultBackgroundData);
+
+        defaultBackgroundData = (Texture2D)Resources.Load("Backgrounds/Images/enjoyment");
+        defaultDict.Add(Reason.Enjoyment, defaultBackgroundData);
+        neutralDict.Add(Reason.Enjoyment, defaultBackgroundData);
+        happinessDict.Add(Reason.Enjoyment, defaultBackgroundData);
+        sadnessDict.Add(Reason.Enjoyment, defaultBackgroundData);
+        angerDict.Add(Reason.Enjoyment, defaultBackgroundData);
+        fearDict.Add(Reason.Enjoyment, defaultBackgroundData);
+        disgustDict.Add(Reason.Enjoyment, defaultBackgroundData);
+        surpriseDict.Add(Reason.Enjoyment, defaultBackgroundData);
+
+        defaultBackgroundData = (Texture2D)Resources.Load("Backgrounds/Images/importance");
+        defaultDict.Add(Reason.Importance, defaultBackgroundData);
+        neutralDict.Add(Reason.Importance, defaultBackgroundData);
+        happinessDict.Add(Reason.Importance, defaultBackgroundData);
+        sadnessDict.Add(Reason.Importance, defaultBackgroundData);
+        angerDict.Add(Reason.Importance, defaultBackgroundData);
+        fearDict.Add(Reason.Importance, defaultBackgroundData);
+        disgustDict.Add(Reason.Importance, defaultBackgroundData);
+        surpriseDict.Add(Reason.Importance, defaultBackgroundData);
+
+        defaultBackgroundData = (Texture2D)Resources.Load("Backgrounds/Images/performance");
+        defaultDict.Add(Reason.Performance, defaultBackgroundData);
+        neutralDict.Add(Reason.Performance, defaultBackgroundData);
+        happinessDict.Add(Reason.Performance, defaultBackgroundData);
+        sadnessDict.Add(Reason.Performance, defaultBackgroundData);
+        angerDict.Add(Reason.Performance, defaultBackgroundData);
+        fearDict.Add(Reason.Performance, defaultBackgroundData);
+        disgustDict.Add(Reason.Performance, defaultBackgroundData);
+        surpriseDict.Add(Reason.Performance, defaultBackgroundData);
 
         dict.Add(1f, neutralDict);
         defaultBackgroundDataDictionary.Add(BubbleSystem.Emotion.Neutral, dict);

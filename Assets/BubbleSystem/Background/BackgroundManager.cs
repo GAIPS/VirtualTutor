@@ -54,7 +54,7 @@ namespace BubbleSystem
 
             if (BubbleSystemUtility.CheckCoroutine(ref changeImageCoroutines, bg))
                 StopCoroutine(changeImageCoroutines[bg]);
-            BubbleSystemUtility.AddToDictionary(ref changeImageCoroutines, bg, ChangeImage(bg, textureData, backgroundAnimationData, duration, colorToLerpTo));
+            BubbleSystemUtility.AddToDictionary(ref changeImageCoroutines, bg, ChangeImage(bg, data, textureData, backgroundAnimationData, duration, colorToLerpTo));
             StartCoroutine(changeImageCoroutines[bg]);
         }
 
@@ -70,14 +70,23 @@ namespace BubbleSystem
 
             throw new KeyNotFoundException("Background with name: " + bg + " not found.");
         }
-        
-        private IEnumerator ChangeImage(string bg, Texture2D textureData, BackgroundAnimationData backgroundAnimationData, float duration, Color32 colorToLerpTo)
+
+        private TextureWrapMode GetWrapMode(BackgroundData data)
+        {
+            if (data.reason.Equals(Reason.None))
+                return TextureWrapMode.Mirror;
+            else
+                return TextureWrapMode.Repeat;
+
+        }
+
+        private IEnumerator ChangeImage(string bg, BackgroundData data, Texture2D textureData, BackgroundAnimationData backgroundAnimationData, float duration, Color32 colorToLerpTo)
         {
             Renderer renderer = GetBackground(bg).GetComponent<Renderer>();
             float initialAlpha = renderer.material.color.a;
             float realDuration = duration / 3;
 
-            if (!textureData.name.Equals(renderer.material.mainTexture.name))
+            if (!textureData.name.Equals(renderer.materials[1].mainTexture.name))
             {
                 foreach (BackgroundEffect fx in backgroundAnimationData.hideBannerEffect.Keys)
                 {
@@ -91,8 +100,8 @@ namespace BubbleSystem
                 yield return new WaitForSeconds(realDuration);
 
                 textureCoroutines[bg].Clear();
-                renderer.material.mainTexture = textureData;
-                renderer.material.mainTexture.wrapMode = TextureWrapMode.Mirror;
+                renderer.materials[renderer.materials.Length - 1].mainTexture = textureData;
+                renderer.materials[renderer.materials.Length - 1].mainTexture.wrapMode = GetWrapMode(data);
 
                 foreach (BackgroundEffect fx in backgroundAnimationData.showBannerEffect.Keys)
                 {
@@ -144,11 +153,14 @@ namespace BubbleSystem
                 finalAlpha = initialAlpha + yValue * (wantedAlpha - initialAlpha);
                 finalColor.a = finalAlpha;
 
-                renderer.material.color = finalColor;
+                for(int i = 0; i < renderer.materials.Length; i++)
+                    renderer.materials[i].color = finalColor;
                 yield return new WaitForSeconds(Time.deltaTime);
             }
 
             finalColor.a = wantedAlpha;
+            for (int i = 0; i < renderer.materials.Length; i++)
+                renderer.materials[i].color = finalColor;
             renderer.material.color = finalColor;
         }
 
@@ -176,11 +188,13 @@ namespace BubbleSystem
                 finalColor.b = (byte)blue;
                 finalColor.a = (byte)alpha;
 
-                renderer.material.color = finalColor;
+                for (int i = 0; i < renderer.materials.Length; i++)
+                    renderer.materials[i].color = finalColor;
                 yield return new WaitForSeconds(Time.deltaTime);
             }
 
-            renderer.material.color = nextColor;
+            for (int i = 0; i < renderer.materials.Length; i++)
+                renderer.materials[i].color = nextColor;
         }
     }
 }

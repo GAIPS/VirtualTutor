@@ -68,7 +68,7 @@ public class Manager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.G))
         {
-            reason = Reason.Grades;
+            reason = Reason.Importance;
         }
         if (Input.GetKeyDown(KeyCode.N))
         {

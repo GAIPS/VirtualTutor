@@ -19,7 +19,12 @@ namespace BubbleSystem
     public enum Reason
     {
         None,
-        Grades
+        Challenge,
+        Effort,
+        Engagement,
+        Enjoyment,
+        Importance,
+        Performance
     }
 
     public struct TextData
