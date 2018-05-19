@@ -21,7 +21,7 @@ public class VTToModuleBridge : MonoBehaviour
             switch ((ActionGroup)parsedEnum)
             {
                 case ActionGroup.FEEL:
-                    Feel(parameters);
+                    FeelPrivate(parameters);
                     break;
 
                 case ActionGroup.EXPRESS:
@@ -93,10 +93,36 @@ public class VTToModuleBridge : MonoBehaviour
                     SetBalloonAnimationBlending(parameters);
                     break;
 
+                //  SHARED COMMANDS
+                case "FeelAndUpdateBackground":
+                    Feel(parameters);
+                    break;
+
                 default:
                     break;
             }
         }
+    }
+
+    /**********************************************************************************************************
+                                                SHARED COMMANDS
+    **********************************************************************************************************/
+
+    // <<Feel Tutor Emotion Intensity Reason Duration>>
+    public void Feel(string[] parameters)
+    {
+        Tutor tutor;
+        Emotion emotion;
+
+        if (parseTutorName(parameters[0], out tutor) && parseEmotion(parameters[1], parameters[2], out emotion))
+        {
+            tutor.Emotion = emotion;
+        }
+
+        Reason reason = (Reason)Enum.Parse(typeof(Reason), parameters[3]);
+        float forHowLong = Convert.ToSingle(parameters[4]);
+
+        Feel(tutor, reason, forHowLong);
     }
 
     /**********************************************************************************************************
@@ -125,7 +151,7 @@ public class VTToModuleBridge : MonoBehaviour
     **********************************************************************************************************/
 
     // Main Parsers and Invokers
-    private void Feel(string[] arguments)
+    private void FeelPrivate(string[] arguments)
     {
         Tutor tutor;
         Emotion emotion;
