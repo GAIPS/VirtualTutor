@@ -45,6 +45,7 @@ namespace YarnDialog
             if (useDefaultHandlers)
             {
                 // Order matters
+                this.Handlers.Add(new ModuleCommandHandler());
                 this.Handlers.Add(new SequenceLineHandler());
                 this.Handlers.Add(new SequenceOptionsHandler());
                 this.Handlers.Add(new LogCommandHandler());

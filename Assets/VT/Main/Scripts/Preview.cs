@@ -87,6 +87,7 @@ public class Preview : MonoBehaviour
 
             // Order matters
             //dialogManager.Handlers.Add(new ParallelLineHandler());
+            dialogManager.Handlers.Add(new ModuleCommandHandler());
             dialogManager.Handlers.Add(new SequenceLineHandler());
             dialogManager.Handlers.Add(new SequenceOptionsHandler());
             dialogManager.Handlers.Add(new LogCommandHandler());

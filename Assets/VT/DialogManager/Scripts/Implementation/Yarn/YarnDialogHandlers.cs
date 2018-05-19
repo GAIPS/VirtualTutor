@@ -245,7 +245,7 @@ namespace YarnDialog
         }
     }
 
-    public class BubbleSystemCommandHandler : YarnDialogManager.IDialogHandler
+    public class ModuleCommandHandler : YarnDialogManager.IDialogHandler
     {
         public IEnumerator Handle(Dialogue.RunnerResult result, YarnDialogManager manager)
         {
@@ -255,29 +255,7 @@ namespace YarnDialog
                 yield break;
             }
 
-            //manager.BubbleManager.Handle(commandResult.command.text);
-        }
-
-        public void Reset(YarnDialogManager manager)
-        {
-        }
-
-        public void Update(YarnDialogManager manager)
-        {
-        }
-    }
-
-    public class HeadSystemCommandHandler : YarnDialogManager.IDialogHandler
-    {
-        public IEnumerator Handle(Dialogue.RunnerResult result, YarnDialogManager manager)
-        {
-            var commandResult = result as Yarn.Dialogue.CommandResult;
-            if (commandResult == null)
-            {
-                yield break;
-            }
-
-            //manager.HeadAnimationManager.Handle(commandResult.command.text);
+            manager.ModuleManager.Handle(commandResult.command.text.Split(' '));
         }
 
         public void Reset(YarnDialogManager manager)
