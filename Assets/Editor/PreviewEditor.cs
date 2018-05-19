@@ -24,8 +24,7 @@ public class PreviewEditor : Editor
 
         GUILayout.Space(15);
         EditorGUILayout.LabelField("Dialog Manager Options", EditorStyles.largeLabel, GUILayout.MinHeight(20));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("HeadAnimationManager"), true);
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("BubbleManager"), true);
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("moduleManager"), true);
 
         serializedObject.ApplyModifiedProperties();
     }

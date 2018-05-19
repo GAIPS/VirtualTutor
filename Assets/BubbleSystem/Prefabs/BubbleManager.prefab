@@ -85,7 +85,7 @@ MonoBehaviour:
   duration: 5
   mixColors: 1
   forceTextUpdate: 1
-  blendBalloonAnimation: 1
+  blendBalloonAnimation: 0
 --- !u!114 &114361873975393698
 MonoBehaviour:
   m_ObjectHideFlags: 1

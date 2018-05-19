@@ -53,8 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   YarnDialogDatabase:
   - {fileID: 4900000, guid: 1de6bee36403ff94e82d3ef01ea75d69, type: 3}
-  HeadAnimationManager: {fileID: 0}
-  BubbleManager: {fileID: 0}
+  moduleManager: {fileID: 0}
   IntentionName: Start
   Playing: 1
   _stringInput: {fileID: 1839400628711484, guid: a1fcfc231072ef84895f91e952106fcf,
