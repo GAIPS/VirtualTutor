@@ -26,7 +26,7 @@ namespace YarnDialog
         {
             string[] splited = line.Split(':');
             string tutorName = splited[0].Trim();
-            string message = splited[1].Trim();
+            string message = splited[1].Trim().Replace("|", "#");
 
             Tutor tutor = manager.Tutors.First();
             foreach (Tutor tut in manager.Tutors)
