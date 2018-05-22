@@ -26,7 +26,7 @@ namespace YarnDialog
         {
             string[] splited = line.Split(':');
             string tutorName = splited[0].Trim();
-            string message = splited[1].Trim();
+            string message = splited[1].Trim().Replace("|", "#");
 
             Tutor tutor = manager.Tutors.First();
             foreach (Tutor tut in manager.Tutors)
@@ -42,10 +42,9 @@ namespace YarnDialog
 
         protected void ShowLine(LineInfo line, float duration, YarnDialogManager manager)
         {
-            if (manager.ModuleManager != null && manager.ModuleManager != null)
+            if (manager.ModuleManager != null)
             {
-                manager.ModuleManager.Speak(line.speaker, new string[] {line.message}, duration);
-                manager.ModuleManager.Act(line.speaker, new MovementWithState(MovementEnum.Talk, StateEnum.Start));
+                manager.ModuleManager.StartSpeaking(line.speaker, line.message, duration);
             }
             else
             {
@@ -56,9 +55,7 @@ namespace YarnDialog
         protected void HideLine(LineInfo line, YarnDialogManager manager)
         {
             if (manager.ModuleManager != null)
-            {
-                manager.ModuleManager.Act(line.speaker, new MovementWithState(MovementEnum.Talk, StateEnum.End));
-            }
+                manager.ModuleManager.StopSpeaking(line.speaker);
         }
     }
 
@@ -213,7 +210,6 @@ namespace YarnDialog
                 }
 
                 // Hide Options
-                // HACK
                 manager.ModuleManager.HideBalloon("Options");
             }
         }
@@ -253,7 +249,7 @@ namespace YarnDialog
         }
     }
 
-    public class BubbleSystemCommandHandler : YarnDialogManager.IDialogHandler
+    public class ModuleCommandHandler : YarnDialogManager.IDialogHandler
     {
         public IEnumerator Handle(Dialogue.RunnerResult result, YarnDialogManager manager)
         {
@@ -263,29 +259,7 @@ namespace YarnDialog
                 yield break;
             }
 
-            //manager.BubbleManager.Handle(commandResult.command.text);
-        }
-
-        public void Reset(YarnDialogManager manager)
-        {
-        }
-
-        public void Update(YarnDialogManager manager)
-        {
-        }
-    }
-
-    public class HeadSystemCommandHandler : YarnDialogManager.IDialogHandler
-    {
-        public IEnumerator Handle(Dialogue.RunnerResult result, YarnDialogManager manager)
-        {
-            var commandResult = result as Yarn.Dialogue.CommandResult;
-            if (commandResult == null)
-            {
-                yield break;
-            }
-
-            //manager.HeadAnimationManager.Handle(commandResult.command.text);
+            manager.ModuleManager.Handle(commandResult.command.text.Split(' '));
         }
 
         public void Reset(YarnDialogManager manager)
@@ -391,13 +365,11 @@ namespace YarnDialog
                 // What is the emotion's intention?
                 var intentityStr = tagSplit[3];
                 float intensity;
-                if (!float.TryParse(intentityStr, NumberStyles.Any,
-                    System.Globalization.CultureInfo.CreateSpecificCulture("pt-PT"), out intensity))
+                if (!float.TryParse(intentityStr, NumberStyles.Any, CultureInfo.CreateSpecificCulture("pt-PT"),
+                    out intensity))
                 {
                     continue;
                 }
-
-                DebugLog.Log(intensity);
 
                 var target = tagSplit[0];
                 if (target.ToLower().Equals("user"))
@@ -408,8 +380,7 @@ namespace YarnDialog
                 {
                     var tutor = manager.GetTutor(target);
                     if (tutor == null) continue;
-                    tutor.Emotion.Intensity = intensity;
-                    tutor.Emotion.Name = emotionEnum;
+                    tutor.Emotion = new Emotion(emotionEnum, intensity);
                     manager.ModuleManager.Feel(tutor);
                     manager.ModuleManager.UpdateBackground(tutor, 5f, Reason.None);
                 }

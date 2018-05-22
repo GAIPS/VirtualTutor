@@ -19,14 +19,18 @@ namespace BubbleSystem
     public enum Reason
     {
         None,
-        Grades
+        Challenge,
+        Effort,
+        Engagement,
+        Enjoyment,
+        Importance,
+        Performance
     }
 
     public struct TextData
     {
         public TMPro.TMP_FontAsset font;
         public float size;
-        public Color32 color;
         public Dictionary<Effect, AnimationCurve> showEffect;
         public Dictionary<Effect, AnimationCurve> hideEffect;
     }
@@ -42,13 +46,11 @@ namespace BubbleSystem
     {
         public Sprite sprite;
         public Sprite beak;
-        public Color32 color;
     }
 
     public struct TextureData
     {
         public Texture2D texture;
-        public Color32 color;
     }
 
     public struct SpeakData
@@ -66,5 +68,14 @@ namespace BubbleSystem
         public Dictionary<Emotion, float> emotions;
         public Reason reason;
         public BackgroundAnimationData animationData;
+    }
+
+    public struct NextDialogueData
+    {
+        public Dictionary<string, float> emotions;
+        public float duration;
+        public Dictionary<Effect, AnimationCurve> showEffects;
+        public Dictionary<Effect, AnimationCurve> hideEffects;
+        public bool isSet;
     }
 }

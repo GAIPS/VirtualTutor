@@ -526,7 +526,7 @@ Animator:
   m_GameObject: {fileID: 1045172224157220}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5eea77926b6844e999d8a4831dfb14d8, type: 2}
+  m_Controller: {fileID: 9100000, guid: 01ee9991dbce5d849b7b538071a52602, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -543,7 +543,7 @@ Animator:
   m_GameObject: {fileID: 1809999935564368}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5eea77926b6844e999d8a4831dfb14d8, type: 2}
+  m_Controller: {fileID: 9100000, guid: 01ee9991dbce5d849b7b538071a52602, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -560,7 +560,7 @@ Animator:
   m_GameObject: {fileID: 1381011279468860}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5eea77926b6844e999d8a4831dfb14d8, type: 2}
+  m_Controller: {fileID: 9100000, guid: 01ee9991dbce5d849b7b538071a52602, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -577,7 +577,7 @@ Animator:
   m_GameObject: {fileID: 1748616933635186}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5eea77926b6844e999d8a4831dfb14d8, type: 2}
+  m_Controller: {fileID: 9100000, guid: 01ee9991dbce5d849b7b538071a52602, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -764,7 +764,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 35.6
+  m_fontSize: 33.3
   m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1325,7 +1325,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 36.65
+  m_fontSize: 34.25
   m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1670,7 +1670,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 35.6
+  m_fontSize: 33.3
   m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1820,7 +1820,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 27.2
+  m_fontSize: 25.45
   m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 1

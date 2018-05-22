@@ -24,7 +24,7 @@ namespace BubbleSystem
         public Balloon options;
 
         private Dictionary<string, Control> controllers = new Dictionary<string, Control>();
-        private Dictionary<string, IEnumerator> hideCoroutines = new Dictionary<string, IEnumerator>();
+        private Dictionary<BalloonsHooks, IEnumerator> hideCoroutines = new Dictionary<BalloonsHooks, IEnumerator>();
 
         private float durationThreshold = 0.3f;
 
@@ -63,27 +63,34 @@ namespace BubbleSystem
         {
             var controller = controllers[tutor];
             var balloonHooks = controller.instance.GetComponentsInChildren<BalloonsHooks>();
+
             foreach (BalloonsHooks hooks in balloonHooks)
             {
-                CoroutineStopper.Instance.StopCoroutineWithCheck(hideCoroutines[tutor]);
-                AddCoroutine(tutor, hooks, duration, data);
+                if (BubbleSystemUtility.CheckCoroutine(ref hideCoroutines, hooks))
+                    StopCoroutine(hideCoroutines[hooks]);
+                AddCoroutine(hooks, duration, data);
             }
         }
 
-        private void SetBeaks(Emotion emotion, GameObject beakObject, Sprite beak, float intensity)
+        private void SetBeaks(Emotion emotion, GameObject beakObject, Sprite beak, float intensity, Color color)
         {
-            beakObject.GetComponent<Image>().sprite = beak;
+            Image image = beakObject.GetComponent<Image>();
+            image.sprite = beak;
+            image.color = color;
+
             DefaultData.PositionData positionData = DefaultData.Instance.GetDefaultPositions(emotion, intensity, beakObject.name);
             beakObject.GetComponent<RectTransform>().anchorMin = positionData.anchorMin;
             beakObject.GetComponent<RectTransform>().anchorMax = positionData.anchorMax;
             beakObject.GetComponent<RectTransform>().localRotation = positionData.localRotation;
         }
 
-        private void SetSprites(Emotion emotion, BalloonsHooks hooks, SpriteData spriteData, float intensity)
+        private void SetSprites(Emotion emotion, BalloonsHooks hooks, SpriteData spriteData, float intensity, Color color)
         {
             if (hooks)
             {
-                hooks.balloon.GetComponent<Image>().sprite = spriteData.sprite;
+                Image image = hooks.balloon.GetComponent<Image>();
+                image.sprite = spriteData.sprite;
+                image.color = color;
 
                 if (!emotion.Equals(Emotion.Default))
                 {
@@ -92,10 +99,10 @@ namespace BubbleSystem
                     hooks.balloon.GetComponent<RectTransform>().anchorMax = positionData.anchorMax;
                 }
 
-                SetBeaks(emotion, hooks.peakTopLeft, spriteData.beak, intensity);
-                SetBeaks(emotion, hooks.peakBotLeft, spriteData.beak, intensity);
-                SetBeaks(emotion, hooks.peakTopRight, spriteData.beak, intensity);
-                SetBeaks(emotion, hooks.peakBotRight, spriteData.beak, intensity);
+                SetBeaks(emotion, hooks.peakTopLeft, spriteData.beak, intensity, color);
+                SetBeaks(emotion, hooks.peakBotLeft, spriteData.beak, intensity, color);
+                SetBeaks(emotion, hooks.peakTopRight, spriteData.beak, intensity, color);
+                SetBeaks(emotion, hooks.peakBotRight, spriteData.beak, intensity, color);
             }
         }
 
@@ -103,11 +110,19 @@ namespace BubbleSystem
         {
             foreach(AnimatorControllerParameter parameter in animator.parameters)
             {
-                if(!parameter.name.Equals("Showing") && !parameter.name.Equals(Emotion.Default.ToString()))
+                if(!parameter.name.Equals("Showing"))
                 {
                     animator.SetFloat(parameter.name, 0.0f);
                 }
             }
+        }
+
+        private void SetAnimators(BalloonsHooks hooks, Emotion emotion)
+        {
+            Animator animator = hooks.GetComponent<Animator>();
+            ResetAllFloats(animator);
+            animator.SetFloat(emotion.ToString(), 1.0f);
+            animator.SetFloat(Emotion.Default.ToString(), 1.0f);
         }
 
         private void SetAnimators(BalloonsHooks hooks, SpeakData data)
@@ -119,13 +134,14 @@ namespace BubbleSystem
 
             foreach (Emotion emotion in data.emotions.Keys)
             {
-                if (emotion.Equals(Emotion.Neutral))
+                if (emotion.Equals(Emotion.Neutral) || emotion.Equals(Emotion.Default))
                     continue;
 
                 sum += data.emotions[emotion];
                 animator.SetFloat(emotion.ToString(), data.emotions[emotion]);
             }
             animator.SetFloat(Emotion.Neutral.ToString(), 1.0f - sum);
+            animator.SetFloat(Emotion.Default.ToString(), 1.0f);
         }
 
         private void SetEffects(BalloonsHooks hooks, Dictionary<Effect, AnimationCurve> effects, float intensity, float duration, bool show = true)
@@ -136,13 +152,13 @@ namespace BubbleSystem
             }
         }
 
-        private void SetTexts(BalloonsHooks hooks, TextData textData)
+        private void SetTexts(BalloonsHooks hooks, TextData textData, Color color)
         {
             if (hooks.text)
             {
                 hooks.text.font = textData.font;
                 hooks.text.fontSize = textData.size;
-                hooks.text.color = textData.color;
+                hooks.text.color = color;
             }
         }
 
@@ -181,10 +197,13 @@ namespace BubbleSystem
                 {
                     if (hooks != null)
                     {
-                        SetContent(hooks, data.text.Length > i ? data.text[i] : null);
+                        if (BubbleSystemUtility.CheckCoroutine(ref hideCoroutines, hooks))
+                            StopCoroutine(hideCoroutines[hooks]);
 
-                        KeyValuePair<Emotion, float> emotionPair = new KeyValuePair<Emotion, float>(Emotion.Default, 0.0f);
-                        float sum = 0.0f;
+                        SetContent(hooks, data.text.Length > i ? data.text[i] : null);
+                        
+                        KeyValuePair<Emotion, float> emotionPair = BubbleSystemUtility.GetHighestEmotion(data.emotions);
+                        float sum = BubbleSystemUtility.GetEmotionsSum(data.emotions);
 
                         if (options)
                         {
@@ -193,17 +212,28 @@ namespace BubbleSystem
                         }
                         else
                         {
-                            emotionPair = BubbleSystemUtility.GetHighestEmotion(data.emotions);
-                            sum = BubbleSystemUtility.GetEmotionsSum(data.emotions);
-
-                            SetAnimators(hooks, data);
-
-                            SpriteData spriteData = DefaultData.Instance.GetDefaultBalloonData(emotionPair.Key, emotionPair.Value);
-                            SetSprites(emotionPair.Key, hooks, spriteData, emotionPair.Value);
+                            if (DefaultData.Instance.blendBalloonAnimation)
+                                SetAnimators(hooks, data);
+                            else
+                                SetAnimators(hooks, emotionPair.Key);
                         }
-                        
-                        TextData textData = DefaultData.Instance.GetDefaultTextData(emotionPair.Key, emotionPair.Value);                        
-                        SetTexts(hooks, textData);
+
+                        SpriteData spriteData = DefaultData.Instance.GetDefaultBalloonData(emotionPair.Key, emotionPair.Value);
+
+                        Color color;
+                        if (emotionPair.Value.Equals(0.0f) || emotionPair.Key.Equals(BubbleSystem.Emotion.Default) || emotionPair.Key.Equals(BubbleSystem.Emotion.Neutral))
+                        {
+                            color = DefaultData.Instance.GetColor(BubbleSystem.Emotion.Neutral);
+                        }
+                        else
+                        {
+                            color = DefaultData.Instance.mixColors? BubbleSystemUtility.MixColors(data.emotions) : DefaultData.Instance.GetColor(emotionPair.Key);
+                        }
+                        SetSprites(emotionPair.Key, hooks, spriteData, emotionPair.Value, color);
+
+                        Color textColor = BubbleSystemUtility.GetTextColor(color);
+                        TextData textData = DefaultData.Instance.GetDefaultTextData(emotionPair.Key, emotionPair.Value);
+                        SetTexts(hooks, textData, textColor);
 
                         float realDuration = duration > 0 ? duration : DefaultData.Instance.duration;
                         float textDuration = realDuration - durationThreshold; // so it finishes before hide
@@ -216,7 +246,7 @@ namespace BubbleSystem
                         }
 
                         hooks.Show();
-                        AddCoroutine(balloon, hooks, realDuration, data);
+                        AddCoroutine(hooks, realDuration, data);
                     }
                     i++;
                 }
@@ -229,14 +259,10 @@ namespace BubbleSystem
             return hooks.GetComponent<Animator>().runtimeAnimatorController.animationClips[0].length;
         }
 
-        public void AddCoroutine(string balloon, BalloonsHooks hooks, float duration, SpeakData data)
+        public void AddCoroutine(BalloonsHooks hooks, float duration, SpeakData data)
         {
-            IEnumerator clean = Clean(hooks, duration, data);
-            if (hideCoroutines.ContainsKey(balloon))
-                hideCoroutines[balloon] = clean;
-            else
-                hideCoroutines.Add(balloon, clean);
-            StartCoroutine(clean);
+            BubbleSystemUtility.AddToDictionary(ref hideCoroutines, hooks, Clean(hooks, duration, data));
+            StartCoroutine(hideCoroutines[hooks]);
         }
 
         IEnumerator Clean(BalloonsHooks hooks, float duration, SpeakData data)

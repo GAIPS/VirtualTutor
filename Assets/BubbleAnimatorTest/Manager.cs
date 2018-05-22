@@ -14,6 +14,8 @@ public class Manager : MonoBehaviour {
     public float duration = 5.0f;
     private int currentTutor = 0;
     private int mix = 0;
+    private int forceText = 0;
+    private int balloonAnimation = 0;
 
     private void Start()
     {
@@ -66,7 +68,7 @@ public class Manager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.G))
         {
-            reason = Reason.Grades;
+            reason = Reason.Importance;
         }
         if (Input.GetKeyDown(KeyCode.N))
         {
@@ -84,8 +86,10 @@ public class Manager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.S))
         {
-            tutors[currentTutor].Emotion.Name = emotion;
-            tutors[currentTutor].Emotion.Intensity = intensity;
+            var emotion1 = tutors[currentTutor].Emotion;
+            emotion1.Name = emotion;
+            emotion1.Intensity = intensity;
+            tutors[currentTutor].Emotion = emotion1;
 
             manager.Speak(tutors[currentTutor], new string[] { "hi" }, duration);
             Debug.Log(tutors[currentTutor] + " " + emotion.ToString() + " " + intensity);
@@ -93,25 +97,22 @@ public class Manager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.B))
         {
-            tutors[currentTutor].Emotion.Name = emotion;
-            tutors[currentTutor].Emotion.Intensity = intensity;
+            var emotion1 = tutors[currentTutor].Emotion;
+            emotion1.Name = emotion;
+            emotion1.Intensity = intensity;
+            tutors[currentTutor].Emotion = emotion1;
             manager.UpdateBackground(tutors[currentTutor], duration, reason);
             Debug.Log(tutors[currentTutor] + " " + emotion.ToString() + " " + intensity + " " + reason);
         }
 
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            manager.Handle(new string[] { "OverrideBackgroundColor", "Happiness", "0.1", "None", "#FF0000FF" });
-        }
-
         if (Input.GetKeyDown(KeyCode.X))
         {
-            manager.Handle(new string[] { "SetNextDialogueData", "Maria", "Happiness", "1.0", "duration", "5", "showEffects", "Shake", "hideEffects", "FadeOut", "fadeCurve" });
+            manager.Handle(new string[] { "SetNextDialogueData", "Maria", "Happiness", "1.0", "duration", "5", "showEffects", "Blush", "fadeCurve", "hideEffects", "FadeOut", "fadeCurve" });
         }
 
         if (Input.GetKeyDown(KeyCode.C))
         {
-            manager.Handle(new string[] { "OverrideTextEffects", "Happiness", "0.5", "showEffects", "Shake", "hideEffects", "FadeOut", "fadeCurve" });
+            manager.Handle(new string[] { "OverrideTextEffects", "Happiness", "0.5", "showEffects", "FadeIn", "fadeCurve", "hideEffects", "FadeOut", "fadeCurve" });
         }
 
         if (Input.GetKeyDown(KeyCode.V))
@@ -124,6 +125,35 @@ public class Manager : MonoBehaviour {
             mix = (mix + 1) % 2;
             Debug.Log(Convert.ToBoolean(mix));
             manager.Handle(new string[] { "SetMixColors", mix.ToString() });
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            manager.Handle(new string[] { "OverrideBlushColor", "#00FF00FF" });
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            manager.Handle(new string[] { "OverrideEmotionColor", "Happiness", "#00FF00FF" });
+        }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            manager.Handle(new string[] { "AddAnimationCurve", "abc", "0", "0", "smooth", "1", "1", "1" });
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            forceText = (forceText + 1) % 2;
+            Debug.Log(Convert.ToBoolean(forceText));
+            manager.Handle(new string[] { "SetForceTextUpdate", forceText.ToString() });
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            balloonAnimation = (balloonAnimation + 1) % 2;
+            Debug.Log(Convert.ToBoolean(balloonAnimation));
+            manager.Handle(new string[] { "SetBalloonAnimationBlending", balloonAnimation.ToString() });
         }
     }
     

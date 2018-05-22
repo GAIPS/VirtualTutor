@@ -14,6 +14,7 @@ public class ScrollTexture : MonoBehaviour {
 	
 	void Update () {
         float offset = Time.time * scrollSpeed;
-        renderer.material.SetTextureOffset("_MainTex", new Vector2(offset, 0));
+        for(int i = 0; i < renderer.materials.Length; i++)
+            renderer.materials[i].SetTextureOffset("_MainTex", new Vector2(offset, 0));
     }
 }

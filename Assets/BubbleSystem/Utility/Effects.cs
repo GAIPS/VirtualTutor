@@ -136,22 +136,6 @@ public class Effects : MonoBehaviour
         m_TextComponent.maxVisibleCharacters = m_TextComponent.textInfo.characterCount;
     }
 
-    private void AddCoroutine(Effect effect, IEnumerator function)
-    {
-        if (coroutines.ContainsKey(effect))
-            coroutines[effect] = StartCoroutine(function);
-        else
-            coroutines.Add(effect, StartCoroutine(function));
-    }
-
-    private void AddIenumerator(Effect effect, IEnumerator function)
-    {
-        if (enumerators.ContainsKey(effect))
-            enumerators[effect] = function;
-        else
-            enumerators.Add(effect, function);
-    }
-
     //HACK TO CALCULATE FONTSIZE (ENABLE AUTO SIZE TAKES TIME TO CALCULATE)
     private IEnumerator ResetFontSize()
     {
@@ -169,7 +153,7 @@ public class Effects : MonoBehaviour
         if (m_TextComponent.IsActive())
         {
             initialColor = m_TextComponent.color;
-        
+
             StopAllCoroutines();
 
             if (show)
@@ -191,116 +175,109 @@ public class Effects : MonoBehaviour
                         break;
                     case Effect.Appear:
                         ResetCharacterCount();
-                        AddIenumerator(effect, Appear(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Appear(duration, intensity, effects[effect]));
                         break;
                     case Effect.Blush:
                         ResetColor(false, false);
-                        AddIenumerator(effect, Blush(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Blush(duration, intensity, effects[effect]));
                         break;
                     case Effect.BlushCharacters:
                         ResetColor(false, true);
-                        AddIenumerator(effect, BlushCharacters(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, BlushCharacters(duration, intensity, effects[effect]));
                         break;
                     case Effect.DeflectionFont:
-                        AddIenumerator(effect, DeflectionFontSize(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, DeflectionFontSize(duration, intensity, effects[effect]));
                         break;
                     case Effect.Erase:
                         ResetColor(true, true);
-                        AddIenumerator(effect, Erase(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Erase(duration, intensity, effects[effect]));
                         break;
                     case Effect.FadeIn:
                         ResetColor(false, false);
-                        AddIenumerator(effect, FadeIn(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, FadeIn(duration, intensity, effects[effect]));
                         break;
                     case Effect.FadeInCharacters:
                         ResetColor(false, true);
-                        AddIenumerator(effect, FadeInCharacters(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, FadeInCharacters(duration, intensity, effects[effect]));
                         break;
                     case Effect.FadeOut:
                         ResetColor(true, false);
-                        AddIenumerator(effect, FadeOut(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, FadeOut(duration, intensity, effects[effect]));
                         break;
                     case Effect.FadeOutCharacters:
                         ResetColor(true, true);
-                        AddIenumerator(effect, FadeOutCharacters(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, FadeOutCharacters(duration, intensity, effects[effect]));
                         break;
                     case Effect.Flashing:
                         ResetColor(true, false);
-                        AddIenumerator(effect, Flash(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Flash(duration, intensity, effects[effect]));
                         break;
                     case Effect.Jitter:
-                        AddIenumerator(effect, Jitter(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Jitter(duration, intensity, effects[effect]));
                         break;
                     case Effect.Palpitations:
                         ResetRectTransform(true, false, false);
-                        AddIenumerator(effect, Palpitations(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Palpitations(duration, intensity, effects[effect]));
                         break;
                     case Effect.Shake:
-                        AddIenumerator(effect, Shake(duration, intensity, effects[effect], false));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Shake(duration, intensity, effects[effect], false));
                         break;
                     case Effect.ShakeCharacters:
-                        AddIenumerator(effect, Shake(duration, intensity, effects[effect], true));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Shake(duration, intensity, effects[effect], true));
                         break;
                     case Effect.Squash:
                         ResetRectTransform(true, false, false);
-                        AddIenumerator(effect, Squash(duration, intensity, effects[effect], true, true));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Squash(duration, intensity, effects[effect], true, true));
                         break;
                     case Effect.SquashX:
                         ResetRectTransform(true, false, false);
-                        AddIenumerator(effect, Squash(duration, intensity, effects[effect], true, false));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Squash(duration, intensity, effects[effect], true, false));
                         break;
                     case Effect.SquashY:
                         ResetRectTransform(true, false, false);
-                        AddIenumerator(effect, Squash(duration, intensity, effects[effect], false, true));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Squash(duration, intensity, effects[effect], false, true));
                         break;
                     case Effect.Stretch:
                         ResetRectTransform(false, true, true);
-                        AddIenumerator(effect, Stretch(duration, intensity, effects[effect], true, true));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Stretch(duration, intensity, effects[effect], true, true));
                         break;
                     case Effect.StretchX:
                         ResetRectTransform(false, true, false);
-                        AddIenumerator(effect, Stretch(duration, intensity, effects[effect], true, false));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Stretch(duration, intensity, effects[effect], true, false));
                         break;
                     case Effect.StretchY:
                         ResetRectTransform(false, false, true);
-                        AddIenumerator(effect, Stretch(duration, intensity, effects[effect], false, true));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Stretch(duration, intensity, effects[effect], false, true));
                         break;
                     case Effect.SwellingFont:
-                        AddIenumerator(effect, SwellingFontSize(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, SwellingFontSize(duration, intensity, effects[effect]));
                         break;
                     case Effect.Swing:
-                        AddIenumerator(effect, Swing(duration, intensity));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Swing(duration, intensity));
                         break;
                     case Effect.SwingCharacters:
-                        AddIenumerator(effect, SwingCharacters(duration, intensity));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, SwingCharacters(duration, intensity));
                         break;
                     case Effect.Warp:
-                        AddIenumerator(effect, WarpText(duration, intensity, effects[effect], false));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, WarpText(duration, intensity, effects[effect], false));
                         break;
                     case Effect.WarpCharacters:
-                        AddIenumerator(effect, WarpTextCharacters(duration, intensity, effects[effect]));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, WarpTextCharacters(duration, intensity, effects[effect]));
                         break;
                     case Effect.Wave:
-                        AddIenumerator(effect, Wave(duration, intensity, effects[effect], false));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Wave(duration, intensity, effects[effect], false));
                         break;
                     case Effect.WaveCharacters:
-                        AddIenumerator(effect, Wave(duration, intensity, effects[effect], true));
+                        BubbleSystem.BubbleSystemUtility.AddToDictionary(ref enumerators, effect, Wave(duration, intensity, effects[effect], true));
                         break;
                 }
             }
 
             foreach (Effect effect in enumerators.Keys)
             {
-                AddCoroutine(effect, enumerators[effect]);
+                BubbleSystem.BubbleSystemUtility.AddToDictionary(ref coroutines, effect, StartCoroutine(enumerators[effect]));
             }
         }
-    }
-
-    private AnimationCurve CopyAnimationCurve(AnimationCurve curve)
-    {
-        AnimationCurve newCurve = new AnimationCurve();
-        newCurve.keys = curve.keys;
-        return newCurve;
     }
 
     void ON_TEXT_CHANGED(Object obj)
@@ -351,7 +328,8 @@ public class Effects : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        m_TextComponent.maxVisibleCharacters = totalVisibleCharacters;
+        if(DefaultData.Instance.forceTextUpdate)
+            m_TextComponent.maxVisibleCharacters = totalVisibleCharacters;
     }
 
     IEnumerator Blush(float duration, float intensity, AnimationCurve curve)
@@ -366,14 +344,16 @@ public class Effects : MonoBehaviour
         float lastKeyTime = lastframe.time;
         float yValue;
 
+        Color blushColor = DefaultData.Instance.GetBlushColor();
+
         while (((Time.time - initialTime) / duration) < 1)
         {
             yValue = Mathf.Clamp01(curve.Evaluate((Time.time - initialTime) * lastKeyTime / duration));
 
-            red = (int)(initialColor.r + yValue * (((byte)(DefaultData.Instance.blushColor.r * 255)) - initialColor.r));
-            green = (int)(initialColor.g + yValue * (((byte)(DefaultData.Instance.blushColor.g * 255)) - initialColor.g));
-            blue = (int)(initialColor.b + yValue * (((byte)(DefaultData.Instance.blushColor.b * 255)) - initialColor.b));
-            alpha = (int)(initialColor.a + yValue * (((byte)(DefaultData.Instance.blushColor.a * 255)) - initialColor.a));
+            red = (int)(initialColor.r + yValue * (((byte)(blushColor.r * 255)) - initialColor.r));
+            green = (int)(initialColor.g + yValue * (((byte)(blushColor.g * 255)) - initialColor.g));
+            blue = (int)(initialColor.b + yValue * (((byte)(blushColor.b * 255)) - initialColor.b));
+            alpha = (int)(initialColor.a + yValue * (((byte)(blushColor.a * 255)) - initialColor.a));
 
             finalColor.r = (byte)red;
             finalColor.g = (byte)green;
@@ -384,7 +364,8 @@ public class Effects : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        m_TextComponent.color = DefaultData.Instance.blushColor;
+        if (DefaultData.Instance.forceTextUpdate)
+            m_TextComponent.color = blushColor;
     }
 
     IEnumerator BlushCharacters(float duration, float intensity, AnimationCurve curve)
@@ -402,6 +383,8 @@ public class Effects : MonoBehaviour
         Keyframe lastframe = curve[curve.length - 1];
         float lastKeyTime = lastframe.time;
         float yValue;
+
+        Color blushColor = DefaultData.Instance.GetBlushColor();
 
         for (int i = 0; i < characterCount; i++)
         {
@@ -424,10 +407,10 @@ public class Effects : MonoBehaviour
             {
                 yValue = Mathf.Clamp01(curve.Evaluate((Time.time - initialCharTime) * lastKeyTime * characterCount / duration));
 
-                red = (int)(initialColor.r + yValue * (((byte)(DefaultData.Instance.blushColor.r * 255)) - initialColor.r));
-                green = (int)(initialColor.g + yValue * (((byte)(DefaultData.Instance.blushColor.g * 255)) - initialColor.g));
-                blue = (int)(initialColor.b + yValue * (((byte)(DefaultData.Instance.blushColor.b * 255)) - initialColor.b));
-                alpha = (int)(initialColor.a + yValue * (((byte)(DefaultData.Instance.blushColor.a * 255)) - initialColor.a));
+                red = (int)(initialColor.r + yValue * (((byte)(blushColor.r * 255)) - initialColor.r));
+                green = (int)(initialColor.g + yValue * (((byte)(blushColor.g * 255)) - initialColor.g));
+                blue = (int)(initialColor.b + yValue * (((byte)(blushColor.b * 255)) - initialColor.b));
+                alpha = (int)(initialColor.a + yValue * (((byte)(blushColor.a * 255)) - initialColor.a));
 
                 finalColor.r = (byte)red;
                 finalColor.g = (byte)green;
@@ -442,11 +425,14 @@ public class Effects : MonoBehaviour
                 yield return new WaitForSeconds(Time.deltaTime);
             }
 
-            newVertexColors[vertexIndex + 0] = DefaultData.Instance.blushColor;
-            newVertexColors[vertexIndex + 1] = DefaultData.Instance.blushColor;
-            newVertexColors[vertexIndex + 2] = DefaultData.Instance.blushColor;
-            newVertexColors[vertexIndex + 3] = DefaultData.Instance.blushColor;
-            m_TextComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+            if (DefaultData.Instance.forceTextUpdate)
+            {
+                newVertexColors[vertexIndex + 0] = blushColor;
+                newVertexColors[vertexIndex + 1] = blushColor;
+                newVertexColors[vertexIndex + 2] = blushColor;
+                newVertexColors[vertexIndex + 3] = blushColor;
+                m_TextComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+            }
         }
     }
 
@@ -473,7 +459,8 @@ public class Effects : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        m_TextComponent.fontSize = finalSize;
+        if (DefaultData.Instance.forceTextUpdate)
+            m_TextComponent.fontSize = finalSize;
     }
 
     IEnumerator Erase(float duration, float intensity, AnimationCurve curve, float wantedAlpha = 0)
@@ -529,24 +516,27 @@ public class Effects : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < characterCount; i++)
+        if (DefaultData.Instance.forceTextUpdate)
         {
-            // Get the index of the material used by the current character.
-            int materialIndex = textInfo.characterInfo[i].materialReferenceIndex;
+            for (int i = 0; i < characterCount; i++)
+            {
+                // Get the index of the material used by the current character.
+                int materialIndex = textInfo.characterInfo[i].materialReferenceIndex;
 
-            // Get the vertex colors of the mesh used by this text element (character or sprite).
-            newVertexColors = textInfo.meshInfo[materialIndex].colors32;
+                // Get the vertex colors of the mesh used by this text element (character or sprite).
+                newVertexColors = textInfo.meshInfo[materialIndex].colors32;
 
-            // Get the index of the first vertex used by this text element.
-            int vertexIndex = textInfo.characterInfo[i].vertexIndex;
+                // Get the index of the first vertex used by this text element.
+                int vertexIndex = textInfo.characterInfo[i].vertexIndex;
 
-            finalAlpha = (byte)wantedAlpha;
-            // Set new alpha values.
-            newVertexColors[vertexIndex + 0].a = finalAlpha;
-            newVertexColors[vertexIndex + 1].a = finalAlpha;
-            newVertexColors[vertexIndex + 2].a = finalAlpha;
-            newVertexColors[vertexIndex + 3].a = finalAlpha;
-            m_TextComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+                finalAlpha = (byte)wantedAlpha;
+                // Set new alpha values.
+                newVertexColors[vertexIndex + 0].a = finalAlpha;
+                newVertexColors[vertexIndex + 1].a = finalAlpha;
+                newVertexColors[vertexIndex + 2].a = finalAlpha;
+                newVertexColors[vertexIndex + 3].a = finalAlpha;
+                m_TextComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+            }
         }
     }
 
@@ -574,8 +564,11 @@ public class Effects : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        finalColor.a = (byte)wantedAlpha;
-        m_TextComponent.color = finalColor;
+        if (DefaultData.Instance.forceTextUpdate)
+        {
+            finalColor.a = (byte)wantedAlpha;
+            m_TextComponent.color = finalColor;
+        }
     }
 
     IEnumerator FadeInCharacters(float duration, float intensity, AnimationCurve curve, int wantedAlpha = 255)
@@ -628,12 +621,15 @@ public class Effects : MonoBehaviour
                 yield return new WaitForSeconds(Time.deltaTime);
             }
 
-            finalColor.a = (byte)wantedAlpha;
-            newVertexColors[vertexIndex + 0] = finalColor;
-            newVertexColors[vertexIndex + 1] = finalColor;
-            newVertexColors[vertexIndex + 2] = finalColor;
-            newVertexColors[vertexIndex + 3] = finalColor;
-            m_TextComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+            if (DefaultData.Instance.forceTextUpdate)
+            {
+                finalColor.a = (byte)wantedAlpha;
+                newVertexColors[vertexIndex + 0] = finalColor;
+                newVertexColors[vertexIndex + 1] = finalColor;
+                newVertexColors[vertexIndex + 2] = finalColor;
+                newVertexColors[vertexIndex + 3] = finalColor;
+                m_TextComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+            }
         }
     }
 
@@ -661,8 +657,11 @@ public class Effects : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        finalColor.a = (byte)wantedAlpha;
-        m_TextComponent.color = finalColor;
+        if (DefaultData.Instance.forceTextUpdate)
+        {
+            finalColor.a = (byte)wantedAlpha;
+            m_TextComponent.color = finalColor;
+        }
     }
 
     IEnumerator FadeOutCharacters(float duration, float intensity, AnimationCurve curve, float wantedAlpha = 0)
@@ -715,12 +714,15 @@ public class Effects : MonoBehaviour
                 yield return new WaitForSeconds(Time.deltaTime);
             }
 
-            finalColor.a = (byte)wantedAlpha;
-            newVertexColors[vertexIndex + 0] = finalColor;
-            newVertexColors[vertexIndex + 1] = finalColor;
-            newVertexColors[vertexIndex + 2] = finalColor;
-            newVertexColors[vertexIndex + 3] = finalColor;
-            m_TextComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+            if (DefaultData.Instance.forceTextUpdate)
+            {
+                finalColor.a = (byte)wantedAlpha;
+                newVertexColors[vertexIndex + 0] = finalColor;
+                newVertexColors[vertexIndex + 1] = finalColor;
+                newVertexColors[vertexIndex + 2] = finalColor;
+                newVertexColors[vertexIndex + 3] = finalColor;
+                m_TextComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+            }
         }
     }
 
@@ -748,6 +750,9 @@ public class Effects : MonoBehaviour
             m_TextComponent.maxVisibleCharacters = visibleCount;
             yield return new WaitForSeconds(Time.deltaTime);
         }
+
+        if (DefaultData.Instance.forceTextUpdate)
+            m_TextComponent.maxVisibleCharacters = totalVisibleCharacters;
     }
 
     IEnumerator Jitter(float duration, float intensity, AnimationCurve curve, bool keepAnimating = false, bool random = true)
@@ -860,7 +865,9 @@ public class Effects : MonoBehaviour
             rectTransform.localScale = stepScale;
             yield return new WaitForSeconds(Time.deltaTime);
         }
-        rectTransform.localScale = localScale;
+
+        if (DefaultData.Instance.forceTextUpdate)
+            rectTransform.localScale = localScale;
     }
 
     IEnumerator Shake(float duration, float intensity, AnimationCurve curve, bool characters, bool keepAnimating = false, bool random = true)
@@ -996,11 +1003,14 @@ public class Effects : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        if (x)
-            finalScale.x = wantedScaleX;
-        if (y)
-            finalScale.y = wantedScaleY;
-        rectTransform.localScale = finalScale;
+        if (DefaultData.Instance.forceTextUpdate)
+        {
+            if (x)
+                finalScale.x = wantedScaleX;
+            if (y)
+                finalScale.y = wantedScaleY;
+            rectTransform.localScale = finalScale;
+        }
     }
 
     IEnumerator Stretch(float duration, float intensity, AnimationCurve curve, bool x, bool y, float wantedScaleX = 1f, float wantedScaleY = 1f)
@@ -1034,11 +1044,14 @@ public class Effects : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        if (x)
-            finalScale.x = wantedScaleX;
-        if (y)
-            finalScale.y = wantedScaleY;
-        rectTransform.localScale = finalScale;
+        if (DefaultData.Instance.forceTextUpdate)
+        {
+            if (x)
+                finalScale.x = wantedScaleX;
+            if (y)
+                finalScale.y = wantedScaleY;
+            rectTransform.localScale = finalScale;
+        }
     }
 
     IEnumerator SwellingFontSize(float duration, float intensity, AnimationCurve curve)
@@ -1066,7 +1079,8 @@ public class Effects : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        m_TextComponent.fontSize = finalSize;
+        if (DefaultData.Instance.forceTextUpdate)
+            m_TextComponent.fontSize = finalSize;
     }
 
     IEnumerator Swing(float duration, float intensity, bool keepAnimating = false)
@@ -1112,7 +1126,8 @@ public class Effects : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        m_TextComponent.ForceMeshUpdate();
+        if (DefaultData.Instance.forceTextUpdate)
+            m_TextComponent.ForceMeshUpdate();
     }
 
     IEnumerator SwingCharacters(float duration, float intensity, bool keepAnimating = false)
@@ -1163,7 +1178,8 @@ public class Effects : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        m_TextComponent.ForceMeshUpdate();
+        if (DefaultData.Instance.forceTextUpdate)
+            m_TextComponent.ForceMeshUpdate();
     }
 
     IEnumerator WarpText(float duration, float intensity, AnimationCurve curve, bool keepAnimating = false)

@@ -82,14 +82,24 @@ public class VT_Main : MonoBehaviour
             dialogManager.ModuleManager = this.moduleManager;
 
 
-            // Order matters
-            //dialogManager.Handlers.Add(new ParallelLineHandler());
+            // Handlers Order matters
+            
+            // Tag Handlers (should always be first)
             dialogManager.Handlers.Add(new EmotionTagNodeHandler());
-            dialogManager.Handlers.Add(new LogCommandHandler());
-            dialogManager.Handlers.Add(new LogCompleteNodeHandler());
+            
+            // Line Handlers
             dialogManager.Handlers.Add(new SequenceLineHandler());
+
+            // Options Handlers
             dialogManager.Handlers.Add(new SequenceOptionsHandler());
+            
+            // Node Handlers
+            dialogManager.Handlers.Add(new LogCompleteNodeHandler());
+
+            // Command Handlers
+            dialogManager.Handlers.Add(new ModuleCommandHandler());
             dialogManager.Handlers.Add(new ExitCommandHandler());
+            dialogManager.Handlers.Add(new LogCommandHandler());
         }
 
         playing = true;

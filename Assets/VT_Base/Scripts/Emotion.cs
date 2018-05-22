@@ -10,17 +10,12 @@
 }
 
 [System.Serializable]
-public class Emotion
+public struct Emotion
 {
-    public EmotionEnum Name { get; set; }
-    public float Intensity { get; set; }
+    public EmotionEnum Name;
+    public float Intensity;
 
-    public Emotion() { }
-    public Emotion(EmotionEnum name)
-    {
-        Name = name;
-    }
-    public Emotion(EmotionEnum name, float intensity)
+    public Emotion(EmotionEnum name, float intensity = 0.5f)
     {
         Name = name;
         Intensity = intensity;
