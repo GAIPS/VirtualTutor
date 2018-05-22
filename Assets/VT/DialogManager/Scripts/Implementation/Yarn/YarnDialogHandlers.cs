@@ -395,4 +395,50 @@ namespace YarnDialog
         {
         }
     }
+
+    public class WaitCommandHandler : YarnDialogManager.IDialogHandler
+    {
+        public IEnumerator Handle(Dialogue.RunnerResult result, YarnDialogManager manager)
+        {
+            var commandResult = result as Yarn.Dialogue.CommandResult;
+            if (commandResult == null)
+            {
+                yield break;
+            }
+
+            string[] param = commandResult.command.text.Split(' ');
+
+            if (param.Length != 2)
+            {
+                yield break;
+            }
+
+            if (!param[0].Contains("wait"))
+            {
+                yield break;
+            }
+            
+            float time;
+            if (!float.TryParse(param[1], NumberStyles.Any, CultureInfo.CreateSpecificCulture("pt-PT"),
+                out time))
+            {
+                yield break;
+            }
+
+            float counter = 0;
+            while (counter < time)
+            {
+                yield return null;
+                counter += Time.deltaTime;
+            }
+        }
+
+        public void Reset(YarnDialogManager manager)
+        {
+        }
+
+        public void Update(YarnDialogManager manager)
+        {
+        }
+    }
 }

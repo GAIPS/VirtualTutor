@@ -97,6 +97,7 @@ public class VT_Main : MonoBehaviour
             dialogManager.Handlers.Add(new LogCompleteNodeHandler());
 
             // Command Handlers
+            dialogManager.Handlers.Add(new WaitCommandHandler());
             dialogManager.Handlers.Add(new ModuleCommandHandler());
             dialogManager.Handlers.Add(new ExitCommandHandler());
             dialogManager.Handlers.Add(new LogCommandHandler());
