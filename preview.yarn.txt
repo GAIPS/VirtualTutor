@@ -4,6 +4,7 @@ colorID: 1
 position: 539,256
 ---
 Joao: A situação parece complicada, mas não te preocupes.
+<<wait 5>>
 Maria: Até agora, tens tido um bom desempenho.
 Joao: É verdade, se continuares a estudar vai correr tudo bem.
 
