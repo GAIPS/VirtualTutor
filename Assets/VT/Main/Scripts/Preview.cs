@@ -70,7 +70,7 @@ public class Preview : MonoBehaviour
                 yarnFilesContent = yarnFilesContent.Concat(ReadFiles(directory))
                     .Concat(ReadFiles(parent)).ToList();
 
-                var dialogSelector = new YarnDialogSelector(yarnFilesContent.ToArray());
+                var dialogSelector = new YarnPreviewDialogSelector(yarnFilesContent.ToArray());
 
                 _manager.DialogSelector = dialogSelector;
             }
@@ -85,14 +85,25 @@ public class Preview : MonoBehaviour
             dialogManager.ModuleManager = this.moduleManager;
 
 
-            // Order matters
-            //dialogManager.Handlers.Add(new ParallelLineHandler());
-            dialogManager.Handlers.Add(new ModuleCommandHandler());
+            // Handlers Order matters
+            
+            // Tag Handlers (should always be first)
+            dialogManager.Handlers.Add(new EmotionTagNodeHandler());
+            
+            // Line Handlers
             dialogManager.Handlers.Add(new SequenceLineHandler());
+
+            // Options Handlers
             dialogManager.Handlers.Add(new SequenceOptionsHandler());
-            dialogManager.Handlers.Add(new LogCommandHandler());
-            dialogManager.Handlers.Add(new ExitCommandHandler());
+            
+            // Node Handlers
             dialogManager.Handlers.Add(new LogCompleteNodeHandler());
+
+            // Command Handlers
+            dialogManager.Handlers.Add(new WaitCommandHandler());
+            dialogManager.Handlers.Add(new ModuleCommandHandler());
+            dialogManager.Handlers.Add(new ExitCommandHandler());
+            dialogManager.Handlers.Add(new LogCommandHandler());
         }
 
         if (_stringInput)

@@ -124,6 +124,7 @@ public class VTToModuleBridge : MonoBehaviour
         float forHowLong = Convert.ToSingle(parameters[4]);
 
         Feel(tutor, reason, forHowLong);
+        UpdateBackground(tutor, forHowLong, Reason.None);
     }
 
     /**********************************************************************************************************
