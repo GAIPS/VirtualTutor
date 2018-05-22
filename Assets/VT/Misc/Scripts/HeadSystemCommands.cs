@@ -24,7 +24,7 @@
 
 public enum ActionGroup
 {
-    FEEL = 1,
+    AVATARFEEL = 1,
     EXPRESS,
     TALK,
     NOD,

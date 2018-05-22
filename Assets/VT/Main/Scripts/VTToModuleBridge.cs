@@ -18,10 +18,11 @@ public class VTToModuleBridge : MonoBehaviour
         object parsedEnum;
         if (EnumUtils.TryParse(typeof(ActionGroup), info[0], out parsedEnum))
         {
+            //HeadSystem Commands
             switch ((ActionGroup)parsedEnum)
             {
-                case ActionGroup.FEEL:
-                    FeelPrivate(parameters);
+                case ActionGroup.AVATARFEEL:
+                    AvatarFeel(parameters);
                     break;
 
                 case ActionGroup.EXPRESS:
@@ -54,9 +55,9 @@ public class VTToModuleBridge : MonoBehaviour
         }
         else
         {
+            //BubbleSystem Commands
             switch (info[0])
-            {
-                //BubbleSystem Commands
+            {     
                 case "SetNextDialogueData":
                     SetNextDialogueData(parameters);
                     break;
@@ -94,7 +95,7 @@ public class VTToModuleBridge : MonoBehaviour
                     break;
 
                 //  SHARED COMMANDS
-                case "FeelAndUpdateBackground":
+                case "Feel":
                     Feel(parameters);
                     break;
 
@@ -151,7 +152,7 @@ public class VTToModuleBridge : MonoBehaviour
     **********************************************************************************************************/
 
     // Main Parsers and Invokers
-    private void FeelPrivate(string[] arguments)
+    private void AvatarFeel(string[] arguments)
     {
         Tutor tutor;
         Emotion emotion;
