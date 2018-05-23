@@ -255,6 +255,7 @@ namespace YarnDialog
                 yield break;
             }
 
+            manager.ModuleManager.Tutors = manager.Tutors.ToList();
             manager.ModuleManager.Handle(commandResult.command.text.Split(' '));
         }
 

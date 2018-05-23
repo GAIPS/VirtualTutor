@@ -10,6 +10,8 @@ public class VTToModuleBridge : MonoBehaviour
     public BubbleSystemManager bubbleSystem;
     public AvatarManager avatarManager;
 
+    public List<Tutor> Tutors;
+
     public void Handle(string[] info)
     {
         string[] parameters = info.Skip(1).ToArray();
@@ -120,8 +122,8 @@ public class VTToModuleBridge : MonoBehaviour
             tutor.Emotion = emotion;
         }
 
-        Reason reason = (Reason)Enum.Parse(typeof(Reason), parameters[3]);
-        float forHowLong = Convert.ToSingle(parameters[4]);
+        Reason reason = (Reason)Enum.Parse(typeof(Reason), parameters[4]);
+        float forHowLong = Convert.ToSingle(parameters[3]);
 
         Feel(tutor, reason, forHowLong);
     }
@@ -418,7 +420,16 @@ public class VTToModuleBridge : MonoBehaviour
     // Aux Methods
     private bool parseTutorName(string input, out Tutor tutor)
     {
-        tutor = new Tutor(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(input.ToLower()));
+        tutor = null;
+        if (Tutors != null && Tutors.Count > 0)
+        {
+            tutor = Tutors.Find(x => x.Name.ToString().ToLower() == input.ToLower());
+        }
+
+        if (tutor == null)
+        {
+            tutor = new Tutor(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(input.ToLower()));    
+        }
         return true;
     }
 
