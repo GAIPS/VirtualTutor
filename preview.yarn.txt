@@ -3,6 +3,7 @@ tags: User.Emotion.Happiness.1,0 Joao.Emotion.Sadness.0,9 Maria.Emotion.Happines
 colorID: 1
 position: 539,256
 ---
+<<Feel Maria Sadness 1.0 2.0 None>>
 Joao: A situação parece complicada, mas não te preocupes.
 <<wait 5>>
 Maria: Até agora, tens tido um bom desempenho.

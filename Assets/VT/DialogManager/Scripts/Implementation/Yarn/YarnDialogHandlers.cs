@@ -259,6 +259,7 @@ namespace YarnDialog
                 yield break;
             }
 
+            manager.ModuleManager.Tutors = manager.Tutors.ToList();
             manager.ModuleManager.Handle(commandResult.command.text.Split(' '));
         }
 
@@ -381,8 +382,7 @@ namespace YarnDialog
                     var tutor = manager.GetTutor(target);
                     if (tutor == null) continue;
                     tutor.Emotion = new Emotion(emotionEnum, intensity);
-                    manager.ModuleManager.Feel(tutor);
-                    manager.ModuleManager.UpdateBackground(tutor, 5f, Reason.None);
+                    manager.ModuleManager.Feel(tutor, Reason.None, 5f);
                 }
             }
         }
