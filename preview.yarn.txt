@@ -1,11 +1,9 @@
 title: Start.Start
-tags: User.Emotion.Happiness.1,0 Joao.Emotion.Sadness.0,9 Maria.Emotion.Happiness.0.5
+tags: User.Emotion.Happiness.1,0 Joao.Emotion.Neutral.0,9 Maria.Emotion.Happiness.0.5
 colorID: 1
 position: 539,256
 ---
-<<Feel Maria Sadness 1.0 2.0 None>>
 Joao: A situação parece complicada, mas não te preocupes.
-<<wait 5>>
 Maria: Até agora, tens tido um bom desempenho.
 Joao: É verdade, se continuares a estudar vai correr tudo bem.
 
@@ -34,7 +32,7 @@ colorID: 2
 position: 376,539
 ---
 Joao: Vamos então rever as tuas notas.
-<<openMenu ClassesMenu>>
+Maria: Em programação tiveste 15 valores e algebra tiveste 12 valores.
 Joao: As notas parecem-me favoráveis. O que achas?
 ->Não sei...
     Maria: Não te preocupes, estás a ir bem!
