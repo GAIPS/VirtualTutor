@@ -21,9 +21,9 @@ public class VTToModuleBridge : MonoBehaviour
             //HeadSystem Commands
             switch ((ActionGroup)parsedEnum)
             {
-                case ActionGroup.AVATARFEEL:
-                    AvatarFeel(parameters);
-                    break;
+                //case ActionGroup.AVATARFEEL:
+                //    AvatarFeel(parameters);
+                //    break;
 
                 case ActionGroup.EXPRESS:
                     Express(parameters);
@@ -62,9 +62,9 @@ public class VTToModuleBridge : MonoBehaviour
                     SetNextDialogueData(parameters);
                     break;
 
-                case "UpdateBackground":
-                    UpdateBackground(parameters);
-                    break;
+                //case "UpdateBackground":
+                //    UpdateBackground(parameters);
+                //    break;
 
                 case "OverrideTextEffects":
                     OverrideTextEffects(parameters);
@@ -124,7 +124,6 @@ public class VTToModuleBridge : MonoBehaviour
         float forHowLong = Convert.ToSingle(parameters[4]);
 
         Feel(tutor, reason, forHowLong);
-        UpdateBackground(tutor, forHowLong, Reason.None);
     }
 
     /**********************************************************************************************************
@@ -537,11 +536,11 @@ public class VTToModuleBridge : MonoBehaviour
     }
 
     //<< UpdateBackground tutor emotion intensity duration reason>>
-    public void UpdateBackground(string[] info)
+    private void UpdateBackground(string[] info)
     {
         Reason reason = (Reason)Enum.Parse(typeof(Reason), info[info.Length - 1]);
         KeyValuePair<int, Dictionary<string, float>> kvp = GetEmotions(info, 1);
-        bubbleSystem.UpdateBackground(info[0], kvp.Value, Convert.ToSingle(info[kvp.Key + 1]), reason);
+        bubbleSystem.UpdateBackground(info[0], kvp.Value, Convert.ToSingle(info[kvp.Key]), reason);
     }
 
     //<< SetNextDialogueData tutor emotion intensity duration [showEffects effect1 [curve] ...] [hideEffects effect1 [curve] ...] >>
@@ -551,7 +550,7 @@ public class VTToModuleBridge : MonoBehaviour
         KeyValuePair<int, Dictionary<string, float>> kvp = GetEmotions(info, 1);
 
         nextData.emotions = kvp.Value;
-        int i = kvp.Key + 1;
+        int i = kvp.Key;
 
         nextData.duration = Convert.ToSingle(info[i++]);
 
@@ -695,9 +694,8 @@ public class VTToModuleBridge : MonoBehaviour
 
     private KeyValuePair<int, Dictionary<string, float>> GetEmotions(string[] info, int i)
     {
-        string stringToLook = "duration";
         Dictionary<string, float> dict = new Dictionary<string, float>();
-        while (!info[i].Equals(stringToLook))
+        while (i < info.Length - 2 && !info[i + 1].Equals("showEffects") && !info[i + 1].Equals("hideEffects"))
         {
             dict.Add(info[i], Mathf.Clamp01(System.Convert.ToSingle(info[i + 1])));
             i += 2;
