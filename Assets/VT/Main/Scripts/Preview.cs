@@ -71,6 +71,8 @@ public class Preview : MonoBehaviour
                 var dialogSelector = new YarnPreviewDialogSelector(yarnFilesContent.ToArray());
 
                 _manager.DialogSelector = dialogSelector;
+                
+                DebugLog.Log("Path searched for Dialogue: " + directory.FullName);
             }
         }
 
