@@ -107,12 +107,12 @@ public class Manager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.X))
         {
-            manager.Handle(new string[] { "SetNextDialogueData", "Maria", "Happiness", "1.0", "5", "showEffects", "Blush", "fadeCurve", "hideEffects", "FadeOut", "fadeCurve" });
+            manager.Handle(new string[] { "SetNextDialogueData", "Maria", "Happiness", "1.0", "5", "showEffects", "Blush", "linearCurve", "hideEffects", "FadeOut", "linearCurve" });
         }
 
         if (Input.GetKeyDown(KeyCode.C))
         {
-            manager.Handle(new string[] { "OverrideTextEffects", "Happiness", "0.5", "showEffects", "FadeIn", "fadeCurve", "hideEffects", "FadeOut", "fadeCurve" });
+            manager.Handle(new string[] { "OverrideTextEffects", "Happiness", "0.5", "showEffects", "FadeIn", "linearCurve", "hideEffects", "FadeOut", "linearCurve" });
         }
 
         if (Input.GetKeyDown(KeyCode.V))

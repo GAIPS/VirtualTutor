@@ -146,13 +146,13 @@ public class DefaultData : Singleton<DefaultData>
     private void SetAnimationCurves()
     {
         AnimationCurve bellCurve = new AnimationCurve(new Keyframe(0, 0), new Keyframe(0.5f, 1.0f), new Keyframe(1.0f, 0));
-        AnimationCurve fadeCurve = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(1f, 1f));
+        AnimationCurve linearCurve = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(1f, 1f));
         AnimationCurve flashCurve = new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(1f, 1f), new Keyframe(2f, 0f), new Keyframe(3f, 0f), new Keyframe(4f, 1f), new Keyframe(5f, 1f), new Keyframe(6f, 0f));
         AnimationCurve lowerBellCurve = new AnimationCurve(new Keyframe(0f, -0.25f), new Keyframe(1f, 0.25f), new Keyframe(2f, -0.25f));
         AnimationCurve palpitationCurve = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(0.5f, 1f), new Keyframe(1f, 0f), new Keyframe(1.5f, 1f), new Keyframe(2f, 0f), new Keyframe(3f, 0f));
 
         curves.Add("bellCurve", bellCurve);
-        curves.Add("fadeCurve", fadeCurve);
+        curves.Add("linearCurve", linearCurve);
         curves.Add("flashCurve", flashCurve);
         curves.Add("lowerBellCurve", lowerBellCurve);
         curves.Add("palpitationsCurve", palpitationCurve);
@@ -834,7 +834,7 @@ public class DefaultData : Singleton<DefaultData>
         dict.Add(1f, text);
         defaultTextData.Add(BubbleSystem.Emotion.Neutral, dict);
 
-        defaultTextData[BubbleSystem.Emotion.Neutral][1f].showEffect.Add(Effect.Appear, curves["fadeCurve"]);
+        defaultTextData[BubbleSystem.Emotion.Neutral][1f].showEffect.Add(Effect.Appear, curves["linearCurve"]);
         defaultTextData[BubbleSystem.Emotion.Neutral][1f].hideEffect.Add(Effect.None, null);
 
 
@@ -860,8 +860,8 @@ public class DefaultData : Singleton<DefaultData>
         dict.Add(1f, text);
         defaultTextData.Add(BubbleSystem.Emotion.Sadness, dict);
 
-        defaultTextData[BubbleSystem.Emotion.Sadness][1f].showEffect.Add(Effect.FadeIn, curves["fadeCurve"]);
-        defaultTextData[BubbleSystem.Emotion.Sadness][1f].hideEffect.Add(Effect.FadeOut, curves["fadeCurve"]);
+        defaultTextData[BubbleSystem.Emotion.Sadness][1f].showEffect.Add(Effect.FadeIn, curves["linearCurve"]);
+        defaultTextData[BubbleSystem.Emotion.Sadness][1f].hideEffect.Add(Effect.FadeOut, curves["linearCurve"]);
 
 
         text = new TextData();
@@ -1003,9 +1003,9 @@ public class DefaultData : Singleton<DefaultData>
         backgroundData.hideBannerEffect = new Dictionary<BackgroundEffect, AnimationCurve>();
         backgroundData.colorEffect = new Dictionary<BackgroundEffect, AnimationCurve>();
 
-        backgroundData.showBannerEffect.Add(BackgroundEffect.FadeTexture, curves["fadeCurve"]);
-        backgroundData.hideBannerEffect.Add(BackgroundEffect.FadeTexture, curves["fadeCurve"]);
-        backgroundData.colorEffect.Add(BackgroundEffect.FadeColor, curves["fadeCurve"]);
+        backgroundData.showBannerEffect.Add(BackgroundEffect.FadeTexture, curves["linearCurve"]);
+        backgroundData.hideBannerEffect.Add(BackgroundEffect.FadeTexture, curves["linearCurve"]);
+        backgroundData.colorEffect.Add(BackgroundEffect.FadeColor, curves["linearCurve"]);
 
         dict.Add(1f, backgroundData);
         defaultBackgroundAnimationData.Add(BubbleSystem.Emotion.Default, dict);
