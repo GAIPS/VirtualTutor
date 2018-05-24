@@ -22,14 +22,12 @@ Maria: Proponho estudares 2 horas por semana para cada disciplina.
 Joao: Talvez 3 horas na disciplina que tens mais dificuldade.
 Maria: Queres adicionar ao teu calendário?
 
-[[Vamos a isso|StudyPlan.CreatePlan]]
-[[Não, obrigado|ChangePlan]]
 [[Podes explicar melhor?|StudyPlan.Explain]]
 ===
 title: Grades.good
 tags: 
 colorID: 2
-position: 376,539
+position: 375,538
 ---
 Joao: Vamos então rever as tuas notas.
 Maria: Em programação tiveste 15 valores e algebra tiveste 12 valores.
@@ -46,12 +44,12 @@ Joao: Continua o bom trabalho.
 title: StudyPlan.Explain
 tags: 
 colorID: 2
-position: 879,542
+position: 880,541
 ---
 Maria: Um plano de estudo é um horário de estudo para uma ou mais disciplinas.
 Joao: Nós propomos um número de horas que deves estudar por disciplina e tu crias o teu horário.
 Maria: Que tal criar-mos um plano?
 
-[[Vamos a isso|StudyPlan.CreatePlan]]
+[[Vamos a isso|StudyPlan.propose]]
 [[Não, obrigado|ChangePlan]]
 ===
