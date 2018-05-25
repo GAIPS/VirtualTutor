@@ -17,7 +17,8 @@ public class DefaultData : Singleton<DefaultData>
     private Dictionary<BubbleSystem.Emotion, Color32> colors = new Dictionary<BubbleSystem.Emotion, Color32>();
     private Dictionary<BubbleSystem.Emotion, float> sizeRatios = new Dictionary<BubbleSystem.Emotion, float>();
 
-    public float duration = 5.0f;
+    private float balloonDuration = 5.0f;
+    private float backgroundDuration = 5.0f;
     public bool mixColors = true;
     public bool forceTextUpdate = true;
     public bool blendBalloonAnimation = false;
@@ -120,6 +121,28 @@ public class DefaultData : Singleton<DefaultData>
     public void AddCurve(string name, AnimationCurve curve)
     {
         BubbleSystemUtility.AddToDictionary(ref curves, name, curve);
+    }
+
+    public float GetBalloonDuration()
+    {
+        return balloonDuration;
+    }
+
+    public void SetBalloonDuration(float duration)
+    {
+        if(duration >= 2f)
+            balloonDuration = duration;
+    }
+
+    public float GetBackgroundDuration()
+    {
+        return backgroundDuration;
+    }
+
+    public void SetBackgroundDuration(float duration)
+    {
+        if (duration >= 2f)
+            backgroundDuration = duration;
     }
 
     private void SetEmotionColors()

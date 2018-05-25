@@ -82,7 +82,7 @@ namespace YarnDialog
         public void SetTutorEmotion(Tutor tutor)
         {
             if (ModuleManager != null)
-                ModuleManager.Feel(tutor, BubbleSystem.Reason.None, 5.0f);
+                ModuleManager.Feel(tutor, BubbleSystem.Reason.None);
         }
 
         public void Reset()

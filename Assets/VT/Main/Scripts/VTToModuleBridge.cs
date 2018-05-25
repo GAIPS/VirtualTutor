@@ -96,6 +96,14 @@ public class VTToModuleBridge : MonoBehaviour
                     SetBalloonAnimationBlending(parameters);
                     break;
 
+                case "SetBalloonDuration":
+                    SetBalloonDuration(parameters);
+                    break;
+
+                case "SetBackgroundDuration":
+                    SetBackgroundDuration(parameters);
+                    break;
+
                 //  SHARED COMMANDS
                 case "Feel":
                     Feel(parameters);
@@ -111,7 +119,7 @@ public class VTToModuleBridge : MonoBehaviour
                                                 SHARED COMMANDS
     **********************************************************************************************************/
 
-    // <<Feel Tutor Emotion Intensity Reason Duration>>
+    // <<Feel Tutor Emotion Intensity Reason>>
     public void Feel(string[] parameters)
     {
         Tutor tutor;
@@ -122,25 +130,24 @@ public class VTToModuleBridge : MonoBehaviour
             tutor.Emotion = emotion;
         }
 
-        Reason reason = (Reason)Enum.Parse(typeof(Reason), parameters[4]);
-        float forHowLong = Convert.ToSingle(parameters[3]);
+        Reason reason = (Reason)Enum.Parse(typeof(Reason), parameters[3]);
 
-        Feel(tutor, reason, forHowLong);
+        Feel(tutor, reason);
     }
 
     /**********************************************************************************************************
                                                 SHARED CALLS
     **********************************************************************************************************/
 
-    public void Feel(Tutor who, Reason why, float forHowLong)
+    public void Feel(Tutor who, Reason why)
     {
         Feel(who);
-        UpdateBackground(who, forHowLong, why);
+        UpdateBackground(who, why);
     }
 
-    public void StartSpeaking(Tutor who, string what, float forHowLong)
+    public void StartSpeaking(Tutor who, string what)
     {
-        Speak(who, new string[] { what }, forHowLong);
+        Speak(who, new string[] { what });
         Act(who, new MovementWithState(MovementEnum.Talk, StateEnum.Start));
     }
 
@@ -502,18 +509,18 @@ public class VTToModuleBridge : MonoBehaviour
                                                  BUBBLE SYSTEM
     **********************************************************************************************************/
 
-    public void UpdateBackground(Tutor tutor, float duration, Reason reason)
+    public void UpdateBackground(Tutor tutor, Reason reason)
     {
         Dictionary<string, float> dict = new Dictionary<string, float>();
         dict.Add(tutor.Emotion.Name.ToString(), tutor.Emotion.Intensity);
-        bubbleSystem.UpdateBackground(tutor.Name, dict, duration, reason);
+        bubbleSystem.UpdateBackground(tutor.Name, dict, reason);
     }
 
-    public void Speak(Tutor tutor, string[] text, float duration = 0.0f, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
+    public void Speak(Tutor tutor, string[] text, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
     {
         Dictionary<string, float> dict = new Dictionary<string, float>();
         dict.Add(tutor.Emotion.Name.ToString(), tutor.Emotion.Intensity);
-        bubbleSystem.Speak(tutor.Name, dict, text, duration, showEffects, hideEffects);
+        bubbleSystem.Speak(tutor.Name, dict, text, showEffects, hideEffects);
     }
 
     public void HideBalloon(Tutor tutor, float duration = 0.0f)
@@ -526,9 +533,9 @@ public class VTToModuleBridge : MonoBehaviour
         bubbleSystem.HideBalloon(tutor, duration);
     }
 
-    public void UpdateOptions(string[] text, float duration = 5.0f, HookControl.IntFunc[] callbacks = null, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
+    public void UpdateOptions(string[] text, HookControl.IntFunc[] callbacks = null, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
     {
-        bubbleSystem.UpdateOptions(text, duration, callbacks, showEffects, hideEffects);
+        bubbleSystem.UpdateOptions(text, callbacks, showEffects, hideEffects);
     }
 
 
@@ -546,15 +553,15 @@ public class VTToModuleBridge : MonoBehaviour
         DefaultData.Instance.SetTextEffects(emotion, intensity, effects.Key, effects.Value);
     }
 
-    //<< UpdateBackground tutor emotion intensity duration reason>>
+    //<< UpdateBackground tutor emotion intensity reason>>
     private void UpdateBackground(string[] info)
     {
         Reason reason = (Reason)Enum.Parse(typeof(Reason), info[info.Length - 1]);
         KeyValuePair<int, Dictionary<string, float>> kvp = GetEmotions(info, 1);
-        bubbleSystem.UpdateBackground(info[0], kvp.Value, Convert.ToSingle(info[kvp.Key]), reason);
+        bubbleSystem.UpdateBackground(info[0], kvp.Value, reason);
     }
 
-    //<< SetNextDialogueData tutor emotion intensity duration [showEffects effect1 [curve] ...] [hideEffects effect1 [curve] ...] >>
+    //<< SetNextDialogueData tutor emotion intensity [showEffects effect1 [curve] ...] [hideEffects effect1 [curve] ...] >>
     public void SetNextDialogueData(string[] info)
     {
         NextDialogueData nextData = new NextDialogueData();
@@ -562,8 +569,6 @@ public class VTToModuleBridge : MonoBehaviour
 
         nextData.emotions = kvp.Value;
         int i = kvp.Key;
-
-        nextData.duration = Convert.ToSingle(info[i++]);
 
         KeyValuePair<Dictionary<Effect, AnimationCurve>, Dictionary<Effect, AnimationCurve>> effects = SetTextEffects(info, i);
         nextData.showEffects = effects.Key;
@@ -638,6 +643,18 @@ public class VTToModuleBridge : MonoBehaviour
         DefaultData.Instance.blendBalloonAnimation = Convert.ToBoolean(Convert.ToInt16(info[0]));
     }
 
+    //<< SetBalloonDuration duration >>
+    public void SetBalloonDuration(string[] info)
+    {
+        DefaultData.Instance.SetBalloonDuration(Convert.ToSingle(info[0]));
+    }
+
+    //<< SetBackgroundDuration duration >>
+    public void SetBackgroundDuration(string[] info)
+    {
+        DefaultData.Instance.SetBackgroundDuration(Convert.ToSingle(info[0]));
+    }
+
     /**********************************************************************************************************
                                                     HELP FUNCTIONS
     **********************************************************************************************************/
@@ -706,8 +723,10 @@ public class VTToModuleBridge : MonoBehaviour
     private KeyValuePair<int, Dictionary<string, float>> GetEmotions(string[] info, int i)
     {
         Dictionary<string, float> dict = new Dictionary<string, float>();
-        while (i < info.Length - 2 && !info[i + 1].Equals("showEffects") && !info[i + 1].Equals("hideEffects"))
+        while (i < info.Length)
         {
+            if (info[i].Equals("showEffects") || info[i].Equals("hideEffects"))
+                break;
             dict.Add(info[i], Mathf.Clamp01(System.Convert.ToSingle(info[i + 1])));
             i += 2;
         }

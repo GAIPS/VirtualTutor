@@ -29,7 +29,7 @@ namespace BubbleSystem
         private Dictionary<string, Dictionary<BackgroundEffect, IEnumerator>> colorCoroutines = new Dictionary<string, Dictionary<BackgroundEffect, IEnumerator>>();
         private Dictionary<string, IEnumerator> changeImageCoroutines = new Dictionary<string, IEnumerator>();
 
-        public void SetBackground(string bg, BackgroundData data, float duration)
+        public void SetBackground(string bg, BackgroundData data)
         {
             if (!textureCoroutines.ContainsKey(bg))
                 textureCoroutines.Add(bg, new Dictionary<BackgroundEffect, IEnumerator>());
@@ -54,7 +54,7 @@ namespace BubbleSystem
 
             if (BubbleSystemUtility.CheckCoroutine(ref changeImageCoroutines, bg))
                 StopCoroutine(changeImageCoroutines[bg]);
-            BubbleSystemUtility.AddToDictionary(ref changeImageCoroutines, bg, ChangeImage(bg, data, textureData, backgroundAnimationData, duration, colorToLerpTo));
+            BubbleSystemUtility.AddToDictionary(ref changeImageCoroutines, bg, ChangeImage(bg, data, textureData, backgroundAnimationData, DefaultData.Instance.GetBackgroundDuration(), colorToLerpTo));
             StartCoroutine(changeImageCoroutines[bg]);
         }
 

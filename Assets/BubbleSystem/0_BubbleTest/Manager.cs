@@ -10,8 +10,7 @@ public class Manager : MonoBehaviour {
     private float intensity = 0.0f;
     private EmotionEnum emotion = EmotionEnum.Neutral;
     private Tutor[] tutors;
-    private Reason reason = Reason.None;
-    public float duration = 5.0f;
+    private Reason reason = Reason.Challenge;
     private int currentTutor = 0;
     private int mix = 0;
     private int forceText = 0;
@@ -91,7 +90,7 @@ public class Manager : MonoBehaviour {
             emotion1.Intensity = intensity;
             tutors[currentTutor].Emotion = emotion1;
 
-            manager.Speak(tutors[currentTutor], new string[] { "hi" }, duration);
+            manager.Speak(tutors[currentTutor], new string[] { "hi" });
             Debug.Log(tutors[currentTutor] + " " + emotion.ToString() + " " + intensity);
         }
 
@@ -101,13 +100,13 @@ public class Manager : MonoBehaviour {
             emotion1.Name = emotion;
             emotion1.Intensity = intensity;
             tutors[currentTutor].Emotion = emotion1;
-            manager.UpdateBackground(tutors[currentTutor], duration, reason);
+            manager.UpdateBackground(tutors[currentTutor], reason);
             Debug.Log(tutors[currentTutor] + " " + emotion.ToString() + " " + intensity + " " + reason);
         }
 
         if (Input.GetKeyDown(KeyCode.X))
         {
-            manager.Handle(new string[] { "SetNextDialogueData", "Maria", "Happiness", "1.0", "5", "showEffects", "Blush", "linearCurve", "hideEffects", "FadeOut", "linearCurve" });
+            manager.Handle(new string[] { "SetNextDialogueData", "Maria", "Happiness", "1.0", "showEffects", "Blush", "linearCurve", "hideEffects", "FadeOut", "linearCurve" });
         }
 
         if (Input.GetKeyDown(KeyCode.C))
@@ -154,6 +153,16 @@ public class Manager : MonoBehaviour {
             balloonAnimation = (balloonAnimation + 1) % 2;
             Debug.Log(Convert.ToBoolean(balloonAnimation));
             manager.Handle(new string[] { "SetBalloonAnimationBlending", balloonAnimation.ToString() });
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            manager.Handle(new string[] { "SetBalloonDuration", 2f.ToString() });
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            manager.Handle(new string[] { "SetBackgroundDuration", 2f.ToString() });
         }
     }
     

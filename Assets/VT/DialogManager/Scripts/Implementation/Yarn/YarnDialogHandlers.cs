@@ -40,11 +40,11 @@ namespace YarnDialog
             return new LineInfo() {speaker = tutor, message = message};
         }
 
-        protected void ShowLine(LineInfo line, float duration, YarnDialogManager manager)
+        protected void ShowLine(LineInfo line, YarnDialogManager manager)
         {
             if (manager.ModuleManager != null)
             {
-                manager.ModuleManager.StartSpeaking(line.speaker, line.message, duration);
+                manager.ModuleManager.StartSpeaking(line.speaker, line.message);
             }
         }
 
@@ -57,7 +57,7 @@ namespace YarnDialog
 
     public class SequenceLineHandler : LineHandler
     {
-        private float duration = 5; // Bubble last 5 seconds
+        private float duration = DefaultData.Instance.GetBalloonDuration(); // Bubble last 5 seconds
 
         public override IEnumerator Handle(Dialogue.RunnerResult result, YarnDialogManager manager)
         {
@@ -71,7 +71,7 @@ namespace YarnDialog
 
             LineInfo lineInfo = InterpretLine(lineResult.line.text, manager);
 
-            ShowLine(lineInfo, duration, manager);
+            ShowLine(lineInfo, manager);
             float count = 0;
             while (count <= duration)
             {
@@ -97,7 +97,7 @@ namespace YarnDialog
         private LineInfo playingLine;
 
         private float count = 0;
-        private float duration = 5;
+        private float duration = DefaultData.Instance.GetBalloonDuration();
 
 
         public override IEnumerator Handle(Dialogue.RunnerResult result, YarnDialogManager manager)
@@ -121,7 +121,7 @@ namespace YarnDialog
                     playingLine = lines[0];
                     lines.RemoveAt(0);
                     // Show Line
-                    ShowLine(playingLine, duration, manager);
+                    ShowLine(playingLine, manager);
                     // Reset counter
                     count = 0;
                 }
@@ -177,7 +177,7 @@ namespace YarnDialog
                 float duration = 60; // One minute wait.
                 IList<string> options = new List<string>(optionSetResult.options.options);
                 options.Remove("BLANK");
-                manager.ModuleManager.UpdateOptions(options.ToArray(), duration, callbacks.ToArray());
+                manager.ModuleManager.UpdateOptions(options.ToArray(), callbacks.ToArray());
                 float count = 0;
                 while (count <= duration && !continueLoop)
                 {
@@ -378,7 +378,7 @@ namespace YarnDialog
                     var tutor = manager.GetTutor(target);
                     if (tutor == null) continue;
                     tutor.Emotion = new Emotion(emotionEnum, intensity);
-                    manager.ModuleManager.Feel(tutor, Reason.None, 5f);
+                    manager.ModuleManager.Feel(tutor, Reason.None);
                 }
             }
         }

@@ -44,13 +44,13 @@ namespace BubbleSystem
                                                         FUNCTIONS
         **********************************************************************************************************/
 
-        public void UpdateBackground(string tutor, Dictionary<string, float> emotions, float duration, Reason reason)
+        public void UpdateBackground(string tutor, Dictionary<string, float> emotions, Reason reason)
         {
             SetBackgroundData(tutor, emotions, reason);
-            backgroundManager.SetBackground(tutor, tutorBackgroundData[tutor], duration);
+            backgroundManager.SetBackground(tutor, tutorBackgroundData[tutor]);
         }
 
-        public void Speak(string tutor, Dictionary<string, float> emotions, string[] text, float duration = 0.0f, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
+        public void Speak(string tutor, Dictionary<string, float> emotions, string[] text, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
         {
             if (!tutor.Equals(options))
             {
@@ -61,7 +61,7 @@ namespace BubbleSystem
                 }
 
                 SetSpeakData(tutor, emotions, text, showEffects, hideEffects);
-                balloonManager.Speak(tutor, tutorSpeakData[tutor], duration);
+                balloonManager.Speak(tutor, tutorSpeakData[tutor]);
             }
         }
 
@@ -70,13 +70,13 @@ namespace BubbleSystem
             balloonManager.HideBalloon(tutor, duration, tutorSpeakData[tutor]);
         }
 
-        public void UpdateOptions(string[] text, float duration = 5.0f, HookControl.IntFunc[] callbacks = null, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
+        public void UpdateOptions(string[] text, HookControl.IntFunc[] callbacks = null, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
         {
             Dictionary<string, float> dict = new Dictionary<string, float>();
             dict.Add(Emotion.Default.ToString(), 0.0f);
 
             SetSpeakData(options, dict, text, showEffects, hideEffects);
-            balloonManager.ShowOptions(options, tutorSpeakData[options], duration, callbacks);
+            balloonManager.ShowOptions(options, tutorSpeakData[options], callbacks);
         }
 
 

@@ -174,17 +174,17 @@ namespace BubbleSystem
             };
         }
 
-        public void Speak(string balloon, SpeakData data, float duration)
+        public void Speak(string balloon, SpeakData data)
         {
-            ShowBalloon(balloon, data, duration, null, false);
+            ShowBalloon(balloon, data, null, false);
         }
 
-        public void ShowOptions(string balloon, SpeakData data, float duration, IntFunc[] callbacks)
+        public void ShowOptions(string balloon, SpeakData data, IntFunc[] callbacks)
         {
-            ShowBalloon(balloon, data, duration, callbacks, true);
+            ShowBalloon(balloon, data, callbacks, true);
         }
 
-        private void ShowBalloon(string balloon, SpeakData data, float duration, IntFunc[] callbacks, bool options)
+        private void ShowBalloon(string balloon, SpeakData data, IntFunc[] callbacks, bool options)
         {
             var controller = controllers[balloon];
 
@@ -235,7 +235,7 @@ namespace BubbleSystem
                         TextData textData = DefaultData.Instance.GetDefaultTextData(emotionPair.Key, emotionPair.Value);
                         SetTexts(hooks, textData, textColor);
 
-                        float realDuration = duration > 0 ? duration : DefaultData.Instance.duration;
+                        float realDuration = DefaultData.Instance.GetBalloonDuration();
                         float textDuration = realDuration - durationThreshold; // so it finishes before hide
 
                         if (data.showEffects != null)
