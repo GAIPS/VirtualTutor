@@ -10,6 +10,8 @@ public class MoodVariables
     public string verySad = "t";
     public string afraid = "1";
     public string surprised = "2";
+    public string angered = "3";
+    public string disgusted = "4";
 }
 
 [Serializable]

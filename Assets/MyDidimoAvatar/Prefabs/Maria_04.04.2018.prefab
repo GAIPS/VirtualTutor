@@ -3390,7 +3390,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controllerID: Maria
   ApproachNeutral: 0
-  ApproachLowerIntensity: 0
+  ApproachLowerIntensity: 1
 --- !u!114 &114607828001421048
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3402,7 +3402,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ebd50f96b99b6341a466142f099a735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moodDampener: 0.5
+  moodDampener: 1
   nodInterval: 3
   nodLength: 0
 --- !u!137 &137004517770089532

@@ -13,7 +13,7 @@ public partial class AvatarController : MonoBehaviour
     [SerializeField]
     private bool ApproachNeutral;
     [SerializeField]
-    private bool ApproachLowerIntensity;
+    private bool ApproachLowerIntensity = true;
     //TEMPSTORE
     private int storedMood;
     private float storedMoodIntensity;
@@ -48,8 +48,9 @@ public partial class AvatarController : MonoBehaviour
         //    Debug.Log("CURRENT STATE INFO: [LENGHT = " + currentBaseState.length + ", SPEEDMULT = " + currentBaseState.speedMultiplier + "]");
     }
 
-    public void SetMood(EmotionalState mood, float intensity)
+    public void SetMood(EmotionalState mood, float intensity, float duration = 2.0f)
     {
+        float finalIntensity = intensity;
         float[][] preset;
         switch (mood)
         {
@@ -58,16 +59,17 @@ public partial class AvatarController : MonoBehaviour
                 break;
 
             case EmotionalState.HAPPINESS:
-                if (intensity > LOWINTENSITYTHRESHOLD)
+                if (finalIntensity > LOWINTENSITYTHRESHOLD)
                     preset = AvatarParameters.Presets.HappinessHigh();
                 else
                     preset = AvatarParameters.Presets.HappinessLow();
                 break;
 
             case EmotionalState.SADNESS:
-                if (intensity > LOWINTENSITYTHRESHOLD)
+                if (finalIntensity > LOWINTENSITYTHRESHOLD)
                     preset = AvatarParameters.Presets.SadnessHigh();
                 else
+                    finalIntensity = finalIntensity * 0.3f;
                     preset = AvatarParameters.Presets.SadnessLow();
                 break;
 
@@ -89,7 +91,7 @@ public partial class AvatarController : MonoBehaviour
         parameters.setAllParameters<AnimatorParams>(preset[0]);
         parameters.setAllParameters<ControllerParams>(preset[1]);
 
-        StartCoroutine(MoodTransition(animator.GetFloat("Mood Intensity"), intensity * parameters.getMoodDampenerValue()));
+        StartCoroutine(MoodTransition(animator.GetFloat("Mood Intensity"), finalIntensity * parameters.getMoodDampenerValue(), duration));
 
         animator.SetInteger("Mood", (int)mood);
     }
@@ -116,12 +118,12 @@ public partial class AvatarController : MonoBehaviour
             if (ApproachNeutral)
                 SetMood(EmotionalState.NEUTRAL, 0.0f);
             if (ApproachLowerIntensity)
-                SetMood((EmotionalState)storedMood, (storedMoodIntensity / parameters.getMoodDampenerValue())*0.5f);
+                SetMood((EmotionalState)storedMood, (storedMoodIntensity / parameters.getMoodDampenerValue())*0.5f, 1.0f);
         }
         else
         {
             if (ApproachNeutral || ApproachLowerIntensity)
-                SetMood((EmotionalState)storedMood, storedMoodIntensity / parameters.getMoodDampenerValue());
+                SetMood((EmotionalState)storedMood, storedMoodIntensity / parameters.getMoodDampenerValue(), 1.0f);
         }
 
         animator.SetInteger("Talk State", (int)talkState);
@@ -244,13 +246,13 @@ public partial class AvatarController : MonoBehaviour
         }
     }
 
-    private IEnumerator MoodTransition(float start, float end)
+    private IEnumerator MoodTransition(float start, float end, float duration)
     {
         float t = 0.0f;
         while (t <= 1.0f)
         {
             parameters.setParameter(AnimatorParams.MOOD_INTENSITY, Mathf.Lerp(start, end, t));
-            t += 0.5f * Time.deltaTime;
+            t +=  Time.deltaTime / duration;
             yield return null;
         }
     }

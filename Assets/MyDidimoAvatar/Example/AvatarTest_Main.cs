@@ -90,6 +90,13 @@ public class AvatarTest_Main : MonoBehaviour
         if (Input.GetKeyDown(moodCommands.surprised))
             manager.Feel(tutorName, EmotionalState.SURPRISE, 0.6f);
 
+        if (Input.GetKeyDown(moodCommands.angered))
+            manager.Feel(tutorName, EmotionalState.ANGER, 1.0f);
+
+        if (Input.GetKeyDown(moodCommands.disgusted))
+            manager.Feel(tutorName, EmotionalState.DISGUST, 1.0f);
+
+
         // Expression
         if (Input.GetKeyDown(expressionCommands.neutral))
             manager.Express(tutorName, EmotionalState.NEUTRAL, 1.0f);

@@ -3388,7 +3388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ebd50f96b99b6341a466142f099a735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moodDampener: 0.5
+  moodDampener: 1
   nodInterval: 3
   nodLength: 0
 --- !u!114 &114915901948837802
@@ -3404,7 +3404,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controllerID: Joao
   ApproachNeutral: 0
-  ApproachLowerIntensity: 0
+  ApproachLowerIntensity: 1
 --- !u!137 &137025795867207678
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

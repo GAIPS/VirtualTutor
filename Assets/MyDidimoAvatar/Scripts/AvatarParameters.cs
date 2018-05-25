@@ -38,7 +38,7 @@ public class AvatarParameters : MonoBehaviour
     [SerializeField]
     [Tooltip("Adjust this value if your mood animations are too strong")]
     [Range(0.1f, 1.0f)]
-    private float moodDampener = 0.5f;
+    private float moodDampener = 1.0f;
 
     //[Header("Default Values")]
     [HideInInspector]

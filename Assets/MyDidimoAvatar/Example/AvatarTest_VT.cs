@@ -111,6 +111,20 @@ public class AvatarTest_VT : MonoBehaviour
             else
                 bridge.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Surprise, 0.6f)));
         }
+        if (Input.GetKeyDown(moodCommands.angered))
+        {
+            if (testCommands)
+                bridge.Handle(new string[] { "Feel", tutorName, "Anger", "1.0" });
+            else
+                bridge.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Anger, 1.0f)));
+        }
+        if (Input.GetKeyDown(moodCommands.disgusted))
+        {
+            if (testCommands)
+                bridge.Handle(new string[] { "Feel", tutorName, "Disgust", "1.0" });
+            else
+                bridge.Feel(new Tutor(tutorName, new Emotion(EmotionEnum.Disgust, 1.0f)));
+        }
 
         // Expression
         if (Input.GetKeyDown(expressionCommands.neutral))
