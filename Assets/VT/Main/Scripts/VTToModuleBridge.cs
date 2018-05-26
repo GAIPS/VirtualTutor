@@ -109,6 +109,14 @@ public class VTToModuleBridge : MonoBehaviour
                     Feel(parameters);
                     break;
 
+                case "FeelRandomBoth":
+                    FeelRandom(true);
+                    break;
+
+                case "FeelRandomEach":
+                    FeelRandom(false);
+                    break;
+
                 default:
                     break;
             }
@@ -133,6 +141,36 @@ public class VTToModuleBridge : MonoBehaviour
         Reason reason = (Reason)Enum.Parse(typeof(Reason), parameters[3]);
 
         Feel(tutor, reason);
+    }
+
+    private KeyValuePair<Emotion, Reason> GenerateEmotionAndReason()
+    {
+        Emotion emotion;
+        int emotionInt = UnityEngine.Random.Range(0, Enum.GetNames(typeof(EmotionEnum)).Length);
+        int reasonInt = UnityEngine.Random.Range(0, Enum.GetNames(typeof(Reason)).Length);
+        float intensity = UnityEngine.Random.Range(0.0f, 1.0f);
+        emotion.Name = (EmotionEnum)emotionInt;
+        emotion.Intensity = intensity;
+        Reason reason = (Reason)reasonInt;
+
+        return new KeyValuePair<Emotion, Reason>(emotion, reason);
+    }
+
+    // <<FeelRandom>>
+    public void FeelRandom(bool both)
+    {
+        KeyValuePair<Emotion, Reason> random = GenerateEmotionAndReason();
+
+        foreach (Tutor tutor in Tutors)
+        {
+            tutor.Emotion = random.Key;
+            Feel(tutor, random.Value);
+
+            if (!both)
+            {
+                random = GenerateEmotionAndReason();
+            }
+        }
     }
 
     /**********************************************************************************************************
