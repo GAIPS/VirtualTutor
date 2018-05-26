@@ -1199,12 +1199,6 @@ public class Effects : MonoBehaviour
 
         while (((Time.time - initialTime) / duration) < 1)
         {
-            if (!m_TextComponent.havePropertiesChanged)
-            {
-                yield return null;
-                continue;
-            }
-
             m_TextComponent.ForceMeshUpdate(); // Generate the mesh and populate the textInfo with data we can use and manipulate.
 
             TMP_TextInfo textInfo = m_TextComponent.textInfo;
