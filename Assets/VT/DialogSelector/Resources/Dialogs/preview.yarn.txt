@@ -1,0 +1,492 @@
+title: Start.Question1
+tags: 
+colorID: 1
+position: -766,139
+---
+<<set $question to 1>>
+
+
+<<SetBlankDuration 20>>
+<<Feel Maria Neutral 1.0 None>>
+<<Feel Joao Neutral 1.0 None>>
+<<wait 2>>
+
+<<SetBalloonDuration 2>>
+Maria:  <b>Question 1</b>
+<<SetBalloonDuration 5>>
+<<Wait 0.2>>
+
+<<Feel Maria Surprise 0.3 None>>
+Joao: You are approached by a frenzied Vault scientist, who yells ...
+<<Feel Joao Happiness 0.6 None>> 
+Maria:  <i>"I'm going to put my quantum harmonizer in your photonic resonation chamber!"</i>
+<<Feel Maria Happiness 0.3 None>>
+Joao: What's your response?
+
+[[But doctor, wouldn't that cause a parabolic destabilization of the fission singularity?|SetScience]]
+[[Yeah? Up yours too, buddy!|SetSpeech]]
+[[Say nothing, grab a nearby pipe and hit the scientist in the head to knock him out. For all you knew, he was planning to blow up the vault.|SetMeleeWeapons]]
+[[Say nothing, but slip away before the scientist can continue his rant.|SetSneak]]
+[[BLANK|Question2]]
+
+
+===
+title: Question2
+tags: 
+colorID: 1
+position: -478,147
+---
+<<Express Joao Surprise 1.0>>
+
+<<SetBlankDuration 20>>
+<<Feel Maria Neutral 1.0 None>>
+<<Feel Joao Neutral 1.0 None>>
+<<wait 2>>
+
+<<SetBalloonDuration 2>>
+Joao:  <b>Question 2</b>
+<<SetBalloonDuration 5>>
+<<Wait 0.2>>
+
+<<Feel Joao Fear 0.5 None>>
+Maria: While working as an intern in the Clinic, a patient with a strange infection on his foot stumbles through the door. 
+<<Feel Maria Fear 0.5 None>>
+Joao: The infection is spreading at an alarming rate, but the doctor has stepped out for a while. 
+Maria: What do you do?
+
+[[Amputate the foot before the infection spreads.|SetMeleeWeapons]]
+[[Scream for help.|SetSpeech]]
+[[Medicate the infected area to the best of your abilities.|SetMedicine]]
+[[Restrain the patient, and merely observe as the infection spreads.|SetScience]]
+[[BLANK|Question3]]
+
+
+===
+title: Question3
+tags: 
+colorID: 1
+position: -95,158
+---
+<<Express Maria Surprise 1.0>>
+
+<<SetBlankDuration 20>>
+<<Feel Maria Neutral 1.0 None>>
+<<Feel Joao Neutral 1.0 None>>
+<<wait 2>>
+
+<<SetBalloonDuration 2>>
+Maria:  <b>Question 3</b>
+<<SetBalloonDuration 5>>
+<<Wait 0.2>>
+
+<<Feel Maria Sadness 0.8 None>>
+Joao: You discover a young boy lost in the lower levels of the Vault. 
+<<Feel Joao Sadness 0.4 None>>
+Maria: He's hungry and frightened, but also appears to be in possession of stolen property. 
+Joao: What do you do?
+
+[[Give the boy a hug and tell him everything will be okay.|SetSpeech]]
+[[Confiscate the property by force, and leave him there as punishment.|SetUnarmed]]
+[[Pick the boy's pocket to take the stolen property for yourself, and leave the boy to his fate.|SetSneak]]
+[[Lead the boy to safety, then turn him over to the overseer.|Question4]]
+[[BLANK|Question4]]
+
+===
+title: Question4
+tags: 
+colorID: 1
+position: 223,165
+---
+<<Express Joao Surprise 1.0>>
+<<Express Maria Surprise 1.0>>
+
+<<SetBlankDuration 20>>
+<<Feel Maria Neutral 1.0 None>>
+<<Feel Joao Neutral 1.0 None>>
+<<wait 2>>
+
+<<SetBalloonDuration 2>>
+Joao:  <b>Question 4</b>
+<<SetBalloonDuration 5>>
+<<Wait 0.2>>
+
+<<Feel Maria Happiness 0.5 None>>
+Maria: Congratulations! You made one of the Vault 101 baseball teams! 
+<<Feel Maria Happiness 0.2 None>>
+Joao: Which position do you prefer?
+
+[[Pitcher.|SetExplosives]]
+[[Catcher.|SetBigGuns]]
+[[Designated Hitter.|SetMeleeWeapons]]
+[[None, you wish the vault had a soccer team.|SetUnarmed]]
+[[BLANK|Question5]]
+
+===
+title: Question5
+tags: 
+colorID: 1
+position: 590,174
+---
+<<Express Maria Surprise 1.0>>
+
+<<SetBlankDuration 20>>
+<<Feel Maria Neutral 1.0 None>>
+<<Feel Joao Neutral 1.0 None>>
+<<wait 2>>
+
+<<SetBalloonDuration 2>>
+Maria:  <b>Question 5</b>
+<<SetBalloonDuration 5>>
+<<Wait 0.2>>
+
+<<Feel Maria Surprise 0.5 None>>
+Joao: Your grandmother invites you to tea, but you're surprised when she gives you a pistol...
+<<Feel Maria Surprise 1.0 None>>
+Joao: and orders you to kill another Vault resident!
+Maria: What do you do?
+
+[[Obey your elder and kill the Vault resident with the pistol.|SetSmallGuns]]
+[[Offer your most prized possession for the resident's life.|SetBarter]]
+[[Ask granny for a minigun instead. After all, you don't want to miss.|SetBigGuns]]
+[[Throw your tea in granny's face.|SetExplosives]]
+[[BLANK|Question6]]
+
+===
+title: Question6
+tags: 
+colorID: 1
+position: 595,473
+---
+<<Express Joao Surprise 1.0>>
+
+<<SetBlankDuration 20>>
+<<Feel Maria Neutral 1.0 None>>
+<<Feel Joao Neutral 1.0 None>>
+<<wait 2>>
+
+<<SetBalloonDuration 2>>
+Joao:  <b>Question 6</b>
+<<SetBalloonDuration 5>>
+<<Wait 0.2>>
+
+<<Feel Joao Happiness 0.4 None>>
+Maria: Old Mr. Abernathy has locked himself in his quarters again, and you've been ordered to get him out. 
+<<Feel Maria Disgust 0.8 None>>
+Joao: How do you proceed?
+
+[[Use a bobby pin to pick the lock on the door.|SetLockpick]]
+[[Trade a Vault hoodlum for his cherry bomb and blow open the lock.|SetExplosivesAndBarter]]
+[[Go to the armory, retrieve a laser pistol, and blow the lock off.|SetEnergyWeapons]]
+[[Walk away, and let the old coot rot.|SetRepair]]
+[[BLANK|Question7]]
+
+===
+title: Question7
+tags: 
+colorID: 1
+position: 291,470
+---
+<<Express Maria Surprise 1.0>>
+<<Express Joao Surprise 1.0>>
+
+<<SetBlankDuration 20>>
+<<Feel Maria Neutral 1.0 None>>
+<<Feel Joao Neutral 1.0 None>>
+<<wait 2>>
+
+<<SetBalloonDuration 2>>
+Maria:  <b>Question 7</b>
+<<SetBalloonDuration 5>>
+<<Wait 0.2>>
+
+<<Feel Joao Fear 0.3 None>>
+<<Feel Maria Fear 0.8 None>>
+Joao: Oh, no! You've been exposed to radiation, and a mutated hand has grown out of your stomach! 
+Maria: What's the best course of treatment?
+
+[[A bullet to the brain.|SetSmallGuns]]
+[[Large doses of anti-mutagen agent.|SetMedicine]]
+[[Prayer. Maybe God will spare you in exchange for a life of pious devotion.|SetBarter]]
+[[Removal of the mutated tissue with a precision laser.|SetEnergyWeapons]]
+[[BLANK|Question8]]
+
+
+===
+title: Question8
+tags: 
+colorID: 1
+position: -99,472
+---
+<<Express Joao Surprise 1.0>>
+
+<<SetBlankDuration 20>>
+<<Feel Maria Neutral 1.0 None>>
+<<Feel Joao Neutral 1.0 None>>
+<<wait 2>>
+
+<<SetBalloonDuration 2>>
+Joao:  <b>Question 8</b>
+<<SetBalloonDuration 5>>
+<<Wait 0.2>>
+
+<<Feel Maria Happiness 0.4 None>>
+Maria: A fellow Vault 101 resident is in possession of a <i>Grognak the Barbarian</i> comic book, issue number 1. 
+Joao: You want it. What's the best way to obtain it?
+
+[[Trade the comic book for one of your own valuable possessions.|SetBarter]]
+[[Steal the comic book at gunpoint.|SetSmallGuns]]
+[[Sneak into the resident's quarters, and steal the comic book from his desk.|SetSneak]]
+[[Slip some knock out drops into the resident's Nuka-Cola, and take the comic book when he's unconscious.|SetMedicine]]
+[[BLANK|Question9]]
+
+===
+title: Question9
+tags: 
+colorID: 1
+position: -443,461
+---
+<<Express Maria Surprise 1.0>>
+
+<<SetBlankDuration 20>>
+<<Feel Maria Neutral 1.0 None>>
+<<Feel Joao Neutral 1.0 None>>
+<<wait 2>>
+
+<<SetBalloonDuration 2>>
+Maria:  <b>Question 9</b>
+<<SetBalloonDuration 5>>
+<<Wait 0.2>>
+
+<<Feel Maria Surprise 0.2 None>>
+Joao: You decide it would be fun to play a prank on your father. 
+<<Feel Joao Anger 0.3 None>>
+Maria: You enter his private restroom when no one is looking, and....
+
+[[Loosen some bolts on some pipes. When the sink is turned on, the room will flood.|SetRepair]]
+[[Put a firecracker in the toilet. That's sure to cause some chaos.|SetExplosives]]
+[[Break into the locked medicine cabinet and replace his high blood pressure medication with sugar pills.|SetMedicine]]
+[[Manipulate the power wattage on his razor, so he'll get an electric shock next time he shaves.|SetLockpick]]
+[[BLANK|Question10]]
+
+
+===
+title: Question10
+tags: 
+colorID: 1
+position: -780,429
+---
+<<Express Joao Surprise 1.0>>
+<<Express Maria Surprise 1.0>>
+
+<<SetBlankDuration 20>>
+<<Feel Maria Neutral 1.0 None>>
+<<Feel Joao Neutral 1.0 None>>
+<<wait 2>>
+
+<<SetBalloonDuration 2>>
+Joao:  <b>Question 10</b>
+<<SetBalloonDuration 5>>
+<<Wait 0.2>>
+
+
+Maria: Who is indisputably the most important person in Vault 101... 
+Joao: <i>He who shelters us from the harshness of the atomic wasteland, and to whom we owe everything we have, including our lives?</i> 
+
+[[The Overseer.|GOTO]]
+[[The Overseer.|GOTO]]
+[[The Overseer.|GOTO]]
+[[The Overseer.|GOTO]]
+[[BLANK|GOTO]]
+
+===
+title: SetScience
+tags: 
+colorID: 0
+position: -666,-661
+---
+<<Inc Science>>
+[[GOTO]]
+===
+title: SetBarter
+tags: 
+colorID: 0
+position: -410,-673
+---
+<<Inc Barter>>
+[[GOTO]]
+===
+title: SetBigGuns
+tags: 
+colorID: 0
+position: -935,-662
+---
+<<Inc Big Guns>>
+[[GOTO]]
+===
+title: SetEnergyWeapons
+tags: 
+colorID: 0
+position: -152,-677
+---
+<<Inc Energy Weapons>>
+[[GOTO]]
+===
+title: SetExplosives
+tags: 
+colorID: 0
+position: 117,-678
+---
+<<Inc Explosives>>
+[[GOTO]]
+===
+title: SetLockpick
+tags: 
+colorID: 0
+position: 380,-682
+---
+<<Inc Lockpick>>
+[[GOTO]]
+===
+title: SetMedicine
+tags: 
+colorID: 0
+position: 623,-687
+---
+<<Inc Medicine>>
+[[GOTO]]
+===
+title: SetMeleeWeapons
+tags: 
+colorID: 0
+position: 900,-702
+---
+<<Inc Melee Weapons>>
+[[GOTO]]
+===
+title: SetRepair
+tags: 
+colorID: 0
+position: -942,-438
+---
+<<Inc Repair>>
+[[GOTO]]
+===
+title: SetSmallGuns
+tags: 
+colorID: 0
+position: -673,-437
+---
+<<Inc Small Guns>>
+[[GOTO]]
+===
+title: SetSneak
+tags: 
+colorID: 0
+position: -406,-443
+---
+<<Inc Sneak>>
+[[GOTO]]
+===
+title: SetSpeech
+tags: 
+colorID: 0
+position: -156,-451
+---
+<<Inc Speech>>
+[[GOTO]]
+===
+title: SetUnarmed
+tags: 
+colorID: 0
+position: 108,-451
+---
+<<Inc Unarmed>>
+[[GOTO]]
+===
+title: SetUnarmed?
+tags: 
+colorID: 0
+position: 378,-452
+---
+<<Inc Unarmed>>
+[[GOTO]]
+===
+title: GOTO
+tags: 
+colorID: 5
+position: 623,-451
+---
+<<if $question == 1>>
+    <<set $question to 2>>
+    [[Question2]]
+<<endif>>
+
+<<if $question == 2>>
+    <<set $question to 3>>
+    [[Question3]]
+<<endif>>
+
+<<if $question == 3>>
+    <<set $question to 4>>
+    [[Question4]]
+<<endif>>
+
+<<if $question == 4>>
+    <<set $question to 5>>
+    [[Question5]]
+<<endif>>
+
+<<if $question == 5>>
+    <<set $question to 6>>
+    [[Question6]]
+<<endif>>
+
+<<if $question == 6>>
+    <<set $question to 7>>
+    [[Question7]]
+<<endif>>
+
+<<if $question == 7>>
+    <<set $question to 8>>
+    [[Question8]]
+<<endif>>
+
+<<if $question == 8>>
+    <<set $question to 9>>
+    [[Question9]]
+<<endif>>
+
+<<if $question == 9>>
+    <<set $question to 10>>
+    [[Question10]]
+<<endif>>
+
+<<if $question == 10>>
+    [[Results]]
+<<endif>>
+===
+title: Results
+tags: 
+colorID: 1
+position: 1077,-36
+---
+<<Feel Maria Neutral 1.0 None>>
+<<Feel Joao Neutral 1.0 None>>
+
+Maria: Ok, let us review your scores.
+<<wait 5>>
+<<ShowResults>>
+
+<<wait 7>>
+
+[[Start.Question1]]
+===
+title: SetExplosivesAndBarter
+tags: 
+colorID: 0
+position: 885,-458
+---
+<<Inc Explosives>>
+<<Inc Barter>>
+[[GOTO]]
+===

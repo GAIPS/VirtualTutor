@@ -1,5 +1,6 @@
 ﻿using BubbleSystem;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -10,7 +11,43 @@ public class VTToModuleBridge : MonoBehaviour
     public BubbleSystemManager bubbleSystem;
     public AvatarManager avatarManager;
 
+    private Dictionary<string, float> skills = new Dictionary<string, float>();
+    private Dictionary<string, string> translations = new Dictionary<string, string>();
+
     public List<Tutor> Tutors;
+
+    private void Start()
+    {
+        skills.Add("Barter", 0);
+        skills.Add("Big Guns", 0);
+        skills.Add("Energy Weapons", 0);
+        skills.Add("Explosives", 0);
+        skills.Add("Lockpick", 0);
+        skills.Add("Medicine", 0);
+        skills.Add("Melee Weapons", 0);
+        skills.Add("Repair", 0);
+        skills.Add("Science", 0);
+        skills.Add("Small Guns", 0);
+        skills.Add("Sneak", 0);
+        skills.Add("Speech", 0);
+        skills.Add("Unarmed", 0);
+        skills.Add("Unarmed?", 0);
+
+        translations.Add("Barter", "They say the G.O.A.T never lies. According to this, you're slated to be the next vault ... Chaplain. God help us all.");
+        translations.Add("Big Guns", "Well according to this, you're in line to be trained as a laundry cannon operator. First time for everything indeed.");
+        translations.Add("Energy Weapons", "It's nice to know I can still be surprised. Pedicurist! I might have guessed Manicurist, or even Masseuse. But apparently you're a foot person.");
+        translations.Add("Explosives", "It says here you're perfectly suited for a career as a Waste Management Specialist. A specialist, mind you, not just a dabbler. Congratulations!");
+        translations.Add("Lockpick", "Huh. \"Vault Loyalty Inspector\"... I thought that had been phased out decades ago. Well, sounds like a job right up your alley, hmm?");
+        translations.Add("Medicine", "Interesting. \"Clinical Test Subject\"... sounds like something you should excel at. I guess you and your dad will be working together.");
+        translations.Add("Melee Weapons", "Looks like the diner's going to get a new Fry Cook. I'll just say this once: hold the mustard, extra pickles. Ha ha ha.");
+        translations.Add("Repair", "Thank goodness. We're finally getting a new Jukebox Technician. That thing hasn't worked right since old Joe Palmer passed.");
+        translations.Add("Science", "Well, well. Pip-Boy Programmer, eh? Stanley will finally have someone to talk shop with.");
+        translations.Add("Small Guns", "Huh. I wonder who will be brave enough to be your first customer as the vault's new Tattoo Artist? I promise it won't be me.");
+        translations.Add("Sneak", "Apparently you're management material. You're going to be trained as a Shift Supervisor. Could I be talking to the next Overseer? Stranger things have happened.");
+        translations.Add("Speech", "Wow. Wow. Says here you're going to be the vault's Marriage Counselor. Almost makes me want to get married, just to be able to avail myself of your services.");
+        translations.Add("Unarmed", "I always thought you'd have a career in professional sports. You're the new vault Little League coach! Congratulations.");
+        translations.Add("Unarmed?", "Looks like you'll be putting your ... physical talents to good use as the vault's new Masseuse.");
+    }
 
     public void Handle(string[] info)
     {
@@ -121,6 +158,14 @@ public class VTToModuleBridge : MonoBehaviour
                     SetBlankDuration(parameters);
                     break;
 
+                case "Inc":
+                    Inc(parameters);
+                    break;
+
+                case "ShowResults":
+                    ShowResults();
+                    break;
+
                 default:
                     break;
             }
@@ -146,6 +191,10 @@ public class VTToModuleBridge : MonoBehaviour
 
         Feel(tutor, reason);
     }
+
+    /**********************************************************************************************************
+                                               MOJO
+    **********************************************************************************************************/
 
     private KeyValuePair<Emotion, Reason> GenerateEmotionAndReason()
     {
@@ -180,6 +229,33 @@ public class VTToModuleBridge : MonoBehaviour
     // <<SetBlankDuration [Duration]>>
     public void SetBlankDuration(string[] parameters) {
         DefaultData.Instance.SetBlankDuration(Convert.ToSingle(parameters[0]));
+    }
+
+    // <<Inc string>>
+    public void Inc(string[] parameters)
+    {
+        string key = "";
+        for(int i = 0; i < parameters.Length; i++)
+        {
+            key += parameters[i];
+            if(i < parameters.Length - 1)
+                key += " ";
+        }
+
+        skills[key] += 1;
+    }
+
+    public void ShowResults()
+    {
+        string result = skills.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
+        StartSpeaking(Tutors[1], translations[result]);
+        StartCoroutine(Wait(DefaultData.Instance.GetBalloonDuration()));
+        StopSpeaking(Tutors[1]);
+    }
+
+    IEnumerator Wait(float time)
+    {
+        yield return new WaitForSeconds(time);
     }
 
     /**********************************************************************************************************
