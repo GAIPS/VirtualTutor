@@ -18,20 +18,7 @@ public class VTToModuleBridge : MonoBehaviour
 
     private void Start()
     {
-        skills.Add("Barter", 0);
-        skills.Add("Big Guns", 0);
-        skills.Add("Energy Weapons", 0);
-        skills.Add("Explosives", 0);
-        skills.Add("Lockpick", 0);
-        skills.Add("Medicine", 0);
-        skills.Add("Melee Weapons", 0);
-        skills.Add("Repair", 0);
-        skills.Add("Science", 0);
-        skills.Add("Small Guns", 0);
-        skills.Add("Sneak", 0);
-        skills.Add("Speech", 0);
-        skills.Add("Unarmed", 0);
-        skills.Add("Unarmed?", 0);
+        SetSkills();
 
         translations.Add("Barter", "They say the G.O.A.T never lies. According to this, you're slated to be the next vault ... Chaplain. God help us all.");
         translations.Add("Big Guns", "Well according to this, you're in line to be trained as a laundry cannon operator. First time for everything indeed.");
@@ -47,6 +34,25 @@ public class VTToModuleBridge : MonoBehaviour
         translations.Add("Speech", "Wow. Wow. Says here you're going to be the vault's Marriage Counselor. Almost makes me want to get married, just to be able to avail myself of your services.");
         translations.Add("Unarmed", "I always thought you'd have a career in professional sports. You're the new vault Little League coach! Congratulations.");
         translations.Add("Unarmed?", "Looks like you'll be putting your ... physical talents to good use as the vault's new Masseuse.");
+    }
+
+    private void SetSkills()
+    {
+        skills.Clear();
+        skills.Add("Barter", 0);
+        skills.Add("Big Guns", 0);
+        skills.Add("Energy Weapons", 0);
+        skills.Add("Explosives", 0);
+        skills.Add("Lockpick", 0);
+        skills.Add("Medicine", 0);
+        skills.Add("Melee Weapons", 0);
+        skills.Add("Repair", 0);
+        skills.Add("Science", 0);
+        skills.Add("Small Guns", 0);
+        skills.Add("Sneak", 0);
+        skills.Add("Speech", 0);
+        skills.Add("Unarmed", 0);
+        skills.Add("Unarmed?", 0);
     }
 
     public void Handle(string[] info)
@@ -259,10 +265,7 @@ public class VTToModuleBridge : MonoBehaviour
 
     public void Reset()
     {
-        foreach(string key in skills.Keys)
-        {
-            skills[key] = 0;
-        }
+        SetSkills();
     }
 
     IEnumerator Wait(float time)
