@@ -174,7 +174,7 @@ namespace YarnDialog
 
             if (manager.ModuleManager != null)
             {
-                float duration = DefaultData.Instance.blankDuration; // One minute wait.
+                float duration = DefaultData.Instance.GetBlankDuration(); // One minute wait.
                 IList<string> options = new List<string>(optionSetResult.options.options);
                 options.Remove("BLANK");
                 manager.ModuleManager.UpdateOptions(options.ToArray(), callbacks.ToArray());

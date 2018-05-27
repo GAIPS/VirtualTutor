@@ -423,6 +423,11 @@ Prefab:
       propertyPath: backgrounds.Array.data[2].background
       value: 
       objectReference: {fileID: 1343950921}
+    - target: {fileID: 114344145208420760, guid: 1630181a49f4afd4a85c1b3bb12f9332,
+        type: 2}
+      propertyPath: blankDuration
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1630181a49f4afd4a85c1b3bb12f9332, type: 2}
   m_IsPrefabParent: 0
@@ -718,6 +723,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bubbleSystem: {fileID: 340164773}
   avatarManager: {fileID: 554435352}
+  Tutors: []
 --- !u!4 &1303681614
 Transform:
   m_ObjectHideFlags: 0

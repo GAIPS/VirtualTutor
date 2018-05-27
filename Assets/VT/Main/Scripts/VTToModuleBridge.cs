@@ -179,7 +179,7 @@ public class VTToModuleBridge : MonoBehaviour
 
     // <<SetBlankDuration [Duration]>>
     public void SetBlankDuration(string[] parameters) {
-        DefaultData.Instance.blankDuration = Convert.ToSingle(parameters[0]);
+        DefaultData.Instance.SetBlankDuration(Convert.ToSingle(parameters[0]));
     }
 
     /**********************************************************************************************************

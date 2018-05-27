@@ -197,6 +197,8 @@ namespace BubbleSystem
                 {
                     if (hooks != null)
                     {
+                        float realDuration = DefaultData.Instance.GetBalloonDuration();
+
                         if (BubbleSystemUtility.CheckCoroutine(ref hideCoroutines, hooks))
                             StopCoroutine(hideCoroutines[hooks]);
 
@@ -207,6 +209,7 @@ namespace BubbleSystem
 
                         if (options)
                         {
+                            realDuration = DefaultData.Instance.GetBlankDuration();
                             if (callbacks != null && i < callbacks.Length)
                                 SetCallback(hooks, callbacks[i], i);
                         }
@@ -235,7 +238,6 @@ namespace BubbleSystem
                         TextData textData = DefaultData.Instance.GetDefaultTextData(emotionPair.Key, emotionPair.Value);
                         SetTexts(hooks, textData, textColor);
 
-                        float realDuration = DefaultData.Instance.GetBalloonDuration();
                         float textDuration = realDuration - durationThreshold; // so it finishes before hide
 
                         if (data.showEffects != null)

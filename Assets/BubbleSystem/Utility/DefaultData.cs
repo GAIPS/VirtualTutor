@@ -24,7 +24,7 @@ public class DefaultData : Singleton<DefaultData>
     public bool blendBalloonAnimation = false;
     private Color32 blushColor = Color.red;
 
-    public float blankDuration;
+    private float blankDuration = 60f;
 
     static System.Random rnd = new System.Random();
 
@@ -145,6 +145,17 @@ public class DefaultData : Singleton<DefaultData>
     {
         if (duration >= 2f)
             backgroundDuration = duration;
+    }
+
+    public float GetBlankDuration()
+    {
+        return blankDuration;
+    }
+
+    public void SetBlankDuration(float duration)
+    {
+        if (duration >= 2f)
+            blankDuration = duration;
     }
 
     private void SetEmotionColors()
