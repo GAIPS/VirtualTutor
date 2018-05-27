@@ -117,6 +117,10 @@ public class VTToModuleBridge : MonoBehaviour
                     FeelRandom(false);
                     break;
 
+                case "SetBlankDuration":
+                    SetBlankDuration(parameters);
+                    break;
+
                 default:
                     break;
             }
@@ -171,6 +175,11 @@ public class VTToModuleBridge : MonoBehaviour
                 random = GenerateEmotionAndReason();
             }
         }
+    }
+
+    // <<SetBlankDuration [Duration]>>
+    public void SetBlankDuration(string[] parameters) {
+        DefaultData.Instance.blankDuration = Convert.ToSingle(parameters[0]);
     }
 
     /**********************************************************************************************************

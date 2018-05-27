@@ -24,6 +24,8 @@ public class DefaultData : Singleton<DefaultData>
     public bool blendBalloonAnimation = false;
     private Color32 blushColor = Color.red;
 
+    public float blankDuration;
+
     static System.Random rnd = new System.Random();
 
     public struct PositionData
