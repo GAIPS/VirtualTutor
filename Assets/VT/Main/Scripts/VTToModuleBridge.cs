@@ -166,6 +166,10 @@ public class VTToModuleBridge : MonoBehaviour
                     ShowResults();
                     break;
 
+                case "Reset":
+                    Reset();
+                    break;
+
                 default:
                     break;
             }
@@ -251,6 +255,14 @@ public class VTToModuleBridge : MonoBehaviour
         StartSpeaking(Tutors[1], translations[result]);
         StartCoroutine(Wait(DefaultData.Instance.GetBalloonDuration()));
         StopSpeaking(Tutors[1]);
+    }
+
+    public void Reset()
+    {
+        foreach(string key in skills.Keys)
+        {
+            skills[key] = 0;
+        }
     }
 
     IEnumerator Wait(float time)
