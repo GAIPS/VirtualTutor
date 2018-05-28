@@ -260,7 +260,6 @@ public class VTToModuleBridge : MonoBehaviour
         string result = skills.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
         StartSpeaking(Tutors[1], translations[result]);
         StartCoroutine(Wait(DefaultData.Instance.GetBalloonDuration()));
-        StopSpeaking(Tutors[1]);
     }
 
     public void Reset()
@@ -271,6 +270,7 @@ public class VTToModuleBridge : MonoBehaviour
     IEnumerator Wait(float time)
     {
         yield return new WaitForSeconds(time);
+        StopSpeaking(Tutors[1]);
     }
 
     /**********************************************************************************************************
