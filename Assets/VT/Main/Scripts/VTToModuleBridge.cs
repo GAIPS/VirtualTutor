@@ -104,6 +104,10 @@ public class VTToModuleBridge : MonoBehaviour
                     SetBackgroundDuration(parameters);
                     break;
 
+                case "SetOptionsDuration":
+                    SetOptionsDuration(parameters);
+                    break;
+
                 //  SHARED COMMANDS
                 case "Feel":
                     Feel(parameters);
@@ -653,6 +657,12 @@ public class VTToModuleBridge : MonoBehaviour
     public void SetBackgroundDuration(string[] info)
     {
         DefaultData.Instance.SetBackgroundDuration(Convert.ToSingle(info[0]));
+    }
+
+    //<<SetOptionsDuration duration>>
+    public void SetOptionsDuration(string[] info)
+    {
+        DefaultData.Instance.SetOptionsDuration(Convert.ToSingle(info[0]));
     }
 
     /**********************************************************************************************************

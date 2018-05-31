@@ -41,7 +41,7 @@ namespace BubbleSystem
             Texture2D textureData = DefaultData.Instance.GetDefaultBackgroundDataDictionary(emotionPair.Key, emotionPair.Value, data.reason);
             BackgroundAnimationData backgroundAnimationData = DefaultData.Instance.GetDefaultBackgroundAnimationData(emotionPair.Key, emotionPair.Value);
 
-            Color32 colorToLerpTo = DefaultData.Instance.mixColors ? BubbleSystemUtility.MixColors(data.emotions) : DefaultData.Instance.GetColor(emotionPair.Key);
+            Color32 colorToLerpTo = BubbleSystemUtility.GetColor(emotionPair, data.emotions);
 
             if (textureCoroutines.ContainsKey(bg))
                 foreach (BackgroundEffect fx in textureCoroutines[bg].Keys)
@@ -84,7 +84,7 @@ namespace BubbleSystem
         {
             Renderer renderer = GetBackground(bg).GetComponent<Renderer>();
             float initialAlpha = renderer.material.color.a;
-            float realDuration = duration / 3;
+            float realDuration = duration / 2;
 
             if (!textureData.name.Equals(renderer.materials[1].mainTexture.name))
             {
@@ -102,17 +102,6 @@ namespace BubbleSystem
                 textureCoroutines[bg].Clear();
                 renderer.materials[renderer.materials.Length - 1].mainTexture = textureData;
                 renderer.materials[renderer.materials.Length - 1].mainTexture.wrapMode = GetWrapMode(data);
-
-                foreach (BackgroundEffect fx in backgroundAnimationData.showBannerEffect.Keys)
-                {
-                    if (fx == BackgroundEffect.FadeTexture)
-                    {
-                        BubbleSystemUtility.AddToDictionary(ref textureCoroutines, bg, fx, FadeTexture(renderer, backgroundAnimationData.showBannerEffect[fx], realDuration, initialAlpha));
-                        StartCoroutine(textureCoroutines[bg][fx]);
-                    }
-                }
-
-                yield return new WaitForSeconds(realDuration);
             }
             else
             {

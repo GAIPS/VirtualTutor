@@ -164,6 +164,16 @@ public class Manager : MonoBehaviour {
         {
             manager.Handle(new string[] { "SetBackgroundDuration", 2f.ToString() });
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            manager.Handle(new string[] { "SetOptionsDuration", 2f.ToString() });
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            manager.HideBalloon("Options");
+        }
     }
     
 }

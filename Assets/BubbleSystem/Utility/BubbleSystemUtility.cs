@@ -28,6 +28,21 @@ namespace BubbleSystem
             return range.ElementAt(finalIndex);
         }
 
+        public static Color32 GetColor(KeyValuePair<Emotion, float> emotionPair, Dictionary<Emotion, float> emotions)
+        {
+            Color32 color;
+            if (emotionPair.Value.Equals(0.0f) || emotionPair.Key.Equals(BubbleSystem.Emotion.Default) || emotionPair.Key.Equals(BubbleSystem.Emotion.Neutral))
+            {
+                color = DefaultData.Instance.GetColor(BubbleSystem.Emotion.Neutral);
+            }
+            else
+            {
+                color = DefaultData.Instance.mixColors ? BubbleSystemUtility.MixColors(emotions) : DefaultData.Instance.GetColor(emotionPair.Key);
+            }
+
+            return color;
+        }
+
         public static Color32 MixColors(Dictionary<Emotion, float> emotions)
         {
             Color color = Color.white;

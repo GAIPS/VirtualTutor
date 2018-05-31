@@ -18,6 +18,7 @@ public class DefaultData : Singleton<DefaultData>
     private Dictionary<BubbleSystem.Emotion, float> sizeRatios = new Dictionary<BubbleSystem.Emotion, float>();
 
     private float balloonDuration = 5.0f;
+    private float optionsDuration = -1f;
     private float backgroundDuration = 5.0f;
     public bool mixColors = true;
     public bool forceTextUpdate = true;
@@ -123,6 +124,12 @@ public class DefaultData : Singleton<DefaultData>
         BubbleSystemUtility.AddToDictionary(ref curves, name, curve);
     }
 
+    private void SetDuration(ref float duration, float value)
+    {
+        if (value >= 2f)
+            duration = value;
+    }
+
     public float GetBalloonDuration()
     {
         return balloonDuration;
@@ -130,8 +137,7 @@ public class DefaultData : Singleton<DefaultData>
 
     public void SetBalloonDuration(float duration)
     {
-        if(duration >= 2f)
-            balloonDuration = duration;
+        SetDuration(ref balloonDuration, duration);
     }
 
     public float GetBackgroundDuration()
@@ -141,8 +147,19 @@ public class DefaultData : Singleton<DefaultData>
 
     public void SetBackgroundDuration(float duration)
     {
-        if (duration >= 2f)
-            backgroundDuration = duration;
+        SetDuration(ref backgroundDuration, duration);
+    }
+
+    public float GetOptionsDuration()
+    {
+        return optionsDuration;
+    }
+
+    public void SetOptionsDuration(float duration)
+    {
+        SetDuration(ref optionsDuration, duration);
+        if (duration == -1)
+            optionsDuration = duration;
     }
 
     private void SetEmotionColors()

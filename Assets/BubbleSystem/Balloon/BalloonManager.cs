@@ -201,7 +201,7 @@ namespace BubbleSystem
                             StopCoroutine(hideCoroutines[hooks]);
 
                         SetContent(hooks, data.text.Length > i ? data.text[i] : null);
-                        
+
                         KeyValuePair<Emotion, float> emotionPair = BubbleSystemUtility.GetHighestEmotion(data.emotions);
                         float sum = BubbleSystemUtility.GetEmotionsSum(data.emotions);
 
@@ -220,22 +220,15 @@ namespace BubbleSystem
 
                         SpriteData spriteData = DefaultData.Instance.GetDefaultBalloonData(emotionPair.Key, emotionPair.Value);
 
-                        Color color;
-                        if (emotionPair.Value.Equals(0.0f) || emotionPair.Key.Equals(BubbleSystem.Emotion.Default) || emotionPair.Key.Equals(BubbleSystem.Emotion.Neutral))
-                        {
-                            color = DefaultData.Instance.GetColor(BubbleSystem.Emotion.Neutral);
-                        }
-                        else
-                        {
-                            color = DefaultData.Instance.mixColors? BubbleSystemUtility.MixColors(data.emotions) : DefaultData.Instance.GetColor(emotionPair.Key);
-                        }
+                        Color color = BubbleSystemUtility.GetColor(emotionPair, data.emotions);
+
                         SetSprites(emotionPair.Key, hooks, spriteData, emotionPair.Value, color);
 
                         Color textColor = BubbleSystemUtility.GetTextColor(color);
                         TextData textData = DefaultData.Instance.GetDefaultTextData(emotionPair.Key, emotionPair.Value);
                         SetTexts(hooks, textData, textColor);
 
-                        float realDuration = DefaultData.Instance.GetBalloonDuration();
+                        float realDuration = options ? DefaultData.Instance.GetOptionsDuration() : DefaultData.Instance.GetBalloonDuration();
                         float textDuration = realDuration - durationThreshold; // so it finishes before hide
 
                         if (data.showEffects != null)
@@ -246,7 +239,9 @@ namespace BubbleSystem
                         }
 
                         hooks.Show();
-                        AddCoroutine(hooks, realDuration, data);
+
+                        if(realDuration != -1)
+                            AddCoroutine(hooks, realDuration, data);
                     }
                     i++;
                 }
