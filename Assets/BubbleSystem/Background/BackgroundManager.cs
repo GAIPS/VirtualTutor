@@ -83,7 +83,6 @@ namespace BubbleSystem
         private IEnumerator ChangeImage(string bg, BackgroundData data, Texture2D textureData, BackgroundAnimationData backgroundAnimationData, float duration, Color32 colorToLerpTo)
         {
             Renderer renderer = GetBackground(bg).GetComponent<Renderer>();
-            float initialAlpha = renderer.material.color.a;
             float realDuration = duration / 2;
 
             if (!textureData.name.Equals(renderer.materials[1].mainTexture.name))

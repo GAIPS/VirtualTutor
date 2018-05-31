@@ -157,7 +157,6 @@ namespace BubbleSystem
             if (hooks.text)
             {
                 hooks.text.font = textData.font;
-                hooks.text.fontSize = textData.size;
                 hooks.text.color = color;
             }
         }
@@ -226,6 +225,7 @@ namespace BubbleSystem
 
                         Color textColor = BubbleSystemUtility.GetTextColor(color);
                         TextData textData = DefaultData.Instance.GetDefaultTextData(emotionPair.Key, emotionPair.Value);
+
                         SetTexts(hooks, textData, textColor);
 
                         float realDuration = options ? DefaultData.Instance.GetOptionsDuration() : DefaultData.Instance.GetBalloonDuration();

@@ -338,6 +338,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bubbleSystem: {fileID: 1805335951}
   avatarManager: {fileID: 0}
+  Tutors: []
 --- !u!4 &470417366
 Transform:
   m_ObjectHideFlags: 0
@@ -422,7 +423,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 470417365}
-  duration: 5
 --- !u!4 &1291911486
 Transform:
   m_ObjectHideFlags: 0

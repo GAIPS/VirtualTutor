@@ -15,7 +15,6 @@ public class DefaultData : Singleton<DefaultData>
 
     private Dictionary<string, AnimationCurve> curves = new Dictionary<string, AnimationCurve>();
     private Dictionary<BubbleSystem.Emotion, Color32> colors = new Dictionary<BubbleSystem.Emotion, Color32>();
-    private Dictionary<BubbleSystem.Emotion, float> sizeRatios = new Dictionary<BubbleSystem.Emotion, float>();
 
     private float balloonDuration = 5.0f;
     private float optionsDuration = -1f;
@@ -40,7 +39,6 @@ public class DefaultData : Singleton<DefaultData>
     {
         SetEmotionColors();
         SetAnimationCurves();
-        SetSizeRatios();
         SetTextData();
         SetBallon();
         SetBackground();
@@ -197,24 +195,6 @@ public class DefaultData : Singleton<DefaultData>
         curves.Add("lowerBellCurve", lowerBellCurve);
         curves.Add("palpitationsCurve", palpitationCurve);
     }
-
-    private void SetSizeRatios()
-    {
-        float happinessSizeRatio = 1f;
-        float sadnessSizeRatio = 0.7f;
-        float angerSizeRatio = 1.5f;
-        float fearSizeRatio = 0.8f;
-        float disgustSizeRatio = 0.8f;
-        float surpriseSizeRatio = 1.2f;
-
-        sizeRatios.Add(BubbleSystem.Emotion.Happiness, happinessSizeRatio);
-        sizeRatios.Add(BubbleSystem.Emotion.Sadness, sadnessSizeRatio);
-        sizeRatios.Add(BubbleSystem.Emotion.Anger, angerSizeRatio);
-        sizeRatios.Add(BubbleSystem.Emotion.Fear, fearSizeRatio);
-        sizeRatios.Add(BubbleSystem.Emotion.Disgust, disgustSizeRatio);
-        sizeRatios.Add(BubbleSystem.Emotion.Surprise, surpriseSizeRatio);
-    }
-
 
     private void SetBalloonPositions()
     {
@@ -881,7 +861,7 @@ public class DefaultData : Singleton<DefaultData>
         text = new TextData();
         dict = new Dictionary<float, TextData>();
         text.font = neutralFont;
-        text.size = initialSize * sizeRatios[BubbleSystem.Emotion.Happiness];
+        text.size = initialSize;
         text.showEffect = new Dictionary<Effect, AnimationCurve>();
         text.hideEffect = new Dictionary<Effect, AnimationCurve>();
         dict.Add(1f, text);
@@ -894,7 +874,7 @@ public class DefaultData : Singleton<DefaultData>
         text = new TextData();
         dict = new Dictionary<float, TextData>();
         text.font = neutralFont;
-        text.size = initialSize * sizeRatios[BubbleSystem.Emotion.Sadness];
+        text.size = initialSize;
         text.showEffect = new Dictionary<Effect, AnimationCurve>();
         text.hideEffect = new Dictionary<Effect, AnimationCurve>();
         dict.Add(1f, text);
@@ -907,7 +887,7 @@ public class DefaultData : Singleton<DefaultData>
         text = new TextData();
         dict = new Dictionary<float, TextData>();
         text.font = neutralFont;
-        text.size = initialSize * sizeRatios[BubbleSystem.Emotion.Anger];
+        text.size = initialSize;
         text.showEffect = new Dictionary<Effect, AnimationCurve>();
         text.hideEffect = new Dictionary<Effect, AnimationCurve>();
         dict.Add(1f, text);
@@ -920,7 +900,7 @@ public class DefaultData : Singleton<DefaultData>
         text = new TextData();
         dict = new Dictionary<float, TextData>();
         text.font = neutralFont;
-        text.size = initialSize * sizeRatios[BubbleSystem.Emotion.Fear];
+        text.size = initialSize;
         text.showEffect = new Dictionary<Effect, AnimationCurve>();
         text.hideEffect = new Dictionary<Effect, AnimationCurve>();
         dict.Add(1f, text);
@@ -933,7 +913,7 @@ public class DefaultData : Singleton<DefaultData>
         text = new TextData();
         dict = new Dictionary<float, TextData>();
         text.font = neutralFont;
-        text.size = initialSize * sizeRatios[BubbleSystem.Emotion.Disgust];
+        text.size = initialSize;
         text.showEffect = new Dictionary<Effect, AnimationCurve>();
         text.hideEffect = new Dictionary<Effect, AnimationCurve>();
         dict.Add(1f, text);
@@ -946,7 +926,7 @@ public class DefaultData : Singleton<DefaultData>
         text = new TextData();
         dict = new Dictionary<float, TextData>();
         text.font = neutralFont;
-        text.size = initialSize * sizeRatios[BubbleSystem.Emotion.Surprise];
+        text.size = initialSize;
         text.showEffect = new Dictionary<Effect, AnimationCurve>();
         text.hideEffect = new Dictionary<Effect, AnimationCurve>();
         dict.Add(1f, text);

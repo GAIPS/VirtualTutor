@@ -136,18 +136,6 @@ public class Effects : MonoBehaviour
         m_TextComponent.maxVisibleCharacters = m_TextComponent.textInfo.characterCount;
     }
 
-    //HACK TO CALCULATE FONTSIZE (ENABLE AUTO SIZE TAKES TIME TO CALCULATE)
-    private IEnumerator ResetFontSize()
-    {
-        float initialFontSize = m_TextComponent.fontSize;
-        m_TextComponent.enableAutoSizing = true;
-        m_TextComponent.fontSizeMin = 12f;
-        yield return null;
-        float maxFontSize = m_TextComponent.fontSize;
-        m_TextComponent.enableAutoSizing = false;
-        m_TextComponent.fontSize = initialFontSize > maxFontSize ? maxFontSize : initialFontSize;
-    }
-
     public void SetEffect(Dictionary<Effect, AnimationCurve> effects, float intensity, float duration, bool show)
     {
         if (m_TextComponent.IsActive())
@@ -158,7 +146,6 @@ public class Effects : MonoBehaviour
 
             if (show)
             {
-                StartCoroutine(ResetFontSize());
                 ResetCharacters(true);
                 ResetColor(true, true);
                 ResetRectTransform(true, true, true);
