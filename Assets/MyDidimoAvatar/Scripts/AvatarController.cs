@@ -4,6 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public partial class AvatarController : MonoBehaviour
 {
+    private IEnumerator corrotina; 
     [SerializeField]
     public string controllerID;
 
@@ -52,6 +53,7 @@ public partial class AvatarController : MonoBehaviour
     {
         float finalIntensity = intensity;
         float[][] preset;
+
         switch (mood)
         {
             case EmotionalState.NEUTRAL:
@@ -90,10 +92,15 @@ public partial class AvatarController : MonoBehaviour
 
         parameters.setAllParameters<AnimatorParams>(preset[0]);
         parameters.setAllParameters<ControllerParams>(preset[1]);
+        finalIntensity = finalIntensity * parameters.getMoodDampenerValue();
 
-        StartCoroutine(MoodTransition(animator.GetFloat("Mood Intensity"), finalIntensity * parameters.getMoodDampenerValue(), duration));
+        if (BubbleSystem.BubbleSystemUtility.CheckCoroutine(ref corrotina)) { StopCoroutine(corrotina); }
+        corrotina = MoodTransition(animator.GetFloat("Mood Intensity"), finalIntensity, duration);
+        StartCoroutine(corrotina);
 
         animator.SetInteger("Mood", (int)mood);
+
+        animator.SetFloat("Desired Intensity", finalIntensity);
     }
 
     public void ExpressEmotion(EmotionalState expression, float intensity)
@@ -118,12 +125,23 @@ public partial class AvatarController : MonoBehaviour
             if (ApproachNeutral)
                 SetMood(EmotionalState.NEUTRAL, 0.0f);
             if (ApproachLowerIntensity)
-                SetMood((EmotionalState)storedMood, (storedMoodIntensity / parameters.getMoodDampenerValue())*0.5f, 1.0f);
+            {
+                if (BubbleSystem.BubbleSystemUtility.CheckCoroutine(ref corrotina)){ StopCoroutine(corrotina); }
+                
+                corrotina = MoodTransition(animator.GetFloat("Mood Intensity"), animator.GetFloat("Desired Intensity") * 0.5f, 1.0f);
+                StartCoroutine(corrotina);
+            }
+            //SetMood((EmotionalState)storedMood, (storedMoodIntensity / parameters.getMoodDampenerValue())*0.5f, 1.0f);
         }
         else
         {
-            if (ApproachNeutral || ApproachLowerIntensity)
-                SetMood((EmotionalState)storedMood, storedMoodIntensity / parameters.getMoodDampenerValue(), 1.0f);
+            if (ApproachNeutral || ApproachLowerIntensity) {
+                if (BubbleSystem.BubbleSystemUtility.CheckCoroutine(ref corrotina)) { StopCoroutine(corrotina); }
+                corrotina = MoodTransition(animator.GetFloat("Mood Intensity"), animator.GetFloat("Mood Intensity") / 0.5f, 1.0f);
+                StartCoroutine(corrotina);
+            }
+                
+            //SetMood((EmotionalState)storedMood, storedMoodIntensity / parameters.getMoodDampenerValue(), 1.0f);
         }
 
         animator.SetInteger("Talk State", (int)talkState);
