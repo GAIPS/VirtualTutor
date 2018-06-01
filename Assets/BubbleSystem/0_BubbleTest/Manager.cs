@@ -116,7 +116,7 @@ public class Manager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.V))
         {
-            manager.UpdateOptions(new string[] { "hi", "asd" });
+            manager.UpdateOptions(new string[] { "hi", "asd", "sadf", "ge3r" });
         }
 
         if (Input.GetKeyDown(KeyCode.A))

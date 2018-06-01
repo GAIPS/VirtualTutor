@@ -8,13 +8,16 @@ using UnityEngine;
 public class DefaultData : Singleton<DefaultData>
 {
     private Dictionary<BubbleSystem.Emotion, Dictionary<float, TextData>> defaultTextData = new Dictionary<BubbleSystem.Emotion, Dictionary<float, TextData>>();
+    private Dictionary<float, TextData> optionsTextData = new Dictionary<float, TextData>();
     private Dictionary<BubbleSystem.Emotion, Dictionary<float, SpriteData>> defaultBalloonData = new Dictionary<BubbleSystem.Emotion, Dictionary<float, SpriteData>>();
     private Dictionary<BubbleSystem.Emotion, Dictionary<float, BackgroundAnimationData>> defaultBackgroundAnimationData = new Dictionary<BubbleSystem.Emotion, Dictionary<float, BackgroundAnimationData>>();
     private Dictionary<BubbleSystem.Emotion, Dictionary<float, Dictionary<Reason, Texture2D>>> defaultBackgroundDataDictionary = new Dictionary<BubbleSystem.Emotion, Dictionary<float, Dictionary<Reason, Texture2D>>>();
     private Dictionary<BubbleSystem.Emotion, Dictionary<float, Dictionary<string, List<PositionData>>>> defaultPositions = new Dictionary<BubbleSystem.Emotion, Dictionary<float, Dictionary<string, List<PositionData>>>>();
+    private Dictionary<BubbleSystem.Emotion, PositionData> textSizes = new Dictionary<BubbleSystem.Emotion, PositionData>();
 
     private Dictionary<string, AnimationCurve> curves = new Dictionary<string, AnimationCurve>();
     private Dictionary<BubbleSystem.Emotion, Color32> colors = new Dictionary<BubbleSystem.Emotion, Color32>();
+    public Color32 defaultColor = Color.white;
 
     private float balloonDuration = 5.0f;
     private float optionsDuration = -1f;
@@ -23,6 +26,9 @@ public class DefaultData : Singleton<DefaultData>
     public bool forceTextUpdate = true;
     public bool blendBalloonAnimation = false;
     private Color32 blushColor = Color.red;
+
+    //Used by the blend tree
+    public string Default = "Default";
 
     static System.Random rnd = new System.Random();
 
@@ -44,12 +50,18 @@ public class DefaultData : Singleton<DefaultData>
         SetBackground();
         SetBackgroundAnimation();
         SetBalloonPositions();
+        SetTextSizes();
     }
 
     public TextData GetDefaultTextData(BubbleSystem.Emotion emotion, float intensity)
     {
         Dictionary<float, TextData> dict = defaultTextData[emotion];
         return dict.Where(key => intensity <= key.Key).OrderBy(key => key.Key).FirstOrDefault().Value;
+    }
+
+    public TextData GetOptionsTextData()
+    {
+        return optionsTextData.Values.First();
     }
 
     public SpriteData GetDefaultBalloonData(BubbleSystem.Emotion emotion, float intensity)
@@ -170,8 +182,7 @@ public class DefaultData : Singleton<DefaultData>
         Color32 fearColor = new Color32(0xAE, 0x52, 0xEC, 0xFF);
         Color32 disgustColor = new Color32(0xC5, 0xD1, 0x37, 0xFF);
         Color32 surpriseColor = new Color32(0xFF, 0xC3, 0x58, 0xFF);
-
-        colors.Add(BubbleSystem.Emotion.Default, defaultColor);
+        
         colors.Add(BubbleSystem.Emotion.Neutral, neutralColor);
         colors.Add(BubbleSystem.Emotion.Happiness, happinessColor);
         colors.Add(BubbleSystem.Emotion.Sadness, sadnessColor);
@@ -196,9 +207,67 @@ public class DefaultData : Singleton<DefaultData>
         curves.Add("palpitationsCurve", palpitationCurve);
     }
 
+    private void SetTextSizes()
+    {
+        PositionData rect = new PositionData();
+
+        {
+            rect.anchorMin = new Vector2(0.1f, 0.1f);
+            rect.anchorMax = new Vector2(0.9f, 0.9f);
+            rect.localRotation = Quaternion.Euler(0, 0, 0);
+            textSizes.Add(BubbleSystem.Emotion.Neutral, rect);
+        }
+
+        {
+            rect.anchorMin = new Vector2(0.15f, 0.2f);
+            rect.anchorMax = new Vector2(0.85f, 0.75f);
+            rect.localRotation = Quaternion.Euler(0, 0, 0);
+            textSizes.Add(BubbleSystem.Emotion.Happiness, rect);
+        }
+
+        {
+            rect.anchorMin = new Vector2(0.15f, 0.2f);
+            rect.anchorMax = new Vector2(0.85f, 0.8f);
+            rect.localRotation = Quaternion.Euler(0, 0, 0);
+            textSizes.Add(BubbleSystem.Emotion.Sadness, rect);
+        }
+
+        {
+            rect.anchorMin = new Vector2(0.2f, 0.3f);
+            rect.anchorMax = new Vector2(0.8f, 0.65f);
+            rect.localRotation = Quaternion.Euler(0, 0, 0);
+            textSizes.Add(BubbleSystem.Emotion.Anger, rect);
+        }
+
+        {
+            rect.anchorMin = new Vector2(0.15f, 0.2f);
+            rect.anchorMax = new Vector2(0.85f, 0.8f);
+            rect.localRotation = Quaternion.Euler(0, 0, 0);
+            textSizes.Add(BubbleSystem.Emotion.Fear, rect);
+        }
+
+        {
+            rect.anchorMin = new Vector2(0.15f, 0.2f);
+            rect.anchorMax = new Vector2(0.85f, 0.75f);
+            rect.localRotation = Quaternion.Euler(0, 0, 0);
+            textSizes.Add(BubbleSystem.Emotion.Disgust, rect);
+        }
+
+        {
+            rect.anchorMin = new Vector2(0.2f, 0.3f);
+            rect.anchorMax = new Vector2(0.8f, 0.65f);
+            rect.localRotation = Quaternion.Euler(0, 0, 0);
+            textSizes.Add(BubbleSystem.Emotion.Surprise, rect);
+        }
+    }
+
+    public PositionData GetTextSizes(BubbleSystem.Emotion emotion)
+    {
+        return textSizes[emotion];
+    }
+
     private void SetBalloonPositions()
     {
-        Dictionary<string, List<PositionData>> defPositions = new Dictionary<string, List<PositionData>>();
         Dictionary<string, List<PositionData>> neutralPositions = new Dictionary<string, List<PositionData>>();
         Dictionary<string, List<PositionData>> happinessPositions = new Dictionary<string, List<PositionData>>();
         Dictionary<string, List<PositionData>> sadnessPositions = new Dictionary<string, List<PositionData>>();
@@ -211,45 +280,6 @@ public class DefaultData : Singleton<DefaultData>
 
         List<PositionData> rectList = new List<PositionData>();
         PositionData rect = new PositionData();
-
-        //DEFAULT
-
-        rect.anchorMin = new Vector2(0.6f, 0.91f);
-        rect.anchorMax = new Vector2(0.8f, 1.35f);
-        rect.localRotation = Quaternion.Euler(0, 180, 180);
-        rectList.Add(rect);
-        defPositions.Add("Peak_top_right", rectList);
-
-
-        rectList = new List<PositionData>();
-
-        rect.anchorMin = new Vector2(0.2f, 0.91f);
-        rect.anchorMax = new Vector2(0.4f, 1.35f);
-        rect.localRotation = Quaternion.Euler(0, 0, 180);
-        rectList.Add(rect);
-        defPositions.Add("Peak_top_left", rectList);
-
-
-        rectList = new List<PositionData>();
-
-        rect.anchorMin = new Vector2(0.6f, -0.36f);
-        rect.anchorMax = new Vector2(0.8f, 0.12f);
-        rect.localRotation = Quaternion.Euler(0, 0, 0);
-        rectList.Add(rect);
-        defPositions.Add("Peak_bot_right", rectList);
-
-
-        rectList = new List<PositionData>();
-
-        rect.anchorMin = new Vector2(0.2f, -0.36f);
-        rect.anchorMax = new Vector2(0.4f, 0.12f);
-        rect.localRotation = Quaternion.Euler(0, 180, 0);
-        rectList.Add(rect);
-        defPositions.Add("Peak_bot_left", rectList);
-
-        dict.Add(1f, defPositions);
-        defaultPositions.Add(BubbleSystem.Emotion.Default, dict);
-
 
         //NEUTRAL
 
@@ -413,8 +443,8 @@ public class DefaultData : Singleton<DefaultData>
         dict = new Dictionary<float, Dictionary<string, List<PositionData>>>();
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.05f, -0.2f);
-        rect.anchorMax = new Vector2(0.95f, 1.0f);
+        rect.anchorMin = new Vector2(0.05f, 0.0f);
+        rect.anchorMax = new Vector2(0.95f, 0.9f);
         rect.localRotation = Quaternion.Euler(0, 0, 0);
         rectList.Add(rect);
         angerPositions.Add("balloon", rectList);
@@ -422,8 +452,8 @@ public class DefaultData : Singleton<DefaultData>
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.45f, 0.66f);
-        rect.anchorMax = new Vector2(0.65f, 1.1f);
+        rect.anchorMin = new Vector2(0.47f, 0.7f);
+        rect.anchorMax = new Vector2(0.67f, 1.14f);
         rect.localRotation = Quaternion.Euler(0, 180, 170);
         rectList.Add(rect);
         angerPositions.Add("Peak_top_right", rectList);
@@ -431,8 +461,8 @@ public class DefaultData : Singleton<DefaultData>
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.36f, 0.66f);
-        rect.anchorMax = new Vector2(0.56f, 1.1f);
+        rect.anchorMin = new Vector2(0.33f, 0.7f);
+        rect.anchorMax = new Vector2(0.53f, 1.14f);
         rect.localRotation = Quaternion.Euler(0, 0, 170);
         rectList.Add(rect);
         angerPositions.Add("Peak_top_left", rectList);
@@ -619,19 +649,17 @@ public class DefaultData : Singleton<DefaultData>
         float initialSize = 40.0f;
 
         TextData text = new TextData();
-        Dictionary<float, TextData> dict = new Dictionary<float, TextData>();
         text.font = neutralFont;
         text.size = initialSize;
         text.showEffect = new Dictionary<Effect, AnimationCurve>();
         text.hideEffect = new Dictionary<Effect, AnimationCurve>();
-        dict.Add(1f, text);
-        defaultTextData.Add(BubbleSystem.Emotion.Default, dict);
+        optionsTextData.Add(1f, text);
 
-        defaultTextData[BubbleSystem.Emotion.Default][1f].showEffect.Add(Effect.None, null);
-        defaultTextData[BubbleSystem.Emotion.Default][1f].hideEffect.Add(Effect.None, null);
+        optionsTextData[1f].showEffect.Add(Effect.None, null);
+        optionsTextData[1f].hideEffect.Add(Effect.None, null);
 
 
-        dict = new Dictionary<float, TextData>();
+        Dictionary<float, TextData> dict = new Dictionary<float, TextData>();
         text.font = neutralFont;
         text.size = initialSize;
         text.showEffect = new Dictionary<Effect, AnimationCurve>();
@@ -725,18 +753,12 @@ public class DefaultData : Singleton<DefaultData>
     {
         Dictionary<float, SpriteData> dict = new Dictionary<float, SpriteData>();
 
-        var tex = (Texture2D)Resources.Load("Balloons/Images/SpeechBubbles/Scaled/Neutral/neutral_balloon");
-        var beak = (Texture2D)Resources.Load("Balloons/Images/SpeechBubbles/Scaled/Neutral/neutral_beak");
-        SpriteData spriteData = new SpriteData();
-        spriteData.sprite = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
-        spriteData.beak = Sprite.Create(beak, new Rect(0.0f, 0.0f, beak.width, beak.height), new Vector2(0.5f, 0.5f), 100.0f);
-        dict.Add(1f, spriteData);
-        defaultBalloonData.Add(BubbleSystem.Emotion.Default, dict);
+        SpriteData spriteData;
 
 
         dict = new Dictionary<float, SpriteData>();
-        tex = (Texture2D)Resources.Load("Balloons/Images/SpeechBubbles/Scaled/Neutral/neutral_balloon");
-        beak = (Texture2D)Resources.Load("Balloons/Images/SpeechBubbles/Scaled/Neutral/neutral_beak");
+        var tex = (Texture2D)Resources.Load("Balloons/Images/SpeechBubbles/Scaled/Neutral/neutral_balloon");
+        var beak = (Texture2D)Resources.Load("Balloons/Images/SpeechBubbles/Scaled/Neutral/neutral_beak");
         spriteData = new SpriteData();
         spriteData.sprite = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
         spriteData.beak = Sprite.Create(beak, new Rect(0.0f, 0.0f, beak.width, beak.height), new Vector2(0.5f, 0.5f), 100.0f);
@@ -813,7 +835,6 @@ public class DefaultData : Singleton<DefaultData>
         backgroundData.colorEffect.Add(BackgroundEffect.FadeColor, curves["linearCurve"]);
 
         dict.Add(1f, backgroundData);
-        defaultBackgroundAnimationData.Add(BubbleSystem.Emotion.Default, dict);
         defaultBackgroundAnimationData.Add(BubbleSystem.Emotion.Neutral, dict);
         defaultBackgroundAnimationData.Add(BubbleSystem.Emotion.Happiness, dict);
         defaultBackgroundAnimationData.Add(BubbleSystem.Emotion.Sadness, dict);
@@ -827,7 +848,6 @@ public class DefaultData : Singleton<DefaultData>
     {
         Texture2D defaultBackgroundData;
         Dictionary<float, Dictionary<Reason, Texture2D>> dict = new Dictionary<float, Dictionary<Reason, Texture2D>>();
-        Dictionary<Reason, Texture2D> defaultDict = new Dictionary<Reason, Texture2D>();
         Dictionary<Reason, Texture2D> neutralDict = new Dictionary<Reason, Texture2D>();
         Dictionary<Reason, Texture2D> happinessDict = new Dictionary<Reason, Texture2D>();
         Dictionary<Reason, Texture2D> sadnessDict = new Dictionary<Reason, Texture2D>();
@@ -838,7 +858,6 @@ public class DefaultData : Singleton<DefaultData>
 
 
         defaultBackgroundData = (Texture2D)Resources.Load("Backgrounds/Images/tutorBackground");
-        defaultDict.Add(Reason.None, defaultBackgroundData);
         neutralDict.Add(Reason.None, defaultBackgroundData);
         happinessDict.Add(Reason.None, defaultBackgroundData);
         sadnessDict.Add(Reason.None, defaultBackgroundData);
@@ -848,7 +867,6 @@ public class DefaultData : Singleton<DefaultData>
         surpriseDict.Add(Reason.None, defaultBackgroundData);
 
         defaultBackgroundData = (Texture2D)Resources.Load("Backgrounds/Images/challenge");
-        defaultDict.Add(Reason.Challenge, defaultBackgroundData);
         neutralDict.Add(Reason.Challenge, defaultBackgroundData);
         happinessDict.Add(Reason.Challenge, defaultBackgroundData);
         sadnessDict.Add(Reason.Challenge, defaultBackgroundData);
@@ -858,7 +876,6 @@ public class DefaultData : Singleton<DefaultData>
         surpriseDict.Add(Reason.Challenge, defaultBackgroundData);
 
         defaultBackgroundData = (Texture2D)Resources.Load("Backgrounds/Images/effort");
-        defaultDict.Add(Reason.Effort, defaultBackgroundData);
         neutralDict.Add(Reason.Effort, defaultBackgroundData);
         happinessDict.Add(Reason.Effort, defaultBackgroundData);
         sadnessDict.Add(Reason.Effort, defaultBackgroundData);
@@ -868,7 +885,6 @@ public class DefaultData : Singleton<DefaultData>
         surpriseDict.Add(Reason.Effort, defaultBackgroundData);
 
         defaultBackgroundData = (Texture2D)Resources.Load("Backgrounds/Images/engagement");
-        defaultDict.Add(Reason.Engagement, defaultBackgroundData);
         neutralDict.Add(Reason.Engagement, defaultBackgroundData);
         happinessDict.Add(Reason.Engagement, defaultBackgroundData);
         sadnessDict.Add(Reason.Engagement, defaultBackgroundData);
@@ -878,7 +894,6 @@ public class DefaultData : Singleton<DefaultData>
         surpriseDict.Add(Reason.Engagement, defaultBackgroundData);
 
         defaultBackgroundData = (Texture2D)Resources.Load("Backgrounds/Images/enjoyment");
-        defaultDict.Add(Reason.Enjoyment, defaultBackgroundData);
         neutralDict.Add(Reason.Enjoyment, defaultBackgroundData);
         happinessDict.Add(Reason.Enjoyment, defaultBackgroundData);
         sadnessDict.Add(Reason.Enjoyment, defaultBackgroundData);
@@ -888,7 +903,6 @@ public class DefaultData : Singleton<DefaultData>
         surpriseDict.Add(Reason.Enjoyment, defaultBackgroundData);
 
         defaultBackgroundData = (Texture2D)Resources.Load("Backgrounds/Images/importance");
-        defaultDict.Add(Reason.Importance, defaultBackgroundData);
         neutralDict.Add(Reason.Importance, defaultBackgroundData);
         happinessDict.Add(Reason.Importance, defaultBackgroundData);
         sadnessDict.Add(Reason.Importance, defaultBackgroundData);
@@ -898,7 +912,6 @@ public class DefaultData : Singleton<DefaultData>
         surpriseDict.Add(Reason.Importance, defaultBackgroundData);
 
         defaultBackgroundData = (Texture2D)Resources.Load("Backgrounds/Images/performance");
-        defaultDict.Add(Reason.Performance, defaultBackgroundData);
         neutralDict.Add(Reason.Performance, defaultBackgroundData);
         happinessDict.Add(Reason.Performance, defaultBackgroundData);
         sadnessDict.Add(Reason.Performance, defaultBackgroundData);
@@ -909,9 +922,6 @@ public class DefaultData : Singleton<DefaultData>
 
         dict.Add(1f, neutralDict);
         defaultBackgroundDataDictionary.Add(BubbleSystem.Emotion.Neutral, dict);
-        dict = new Dictionary<float, Dictionary<Reason, Texture2D>>();
-        dict.Add(1f, defaultDict);
-        defaultBackgroundDataDictionary.Add(BubbleSystem.Emotion.Default, dict);
         dict = new Dictionary<float, Dictionary<Reason, Texture2D>>();
         dict.Add(1f, happinessDict);
         defaultBackgroundDataDictionary.Add(BubbleSystem.Emotion.Happiness, dict);

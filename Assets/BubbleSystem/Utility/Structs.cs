@@ -6,7 +6,6 @@ namespace BubbleSystem
 {
     public enum Emotion
     {
-        Default,
         Neutral,
         Happiness,
         Sadness,

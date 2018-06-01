@@ -31,7 +31,7 @@ namespace BubbleSystem
         public static Color32 GetColor(KeyValuePair<Emotion, float> emotionPair, Dictionary<Emotion, float> emotions)
         {
             Color32 color;
-            if (emotionPair.Value.Equals(0.0f) || emotionPair.Key.Equals(BubbleSystem.Emotion.Default) || emotionPair.Key.Equals(BubbleSystem.Emotion.Neutral))
+            if (emotionPair.Value.Equals(0.0f) || emotionPair.Key.Equals(BubbleSystem.Emotion.Neutral))
             {
                 color = DefaultData.Instance.GetColor(BubbleSystem.Emotion.Neutral);
             }
@@ -52,7 +52,7 @@ namespace BubbleSystem
             }
 
             if (color.Equals(Color.white))
-                color = DefaultData.Instance.GetColor(Emotion.Default);
+                color = DefaultData.Instance.defaultColor;
 
             return color;
         }

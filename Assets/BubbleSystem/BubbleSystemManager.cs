@@ -73,7 +73,7 @@ namespace BubbleSystem
         public void UpdateOptions(string[] text, HookControl.IntFunc[] callbacks = null, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
         {
             Dictionary<string, float> dict = new Dictionary<string, float>();
-            dict.Add(Emotion.Default.ToString(), 0.0f);
+            dict.Add(Emotion.Neutral.ToString(), 1.0f);
 
             SetSpeakData(options, dict, text, showEffects, hideEffects);
             balloonManager.ShowOptions(options, tutorSpeakData[options], callbacks);
@@ -146,10 +146,6 @@ namespace BubbleSystem
 
         private void RemoveDefaultAndNeutralEmotions(ref Dictionary<string, float> emotions)
         {
-            if (emotions.Count > 1 && emotions.ContainsKey(BubbleSystem.Emotion.Default.ToString()))
-            {
-                emotions.Remove(BubbleSystem.Emotion.Default.ToString());
-            }
             if (emotions.Count > 1 && emotions.ContainsKey(BubbleSystem.Emotion.Neutral.ToString()))
             {
                 emotions.Remove(BubbleSystem.Emotion.Neutral.ToString());
