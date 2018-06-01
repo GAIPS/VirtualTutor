@@ -256,18 +256,8 @@ public class DefaultData : Singleton<DefaultData>
         dict = new Dictionary<float, Dictionary<string, List<PositionData>>>();
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(-0.5f, -0.2f);
-        rect.anchorMax = new Vector2(1.5f, 0.5f);
-        rect.localRotation = Quaternion.Euler(0, 0, 0);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(-0.4f, -0.2f);
-        rect.anchorMax = new Vector2(1.6f, 0.5f);
-        rect.localRotation = Quaternion.Euler(0, 0, 0);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(-0.6f, -0.2f);
-        rect.anchorMax = new Vector2(1.4f, 0.5f);
+        rect.anchorMin = new Vector2(0.1f, 0.1f);
+        rect.anchorMax = new Vector2(0.9f, 0.75f);
         rect.localRotation = Quaternion.Euler(0, 0, 0);
         rectList.Add(rect);
         neutralPositions.Add("balloon", rectList);
@@ -275,13 +265,9 @@ public class DefaultData : Singleton<DefaultData>
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.6f, 0.91f);
-        rect.anchorMax = new Vector2(0.8f, 1.35f);
-        rect.localRotation = Quaternion.Euler(0, 180, 180);
-        rectList.Add(rect);
 
-        rect.anchorMin = new Vector2(0.55f, 0.91f);
-        rect.anchorMax = new Vector2(0.75f, 1.35f);
+        rect.anchorMin = new Vector2(0.4f, 0.91f);
+        rect.anchorMax = new Vector2(0.6f, 1.35f);
         rect.localRotation = Quaternion.Euler(0, 180, 180);
         rectList.Add(rect);
 
@@ -290,13 +276,8 @@ public class DefaultData : Singleton<DefaultData>
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.2f, 0.91f);
-        rect.anchorMax = new Vector2(0.4f, 1.35f);
-        rect.localRotation = Quaternion.Euler(0, 0, 180);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.25f, 0.91f);
-        rect.anchorMax = new Vector2(0.45f, 1.35f);
+        rect.anchorMin = new Vector2(0.35f, 0.91f);
+        rect.anchorMax = new Vector2(0.55f, 1.35f);
         rect.localRotation = Quaternion.Euler(0, 0, 180);
         rectList.Add(rect);
 
@@ -305,14 +286,9 @@ public class DefaultData : Singleton<DefaultData>
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.6f, -0.36f);
-        rect.anchorMax = new Vector2(0.8f, 0.12f);
+        rect.anchorMin = new Vector2(0.4f, -0.34f);
+        rect.anchorMax = new Vector2(0.6f, 0.1f);
         rect.localRotation = Quaternion.Euler(0, 0, 0);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.75f, -0.36f);
-        rect.anchorMax = new Vector2(0.95f, 0.12f);
-        rect.localRotation = Quaternion.Euler(0, 180, 0);
         rectList.Add(rect);
 
         neutralPositions.Add("Peak_bot_right", rectList);
@@ -320,13 +296,8 @@ public class DefaultData : Singleton<DefaultData>
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.2f, -0.36f);
-        rect.anchorMax = new Vector2(0.4f, 0.12f);
-        rect.localRotation = Quaternion.Euler(0, 180, 0);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.25f, -0.36f);
-        rect.anchorMax = new Vector2(0.35f, 0.12f);
+        rect.anchorMin = new Vector2(0.35f, -0.34f);
+        rect.anchorMax = new Vector2(0.55f, 0.1f);
         rect.localRotation = Quaternion.Euler(0, 180, 0);
         rectList.Add(rect);
 
@@ -340,18 +311,8 @@ public class DefaultData : Singleton<DefaultData>
         dict = new Dictionary<float, Dictionary<string, List<PositionData>>>();
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(-0.5f, -0.2f);
-        rect.anchorMax = new Vector2(1.5f, 0.5f);
-        rect.localRotation = Quaternion.Euler(0, 0, 0);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(-0.4f, -0.2f);
-        rect.anchorMax = new Vector2(1.6f, 0.5f);
-        rect.localRotation = Quaternion.Euler(0, 0, 0);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(-0.6f, -0.2f);
-        rect.anchorMax = new Vector2(1.4f, 0.5f);
+        rect.anchorMin = new Vector2(0.1f, 0.1f);
+        rect.anchorMax = new Vector2(0.9f, 0.75f);
         rect.localRotation = Quaternion.Euler(0, 0, 0);
         rectList.Add(rect);
         happinessPositions.Add("balloon", rectList);
@@ -359,16 +320,10 @@ public class DefaultData : Singleton<DefaultData>
         rectList = new List<PositionData>();
 
 
-        rect.anchorMin = new Vector2(0.6f, 0.81f);
-        rect.anchorMax = new Vector2(0.8f, 1.25f);
+        rect.anchorMin = new Vector2(0.45f, 0.81f);
+        rect.anchorMax = new Vector2(0.65f, 1.25f);
         rect.localRotation = Quaternion.Euler(0, 0, 190);
         rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.55f, 0.81f);
-        rect.anchorMax = new Vector2(0.75f, 1.25f);
-        rect.localRotation = Quaternion.Euler(0, 0, 190);
-        rectList.Add(rect);
-
         happinessPositions.Add("Peak_top_right", rectList);
 
 
@@ -378,42 +333,24 @@ public class DefaultData : Singleton<DefaultData>
         rect.anchorMax = new Vector2(0.4f, 1.25f);
         rect.localRotation = Quaternion.Euler(0, 180, 190);
         rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.25f, 0.81f);
-        rect.anchorMax = new Vector2(0.45f, 1.25f);
-        rect.localRotation = Quaternion.Euler(0, 180, 190);
-        rectList.Add(rect);
-
         happinessPositions.Add("Peak_top_left", rectList);
 
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.6f, -0.26f);
-        rect.anchorMax = new Vector2(0.8f, 0.18f);
+        rect.anchorMin = new Vector2(0.45f, -0.26f);
+        rect.anchorMax = new Vector2(0.65f, 0.18f);
         rect.localRotation = Quaternion.Euler(0, 180, 10);
         rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.55f, -0.26f);
-        rect.anchorMax = new Vector2(0.75f, 0.18f);
-        rect.localRotation = Quaternion.Euler(0, 180, 10);
-        rectList.Add(rect);
-
         happinessPositions.Add("Peak_bot_right", rectList);
 
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.2f, -0.26f);
-        rect.anchorMax = new Vector2(0.4f, 0.18f);
+        rect.anchorMin = new Vector2(0.35f, -0.26f);
+        rect.anchorMax = new Vector2(0.55f, 0.18f);
         rect.localRotation = Quaternion.Euler(0, 0, 10);
         rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.25f, -0.26f);
-        rect.anchorMax = new Vector2(0.45f, 0.18f);
-        rect.localRotation = Quaternion.Euler(0, 0, 10);
-        rectList.Add(rect);
-
         happinessPositions.Add("Peak_bot_left", rectList);
 
         dict.Add(1f, happinessPositions);
@@ -425,31 +362,16 @@ public class DefaultData : Singleton<DefaultData>
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(-0.5f, -0.2f);
-        rect.anchorMax = new Vector2(1.5f, 0.5f);
-        rect.localRotation = Quaternion.Euler(0, 0, 0);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(-0.4f, -0.2f);
-        rect.anchorMax = new Vector2(1.6f, 0.5f);
-        rect.localRotation = Quaternion.Euler(0, 0, 0);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(-0.6f, -0.2f);
-        rect.anchorMax = new Vector2(1.4f, 0.5f);
+        rect.anchorMin = new Vector2(0.1f, 0.1f);
+        rect.anchorMax = new Vector2(0.9f, 0.75f);
         rect.localRotation = Quaternion.Euler(0, 0, 0);
         rectList.Add(rect);
         sadnessPositions.Add("balloon", rectList);
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.6f, 0.83f);
-        rect.anchorMax = new Vector2(0.8f, 1.27f);
-        rect.localRotation = Quaternion.Euler(0, 0, 180);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.55f, 0.83f);
-        rect.anchorMax = new Vector2(0.75f, 1.27f);
+        rect.anchorMin = new Vector2(0.45f, 0.81f);
+        rect.anchorMax = new Vector2(0.55f, 1.25f);
         rect.localRotation = Quaternion.Euler(0, 0, 180);
         rectList.Add(rect);
 
@@ -458,13 +380,8 @@ public class DefaultData : Singleton<DefaultData>
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.2f, 0.83f);
-        rect.anchorMax = new Vector2(0.4f, 1.27f);
-        rect.localRotation = Quaternion.Euler(0, 180, 180);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.25f, 0.83f);
-        rect.anchorMax = new Vector2(0.45f, 1.27f);
+        rect.anchorMin = new Vector2(0.35f, 0.81f);
+        rect.anchorMax = new Vector2(0.55f, 1.25f);
         rect.localRotation = Quaternion.Euler(0, 180, 180);
         rectList.Add(rect);
 
@@ -473,31 +390,19 @@ public class DefaultData : Singleton<DefaultData>
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.6f, -0.26f);
-        rect.anchorMax = new Vector2(0.8f, 0.18f);
+        rect.anchorMin = new Vector2(0.45f, -0.26f);
+        rect.anchorMax = new Vector2(0.65f, 0.18f);
         rect.localRotation = Quaternion.Euler(0, 180, 0);
         rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.55f, -0.26f);
-        rect.anchorMax = new Vector2(0.75f, 0.18f);
-        rect.localRotation = Quaternion.Euler(0, 180, 0);
-        rectList.Add(rect);
-
         sadnessPositions.Add("Peak_bot_right", rectList);
 
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.2f, -0.26f);
-        rect.anchorMax = new Vector2(0.4f, 0.18f);
+        rect.anchorMin = new Vector2(0.35f, -0.26f);
+        rect.anchorMax = new Vector2(0.55f, 0.18f);
         rect.localRotation = Quaternion.Euler(0, 0, 0);
         rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.25f, -0.26f);
-        rect.anchorMax = new Vector2(0.45f, 0.18f);
-        rect.localRotation = Quaternion.Euler(0, 0, 0);
-        rectList.Add(rect);
-
         sadnessPositions.Add("Peak_bot_left", rectList);
 
         dict.Add(1f, sadnessPositions);
@@ -508,18 +413,8 @@ public class DefaultData : Singleton<DefaultData>
         dict = new Dictionary<float, Dictionary<string, List<PositionData>>>();
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(-0.5f, -0.2f);
-        rect.anchorMax = new Vector2(1.5f, 0.5f);
-        rect.localRotation = Quaternion.Euler(0, 0, 0);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(-0.4f, -0.2f);
-        rect.anchorMax = new Vector2(1.6f, 0.5f);
-        rect.localRotation = Quaternion.Euler(0, 0, 0);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(-0.6f, -0.2f);
-        rect.anchorMax = new Vector2(1.4f, 0.5f);
+        rect.anchorMin = new Vector2(0.05f, -0.2f);
+        rect.anchorMax = new Vector2(0.95f, 1.0f);
         rect.localRotation = Quaternion.Euler(0, 0, 0);
         rectList.Add(rect);
         angerPositions.Add("balloon", rectList);
@@ -527,13 +422,8 @@ public class DefaultData : Singleton<DefaultData>
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.6f, 0.6f);
-        rect.anchorMax = new Vector2(0.8f, 1.04f);
-        rect.localRotation = Quaternion.Euler(0, 180, 170);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.55f, 0.6f);
-        rect.anchorMax = new Vector2(0.75f, 1.04f);
+        rect.anchorMin = new Vector2(0.45f, 0.66f);
+        rect.anchorMax = new Vector2(0.65f, 1.1f);
         rect.localRotation = Quaternion.Euler(0, 180, 170);
         rectList.Add(rect);
         angerPositions.Add("Peak_top_right", rectList);
@@ -541,13 +431,8 @@ public class DefaultData : Singleton<DefaultData>
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.2f, 0.57f);
-        rect.anchorMax = new Vector2(0.4f, 1.03f);
-        rect.localRotation = Quaternion.Euler(0, 0, 170);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.27f, 0.57f);
-        rect.anchorMax = new Vector2(0.47f, 1.03f);
+        rect.anchorMin = new Vector2(0.36f, 0.66f);
+        rect.anchorMax = new Vector2(0.56f, 1.1f);
         rect.localRotation = Quaternion.Euler(0, 0, 170);
         rectList.Add(rect);
         angerPositions.Add("Peak_top_left", rectList);
@@ -555,13 +440,8 @@ public class DefaultData : Singleton<DefaultData>
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.6f, -0.04f);
-        rect.anchorMax = new Vector2(0.8f, 0.4f);
-        rect.localRotation = Quaternion.Euler(0, 0, -10);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.5f, -0.04f);
-        rect.anchorMax = new Vector2(0.7f, 0.4f);
+        rect.anchorMin = new Vector2(0.42f, -0.14f);
+        rect.anchorMax = new Vector2(0.62f, 0.3f);
         rect.localRotation = Quaternion.Euler(0, 0, -10);
         rectList.Add(rect);
         angerPositions.Add("Peak_bot_right", rectList);
@@ -569,13 +449,8 @@ public class DefaultData : Singleton<DefaultData>
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.2f, -0.09f);
-        rect.anchorMax = new Vector2(0.4f, 0.35f);
-        rect.localRotation = Quaternion.Euler(0, 180, -10);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.3f, -0.09f);
-        rect.anchorMax = new Vector2(0.5f, 0.35f);
+        rect.anchorMin = new Vector2(0.36f, -0.12f);
+        rect.anchorMax = new Vector2(0.56f, 0.32f);
         rect.localRotation = Quaternion.Euler(0, 180, -10);
         rectList.Add(rect);
         angerPositions.Add("Peak_bot_left", rectList);
@@ -588,18 +463,8 @@ public class DefaultData : Singleton<DefaultData>
         dict = new Dictionary<float, Dictionary<string, List<PositionData>>>();
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(-0.5f, -0.2f);
-        rect.anchorMax = new Vector2(1.5f, 0.5f);
-        rect.localRotation = Quaternion.Euler(0, 0, 0);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(-0.4f, -0.2f);
-        rect.anchorMax = new Vector2(1.6f, 0.5f);
-        rect.localRotation = Quaternion.Euler(0, 0, 0);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(-0.6f, -0.2f);
-        rect.anchorMax = new Vector2(1.4f, 0.5f);
+        rect.anchorMin = new Vector2(0.1f, 0.1f);
+        rect.anchorMax = new Vector2(0.9f, 0.75f);
         rect.localRotation = Quaternion.Euler(0, 0, 0);
         rectList.Add(rect);
         fearPositions.Add("balloon", rectList);
@@ -607,12 +472,7 @@ public class DefaultData : Singleton<DefaultData>
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.65f, 0.73f);
-        rect.anchorMax = new Vector2(0.8f, 1.17f);
-        rect.localRotation = Quaternion.Euler(0, 0, 180);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.6f, 0.73f);
+        rect.anchorMin = new Vector2(0.55f, 0.73f);
         rect.anchorMax = new Vector2(0.75f, 1.17f);
         rect.localRotation = Quaternion.Euler(0, 0, 180);
         rectList.Add(rect);
@@ -623,11 +483,6 @@ public class DefaultData : Singleton<DefaultData>
         rectList = new List<PositionData>();
 
         rect.anchorMin = new Vector2(0.25f, 0.73f);
-        rect.anchorMax = new Vector2(0.4f, 1.17f);
-        rect.localRotation = Quaternion.Euler(0, 180, 180);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.3f, 0.73f);
         rect.anchorMax = new Vector2(0.45f, 1.17f);
         rect.localRotation = Quaternion.Euler(0, 180, 180);
         rectList.Add(rect);
@@ -637,12 +492,7 @@ public class DefaultData : Singleton<DefaultData>
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.65f, -0.24f);
-        rect.anchorMax = new Vector2(0.8f, 0.2f);
-        rect.localRotation = Quaternion.Euler(0, 180, 0);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.6f, -0.24f);
+        rect.anchorMin = new Vector2(0.55f, -0.24f);
         rect.anchorMax = new Vector2(0.75f, 0.2f);
         rect.localRotation = Quaternion.Euler(0, 180, 0);
         rectList.Add(rect);
@@ -653,11 +503,6 @@ public class DefaultData : Singleton<DefaultData>
         rectList = new List<PositionData>();
 
         rect.anchorMin = new Vector2(0.25f, -0.2f);
-        rect.anchorMax = new Vector2(0.4f, 0.24f);
-        rect.localRotation = Quaternion.Euler(0, 0, 0);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.3f, -0.2f);
         rect.anchorMax = new Vector2(0.45f, 0.24f);
         rect.localRotation = Quaternion.Euler(0, 0, 0);
         rectList.Add(rect);
@@ -672,18 +517,8 @@ public class DefaultData : Singleton<DefaultData>
         dict = new Dictionary<float, Dictionary<string, List<PositionData>>>();
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(-0.5f, -0.2f);
-        rect.anchorMax = new Vector2(1.5f, 0.5f);
-        rect.localRotation = Quaternion.Euler(0, 0, 0);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(-0.4f, -0.2f);
-        rect.anchorMax = new Vector2(1.6f, 0.5f);
-        rect.localRotation = Quaternion.Euler(0, 0, 0);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(-0.6f, -0.2f);
-        rect.anchorMax = new Vector2(1.4f, 0.5f);
+        rect.anchorMin = new Vector2(0.1f, 0.1f);
+        rect.anchorMax = new Vector2(0.9f, 0.75f);
         rect.localRotation = Quaternion.Euler(0, 0, 0);
         rectList.Add(rect);
         disgustPositions.Add("balloon", rectList);
@@ -691,13 +526,8 @@ public class DefaultData : Singleton<DefaultData>
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.65f, 0.75f);
-        rect.anchorMax = new Vector2(0.85f, 1.19f);
-        rect.localRotation = Quaternion.Euler(0, 0, 180);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.55f, 0.75f);
-        rect.anchorMax = new Vector2(0.75f, 1.19f);
+        rect.anchorMin = new Vector2(0.5f, 0.75f);
+        rect.anchorMax = new Vector2(0.7f, 1.19f);
         rect.localRotation = Quaternion.Euler(0, 0, 180);
         rectList.Add(rect);
         disgustPositions.Add("Peak_top_right", rectList);
@@ -705,13 +535,8 @@ public class DefaultData : Singleton<DefaultData>
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.15f, 0.75f);
-        rect.anchorMax = new Vector2(0.35f, 1.19f);
-        rect.localRotation = Quaternion.Euler(0, 180, 180);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.25f, 0.75f);
-        rect.anchorMax = new Vector2(0.45f, 1.19f);
+        rect.anchorMin = new Vector2(0.3f, 0.75f);
+        rect.anchorMax = new Vector2(0.5f, 1.19f);
         rect.localRotation = Quaternion.Euler(0, 180, 180);
         rectList.Add(rect);
         disgustPositions.Add("Peak_top_left", rectList);
@@ -719,13 +544,8 @@ public class DefaultData : Singleton<DefaultData>
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.65f, -0.24f);
-        rect.anchorMax = new Vector2(0.85f, 0.24f);
-        rect.localRotation = Quaternion.Euler(0, 180, 0);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.55f, -0.24f);
-        rect.anchorMax = new Vector2(0.75f, 0.24f);
+        rect.anchorMin = new Vector2(0.5f, -0.2f);
+        rect.anchorMax = new Vector2(0.7f, 0.24f);
         rect.localRotation = Quaternion.Euler(0, 180, 0);
         rectList.Add(rect);
         disgustPositions.Add("Peak_bot_right", rectList);
@@ -733,13 +553,8 @@ public class DefaultData : Singleton<DefaultData>
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.15f, -0.24f);
-        rect.anchorMax = new Vector2(0.35f, 0.24f);
-        rect.localRotation = Quaternion.Euler(0, 0, 0);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.25f, -0.24f);
-        rect.anchorMax = new Vector2(0.45f, 0.24f);
+        rect.anchorMin = new Vector2(0.3f, -0.22f);
+        rect.anchorMax = new Vector2(0.5f, 0.24f);
         rect.localRotation = Quaternion.Euler(0, 0, 0);
         rectList.Add(rect);
         disgustPositions.Add("Peak_bot_left", rectList);
@@ -752,18 +567,8 @@ public class DefaultData : Singleton<DefaultData>
         dict = new Dictionary<float, Dictionary<string, List<PositionData>>>();
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(-0.5f, -0.2f);
-        rect.anchorMax = new Vector2(1.5f, 0.5f);
-        rect.localRotation = Quaternion.Euler(0, 0, 0);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(-0.4f, -0.2f);
-        rect.anchorMax = new Vector2(1.6f, 0.5f);
-        rect.localRotation = Quaternion.Euler(0, 0, 0);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(-0.6f, -0.2f);
-        rect.anchorMax = new Vector2(1.4f, 0.5f);
+        rect.anchorMin = new Vector2(0.1f, 0.1f);
+        rect.anchorMax = new Vector2(0.9f, 0.75f);
         rect.localRotation = Quaternion.Euler(0, 0, 0);
         rectList.Add(rect);
         surprisePositions.Add("balloon", rectList);
@@ -771,13 +576,8 @@ public class DefaultData : Singleton<DefaultData>
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.6f, 0.66f);
-        rect.anchorMax = new Vector2(0.8f, 1.1f);
-        rect.localRotation = Quaternion.Euler(0, 180, 180);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.5f, 0.66f);
-        rect.anchorMax = new Vector2(0.7f, 1.1f);
+        rect.anchorMin = new Vector2(0.43f, 0.64f);
+        rect.anchorMax = new Vector2(0.63f, 1.08f);
         rect.localRotation = Quaternion.Euler(0, 180, 180);
         rectList.Add(rect);
         surprisePositions.Add("Peak_top_right", rectList);
@@ -785,13 +585,8 @@ public class DefaultData : Singleton<DefaultData>
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.2f, 0.66f);
-        rect.anchorMax = new Vector2(0.4f, 1.1f);
-        rect.localRotation = Quaternion.Euler(0, 0, 180);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.3f, 0.66f);
-        rect.anchorMax = new Vector2(0.5f, 1.1f);
+        rect.anchorMin = new Vector2(0.3f, 0.64f);
+        rect.anchorMax = new Vector2(0.5f, 1.08f);
         rect.localRotation = Quaternion.Euler(0, 0, 180);
         rectList.Add(rect);
         surprisePositions.Add("Peak_top_left", rectList);
@@ -799,13 +594,8 @@ public class DefaultData : Singleton<DefaultData>
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.6f, -0.11f);
-        rect.anchorMax = new Vector2(0.8f, 0.33f);
-        rect.localRotation = Quaternion.Euler(0, 0, 0);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.5f, -0.11f);
-        rect.anchorMax = new Vector2(0.7f, 0.33f);
+        rect.anchorMin = new Vector2(0.47f, -0.14f);
+        rect.anchorMax = new Vector2(0.67f, 0.3f);
         rect.localRotation = Quaternion.Euler(0, 0, 0);
         rectList.Add(rect);
         surprisePositions.Add("Peak_bot_right", rectList);
@@ -813,13 +603,8 @@ public class DefaultData : Singleton<DefaultData>
 
         rectList = new List<PositionData>();
 
-        rect.anchorMin = new Vector2(0.2f, -0.11f);
-        rect.anchorMax = new Vector2(0.4f, 0.33f);
-        rect.localRotation = Quaternion.Euler(0, 180, 0);
-        rectList.Add(rect);
-
-        rect.anchorMin = new Vector2(0.3f, -0.11f);
-        rect.anchorMax = new Vector2(0.5f, 0.33f);
+        rect.anchorMin = new Vector2(0.35f, -0.14f);
+        rect.anchorMax = new Vector2(0.55f, 0.3f);
         rect.localRotation = Quaternion.Euler(0, 180, 0);
         rectList.Add(rect);
         surprisePositions.Add("Peak_bot_left", rectList);
@@ -978,8 +763,8 @@ public class DefaultData : Singleton<DefaultData>
         defaultBalloonData.Add(BubbleSystem.Emotion.Sadness, dict);
 
         dict = new Dictionary<float, SpriteData>();
-        tex = (Texture2D)Resources.Load("Balloons/Images/SpeechBubbles/Scaled/Anger/anger_balloon");
-        beak = (Texture2D)Resources.Load("Balloons/Images/SpeechBubbles/Scaled/Anger/anger_beak");
+        tex = (Texture2D)Resources.Load("Balloons/Images/SpeechBubbles/Scaled/Anger/anger_balloon_v2");
+        beak = (Texture2D)Resources.Load("Balloons/Images/SpeechBubbles/Scaled/Anger/anger_beak_v2");
         spriteData = new SpriteData();
         spriteData.sprite = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
         spriteData.beak = Sprite.Create(beak, new Rect(0.0f, 0.0f, beak.width, beak.height), new Vector2(0.5f, 0.5f), 100.0f);

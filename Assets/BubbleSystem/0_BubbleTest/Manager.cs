@@ -90,7 +90,7 @@ public class Manager : MonoBehaviour {
             emotion1.Intensity = intensity;
             tutors[currentTutor].Emotion = emotion1;
 
-            manager.Speak(tutors[currentTutor], new string[] { "hi." });
+            manager.Speak(tutors[currentTutor], new string[] { "Say nothing, grab a nearby pipe and hit the scientist in the head to knock him out. For all you knew, he was planning to blow up the vault." });
             Debug.Log(tutors[currentTutor] + " " + emotion.ToString() + " " + intensity);
         }
 
