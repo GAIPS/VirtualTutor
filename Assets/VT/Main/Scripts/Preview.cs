@@ -64,8 +64,6 @@ public class Preview : MonoBehaviour
 
                 DirectoryInfo directory = new DirectoryInfo(Directory.GetCurrentDirectory());
                 DirectoryInfo parent = directory.Parent;
-                DebugLog.Log(directory.FullName);
-                DebugLog.Log(parent.FullName);
 
                 yarnFilesContent = yarnFilesContent.Concat(ReadFiles(directory))
                     .Concat(ReadFiles(parent)).ToList();
@@ -73,6 +71,8 @@ public class Preview : MonoBehaviour
                 var dialogSelector = new YarnPreviewDialogSelector(yarnFilesContent.ToArray());
 
                 _manager.DialogSelector = dialogSelector;
+                
+                DebugLog.Log("Path searched for Dialogue: " + directory.FullName);
             }
         }
 

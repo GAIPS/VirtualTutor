@@ -46,6 +46,10 @@ namespace YarnDialog
             {
                 manager.ModuleManager.StartSpeaking(line.speaker, line.message);
             }
+            else
+            {
+                DebugLog.Warn("No Module Manager defined.");
+            }
         }
 
         protected void HideLine(LineInfo line, YarnDialogManager manager)
