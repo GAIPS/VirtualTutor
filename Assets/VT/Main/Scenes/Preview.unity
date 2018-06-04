@@ -867,6 +867,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bubbleSystem: {fileID: 1532216068}
   avatarManager: {fileID: 554435352}
+  Tutors: []
 --- !u!4 &1303681614
 Transform:
   m_ObjectHideFlags: 0

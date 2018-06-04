@@ -20,10 +20,18 @@ public class Preview : MonoBehaviour
 
     [SerializeField] private GameObject _stringInput;
 
+    [SerializeField] private PreviewDebugLogger _previewDebugLogger;
+
     // Use this for initialization
     void Start()
     {
-        DebugLog.logger = new UnityDebugLogger();
+        DebugLog.Clean();
+        DebugLog.Add(new UnityDebugLogger());
+        if (_previewDebugLogger != null)
+        {
+            _previewDebugLogger.Preview = this;
+            DebugLog.Add(_previewDebugLogger);
+        }
 
         _manager = new SystemManager();
 

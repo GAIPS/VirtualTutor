@@ -107,7 +107,7 @@ namespace YarnDialog
         {
             if (_dialogTree == null)
             {
-                DebugLog.Warn("Dialog Tree is null");
+                DebugLog.Warn("Dialog Tree is empty.");
                 return true;
             }
 

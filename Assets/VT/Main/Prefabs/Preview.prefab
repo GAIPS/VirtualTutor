@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4150082423855930}
   - component: {fileID: 114533080406871572}
+  - component: {fileID: 114522411265092224}
   m_Layer: 0
   m_Name: Preview
   m_TagString: Untagged
@@ -40,6 +41,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114522411265092224
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1985465398951560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbf86056238e8034cab5e7ced5401b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _yesNoPrefab: {fileID: 1014427091761034, guid: 4f1da51c9ef1b6d4c8f6c518196d24a4,
+    type: 2}
+  Preview: {fileID: 0}
 --- !u!114 &114533080406871572
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -58,3 +73,4 @@ MonoBehaviour:
   Playing: 1
   _stringInput: {fileID: 1839400628711484, guid: a1fcfc231072ef84895f91e952106fcf,
     type: 2}
+  _previewDebugLogger: {fileID: 114522411265092224}

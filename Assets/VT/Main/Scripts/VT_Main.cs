@@ -19,7 +19,8 @@ public class VT_Main : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        DebugLog.logger = new UnityDebugLogger();
+        DebugLog.Clean();
+        DebugLog.Add(new UnityDebugLogger());
 
         manager = new SystemManager();
 

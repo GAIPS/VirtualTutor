@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Utilities
 {
-    public class UnityDebugLogger : DebugLogger
+    public class UnityDebugLogger : IDebugLogger
     {
         public void Err(object message)
         {

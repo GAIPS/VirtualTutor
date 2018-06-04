@@ -1,6 +1,9 @@
-﻿namespace Utilities
+﻿using System.Collections.Generic;
+using Antlr4.Runtime.Misc;
+
+namespace Utilities
 {
-    public interface DebugLogger
+    public interface IDebugLogger
     {
         void Log(object message);
         void Warn(object message);
@@ -9,26 +12,47 @@
 
     public class DebugLog
     {
-        public static DebugLogger logger;
+        private static readonly List<IDebugLogger> loggers = new List<IDebugLogger>();
 
-        private DebugLog() { }
+        private DebugLog()
+        {
+        }
+
+        public static void Add(IDebugLogger logger)
+        {
+            loggers.Add(logger);
+        }
+
+        public static void Clean()
+        {
+            loggers.Clear();
+        }
 
         public static void Err(object message)
         {
-            if (logger == null) return;
-            logger.Err(message);
+            foreach (var logger in loggers)
+            {
+                if (logger == null) continue;
+                logger.Err(message);
+            }
         }
 
         public static void Log(object message)
         {
-            if (logger == null) return;
-            logger.Log(message);
+            foreach (var logger in loggers)
+            {
+                if (logger == null) continue;
+                logger.Log(message);
+            }
         }
 
         public static void Warn(object message)
         {
-            if (logger == null) return;
-            logger.Warn(message);
+            foreach (var logger in loggers)
+            {
+                if (logger == null) continue;
+                logger.Warn(message);
+            }
         }
     }
 }

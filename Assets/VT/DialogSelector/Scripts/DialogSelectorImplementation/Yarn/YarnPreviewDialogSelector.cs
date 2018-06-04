@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Utilities;
 
@@ -28,14 +29,26 @@ namespace YarnDialog
 
         public YarnPreviewDialogSelector(string fileContent) : this()
         {
-            dialogue.LoadString(fileContent);
+            LoadDialogueString(fileContent);
         }
 
         public YarnPreviewDialogSelector(string[] fileContent) : this()
         {
             foreach (var content in fileContent)
             {
-                dialogue.LoadString(content);
+                LoadDialogueString(content);
+            }
+        }
+
+        private void LoadDialogueString(string fileContent)
+        {
+            try
+            {
+                dialogue.LoadString(fileContent);
+            }
+            catch (InvalidOperationException e)
+            {
+                DebugLog.Err(e);
             }
         }
 

@@ -25,6 +25,10 @@ public class PreviewEditor : Editor
         GUILayout.Space(15);
         EditorGUILayout.LabelField("Dialog Manager Options", EditorStyles.largeLabel, GUILayout.MinHeight(20));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("moduleManager"), true);
+        
+        GUILayout.Space(15);
+        EditorGUILayout.LabelField("UI Debug Options", EditorStyles.largeLabel, GUILayout.MinHeight(20));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("_previewDebugLogger"), true);
 
         serializedObject.ApplyModifiedProperties();
     }
