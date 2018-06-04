@@ -26,6 +26,16 @@ namespace BubbleSystem
         Performance
     }
 
+    public enum Situation
+    {
+        LesserReward,
+        GreaterReward,
+        ExpectedReward,
+        LesserPunishment,
+        GreaterPunishment,
+        ExpectedPunishment
+    }
+
     public struct TextData
     {
         public TMPro.TMP_FontAsset font;

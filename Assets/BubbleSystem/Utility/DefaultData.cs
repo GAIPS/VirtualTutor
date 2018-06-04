@@ -14,6 +14,7 @@ public class DefaultData : Singleton<DefaultData>
     private Dictionary<BubbleSystem.Emotion, Dictionary<float, Dictionary<Reason, Texture2D>>> defaultBackgroundDataDictionary = new Dictionary<BubbleSystem.Emotion, Dictionary<float, Dictionary<Reason, Texture2D>>>();
     private Dictionary<BubbleSystem.Emotion, Dictionary<float, Dictionary<string, List<PositionData>>>> defaultPositions = new Dictionary<BubbleSystem.Emotion, Dictionary<float, Dictionary<string, List<PositionData>>>>();
     private Dictionary<BubbleSystem.Emotion, PositionData> textSizes = new Dictionary<BubbleSystem.Emotion, PositionData>();
+    private Dictionary<BubbleSystem.Situation, List<Vector3>> situationGraphs = new Dictionary<Situation, List<Vector3>>();
 
     private Dictionary<string, AnimationCurve> curves = new Dictionary<string, AnimationCurve>();
     private Dictionary<BubbleSystem.Emotion, Color32> colors = new Dictionary<BubbleSystem.Emotion, Color32>();
@@ -51,6 +52,7 @@ public class DefaultData : Singleton<DefaultData>
         SetBackgroundAnimation();
         SetBalloonPositions();
         SetTextSizes();
+        SetSituationGraphs();
     }
 
     public TextData GetDefaultTextData(BubbleSystem.Emotion emotion, float intensity)
@@ -170,6 +172,26 @@ public class DefaultData : Singleton<DefaultData>
         SetDuration(ref optionsDuration, duration);
         if (duration == -1)
             optionsDuration = duration;
+    }
+
+    public List<Vector3> GetSituationGraph(Situation situation)
+    {
+        return situationGraphs[situation];
+    }
+
+    private void SetSituationGraphs()
+    {
+        Vector3 origin = new Vector3(-0.35f, 0.1f, 0.0f);
+        Vector3 middle = new Vector3(0f, 0.1f, 0.0f);
+        Vector3 end = new Vector3(0.35f, 0.35f, 0.0f);
+        List<Vector3> positions = new List<Vector3>();
+
+        {
+            positions.Add(origin);
+            positions.Add(middle);
+            positions.Add(end);
+            situationGraphs.Add(Situation.GreaterReward, positions);
+        }
     }
 
     private void SetEmotionColors()
