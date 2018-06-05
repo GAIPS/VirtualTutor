@@ -10,6 +10,8 @@ Joao: É verdade, se continuares a estudar vai correr tudo bem.
 Joao: Gostavas de discutir as tuas notas?
 Maria: Ou talvez fazer um plano de estudo?
 
+<<SetOptionsDuration 5>>
+
 [[Ver Notas|Grades.good]]
 [[Plano de Estudo|StudyPlan.propose]]
 ===

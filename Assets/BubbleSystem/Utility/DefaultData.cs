@@ -168,7 +168,7 @@ public class DefaultData : Singleton<DefaultData>
     public void SetOptionsDuration(float duration)
     {
         SetDuration(ref optionsDuration, duration);
-        if (duration == -1)
+        if (Math.Abs(duration - (-1)) < .001f)
             optionsDuration = duration;
     }
 

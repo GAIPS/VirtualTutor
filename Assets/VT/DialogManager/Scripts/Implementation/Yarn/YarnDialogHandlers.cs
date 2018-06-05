@@ -178,36 +178,49 @@ namespace YarnDialog
 
             if (manager.ModuleManager != null)
             {
-                float duration = 60; // One minute wait.
                 IList<string> options = new List<string>(optionSetResult.options.options);
                 options.Remove("BLANK");
                 manager.ModuleManager.UpdateOptions(options.ToArray(), callbacks.ToArray());
-                float count = 0;
-                while (count <= duration && !continueLoop)
-                {
-                    // Active wait
-                    yield return null;
-                    count += Time.deltaTime;
-                }
 
-                if (count > duration)
+                float duration = DefaultData.Instance.GetOptionsDuration();
+                if (duration < 0)
                 {
-                    bool foundBlank = false;
-                    for (int i = 0; i < optionSetResult.options.options.Count; i++)
+                    while (!continueLoop)
                     {
-                        if ("BLANK".Equals(optionSetResult.options.options[i]))
+                        // Active wait
+                        yield return null;
+                    }
+                }
+                else
+                {
+                    float count = 0;
+                    while (count <= duration && !continueLoop)
+                    {
+                        // Active wait until duration
+                        yield return null;
+                        count += Time.deltaTime;
+                    }
+
+                    if (count > duration)
+                    {
+                        bool foundBlank = false;
+                        for (int i = 0; i < optionSetResult.options.options.Count; i++)
                         {
-                            foundBlank = true;
-                            optionSetResult.setSelectedOptionDelegate(i);
+                            if ("BLANK".Equals(optionSetResult.options.options[i]))
+                            {
+                                foundBlank = true;
+                                optionSetResult.setSelectedOptionDelegate(i);
+                            }
+                        }
+
+                        // If BLANK is not found do something else...
+                        if (!foundBlank)
+                        {
+                            manager.RunNode("ChangePlan");
                         }
                     }
-
-                    // If BLANK is not found do something else...
-                    if (!foundBlank)
-                    {
-                        manager.RunNode("ChangePlan");
-                    }
                 }
+
 
                 // Hide Options
                 manager.ModuleManager.HideBalloon("Options");
@@ -417,7 +430,7 @@ namespace YarnDialog
             {
                 yield break;
             }
-            
+
             float time;
             if (!float.TryParse(param[1], NumberStyles.Any, CultureInfo.CreateSpecificCulture("pt-PT"),
                 out time))
