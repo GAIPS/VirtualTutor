@@ -1,0 +1,17 @@
+﻿title: Start.SpeedAndFrequencyExample
+tags: 
+colorID: 1
+position: 541,259
+---
+
+Maria: Going to change my partners nod frequency to 1.0
+<<Nod Joao Frequency 1.0>>
+Maria: I must be very interesting!
+Maria: Let me also change the speed to 2.0
+<<Nod Joao Speed 2.0>>
+Maria: Wow!
+Maria: That is fast!
+
+Joao: Hey! Stop that!
+<<exit>>
+===

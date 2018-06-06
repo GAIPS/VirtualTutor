@@ -1,0 +1,14 @@
+title: Start.SetForceTextUpdate
+tags: Joao.Emotion.Happiness.1,0 Maria.Emotion.Happiness.1,0
+colorID: 2
+position: 499,273
+---
+
+<<OverrideTextEffects Happiness 1 showEffects FadeIn bellCurve>>
+Joao: A situação parece complicada.
+<<SetForceTextUpdate 0>>
+Maria: Até agora, tens tido um bom desempenho.
+
+<<exit>>
+
+===

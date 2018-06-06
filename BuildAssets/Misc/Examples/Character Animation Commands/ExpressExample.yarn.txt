@@ -1,0 +1,11 @@
+﻿title: Start.ExpressExample
+tags: 
+colorID: 1
+position: 541,259
+---
+Maria: Expressing Happiness with a strength of 0.8
+<<Express Maria Happiness 0.8>>
+
+Joao: Expressing Anger with a strength of 0.5
+<<Express Joao Anger 0.5>>
+===

@@ -1,0 +1,13 @@
+title: Start.SetMixColors
+tags: Joao.Emotion.Happiness.0,5 Maria.Emotion.Happiness.0,5
+colorID: 2
+position: 499,273
+---
+
+Joao: A situação parece complicada.
+<<SetMixColors 0>>
+Maria: Até agora, tens tido um bom desempenho.
+
+<<exit>>
+
+===

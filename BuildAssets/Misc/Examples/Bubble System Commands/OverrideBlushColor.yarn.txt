@@ -1,0 +1,14 @@
+title: Start.OverrideBlushColor
+tags: Joao.Emotion.Happiness.1,0 Maria.Emotion.Happiness.1,0
+colorID: 2
+position: 499,273
+---
+
+<<OverrideTextEffects Happiness 1 showEffects Blush fadeCurve>>
+Joao: A situação parece complicada.
+<<OverrideBlushColor #00FF00FF>>
+Maria: Até agora, tens tido um bom desempenho.
+
+<<exit>>
+
+===

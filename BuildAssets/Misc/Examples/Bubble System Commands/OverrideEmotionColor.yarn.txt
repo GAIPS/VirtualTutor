@@ -1,0 +1,13 @@
+title: Start.OverrideEmotionColor
+tags: Joao.Emotion.Happiness.1,0 Maria.Emotion.Happiness.0,5
+colorID: 2
+position: 499,273
+---
+
+Joao: A situação parece complicada.
+<<OverrideEmotionColor Happiness #FF0000FF>>
+Maria: Até agora, tens tido um bom desempenho.
+
+<<exit>>
+
+===

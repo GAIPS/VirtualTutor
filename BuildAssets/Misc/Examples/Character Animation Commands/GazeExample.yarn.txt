@@ -1,0 +1,14 @@
+﻿title: Start.GazeExample
+tags: 
+colorID: 0
+position: 541,259
+---
+<<Gazeat Maria Frequency 1.0>>
+Maria: Starting my gaze ...
+<<Gazeat Maria User>>
+Maria: And gazing back ...
+<<Gazeback Maria User>>
+
+Joao: Nicely done.
+<<exit>>
+===

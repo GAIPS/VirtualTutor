@@ -44,3 +44,8 @@ Thumbs.db
 # ====== #
 .idea
 Assets/Plugins/Editor/JetBrains*
+
+!BuildAssets/*
+BuildAssets/Linux/Yarn
+BuildAssets/Mac/Yarn
+BuildAssets/Windows/Yarn

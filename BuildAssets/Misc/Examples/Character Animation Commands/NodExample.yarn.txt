@@ -1,0 +1,13 @@
+﻿title: Start.NodExample
+tags: 
+colorID: 1
+position: 541,259
+---
+Maria: Nodding ...
+<<Nod Maria Start>>
+Maria: And stopping ...
+<<Nod Maria Stop>>
+
+Joao: Nicely done.
+<<exit>>
+===

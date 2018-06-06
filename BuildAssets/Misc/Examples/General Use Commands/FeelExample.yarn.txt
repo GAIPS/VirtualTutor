@@ -1,0 +1,19 @@
+﻿title: Start.FeelExample
+tags: 
+colorID: 1
+position: 541,259
+---
+<<Feel Maria Happiness 0.9 5.0 Challenge>>
+Maria: I am feeling very happy right now
+
+<<Feel Joao Sadness 0.3 3.0 None>>
+Joao: Me, I am a bit sad...
+
+<<Feel Maria Neutral 0.0 4.0 Enjoyment>>
+Maria: Well, that bummed me out...
+
+<<Feel Joao Surprise 0.2 2.0 Effort>>
+Joao: I am somewhat surprised by that.
+
+<<exit>>
+===

@@ -1,0 +1,13 @@
+title: Start.TextStyle
+tags:
+colorID: 2
+position: 499,273
+---
+
+Joao: <b><i>O</b>lá</i>
+Joao: A situação parece <b>complicada</b>, mas não te preocupes.
+Maria: <color=|FF0000FF>Até agora, tens tido um bom desempenho.
+
+<<exit>>
+
+===

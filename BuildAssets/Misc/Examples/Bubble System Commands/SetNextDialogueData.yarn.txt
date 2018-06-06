@@ -1,0 +1,28 @@
+﻿title: Start.SetNextDialogueData
+tags:
+colorID: 2
+position: 499,273
+---
+
+Joao: A situação parece complicada.
+Maria: Até agora, tens tido um bom desempenho.
+<<SetNextDialogueData Maria Happiness 1 3>>
+<<SetNextDialogueData Joao Anger 0.5 3>>
+Joao: A situação parece complicada.
+Maria: Até agora, tens tido um bom desempenho.
+
+Joao: A situação parece complicada.
+Maria: Até agora, tens tido um bom desempenho.
+
+<<SetNextDialogueData Maria Happiness 1 3 showEffects FadeIn fadeCurve>>
+<<SetNextDialogueData Joao Anger 0.5 3 hideEffects FadeOut fadeCurve>>
+Joao: A situação parece complicada.
+Maria: Até agora, tens tido um bom desempenho.
+
+<<SetNextDialogueData Joao Anger 0.5 3 showEffects FadeIn fadeCurve Shake hideEffects FadeOut fadeCurve>>
+Joao: A situação parece complicada.
+Maria: Até agora, tens tido um bom desempenho.
+
+<<exit>>
+
+===

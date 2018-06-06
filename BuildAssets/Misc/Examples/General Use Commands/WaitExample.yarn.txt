@@ -1,0 +1,9 @@
+title: Start.WaitExample
+tags: 
+colorID: 0
+position: 491,209
+---
+Joao: Maria will wait 5 seconds after this message until she speaks.
+<<wait 5>>
+Maria: Yey! Here I am!
+===

@@ -1,0 +1,8 @@
+title: Start.ExitExample
+tags: 
+colorID: 0
+position: 491,209
+---
+Maria: After this message the application will exit.
+<<exit>>
+===

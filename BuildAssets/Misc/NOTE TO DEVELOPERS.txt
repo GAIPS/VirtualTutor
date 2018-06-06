@@ -1,0 +1,5 @@
+Do not include this file when distributing to users.
+
+Yarn is to large to include in the build. Please download from https://github.com/InfiniteAmmoInc/Yarn. Place the compiled Yarn on BuildAssets/_RESPECTIVE_OS_/Yarn.
+
+You can also see previously built releases of Previewer and get Yarn from there. https://github.com/RicardoEPRodrigues/VirtualTutor/releases/
