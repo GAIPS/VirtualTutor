@@ -8,6 +8,16 @@ public class MathUtils
     {
         return DeltaSquared(value, expected);
     }
+    
+    public static float ExogenousScaled(float value, float expected)
+    {
+        return DeltaSquared(value, expected) * 10;
+    }
+
+    public static float ExogenousInverted(float value, float expected)
+    {
+        return 1 - DeltaSquared(value, expected);
+    }
 
     public static float Endogenous(float value, float expected, float searched)
     {
@@ -30,7 +40,7 @@ public class MathUtils
 
 public interface IPredictor
 {
-    float Predict(List<float> values, List<float> predictions, float? desiredValue);
+    float Predict(List<float> values, List<float> predictions, float? desiredValue = null);
 }
 
 public class MartinhoSimplePredictor : IPredictor
@@ -51,11 +61,12 @@ public class MartinhoSimplePredictor : IPredictor
         else
             lastPrediction = predictions.Last();
 
-        float a = MathUtils.Exogenous(value, lastPrediction);
+        float a = MathUtils.ExogenousScaled(value, lastPrediction);
+//        float a = MathUtils.ExogenousInverted(value, lastPrediction);
         if (desiredValue.HasValue)
         {
-            a *= (float) Math.Pow(MathUtils.Endogenous(value, lastPrediction, desiredValue.Value),
-                2);
+            a += (float) Math.Pow(MathUtils.Endogenous(value, lastPrediction, desiredValue.Value),
+                     2) * a;
         }
 
         return lastPrediction * (1 - a) + value * a;

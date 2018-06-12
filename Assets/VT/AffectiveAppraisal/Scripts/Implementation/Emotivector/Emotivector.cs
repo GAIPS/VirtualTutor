@@ -4,7 +4,7 @@ using System.Linq;
 
 public class Emotivector
 {
-    public struct Expectancy
+    public class Expectancy
     {
         public enum Valence
         {
@@ -22,21 +22,34 @@ public class Emotivector
         public Valence valence;
         public Change change;
         public float salience;
+
+        public override string ToString()
+        {
+            return "Emotivector -- Valence: " + valence + " ; Change: " + change + " ; Salience: " + salience + " .";
+        }
     }
 
     private List<float> _values, _predictions;
 
     private IPredictor _predictor;
+    
+    public float Epsilon = 0.1f;
 
-    public Emotivector(IPredictor predictor) : this(predictor, new List<float>(), new List<float>())
+    public Emotivector(IPredictor predictor) : this(predictor, new List<float>())
     {
     }
 
-    public Emotivector(IPredictor predictor, List<float> values, List<float> predictions)
+    public Emotivector(IPredictor predictor, List<float> values)
     {
         _predictor = predictor;
-        _values = values;
-        _predictions = predictions;
+        _values = new List<float>();
+        _predictions = new List<float>();
+        // Add each value at a time to allow for predictions to be made.
+        foreach (float value in values)
+        {
+            AddValue(value);
+            Predict();
+        }
     }
 
     public Expectancy ComputeExpectancy()
@@ -48,15 +61,8 @@ public class Emotivector
             salience = 0
         };
 
-        if (_values.Count == 0)
+        if (_values.Count <= 1 || _predictions.Count == 0)
         {
-            return expectancy;
-        }
-
-        if (_values.Count == 1 || _predictions.Count == 0)
-        {
-            // Predict the next value
-            _predictions.Add(_predictor.Predict(_values, _predictions, null));
             return expectancy;
         }
 
@@ -73,8 +79,7 @@ public class Emotivector
         // if sensedResult < 0 then we sensed punishment
         // if sensedResult >= 0 then we sensed reward
 
-        const float range = 0.05f;
-        if (MathUtils.DeltaAbs(expectedResult, sensedResult) < range)
+        if (MathUtils.DeltaAbs(expectedResult, sensedResult) < Epsilon)
         {
             expectancy.change = Expectancy.Change.AsExpected;
         }
@@ -87,14 +92,27 @@ public class Emotivector
 
         expectancy.salience = MathUtils.Exogenous(value, prediction);
 
-        // Predict the next value
-        _predictions.Add(_predictor.Predict(_values, _predictions, null));
         return expectancy;
+    }
+
+    public void Predict(float? desiredValue = null)
+    {
+        _predictions.Add(_predictor.Predict(_values, _predictions, desiredValue));
     }
 
     public void AddValue(float value)
     {
         _values.Add(value);
+    }
+
+    public List<float> GetValues()
+    {
+        return _values.ToList();
+    }
+    
+    public List<float> GetPredictions()
+    {
+        return _predictions.ToList();
     }
 
     public void Clear()
