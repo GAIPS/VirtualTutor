@@ -5,28 +5,18 @@ public class EmotivectorDebugScript : MonoBehaviour
 {
     [SerializeField] private EmotivectorViewDebugger _viewDebugger;
 
-    public bool populateEmotivector;
+    public bool PopulateEmotivector;
+
+    public List<float> Values;
 
     private void Start()
     {
         if (_viewDebugger)
         {
             Emotivector emotivector;
-            if (populateEmotivector)
+            if (PopulateEmotivector)
             {
-                List<float> values = new List<float>
-                {
-                    0.5f,
-                    0.5f,
-                    0.5f,
-                    0.4f,
-                    0.3f,
-                    0.5f,
-                    0.7f,
-                    0.6f
-                };
-
-                emotivector = new Emotivector(new MartinhoSimplePredictor(), values);
+                emotivector = new Emotivector(new MartinhoSimplePredictor(), Values);
             }
             else
             {
