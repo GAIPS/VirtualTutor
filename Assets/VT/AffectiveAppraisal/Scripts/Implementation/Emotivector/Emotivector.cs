@@ -14,8 +14,8 @@ public class Emotivector
 
         public enum Change
         {
-            AsExpected,
             WorseThanExpected,
+            AsExpected,
             BetterThanExpected
         }
 

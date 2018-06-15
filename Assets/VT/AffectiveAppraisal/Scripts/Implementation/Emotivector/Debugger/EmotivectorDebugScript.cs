@@ -11,9 +11,7 @@ public class EmotivectorDebugScript : MonoBehaviour
 
     private void Start()
     {
-        if (_viewDebugger)
-        {
-            Emotivector emotivector;
+        Emotivector emotivector;
 //            IPredictor predictor = new MartinhoSimplePredictor();
 //            IPredictor predictor = new MovingAveragePredictor();
 //            IPredictor predictor = new WeightedMovingAveragePredictor();
@@ -21,35 +19,34 @@ public class EmotivectorDebugScript : MonoBehaviour
 //            IPredictor predictor = new FirstDerivativeOnlyPredictor(new WeightedMovingAveragePredictor());
 //            IPredictor predictor = new AdditiveFirstDerivativePredictor(new WeightedMovingAveragePredictor(),
 //                new WeightedMovingAveragePredictor());
-            IPredictor predictor = new AdditiveSecondDerivativePredictor(new WeightedMovingAveragePredictor(),
-                new WeightedMovingAveragePredictor(), new WeightedMovingAveragePredictor());
+        IPredictor predictor = new AdditiveSecondDerivativePredictor(new WeightedMovingAveragePredictor(),
+            new WeightedMovingAveragePredictor(), new WeightedMovingAveragePredictor());
 
-            if (PopulateEmotivector)
-            {
-                emotivector = new Emotivector(predictor, Values);
-            }
-            else
-            {
-                emotivector = new Emotivector(predictor);
-            }
-
-            _viewDebugger.SetEmotivector(emotivector);
+        if (PopulateEmotivector)
+        {
+            emotivector = new Emotivector(predictor, Values);
+        }
+        else
+        {
+            emotivector = new Emotivector(predictor);
         }
 
 
+        RunTutorPersonalityTest(emotivector);
+
+
+        if (_viewDebugger)
+        {
+            _viewDebugger.SetEmotivector(emotivector);
+        }
+    }
+
+    private static void RunTutorPersonalityTest(Emotivector emotivector)
+    {
         Tutor joao = new Tutor("Joao");
         Tutor maria = new Tutor("Maria");
         joao.Personality = new ExpectancyPersonality(new Emotion[3, 6]
         {
-            {
-                /* Neutral */
-                new Emotion(EmotionEnum.Sadness, .3f),
-                new Emotion(EmotionEnum.Neutral, 1f),
-                new Emotion(EmotionEnum.Happiness, .6f),
-                new Emotion(EmotionEnum.Sadness, .2f),
-                new Emotion(EmotionEnum.Neutral, 1f),
-                new Emotion(EmotionEnum.Happiness, .8f)
-            },
             {
                 /* Negative */
                 new Emotion(EmotionEnum.Anger, .5f),
@@ -60,16 +57,38 @@ public class EmotivectorDebugScript : MonoBehaviour
                 new Emotion(EmotionEnum.Surprise, .8f)
             },
             {
+                /* Neutral */
+                new Emotion(EmotionEnum.Sadness, .3f),
+                new Emotion(EmotionEnum.Neutral, 1f),
+                new Emotion(EmotionEnum.Happiness, .6f),
+                new Emotion(EmotionEnum.Sadness, .2f),
+                new Emotion(EmotionEnum.Neutral, 1f),
+                new Emotion(EmotionEnum.Happiness, .8f)
+            },
+            {
                 /* Positive */
                 new Emotion(EmotionEnum.Sadness, .2f),
                 new Emotion(EmotionEnum.Neutral, 1f),
                 new Emotion(EmotionEnum.Happiness, .2f),
-                new Emotion(EmotionEnum.Neutral, 1f),
+                new Emotion(EmotionEnum.Sadness, .2f),
                 new Emotion(EmotionEnum.Neutral, 1f),
                 new Emotion(EmotionEnum.Happiness, 1f)
             }
         });
         maria.Personality = joao.Personality;
+
+        var emotivectorAppraisal = new EmotivectorAppraisal();
+        emotivectorAppraisal.AddEmotivector(emotivector);
+        IAffectiveAppraisal appraisal = emotivectorAppraisal;
+        Debug.Log(joao.Emotion);
+        emotivector.AddValue(.65f);
+        appraisal.ComputeUserEmotion(null, null);
+        appraisal.ComputeTutorEmotion(null, null, joao);
+        Debug.Log(joao.Emotion);
+        emotivector.AddValue(.4f);
+        appraisal.ComputeUserEmotion(null, null);
+        appraisal.ComputeTutorEmotion(null, null, joao);
+        Debug.Log(joao.Emotion);
     }
 
     public static void RunExpectancySortingTest()

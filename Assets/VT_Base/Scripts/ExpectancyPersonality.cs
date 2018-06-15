@@ -3,8 +3,8 @@ public struct ExpectancyPersonality
 {
     public enum EmotionValence
     {
-        Neutral,
         Negative,
+        Neutral,
         Positive
     }
 

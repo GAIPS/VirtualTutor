@@ -20,4 +20,9 @@ public struct Emotion
         Name = name;
         Intensity = intensity;
     }
+
+    public override string ToString()
+    {
+        return Name + " " + Intensity;
+    }
 }
