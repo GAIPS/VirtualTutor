@@ -5,11 +5,17 @@ public class Tutor
 
     public Emotion Emotion { get; set; }
 
-    public Tutor() { }
+    public ExpectancyPersonality Personality { get; set; }
+
+    public Tutor()
+    {
+    }
+
     public Tutor(string name)
     {
         Name = name;
     }
+
     public Tutor(string name, Emotion emotion)
     {
         Name = name;

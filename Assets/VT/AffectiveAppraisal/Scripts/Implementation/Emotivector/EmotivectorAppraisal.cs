@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Utilities;
 using Expectancy = Emotivector.Expectancy;
 
 public class EmotivectorAppraisal : IAffectiveAppraisal
@@ -68,6 +67,27 @@ public class EmotivectorAppraisal : IAffectiveAppraisal
     public void ComputeTutorEmotion(History history, User user, Tutor tutor)
     {
         if (_strongestExpectancy == null) return;
-        // TODO Implement Personality Tables in User/Tutors
+
+        ExpectancyPersonality.EmotionValence valence;
+        switch (tutor.Emotion.Name)
+        {
+            case EmotionEnum.Happiness:
+            case EmotionEnum.Surprise:
+                valence = ExpectancyPersonality.EmotionValence.Positive;
+                break;
+            case EmotionEnum.Anger:
+            case EmotionEnum.Disgust:
+            case EmotionEnum.Fear:
+            case EmotionEnum.Sadness:
+                valence = ExpectancyPersonality.EmotionValence.Negative;
+                break;
+            case EmotionEnum.Neutral:
+            default:
+                valence = ExpectancyPersonality.EmotionValence.Neutral;
+                break;
+        }
+
+        tutor.Emotion = tutor.Personality.Get(valence,
+            _strongestExpectancy.valence, _strongestExpectancy.change);
     }
 }
