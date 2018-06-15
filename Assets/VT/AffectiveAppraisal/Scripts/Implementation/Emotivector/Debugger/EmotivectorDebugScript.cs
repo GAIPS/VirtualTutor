@@ -14,13 +14,23 @@ public class EmotivectorDebugScript : MonoBehaviour
         if (_viewDebugger)
         {
             Emotivector emotivector;
+//            IPredictor predictor = new MartinhoSimplePredictor();
+//            IPredictor predictor = new MovingAveragePredictor();
+//            IPredictor predictor = new WeightedMovingAveragePredictor();
+//            IPredictor predictor = new ExponencialMovingAveragePredictor();
+//            IPredictor predictor = new FirstDerivativeOnlyPredictor(new WeightedMovingAveragePredictor());
+//            IPredictor predictor = new AdditiveFirstDerivativePredictor(new WeightedMovingAveragePredictor(),
+//                new WeightedMovingAveragePredictor());
+            IPredictor predictor = new AdditiveSecondDerivativePredictor(new WeightedMovingAveragePredictor(),
+                new WeightedMovingAveragePredictor(), new WeightedMovingAveragePredictor());
+
             if (PopulateEmotivector)
             {
-                emotivector = new Emotivector(new MartinhoSimplePredictor(), Values);
+                emotivector = new Emotivector(predictor, Values);
             }
             else
             {
-                emotivector = new Emotivector(new MartinhoSimplePredictor());
+                emotivector = new Emotivector(predictor);
             }
 
             _viewDebugger.SetEmotivector(emotivector);
