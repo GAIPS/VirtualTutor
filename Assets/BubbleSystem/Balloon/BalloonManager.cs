@@ -224,14 +224,17 @@ namespace BubbleSystem
                         SpriteData spriteData = DefaultData.Instance.GetDefaultBalloonData(emotionPair.Key, emotionPair.Value);
 
                         Color color;
-                        if (emotionPair.Value.Equals(0.0f) || emotionPair.Key.Equals(BubbleSystem.Emotion.Default) || emotionPair.Key.Equals(BubbleSystem.Emotion.Neutral))
-                        {
-                            color = DefaultData.Instance.GetColor(BubbleSystem.Emotion.Neutral);
-                        }
-                        else
-                        {
-                            color = DefaultData.Instance.mixColors? BubbleSystemUtility.MixColors(data.emotions) : DefaultData.Instance.GetColor(emotionPair.Key);
-                        }
+                        ColorUtility.TryParseHtmlString(balloon.Equals("Maria") ? "#E1B24EFF" : "#BD8E5FFF", out color);
+
+                        //if (emotionPair.Value.Equals(0.0f) || emotionPair.Key.Equals(BubbleSystem.Emotion.Default) || emotionPair.Key.Equals(BubbleSystem.Emotion.Neutral))
+                        //{
+                        //    color = DefaultData.Instance.GetColor(BubbleSystem.Emotion.Neutral);
+                        //}
+                        //else
+                        //{
+                        //    color = DefaultData.Instance.mixColors? BubbleSystemUtility.MixColors(data.emotions) : DefaultData.Instance.GetColor(emotionPair.Key);
+                        //}
+
                         SetSprites(emotionPair.Key, hooks, spriteData, emotionPair.Value, color);
 
                         Color textColor = BubbleSystemUtility.GetTextColor(color);
