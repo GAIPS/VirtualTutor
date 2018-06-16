@@ -1655,7 +1655,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -1748,7 +1748,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -1862,7 +1862,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -1910,7 +1910,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -2102,7 +2102,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -2177,7 +2177,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 1
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -2399,7 +2399,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -2423,7 +2423,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -2516,7 +2516,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 4
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -2765,7 +2765,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -2927,7 +2927,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 3
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -3041,7 +3041,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 1
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -3110,7 +3110,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 1
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -3275,7 +3275,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 4
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -3512,7 +3512,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 2
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -3587,7 +3587,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -3611,7 +3611,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -3656,7 +3656,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -3677,7 +3677,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -3725,7 +3725,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 1
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -3911,7 +3911,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -4052,7 +4052,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -4073,7 +4073,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -4142,7 +4142,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 2
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -4190,7 +4190,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 2
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -4283,7 +4283,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -4331,7 +4331,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 3
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -4379,7 +4379,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 1
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -4403,7 +4403,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 3
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -4523,7 +4523,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -4571,7 +4571,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 1
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -4592,7 +4592,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -4616,7 +4616,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -4637,7 +4637,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -4784,7 +4784,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 3
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -4877,7 +4877,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -4946,7 +4946,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -5084,7 +5084,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -5156,7 +5156,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -5177,7 +5177,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -5222,7 +5222,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -5246,7 +5246,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -5321,7 +5321,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: Act
     m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 1107766416395987392}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -5564,7 +5564,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 4
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -5660,7 +5660,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -5708,7 +5708,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -5732,7 +5732,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 4
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -5756,7 +5756,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 1
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -5780,7 +5780,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 2
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -5822,7 +5822,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -5843,7 +5843,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -5960,7 +5960,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 2
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -5984,7 +5984,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 2
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -6032,7 +6032,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 1
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -6176,7 +6176,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 2
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -6293,7 +6293,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 2
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -6317,7 +6317,7 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: Mood
     m_EventTreshold: 1
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -6431,7 +6431,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -6548,7 +6548,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -6569,7 +6569,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -6614,7 +6614,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107959188500695412}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0
@@ -6974,7 +6974,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400002, guid: f4ec389ee81b98544a8592fbe2e35898, type: 3}
+  m_Motion: {fileID: 0}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -8370,7 +8370,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400002, guid: f4ec389ee81b98544a8592fbe2e35898, type: 3}
+  m_Motion: {fileID: 0}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -9521,7 +9521,7 @@ AnimatorTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions: []
-  m_DstStateMachine: {fileID: 1107920279039377470}
+  m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
   m_Mute: 0

@@ -100,11 +100,13 @@ public partial class AvatarController : MonoBehaviour
         animator.SetFloat("Desired Intensity", finalIntensity);
     }
 
-    public void ExpressEmotion(EmotionalState expression, float intensity)
+    public IEnumerator ExpressEmotion(EmotionalState expression, float intensity)
     {
         parameters.setParameter(AnimatorParams.EXPRESSION_INTENSITY, intensity);
+        yield return new WaitForSeconds(1f);
         animator.SetInteger("Expression", (int)expression);
         animator.SetTrigger("Express");
+        yield return null;
     }
 
     public void DoNodding(NodState nodState)

@@ -22,7 +22,8 @@ public class AvatarManager : MonoBehaviour
         AvatarController controller = getController(name);
         if (controller == null)
             return;
-        controller.ExpressEmotion(expression, intensity);
+        StartCoroutine(controller.ExpressEmotion(expression, intensity));
+        //controller.ExpressEmotion(expression, intensity);
     }
     internal void Talk(string name, TalkState actionState)
     {
