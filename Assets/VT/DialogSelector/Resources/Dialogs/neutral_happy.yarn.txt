@@ -1,0 +1,20 @@
+﻿title: Emotion1
+tags:
+colorID: 1
+position: 858,378
+---
+
+<<SetBalloonDuration 3>>
+
+<<wait 2>>
+
+<<Express Joao Happiness 1>>
+Maria: oooooooooooooooo
+
+<<Express Maria Happiness 1>>
+Joao: oooooooooooooooo
+
+<<wait 10>>
+
+<<exit>>
+===
