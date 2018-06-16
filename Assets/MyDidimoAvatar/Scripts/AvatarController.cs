@@ -35,9 +35,6 @@ public partial class AvatarController : MonoBehaviour
         float[][] paramPreset = AvatarParameters.Presets.Neutral();
         parameters.setAllParameters<AnimatorParams>(paramPreset[0]);
         parameters.setAllParameters<ControllerParams>(paramPreset[1]);
-
-        StartCoroutine("NoddingRoutine");
-        StartCoroutine("PassiveRoutine");
     }
 
     private void FixedUpdate()
@@ -175,93 +172,6 @@ public partial class AvatarController : MonoBehaviour
         }
         else
             parameters.setParameter(param, value);
-    }
-
-    private IEnumerator NoddingRoutine()
-    {
-        float length, frequency;
-        while (true)
-        {
-            if (animator.gameObject.activeSelf && animator.GetBool("Listening"))
-            {
-                length = parameters.nodLength / parameters.getParameter(AnimatorParams.NOD_SPEED);
-                frequency = parameters.getParameter(ControllerParams.NOD_FREQUENCY);
-                if ((UnityEngine.Random.value < frequency) && (UnityEngine.Random.value < frequency)) // Unlucky Rolls
-                {
-                    DoNodding(NodState.NOD_START);
-                }
-                else
-                {
-                    DoNodding(NodState.NOD_END);
-                }
-                yield return new WaitForSeconds(length);
-            }
-            yield return null;
-        }
-    }
-
-    private IEnumerator PassiveRoutine()
-    {
-        //float length, gazelength;
-        while (true)
-        {
-            yield return new WaitForSeconds(UnityEngine.Random.Range(3, 5)); //delay
-            if (!animator.GetBool("Listening") && animator.GetInteger("Talk State") == 0)
-            {
-                switch (UnityEngine.Random.Range(1, 15))
-                { //Testing some random expressive motions
-                    case 1:
-                        animator.SetInteger("Expression2", 0);
-                        animator.SetTrigger("Express2");
-                        break;
-
-                    case 2:
-                    case 9:
-                        animator.SetInteger("Expression2", 1);
-                        animator.SetTrigger("Express2");
-                        break;
-
-                    case 3:
-                    case 10:
-                        animator.SetInteger("Expression2", 2);
-                        animator.SetTrigger("Express2");
-                        break;
-
-                    case 4:
-                        animator.SetInteger("Move Eyes State", 1);
-                        animator.SetTrigger("Move Eyes");
-                        break;
-
-                    case 5:
-                        animator.SetInteger("Move Eyes State", 2);
-                        animator.SetTrigger("Move Eyes");
-                        break;
-
-                    case 6:
-                        animator.SetInteger("Move Eyes State", 3);
-                        animator.SetTrigger("Move Eyes");
-                        break;
-
-                    case 7:
-                        animator.SetInteger("Move Eyes State", 4);
-                        animator.SetTrigger("Move Eyes");
-                        break;
-
-                    case 8:
-                        animator.SetInteger("Move Eyes State", 5);
-                        animator.SetTrigger("Move Eyes");
-                        break;
-
-                    case 11:
-                    case 12:
-                        ExpressEmotion(EmotionalState.SURPRISE, 0.1f);
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-        }
     }
 
     private IEnumerator MoodTransition(float start, float end, float duration)

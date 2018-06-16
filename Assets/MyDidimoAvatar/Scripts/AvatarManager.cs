@@ -30,7 +30,6 @@ public class AvatarManager : MonoBehaviour
         if (controller == null)
             return;
         controller.DoTalking(actionState);
-        StartCoroutine(React(name, actionState));
     }
     internal void Gaze(string name, GazeState actionState)
     {
@@ -59,26 +58,6 @@ public class AvatarManager : MonoBehaviour
         if (controller == null)
             return;
         controller.setParameter(param, value);
-    }
-
-    // reaction subroutine for talk actions
-    IEnumerator React(string name, TalkState actionState)
-    {
-        float delay = 0.5f;
-        yield return new WaitForSeconds(delay);
-        if (actionState.Equals(TalkState.TALK_START))
-        {
-            AvatarController partnerController = getPartnerController(name);
-            partnerController.isListening(true);
-            partnerController.DoGazing(GazeState.GAZEAT_PARTNER);
-        }
-        if (actionState.Equals(TalkState.TALK_END))
-        {
-            AvatarController partnerController = getPartnerController(name);
-            partnerController.isListening(false);
-            partnerController.DoNodding(NodState.NOD_END);
-            partnerController.DoGazing(GazeState.GAZEBACK_PARTNER);
-        }
     }
 
     // controller fetchers
