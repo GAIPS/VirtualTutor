@@ -870,7 +870,7 @@ public class DefaultData : Singleton<DefaultData>
         dict.Add(1f, text);
         defaultTextData.Add(BubbleSystem.Emotion.Neutral, dict);
 
-        defaultTextData[BubbleSystem.Emotion.Neutral][1f].showEffect.Add(Effect.Appear, curves["linearCurve"]);
+        defaultTextData[BubbleSystem.Emotion.Neutral][1f].showEffect.Add(Effect.None, null);
         defaultTextData[BubbleSystem.Emotion.Neutral][1f].hideEffect.Add(Effect.None, null);
 
 

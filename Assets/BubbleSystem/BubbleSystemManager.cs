@@ -60,7 +60,10 @@ namespace BubbleSystem
                     firstTutor = false;
                 }
 
-                SetSpeakData(tutor, emotions, text, showEffects, hideEffects);
+                Dictionary<string, float> em = new Dictionary<string, float>();
+                em.Add(Emotion.Neutral.ToString(), 1.0f);
+
+                SetSpeakData(tutor, em, text, null, null);
                 balloonManager.Speak(tutor, tutorSpeakData[tutor]);
             }
         }
