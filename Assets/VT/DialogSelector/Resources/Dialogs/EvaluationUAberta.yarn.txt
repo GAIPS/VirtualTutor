@@ -1,0 +1,28 @@
+title: Start.Welcome
+tags: 
+colorID: 0
+position: 797,27
+---
+Maria: Bom dia.
+
+[[Start.InputGrade]]
+===
+title: Start.InputGrade
+tags: 
+colorID: 0
+position: 794,251
+---
+
+<<menu inputGrade>>
+
+[[Start.InputHours]]
+===
+title: Start.InputHours
+tags: 
+colorID: 0
+position: 795,493
+---
+Maria: Bom dia.
+
+<<menu inputHours>>
+===

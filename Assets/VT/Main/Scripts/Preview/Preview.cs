@@ -12,9 +12,7 @@ public class Preview : MonoBehaviour
 
     public TextAsset[] YarnDialogDatabase;
 
-    public VTToModuleBridge moduleManager;
-
-    public string IntentionName;
+    public VTToModuleBridge ModuleManager;
 
     public bool Playing = true;
 
@@ -53,10 +51,6 @@ public class Preview : MonoBehaviour
         {
             // Setup Empathic Strategy
             _manager.EmpathicStrategySelector = new SS_SelectFirst();
-//            BasicStrategy strategy = new BasicStrategy();
-//            strategy.Intentions.Add(new Intention(IntentionName));
-//
-//            _manager.Strategies.Add(strategy);
         }
 
         {
@@ -90,7 +84,7 @@ public class Preview : MonoBehaviour
             _manager.DialogManager = dialogManager;
             dialogManager.Tutors.Add(joao);
             dialogManager.Tutors.Add(maria);
-            dialogManager.ModuleManager = this.moduleManager;
+            dialogManager.ModuleManager = this.ModuleManager;
 
 
             // Handlers Order matters

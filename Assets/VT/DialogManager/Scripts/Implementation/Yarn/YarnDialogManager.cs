@@ -11,8 +11,8 @@ namespace YarnDialog
         public interface IDialogHandler
         {
             IEnumerator Handle(Yarn.Dialogue.RunnerResult result, YarnDialogManager manager);
-            void Update(YarnDialogManager manager);
-            void Reset(YarnDialogManager manager);
+            void HandlerUpdate(YarnDialogManager manager);
+            void HandlerReset(YarnDialogManager manager);
         }
 
         private YarnDialogTree _dialogTree;
@@ -96,7 +96,7 @@ namespace YarnDialog
             step = null;
             foreach (IDialogHandler handler in Handlers)
             {
-                handler.Reset(this);
+                handler.HandlerReset(this);
             }
         }
 
@@ -115,7 +115,7 @@ namespace YarnDialog
 
             foreach (IDialogHandler handler in Handlers)
             {
-                handler.Update(this);
+                handler.HandlerUpdate(this);
             }
 
             if (step == null)
@@ -164,7 +164,7 @@ namespace YarnDialog
         {
             foreach (IDialogHandler handler in Handlers)
             {
-                handler.Reset(this);
+                handler.HandlerReset(this);
             }
 
             _enumerator = _dialogTree.Dialogue.Run(node).GetEnumerator();

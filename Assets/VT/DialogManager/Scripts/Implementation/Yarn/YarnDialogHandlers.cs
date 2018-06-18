@@ -19,8 +19,8 @@ namespace YarnDialog
         }
 
         public abstract IEnumerator Handle(Dialogue.RunnerResult result, YarnDialogManager manager);
-        public abstract void Reset(YarnDialogManager manager);
-        public abstract void Update(YarnDialogManager manager);
+        public abstract void HandlerReset(YarnDialogManager manager);
+        public abstract void HandlerUpdate(YarnDialogManager manager);
 
         protected LineInfo InterpretLine(string line, YarnDialogManager manager)
         {
@@ -86,11 +86,11 @@ namespace YarnDialog
             HideLine(lineInfo, manager);
         }
 
-        public override void Reset(YarnDialogManager manager)
+        public override void HandlerReset(YarnDialogManager manager)
         {
         }
 
-        public override void Update(YarnDialogManager manager)
+        public override void HandlerUpdate(YarnDialogManager manager)
         {
         }
     }
@@ -115,7 +115,7 @@ namespace YarnDialog
             lines.Add(InterpretLine(lineResult.line.text, manager));
         }
 
-        public override void Update(YarnDialogManager manager)
+        public override void HandlerUpdate(YarnDialogManager manager)
         {
             if (playingLine == null)
             {
@@ -142,7 +142,7 @@ namespace YarnDialog
             }
         }
 
-        public override void Reset(YarnDialogManager manager)
+        public override void HandlerReset(YarnDialogManager manager)
         {
             lines.Clear();
             if (playingLine != null)
@@ -227,11 +227,11 @@ namespace YarnDialog
             }
         }
 
-        public void Reset(YarnDialogManager manager)
+        public void HandlerReset(YarnDialogManager manager)
         {
         }
 
-        public void Update(YarnDialogManager manager)
+        public void HandlerUpdate(YarnDialogManager manager)
         {
         }
     }
@@ -253,11 +253,11 @@ namespace YarnDialog
             }
         }
 
-        public void Reset(YarnDialogManager manager)
+        public void HandlerReset(YarnDialogManager manager)
         {
         }
 
-        public void Update(YarnDialogManager manager)
+        public void HandlerUpdate(YarnDialogManager manager)
         {
         }
     }
@@ -276,11 +276,11 @@ namespace YarnDialog
             manager.ModuleManager.Handle(commandResult.command.text.Split(' '));
         }
 
-        public void Reset(YarnDialogManager manager)
+        public void HandlerReset(YarnDialogManager manager)
         {
         }
 
-        public void Update(YarnDialogManager manager)
+        public void HandlerUpdate(YarnDialogManager manager)
         {
         }
     }
@@ -298,11 +298,11 @@ namespace YarnDialog
             DebugLog.Log("Command: " + commandResult.command.text);
         }
 
-        public void Reset(YarnDialogManager manager)
+        public void HandlerReset(YarnDialogManager manager)
         {
         }
 
-        public void Update(YarnDialogManager manager)
+        public void HandlerUpdate(YarnDialogManager manager)
         {
         }
     }
@@ -322,11 +322,11 @@ namespace YarnDialog
             DebugLog.Log("Next Node: " + nextNode);
         }
 
-        public void Reset(YarnDialogManager manager)
+        public void HandlerReset(YarnDialogManager manager)
         {
         }
 
-        public void Update(YarnDialogManager manager)
+        public void HandlerUpdate(YarnDialogManager manager)
         {
         }
     }
@@ -400,11 +400,11 @@ namespace YarnDialog
             }
         }
 
-        public void Reset(YarnDialogManager manager)
+        public void HandlerReset(YarnDialogManager manager)
         {
         }
 
-        public void Update(YarnDialogManager manager)
+        public void HandlerUpdate(YarnDialogManager manager)
         {
         }
     }
@@ -446,11 +446,11 @@ namespace YarnDialog
             }
         }
 
-        public void Reset(YarnDialogManager manager)
+        public void HandlerReset(YarnDialogManager manager)
         {
         }
 
-        public void Update(YarnDialogManager manager)
+        public void HandlerUpdate(YarnDialogManager manager)
         {
         }
     }

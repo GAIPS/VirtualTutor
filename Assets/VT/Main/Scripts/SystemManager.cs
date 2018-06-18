@@ -2,6 +2,8 @@
 
 public class SystemManager
 {
+    public static SystemManager instance;
+    
     public IAffectiveAppraisal AffectiveAppraisal { get; set; }
     public IEmpathicStrategySelector EmpathicStrategySelector { get; set; }
     public IDialogSelector DialogSelector { get; set; }
@@ -15,7 +17,7 @@ public class SystemManager
 
     // Placeholder content
 
-    public SystemManager()
+    public SystemManager(bool updateInstance = true)
     {
         // Initialize User
         User = new User();
@@ -28,13 +30,18 @@ public class SystemManager
 
         // Load Strategies
         Strategies = new List<IEmpathicStrategy>();
+
+        if (updateInstance)
+        {
+            instance = this;
+        }
     }
 
-    private bool newAppraisal = true;
+    private bool _newAppraisal = true;
 
     public void Update()
     {
-        if (newAppraisal)
+        if (_newAppraisal)
         {
             // Affective Appraisal
             AffectiveAppraisal.ComputeUserEmotion(History, User);
@@ -56,6 +63,6 @@ public class SystemManager
             }
         }
 
-        newAppraisal = DialogManager.Update();
+        _newAppraisal = DialogManager.Update();
     }
 }

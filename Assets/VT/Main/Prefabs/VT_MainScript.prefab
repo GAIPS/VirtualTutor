@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4434590133045196}
   - component: {fileID: 114024936420302880}
+  - component: {fileID: 114426145877066238}
   m_Layer: 0
   m_Name: VT_MainScript
   m_TagString: Untagged
@@ -51,16 +52,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d002bc32eb050e84287d63fa0c99ea88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  yarnDialogDatabase:
+  YarnDialogDatabase:
   - {fileID: 4900000, guid: 1de6bee36403ff94e82d3ef01ea75d69, type: 3}
-  - {fileID: 4900000, guid: aa7e8ea07966544d7918b3bf9d726f81, type: 3}
-  moduleManager: {fileID: 0}
-  intentions:
-  - Target-focused.Good-grades
-  - DiscussGrades
-  forceIntention: 0
-  forceIntentionName: Start
-  playSplashScreen: 1
-  splashScreenPrefab: {fileID: 1053785833174996, guid: fb0767da147884d968de2aa2168a4ac1,
-    type: 2}
-  playing: 0
+  - {fileID: 4900000, guid: d766f8abbb6ee6b4bb7deaf910c74924, type: 3}
+  ModuleManager: {fileID: 0}
+  Intentions:
+  - Welcome
+  _commandHandler: {fileID: 114426145877066238}
+  Playing: 0
+--- !u!114 &114426145877066238
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1513231979095446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd35f2494e364c3b95b00003e0523a24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _menuPrefabs:
+  - {fileID: 1175077800959060, guid: b36251713e8648e4cb1a47caccfa9b3a, type: 2}
+  - {fileID: 1699554924246076, guid: 844dfc1443153b44b92484ac4e25a3d1, type: 2}

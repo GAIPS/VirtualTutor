@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Utilities;
 
 public class EmotivectorDebugScript : MonoBehaviour
 {
@@ -78,7 +79,8 @@ public class EmotivectorDebugScript : MonoBehaviour
         maria.Personality = joao.Personality;
 
         var emotivectorAppraisal = new EmotivectorAppraisal();
-        emotivectorAppraisal.AddEmotivector(emotivector);
+        var updater = new ValuesCheckAffectiveUpdater {Emotivector = emotivector};
+        emotivectorAppraisal.AddUpdater(updater);
         IAffectiveAppraisal appraisal = emotivectorAppraisal;
         Debug.Log(joao.Emotion);
         emotivector.AddValue(.65f);
@@ -123,7 +125,7 @@ public class EmotivectorDebugScript : MonoBehaviour
 
         Debug.Log(expectancyLog);
 
-        expectancies.Sort(EmotivectorAppraisal.FloatMaxToMinCompare);
+        expectancies.Sort(MathUtils.FloatMaxToMinCompare);
 
         expectancyLog = string.Empty;
         foreach (Emotivector.Expectancy expectancy in expectancies)

@@ -350,6 +350,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bubbleSystem: {fileID: 1805335951}
   avatarManager: {fileID: 1484304442}
+  Tutors: []
 --- !u!4 &551055528
 Transform:
   m_ObjectHideFlags: 0
@@ -852,11 +853,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114024936420302880, guid: f0525aadcc90b18499a6b7a1b0dfe60c,
-        type: 2}
-      propertyPath: intentions.Array.size
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 4434590133045196, guid: f0525aadcc90b18499a6b7a1b0dfe60c, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -891,29 +887,9 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114024936420302880, guid: f0525aadcc90b18499a6b7a1b0dfe60c,
         type: 2}
-      propertyPath: moduleManager
+      propertyPath: ModuleManager
       value: 
       objectReference: {fileID: 551055527}
-    - target: {fileID: 114024936420302880, guid: f0525aadcc90b18499a6b7a1b0dfe60c,
-        type: 2}
-      propertyPath: intentions.Array.data[2]
-      value: Target-focused.Good-grades
-      objectReference: {fileID: 0}
-    - target: {fileID: 114024936420302880, guid: f0525aadcc90b18499a6b7a1b0dfe60c,
-        type: 2}
-      propertyPath: intentions.Array.data[1]
-      value: DiscussGrades
-      objectReference: {fileID: 0}
-    - target: {fileID: 114024936420302880, guid: f0525aadcc90b18499a6b7a1b0dfe60c,
-        type: 2}
-      propertyPath: intentions.Array.data[3]
-      value: DiscussGrades
-      objectReference: {fileID: 0}
-    - target: {fileID: 114024936420302880, guid: f0525aadcc90b18499a6b7a1b0dfe60c,
-        type: 2}
-      propertyPath: intentions.Array.data[0]
-      value: cognitive-engagement.bad-grades
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f0525aadcc90b18499a6b7a1b0dfe60c, type: 2}
   m_IsPrefabParent: 0

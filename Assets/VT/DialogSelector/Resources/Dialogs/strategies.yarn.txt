@@ -1,5 +1,5 @@
 title: Start.Target-focused.Good-grades
-tags: User.Emotion.Happiness.1,0 Joao.Emotion.Happiness.1,0 Maria.Emotion.Happiness.1,0
+tags: Joao.Emotion.Happiness.1,0 Maria.Emotion.Happiness.1,0
 colorID: 1
 position: 539,256
 ---
@@ -104,4 +104,19 @@ colorID: 1
 position: 1547,252
 ---
 
+===
+title: Start.Target-focused.Good-grades2
+tags: 
+colorID: 0
+position: 237,254
+---
+Joao: A situação parece complicada, mas não te preocupes.
+Maria: Até agora, tens tido um bom desempenho.
+Joao: É verdade, se continuares a estudar vai correr tudo bem.
+
+Joao: Gostavas de discutir as tuas notas?
+Maria: Ou talvez fazer um plano de estudo?
+
+[[Ver Notas|Grades.good]]
+[[Plano de Estudo|StudyPlan.propose]]
 ===

@@ -4,17 +4,17 @@ using YarnDialog;
 
 public class VT_Main : MonoBehaviour
 {
-    private SystemManager manager;
+    private SystemManager _manager;
 
-    public TextAsset[] yarnDialogDatabase;
+    public TextAsset[] YarnDialogDatabase;
 
-    public VTToModuleBridge moduleManager;
+    public VTToModuleBridge ModuleManager;
 
-    public string[] intentions;
-    public bool forceIntention;
-    public string forceIntentionName;
+    public string[] Intentions;
 
-    public bool playing = false;
+    [SerializeField] private MenuCommandHandler _commandHandler;
+
+    public bool Playing;
 
     // Use this for initialization
     void Start()
@@ -22,78 +22,77 @@ public class VT_Main : MonoBehaviour
         DebugLog.Clean();
         DebugLog.Add(new UnityDebugLogger());
 
-        manager = new SystemManager();
+        _manager = new SystemManager();
 
         Tutor joao = new Tutor("Joao");
         Tutor maria = new Tutor("Maria");
-        manager.Tutors.Add(joao);
-        manager.Tutors.Add(maria);
+        SetPersonality(joao, maria);
+        _manager.Tutors.Add(joao);
+        _manager.Tutors.Add(maria);
 
         {
-            // Setup Affective Appraisal
-            ModularAffectiveAppraisal appraisal = new ModularAffectiveAppraisal(
-                new UserAA_OneEmotion(new Emotion(EmotionEnum.Happiness,
-                    0.2f)),
-                new TutorAA_CopyUser()
-            );
-            manager.AffectiveAppraisal = appraisal;
+            EmotivectorAppraisal appraisal = new EmotivectorAppraisal();
+            IPredictor predictor = new AdditiveSecondDerivativePredictor(new WeightedMovingAveragePredictor(),
+                new WeightedMovingAveragePredictor(), new WeightedMovingAveragePredictor());
+            {
+                AffectiveUpdater updater = new GradesAffectiveUpdater {Emotivector = new Emotivector(predictor)};
+                appraisal.AddUpdater(updater);
+            }
+            {
+                AffectiveUpdater updater = new StudyHoursAffectiveUpdater {Emotivector = new Emotivector(predictor)};
+                appraisal.AddUpdater(updater);
+            }
+            _manager.AffectiveAppraisal = appraisal;
         }
 
         {
             // Setup Empathic Strategy
-            manager.EmpathicStrategySelector = new SS_SelectFirst();
+            _manager.EmpathicStrategySelector = new SS_SelectFirst();
             BasicStrategy strategy = new BasicStrategy();
-            if (forceIntention)
+            foreach (string intention in Intentions)
             {
-                strategy.Intentions.Add(new Intention(forceIntentionName));
-            }
-            else
-            {
-                foreach (string intention in intentions)
-                {
-                    strategy.Intentions.Add(new Intention(intention));
-                }
+                strategy.Intentions.Add(new Intention(intention));
             }
 
-            manager.Strategies.Add(strategy);
+            _manager.Strategies.Add(strategy);
         }
 
         {
             // Setup Dialog Selector
-            if (yarnDialogDatabase != null)
+            if (YarnDialogDatabase != null)
             {
-                string[] yarnFilesContent = new string[yarnDialogDatabase.Length];
-                for (int i = 0; i < yarnDialogDatabase.Length; i++)
+                string[] yarnFilesContent = new string[YarnDialogDatabase.Length];
+                for (int i = 0; i < YarnDialogDatabase.Length; i++)
                 {
-                    yarnFilesContent[i] = yarnDialogDatabase[i].text;
+                    yarnFilesContent[i] = YarnDialogDatabase[i].text;
                 }
 
                 var dialogSelector = new YarnDialogSelector(yarnFilesContent);
 
-                manager.DialogSelector = dialogSelector;
+                _manager.DialogSelector = dialogSelector;
             }
         }
 
         {
             // Setup Dialog Manager
             var dialogManager = new YarnDialogManager(false);
-            manager.DialogManager = dialogManager;
+            _manager.DialogManager = dialogManager;
             dialogManager.Tutors.Add(joao);
             dialogManager.Tutors.Add(maria);
-            dialogManager.ModuleManager = this.moduleManager;
+            dialogManager.ModuleManager = this.ModuleManager;
 
 
             // Handlers Order matters
-            
+
             // Tag Handlers (should always be first)
             dialogManager.Handlers.Add(new EmotionTagNodeHandler());
-            
+
             // Line Handlers
             dialogManager.Handlers.Add(new SequenceLineHandler());
 
             // Options Handlers
             dialogManager.Handlers.Add(new SequenceOptionsHandler());
-            
+
             // Node Handlers
             dialogManager.Handlers.Add(new LogCompleteNodeHandler());
 
@@ -102,17 +101,86 @@ public class VT_Main : MonoBehaviour
             dialogManager.Handlers.Add(new ModuleCommandHandler());
             dialogManager.Handlers.Add(new ExitCommandHandler());
             dialogManager.Handlers.Add(new LogCommandHandler());
+
+            if (_commandHandler)
+            {
+                dialogManager.Handlers.Add(_commandHandler);
+            }
         }
 
-        playing = true;
+        Playing = true;
+    }
+
+    private static void SetPersonality(Tutor joao, Tutor maria)
+    {
+        joao.Personality = new ExpectancyPersonality(new Emotion[3, 6]
+        {
+            {
+                /* Negative */
+                new Emotion(EmotionEnum.Anger, .5f), // Punishment Worse Than Expected
+                new Emotion(EmotionEnum.Neutral, 1f), // Punishment As Expected
+                new Emotion(EmotionEnum.Surprise, .2f), // Punishment Better Than Expected
+                new Emotion(EmotionEnum.Anger, .2f), // Punishment Worse Than Expected
+                new Emotion(EmotionEnum.Neutral, 1f), // Punishment As Expected
+                new Emotion(EmotionEnum.Surprise, .8f) // Punishment Better Than Expected
+            },
+            {
+                /* Neutral */
+                new Emotion(EmotionEnum.Sadness, .3f),
+                new Emotion(EmotionEnum.Neutral, 1f),
+                new Emotion(EmotionEnum.Happiness, .6f),
+                new Emotion(EmotionEnum.Sadness, .2f),
+                new Emotion(EmotionEnum.Neutral, 1f),
+                new Emotion(EmotionEnum.Happiness, .8f)
+            },
+            {
+                /* Positive */
+                new Emotion(EmotionEnum.Sadness, .2f),
+                new Emotion(EmotionEnum.Neutral, 1f),
+                new Emotion(EmotionEnum.Happiness, .2f),
+                new Emotion(EmotionEnum.Sadness, .2f),
+                new Emotion(EmotionEnum.Neutral, 1f),
+                new Emotion(EmotionEnum.Happiness, 1f)
+            }
+        });
+        maria.Personality = new ExpectancyPersonality(new Emotion[3, 6]
+        {
+            {
+                /* Negative */
+                new Emotion(EmotionEnum.Anger, .5f), // Punishment Worse Than Expected
+                new Emotion(EmotionEnum.Neutral, 1f), // Punishment As Expected
+                new Emotion(EmotionEnum.Surprise, .2f), // Punishment Better Than Expected
+                new Emotion(EmotionEnum.Anger, .2f), // Punishment Worse Than Expected
+                new Emotion(EmotionEnum.Neutral, 1f), // Punishment As Expected
+                new Emotion(EmotionEnum.Surprise, .8f) // Punishment Better Than Expected
+            },
+            {
+                /* Neutral */
+                new Emotion(EmotionEnum.Sadness, .3f),
+                new Emotion(EmotionEnum.Neutral, 1f),
+                new Emotion(EmotionEnum.Happiness, .6f),
+                new Emotion(EmotionEnum.Sadness, .2f),
+                new Emotion(EmotionEnum.Neutral, 1f),
+                new Emotion(EmotionEnum.Happiness, .8f)
+            },
+            {
+                /* Positive */
+                new Emotion(EmotionEnum.Sadness, .2f),
+                new Emotion(EmotionEnum.Neutral, 1f),
+                new Emotion(EmotionEnum.Happiness, .2f),
+                new Emotion(EmotionEnum.Sadness, .2f),
+                new Emotion(EmotionEnum.Neutral, 1f),
+                new Emotion(EmotionEnum.Happiness, 1f)
+            }
+        });
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (playing)
+        if (Playing)
         {
-            manager.Update();
+            _manager.Update();
         }
     }
 }

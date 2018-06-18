@@ -1,67 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Utilities;
 using Expectancy = Emotivector.Expectancy;
 
 public class EmotivectorAppraisal : IAffectiveAppraisal
 {
-    private List<Emotivector> _emotivectors;
+
+    private List<AffectiveUpdater> _updaters;
 
     private Expectancy _strongestExpectancy;
 
     public EmotivectorAppraisal()
     {
-        _emotivectors = new List<Emotivector>();
+        _updaters = new List<AffectiveUpdater>();
     }
 
-    public void AddEmotivector(Emotivector emotivector)
+    public void AddUpdater(AffectiveUpdater affectiveUpdater)
     {
-        _emotivectors.Add(emotivector);
+        _updaters.Add(affectiveUpdater);
     }
 
     public void ComputeUserEmotion(History history, User user)
     {
+        List<Emotivector> emotivectors = new List<Emotivector>();
         // Read history and update Emotivectors
         // Add values to the emotivectors using emotivector.AddValue
+        foreach (var updater in _updaters)
+        {
+            var emotivector = updater.Update(history, user);
+            if (emotivector != null)
+            {
+                emotivectors.Add(emotivector);
+            }
+        }
 
         // Compute Expectancy for all the emotivectors
         List<Expectancy> expectancies = new List<Expectancy>();
-        foreach (Emotivector emotivector in _emotivectors)
+        foreach (Emotivector emotivector in emotivectors)
         {
             expectancies.Add(emotivector.ComputeExpectancy());
         }
 
-        expectancies.Sort(FloatMinToMaxCompare);
+        expectancies.Sort(MathUtils.FloatMaxToMinCompare);
 
         // Compute emotion using expectancy
         // Compute emotion for user
         // Save expectancy for tutors
+        _strongestExpectancy = null;
         if (expectancies.Count > 0)
         {
             _strongestExpectancy = expectancies[0];
         }
 
         // Predict new values
-        foreach (Emotivector emotivector in _emotivectors)
+        foreach (Emotivector emotivector in emotivectors)
         {
             emotivector.Predict();
         }
-    }
-
-    public static int FloatMinToMaxCompare(Expectancy x, Expectancy y)
-    {
-        var diff = x.salience - y.salience;
-        if (Math.Abs(diff) < 0.0005f)
-        {
-            // shortcut, handles infinities
-            return 0;
-        }
-
-        return diff < 0 ? -1 : 1;
-    }
-
-    public static int FloatMaxToMinCompare(Expectancy x, Expectancy y)
-    {
-        return FloatMinToMaxCompare(x, y) * -1;
     }
 
     public void ComputeTutorEmotion(History history, User user, Tutor tutor)
