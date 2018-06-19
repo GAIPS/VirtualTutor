@@ -74,3 +74,4 @@ MonoBehaviour:
   _menuPrefabs:
   - {fileID: 1175077800959060, guid: b36251713e8648e4cb1a47caccfa9b3a, type: 2}
   - {fileID: 1699554924246076, guid: 844dfc1443153b44b92484ac4e25a3d1, type: 2}
+  - {fileID: 1178870396667558, guid: b315464972f4e2f48abb87a1ca26e968, type: 2}

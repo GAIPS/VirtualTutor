@@ -71,13 +71,24 @@ Joao: Input Grades 3
 title: welcome
 tags: 
 colorID: 0
-position: 507,248
+position: 505,248
 ---
 <<if $initialWelcome is false>>
     Maria: Olá, eu sou a Maria.
     Joao: E eu sou o João.
-    <<set $initialWelcome to true>>
+    [[UserID]]
 <<else>>
     Joao: Olá de novo.
 <<endif>>
+===
+title: UserID
+tags: 
+colorID: 0
+position: 492,484
+---
+Joao: Precisamos do teu ID.
+Maria: Deves ter recebido um ao preencher o formulário.
+
+<<menu inputId>>
+<<set $initialWelcome to true>>
 ===

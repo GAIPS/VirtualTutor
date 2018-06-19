@@ -1,5 +1,9 @@
-﻿using SimpleJSON;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
+using SimpleJSON;
 using UnityEngine;
+using Utilities;
 
 public class PersistentDataStorage
 {
@@ -36,9 +40,31 @@ public class PersistentDataStorage
     public void SaveState()
     {
         PlayerPrefs.SetString(Id, _state.ToString());
+
+        DebugLog.Log(_state.ToString());
+
+        if (_state["UserID"] == null) return;
         
-        Utilities.DebugLog.Log(_state.ToString());
-        // TODO Save to Website
+        int id = _state["UserID"];
+        string file = _state.ToString();
+        string filename = "user" + id + ".json";
+        string urlAddress = "http://web.tecnico.ulisboa.pt/ist173960/VTUploadFiles/FileReceiver.php?filename=" +
+                            filename + "&file=" +
+                            file;
+
+        try
+        {
+            using (WebClient client = new WebClient())
+            {
+                // this string contains the webpage's source
+                string pagesource = client.DownloadString(urlAddress);
+                Debug.Log(pagesource);
+            }
+        }
+        catch (WebException e)
+        {
+            DebugLog.Warn(e.Message);
+        }
     }
 
     public JSONNode LoadState()

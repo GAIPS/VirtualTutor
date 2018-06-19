@@ -27,7 +27,7 @@ public class MainBuildProcess : MonoBehaviour
     {
         string path = GetProjectPath() + "/Build/Main/";
         BuildGameForPlatform(mainLevels, path, BuildTarget.Android);
-        Debug.Log("Completed Mac build to " + path);
+        Debug.Log("Completed Android build to " + path);
     }
 
     [MenuItem("VT Tools/Main Build Tools/Build For Windows", false, 2)]
