@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Utilities;
+using Yarn;
 using YarnDialog;
 
 public class VT_Main : MonoBehaviour
@@ -30,6 +32,21 @@ public class VT_Main : MonoBehaviour
         _manager.Tutors.Add(joao);
         _manager.Tutors.Add(maria);
 
+        BasicYarnDialogSelector dialogSelector = null;
+        // Setup Dialog Selector
+        if (YarnDialogDatabase != null)
+        {
+            string[] yarnFilesContent = new string[YarnDialogDatabase.Length];
+            for (int i = 0; i < YarnDialogDatabase.Length; i++)
+            {
+                yarnFilesContent[i] = YarnDialogDatabase[i].text;
+            }
+
+            dialogSelector = new BasicYarnDialogSelector(yarnFilesContent);
+
+            _manager.DialogSelector = dialogSelector;
+        }
+        
         {
             EmotivectorAppraisal appraisal = new EmotivectorAppraisal();
             IPredictor predictor = new AdditiveSecondDerivativePredictor(new WeightedMovingAveragePredictor(),
@@ -47,30 +64,58 @@ public class VT_Main : MonoBehaviour
 
         {
             // Setup Empathic Strategy
-            _manager.EmpathicStrategySelector = new SS_SelectFirst();
-            BasicStrategy strategy = new BasicStrategy();
-            foreach (string intention in Intentions)
+            _manager.EmpathicStrategySelector = new BaseStrategySelector();
+            VariableStorage storage = null;
+            if (dialogSelector != null)
             {
-                strategy.Intentions.Add(new Intention(intention));
+                storage = dialogSelector.VariableStorage;
             }
 
-            _manager.Strategies.Add(strategy);
-        }
-
-        {
-            // Setup Dialog Selector
-            if (YarnDialogDatabase != null)
+            var welcome = new TaskStrategy
             {
-                string[] yarnFilesContent = new string[YarnDialogDatabase.Length];
-                for (int i = 0; i < YarnDialogDatabase.Length; i++)
-                {
-                    yarnFilesContent[i] = YarnDialogDatabase[i].text;
-                }
-
-                var dialogSelector = new YarnDialogSelector(yarnFilesContent);
-
-                _manager.DialogSelector = dialogSelector;
-            }
+                Name = "Welcome",
+                NodeName = "welcome",
+                BeginDate = new DateTime(2018, 6, 18, 0, 0, 0),
+                VariableStorage = storage
+            };
+            _manager.Strategies.Add(welcome);
+            var af1Studyhours = new TaskStrategy
+            {
+                Name = "AF1StudyHours",
+                NodeName = "af1studyhours",
+                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0),
+                VariableStorage = storage
+            };
+            _manager.Strategies.Add(af1Studyhours);
+            var af1Grade = new TaskStrategy
+            {
+                Name = "AF1Grades",
+                NodeName = "af1grades",
+                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0),
+//                BeginDate = new DateTime(2018, 6, 20, 0, 0, 0),
+                VariableStorage = storage
+            };
+            af1Grade.DependsOn.Add(af1Studyhours);
+            _manager.Strategies.Add(af1Grade);
+            var af2Studyhours = new TaskStrategy
+            {
+                Name = "AF2StudyHours",
+                NodeName = "af2studyhours",
+                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0),
+//                BeginDate = new DateTime(2018, 6, 21, 0, 0, 0),
+                VariableStorage = storage
+            };
+            _manager.Strategies.Add(af2Studyhours);
+            var af2Grade = new TaskStrategy
+            {
+                Name = "AF2Grades",
+                NodeName = "af2grades",
+                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0),
+//                BeginDate = new DateTime(2018, 6, 23, 0, 0, 0),
+                VariableStorage = storage
+            };
+            af2Grade.DependsOn.Add(af2Studyhours);
+            _manager.Strategies.Add(af2Grade);
         }
 
         {
@@ -79,7 +124,7 @@ public class VT_Main : MonoBehaviour
             _manager.DialogManager = dialogManager;
             dialogManager.Tutors.Add(joao);
             dialogManager.Tutors.Add(maria);
-            dialogManager.ModuleManager = this.ModuleManager;
+            dialogManager.ModuleManager = ModuleManager;
 
 
             // Handlers Order matters

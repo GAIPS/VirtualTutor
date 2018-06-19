@@ -65,7 +65,7 @@ namespace YarnDialog
             List<string> startNodes = new List<string>();
             foreach (string nodeName in allNodes)
             {
-                if (nodeName.StartsWith("Start."))
+                if (nodeName.StartsWith(startWith))
                 {
                     startNodes.Add(nodeName);
                 }

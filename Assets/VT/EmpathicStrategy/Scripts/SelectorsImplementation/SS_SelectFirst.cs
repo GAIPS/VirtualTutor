@@ -6,9 +6,13 @@ public class SS_SelectFirst : IEmpathicStrategySelector
 {
     public Intention SelectIntention(History history, ICollection<IEmpathicStrategy> strategies, User user)
     {
-        IEmpathicStrategy strategy = strategies.FirstOrDefault();
-        if (strategy == null) return null;
-
-        return strategy.GetIntentions().FirstOrDefault();
+        foreach (var empathicStrategy in strategies)
+        {
+            if (empathicStrategy.IsValid())
+            {
+                return empathicStrategy.GetIntentions().FirstOrDefault();
+            }
+        }
+        return null;
     }
 }

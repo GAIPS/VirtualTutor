@@ -1,28 +1,77 @@
-title: Start.Welcome
+title: welcome
 tags: 
 colorID: 0
-position: 797,27
+position: 564,251
 ---
 Maria: Bom dia.
-
-[[Start.InputGrade]]
 ===
-title: Start.InputGrade
+title: af1grades
 tags: 
 colorID: 0
-position: 794,251
+position: 1001,246
 ---
-
+Joao: Input Grades 1
 <<menu inputGrade>>
-
-[[Start.InputHours]]
+<<set $af1gradesComplete to true>>
 ===
-title: Start.InputHours
+title: af1studyhours
 tags: 
 colorID: 0
-position: 795,493
+position: 794,249
 ---
-Maria: Bom dia.
+Maria: Input Hours 1
 
 <<menu inputHours>>
+<<set $af1studyhoursComplete to true>>
+===
+title: exit
+tags: 
+colorID: 0
+position: 2088,251
+---
+Joao: Parece já termos falado de tudo por hoje.
+Maria: Volta amanhã! Esperaremos por ti.
+
+<<exit>>
+===
+title: af2grades
+tags: 
+colorID: 0
+position: 1443,239
+---
+Joao: Input Grades 2
+<<menu inputGrade>>
+
+<<set $af2gradesComplete to true>>
+===
+title: af2studyhours
+tags: 
+colorID: 0
+position: 1228,241
+---
+Maria: Input Hours 2
+
+<<menu inputHours>>
+
+<<set $af2studyhoursComplete to true>>
+===
+title: af3studyhours
+tags: 
+colorID: 0
+position: 1659,238
+---
+Maria: Input Hours 3
+
+<<menu inputHours>>
+<<set $af3studyhoursComplete to true>>
+===
+title: af3grades
+tags: 
+colorID: 0
+position: 1875,240
+---
+Joao: Input Grades 3
+<<menu inputGrade>>
+
+<<set $af3gradesComplete to true>>
 ===

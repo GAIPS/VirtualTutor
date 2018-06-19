@@ -93,15 +93,15 @@ namespace YarnDialog
             }
 
             _enumerator = null;
-            step = null;
+            _step = null;
             foreach (IDialogHandler handler in Handlers)
             {
                 handler.HandlerReset(this);
             }
         }
 
-        private IEnumerator step;
-        private bool newAppraisal = false;
+        private IEnumerator _step;
+        private bool _newAppraisal = false;
 
         public bool Update()
         {
@@ -111,24 +111,24 @@ namespace YarnDialog
                 return true;
             }
 
-            newAppraisal = false;
+            _newAppraisal = false;
 
             foreach (IDialogHandler handler in Handlers)
             {
                 handler.HandlerUpdate(this);
             }
 
-            if (step == null)
+            if (_step == null)
             {
-                step = DialogStep();
+                _step = DialogStep();
             }
 
-            if (!step.MoveNext())
+            if (!_step.MoveNext())
             {
-                step = DialogStep();
+                _step = DialogStep();
             }
 
-            return newAppraisal;
+            return _newAppraisal;
         }
 
         private IEnumerator DialogStep()
@@ -156,7 +156,7 @@ namespace YarnDialog
             else
             {
                 DebugLog.Log("Finished Dialog Execution");
-                newAppraisal = true;
+                _newAppraisal = true;
             }
         }
 
