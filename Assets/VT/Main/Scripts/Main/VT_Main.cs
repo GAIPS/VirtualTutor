@@ -1,4 +1,5 @@
 ﻿using System;
+using SimpleJSON;
 using UnityEngine;
 using Utilities;
 using Yarn;
@@ -23,6 +24,8 @@ public class VT_Main : MonoBehaviour
     {
         DebugLog.Clean();
         DebugLog.Add(new UnityDebugLogger());
+        
+//        PersistentDataStorage.Instance.ResetState();
 
         _manager = new SystemManager();
 
@@ -73,46 +76,46 @@ public class VT_Main : MonoBehaviour
 
             var welcome = new TaskStrategy
             {
+                VariableStorage = storage,
                 Name = "Welcome",
                 NodeName = "welcome",
-                BeginDate = new DateTime(2018, 6, 18, 0, 0, 0),
-                VariableStorage = storage
+                BeginDate = new DateTime(2018, 6, 18, 0, 0, 0)
             };
             _manager.Strategies.Add(welcome);
             var af1Studyhours = new TaskStrategy
             {
+                VariableStorage = storage,
                 Name = "AF1StudyHours",
                 NodeName = "af1studyhours",
-                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0),
-                VariableStorage = storage
+                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
             };
             _manager.Strategies.Add(af1Studyhours);
             var af1Grade = new TaskStrategy
             {
+                VariableStorage = storage,
                 Name = "AF1Grades",
                 NodeName = "af1grades",
-                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0),
-//                BeginDate = new DateTime(2018, 6, 20, 0, 0, 0),
-                VariableStorage = storage
+                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
+//                BeginDate = new DateTime(2018, 6, 20, 0, 0, 0)
             };
             af1Grade.DependsOn.Add(af1Studyhours);
             _manager.Strategies.Add(af1Grade);
             var af2Studyhours = new TaskStrategy
             {
+                VariableStorage = storage,
                 Name = "AF2StudyHours",
                 NodeName = "af2studyhours",
-                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0),
-//                BeginDate = new DateTime(2018, 6, 21, 0, 0, 0),
-                VariableStorage = storage
+                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
+//                BeginDate = new DateTime(2018, 6, 21, 0, 0, 0)
             };
             _manager.Strategies.Add(af2Studyhours);
             var af2Grade = new TaskStrategy
             {
+                VariableStorage = storage,
                 Name = "AF2Grades",
                 NodeName = "af2grades",
-                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0),
-//                BeginDate = new DateTime(2018, 6, 23, 0, 0, 0),
-                VariableStorage = storage
+                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
+//                BeginDate = new DateTime(2018, 6, 23, 0, 0, 0)
             };
             af2Grade.DependsOn.Add(af2Studyhours);
             _manager.Strategies.Add(af2Grade);
@@ -227,5 +230,15 @@ public class VT_Main : MonoBehaviour
         {
             _manager.Update();
         }
+    }
+    
+    void OnApplicationQuit()
+    {
+        PersistentDataStorage.Instance.SaveState();
+    }
+    
+    void OnApplicationPause(bool pauseStatus)
+    {
+        PersistentDataStorage.Instance.SaveState();
     }
 }

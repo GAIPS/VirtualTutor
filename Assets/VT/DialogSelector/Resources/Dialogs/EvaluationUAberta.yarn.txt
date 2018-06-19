@@ -1,10 +1,3 @@
-title: welcome
-tags: 
-colorID: 0
-position: 564,251
----
-Maria: Bom dia.
-===
 title: af1grades
 tags: 
 colorID: 0
@@ -74,4 +67,17 @@ Joao: Input Grades 3
 <<menu inputGrade>>
 
 <<set $af3gradesComplete to true>>
+===
+title: welcome
+tags: 
+colorID: 0
+position: 507,248
+---
+<<if $initialWelcome is false>>
+    Maria: Olá, eu sou a Maria.
+    Joao: E eu sou o João.
+    <<set $initialWelcome to true>>
+<<else>>
+    Joao: Olá de novo.
+<<endif>>
 ===

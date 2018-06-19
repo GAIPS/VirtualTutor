@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SimpleJSON;
 using UnityEngine;
 
 [RequireComponent(typeof(AnimationHook))]
@@ -35,20 +36,12 @@ public class InputGradeMenu : MonoBehaviour
         // Save value to history
         if (SystemManager.instance != null)
         {
-            History history = SystemManager.instance.History;
+            var state = PersistentDataStorage.Instance.GetState();
 
-            List<float> grades = history.Get<List<float>>("grades");
-            if (grades == null)
-            {
-                grades = new List<float>();
-                history.Set("grades", grades);
-            }
+            state["Grades"].AsArray.Add(_grade);
+            PersistentDataStorage.Instance.SaveState();
 
-            grades.Add(_grade);
-
-
-            List<float> test = history.Get<List<float>>("grades");
-            foreach (var f in test)
+            foreach (var f in state["Grades"].AsArray)
             {
                 Debug.Log("Grade log: " + f);
             }

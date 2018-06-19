@@ -47,10 +47,18 @@ public class TaskStrategy : IEmpathicStrategy
     private void UpdateComplete()
     {
         // TODO Hack - Checks if it is complete.
-        if (VariableStorage != null)
+        if (VariableStorage == null) return;
+
+        string name = "$" + NodeName + "Complete";
+        Value value = VariableStorage.GetValue(name);
+
+        bool completed = false;
+        // if variable not found try to load it
+        if (value != null && value.type != Value.Type.Null)
         {
-            Value value = VariableStorage.GetValue("$" + NodeName + "Complete");
-            if (value != null && value.AsBool) Completed = true;
+            completed = value.AsBool;
         }
+
+        Completed = completed;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using SimpleJSON;
 using Utilities;
 
 public abstract class AffectiveUpdater
@@ -65,22 +66,17 @@ public class ValuesCheckAffectiveUpdater : AffectiveUpdater
 
 public class GradesAffectiveUpdater : AffectiveUpdater
 {
-    private int _gradesCount = -1;
+    private int _gradesCount = 0;
 
     public override Emotivector Update(History history, User user)
     {
         if (Emotivector == null || history == null) return null;
-
-        List<float> grades = history.Get<List<float>>("grades");
-        if (grades == null) return null;
+        
+        var state = PersistentDataStorage.Instance.GetState();
+        JSONArray grades = state["Grades"].AsArray;
 
         if (_gradesCount < grades.Count)
         {
-            if (_gradesCount == -1)
-            {
-                _gradesCount = 0;
-            }
-
             int i;
             for (i = _gradesCount; i < grades.Count - 1; i++)
             {
@@ -103,21 +99,17 @@ public class GradesAffectiveUpdater : AffectiveUpdater
 
 public class StudyHoursAffectiveUpdater : AffectiveUpdater
 {
-    private int _hoursCount = -1;
+    private int _hoursCount = 0;
 
     public override Emotivector Update(History history, User user)
     {
         if (Emotivector == null || history == null) return null;
 
-        List<float> hours = history.Get<List<float>>("hours");
-        if (hours == null) return null;
+        var state = PersistentDataStorage.Instance.GetState();
+        JSONArray hours = state["Hours"].AsArray;
 
         if (_hoursCount < hours.Count)
         {
-            if (_hoursCount == -1)
-            {
-                _hoursCount = 0;
-            }
 
             int i;
             for (i = _hoursCount; i < hours.Count - 1; i++)

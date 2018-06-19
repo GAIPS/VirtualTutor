@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SimpleJSON;
 using UnityEngine;
 
 [RequireComponent(typeof(AnimationHook))]
@@ -35,20 +36,12 @@ public class InputHoursMenu : MonoBehaviour
         // Save value to history
         if (SystemManager.instance != null)
         {
-            History history = SystemManager.instance.History;
+            var state = PersistentDataStorage.Instance.GetState();
 
-            List<float> hours = history.Get<List<float>>("hours");
-            if (hours == null)
-            {
-                hours = new List<float>();
-                history.Set("hours", hours);
-            }
+            state["Hours"].AsArray.Add(_hours);
+            PersistentDataStorage.Instance.SaveState();
 
-            hours.Add(_hours);
-
-
-            List<float> test = history.Get<List<float>>("hours");
-            foreach (var f in test)
+            foreach (var f in state["Hours"].AsArray)
             {
                 Debug.Log("Hour log: " + f);
             }

@@ -13,7 +13,7 @@ namespace YarnDialog
 
         public BasicYarnDialogSelector()
         {
-            VariableStorage = new Yarn.MemoryVariableStore();
+            VariableStorage = new PersistentVariableStorage();
             Dialogue = new Yarn.Dialogue(VariableStorage)
             {
                 LogDebugMessage = delegate (string message)
@@ -73,7 +73,7 @@ namespace YarnDialog
             foreach (string node in startNodes)
             {
                 // Check if the intention matches with node name.
-                if (node.Contains(intention.Name))
+                if (node.Equals(intention.Name))
                 {
                     return new YarnDialogTree(Dialogue, node);
                 }
