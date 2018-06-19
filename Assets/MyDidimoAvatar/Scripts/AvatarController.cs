@@ -16,8 +16,8 @@ public partial class AvatarController : MonoBehaviour
     [SerializeField]
     private bool ApproachLowerIntensity = true;
     //TEMPSTORE
-    private int storedMood;
-    private float storedMoodIntensity;
+//    private int storedMood;
+//    private float storedMoodIntensity;
 
     private Animator animator;
     private AvatarParameters parameters;
@@ -120,8 +120,8 @@ public partial class AvatarController : MonoBehaviour
     {
         if (talkState == TalkState.TALK_START)
         {
-            storedMood = animator.GetInteger("Mood");
-            storedMoodIntensity = animator.GetFloat("Mood Intensity");
+//            storedMood = animator.GetInteger("Mood");
+//            storedMoodIntensity = animator.GetFloat("Mood Intensity");
             if (ApproachNeutral)
                 SetMood(EmotionalState.NEUTRAL, 0.0f);
             if (ApproachLowerIntensity)

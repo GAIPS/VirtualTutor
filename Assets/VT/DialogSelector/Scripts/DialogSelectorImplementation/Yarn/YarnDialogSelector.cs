@@ -88,9 +88,8 @@ namespace YarnDialog
             // Filter by name
             foreach (string node in startNodes)
             {
-                string filterNode = node.Replace("Start.", "");
                 // Check if the intention matches with node name.
-                if (filterNode.Contains(intention.Name))
+                if (node.Contains(intention.Name))
                 {
                     return new YarnDialogTree(dialogue, node);
                 }
