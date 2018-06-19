@@ -5,6 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/VT/Main/Scenes/Preview.unity
     guid: 849f7c10f567cd64fab9408fe8430d46
+  - enabled: 1
+    path: Assets/VT/Main/Scenes/VT_Main.unity
+    guid: dfa2586220dbc45e0ac8e6db7d7640ef
