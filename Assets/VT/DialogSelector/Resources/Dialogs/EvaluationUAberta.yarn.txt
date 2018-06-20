@@ -104,7 +104,7 @@ position: 351,248
     Maria: Bem-vindo à Tutorial Virtual.
     Joao: Estamos em testes, por isso pedimos a sua paciência com eventuais problemas.
     Maria: Nestes próximos dias vamos fazer-te algumas perguntas quanto às avaliações que vais fazer.
-    Joao: Por isso não te esqueças de nos visitar uma vez por dia.
+    Joao: Por isso não te esqueças de nos visitar todos os dias.
     Maria: Nós vamos recolher algumas informações anónimas.
     Joao: Pedimos que ligues a Internet do teu telémovel.
     <<set $initialWelcome to true>>

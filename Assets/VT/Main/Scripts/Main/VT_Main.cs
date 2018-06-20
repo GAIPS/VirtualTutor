@@ -22,6 +22,8 @@ public class VT_Main : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        
         DebugLog.Clean();
         DebugLog.Add(new UnityDebugLogger());
         
@@ -103,8 +105,8 @@ public class VT_Main : MonoBehaviour
                 VariableStorage = storage,
                 Name = "AF1Grades",
                 NodeName = "af1grades",
-                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
-//                BeginDate = new DateTime(2018, 6, 20, 0, 0, 0)
+//                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
+                BeginDate = new DateTime(2018, 6, 21, 0, 0, 0)
             };
             af1Grade.DependsOn.Add(af1Studyhours);
             _manager.Strategies.Add(af1Grade);
@@ -113,8 +115,8 @@ public class VT_Main : MonoBehaviour
                 VariableStorage = storage,
                 Name = "AF2StudyHours",
                 NodeName = "af2studyhours",
-                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
-//                BeginDate = new DateTime(2018, 6, 21, 0, 0, 0)
+//                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
+                BeginDate = new DateTime(2018, 6, 22, 0, 0, 0)
             };
             _manager.Strategies.Add(af2Studyhours);
             var af2Grade = new TaskStrategy
@@ -122,11 +124,30 @@ public class VT_Main : MonoBehaviour
                 VariableStorage = storage,
                 Name = "AF2Grades",
                 NodeName = "af2grades",
-                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
-//                BeginDate = new DateTime(2018, 6, 23, 0, 0, 0)
+//                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
+                BeginDate = new DateTime(2018, 6, 23, 0, 0, 0)
             };
             af2Grade.DependsOn.Add(af2Studyhours);
             _manager.Strategies.Add(af2Grade);
+            var af3Studyhours = new TaskStrategy
+            {
+                VariableStorage = storage,
+                Name = "AF3StudyHours",
+                NodeName = "af3studyhours",
+//                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
+                BeginDate = new DateTime(2018, 6, 23, 0, 0, 0)
+            };
+            _manager.Strategies.Add(af3Studyhours);
+            var af3Grade = new TaskStrategy
+            {
+                VariableStorage = storage,
+                Name = "AF3Grades",
+                NodeName = "af3grades",
+//                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
+                BeginDate = new DateTime(2018, 6, 25, 0, 0, 0)
+            };
+            af3Grade.DependsOn.Add(af3Studyhours);
+            _manager.Strategies.Add(af3Grade);
         }
 
         {
