@@ -148,6 +148,22 @@ public class VT_Main : MonoBehaviour
             };
             af3Grade.DependsOn.Add(af3Studyhours);
             _manager.Strategies.Add(af3Grade);
+            var inputSubjective = new OnceADayTaskStrategy
+            {
+                VariableStorage = storage,
+                Name = "InputSubjective",
+                NodeName = "inputSubjective",
+                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
+            };
+            _manager.Strategies.Add(inputSubjective);
+            var coherentEmotions = new OnceADayTaskStrategy
+            {
+                VariableStorage = storage,
+                Name = "EmotionCoherence",
+                NodeName = "coherentEmotions",
+                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
+            };
+            _manager.Strategies.Add(coherentEmotions);
         }
 
         {

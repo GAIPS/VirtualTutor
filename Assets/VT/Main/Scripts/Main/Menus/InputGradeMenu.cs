@@ -40,11 +40,6 @@ public class InputGradeMenu : MonoBehaviour
 
             state["Grades"].AsArray.Add(_grade);
             PersistentDataStorage.Instance.SaveState();
-
-            foreach (var f in state["Grades"].AsArray)
-            {
-                Debug.Log("Grade log: " + f);
-            }
         }
 
         GetComponent<AnimationHook>().Hide();

@@ -477,7 +477,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Por favor registo o n\xFAmero de identifica\xE7\xE3o que foi fornecido
+  m_Text: "Por favor registe o n\xFAmero de identifica\xE7\xE3o que foi fornecido
     aquando do preenchimento do question\xE1rio, e pressiona o bot\xE3o de confirma\xE7\xE3o."
 --- !u!114 &114666948402925824
 MonoBehaviour:

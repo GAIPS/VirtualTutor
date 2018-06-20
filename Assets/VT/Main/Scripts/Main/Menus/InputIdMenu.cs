@@ -32,8 +32,6 @@ public class InputIdMenu : MonoBehaviour
 
             state["UserID"] = _id;
             PersistentDataStorage.Instance.SaveState();
-
-            Debug.Log("User ID: " + state["UserID"]);
         }
 
         GetComponent<AnimationHook>().Hide();

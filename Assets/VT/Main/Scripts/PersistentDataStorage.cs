@@ -58,7 +58,7 @@ public class PersistentDataStorage
             {
                 // this string contains the webpage's source
                 string pagesource = client.DownloadString(urlAddress);
-                Debug.Log(pagesource);
+                Debug.Log("Uploaded File Successfully: " + pagesource);
             }
         }
         catch (WebException e)

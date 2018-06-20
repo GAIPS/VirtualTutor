@@ -40,11 +40,6 @@ public class InputHoursMenu : MonoBehaviour
 
             state["Hours"].AsArray.Add(_hours);
             PersistentDataStorage.Instance.SaveState();
-
-            foreach (var f in state["Hours"].AsArray)
-            {
-                Debug.Log("Hour log: " + f);
-            }
         }
 
         GetComponent<AnimationHook>().Hide();

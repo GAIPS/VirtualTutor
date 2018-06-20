@@ -29,7 +29,7 @@ public class TaskStrategy : IEmpathicStrategy
         return new List<Intention>(new[] {new Intention(NodeName)});
     }
 
-    public bool IsValid()
+    public virtual bool IsValid()
     {
         foreach (var taskStrategy in DependsOn)
         {
@@ -60,5 +60,20 @@ public class TaskStrategy : IEmpathicStrategy
         }
 
         Completed = completed;
+    }
+}
+
+// TODO This class is a huge HACK!
+public class OnceADayTaskStrategy : TaskStrategy
+{
+    public override bool IsValid()
+    {
+        if (base.IsValid())
+        {
+            var state = PersistentDataStorage.Instance.GetState();
+            return state[Name].AsObject[DateTime.Now.ToShortDateString()] == null;
+        }
+
+        return false;
     }
 }

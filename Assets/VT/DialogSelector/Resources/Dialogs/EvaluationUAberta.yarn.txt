@@ -132,3 +132,25 @@ Joao: Muito obrigado.
 
 <<set $UserIDComplete to true>>
 ===
+title: coherentEmotions
+tags: 
+colorID: 0
+position: 570,467
+---
+Joao: Gostavamos de saber a tua opinião sobre nós.
+
+<<menu InputEmotions>>
+
+Joao: Muito obrigado.
+===
+title: inputSubjective
+tags: 
+colorID: 0
+position: 790,470
+---
+Maria: Em relação ao teus estudos, gostávamos de saber como te sentes.
+
+<<menu InputSubjective>>
+
+Maria: Muito obrigado.
+===
