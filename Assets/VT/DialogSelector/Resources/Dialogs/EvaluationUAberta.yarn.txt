@@ -3,19 +3,28 @@ tags:
 colorID: 0
 position: 1001,246
 ---
-Joao: Input Grades 1
-<<menu inputGrade>>
-<<set $af1gradesComplete to true>>
+Joao: Provavelmente já sairam as notas da primeira avaliação.
+Maria: Já sabes a tua nota?
+
+-> Ainda não sei a minha nota.
+    Maria: Quando voltares a abrir a aplicação perguntamos de novo.
+-> Sim, já sei a minha nota.
+    <<menu inputGrade>>
+    <<set $af1gradesComplete to true>>
 ===
 title: af1studyhours
 tags: 
 colorID: 0
 position: 794,249
 ---
-Maria: Input Hours 1
+Maria: Gostavamos de saber quantas horas despendeste para estudo da primeira avaliação.
 
-<<menu inputHours>>
-<<set $af1studyhoursComplete to true>>
+-> Ainda não tive tempo.
+    Joao: Esta bem. Não te preocupes.
+    Maria: Quando voltares a abrir a aplicação perguntamos de novo.
+-> Foram mais ou menos...
+    <<menu inputHours>>
+    <<set $af1studyhoursComplete to true>>
 ===
 title: exit
 tags: 
@@ -23,7 +32,7 @@ colorID: 0
 position: 2088,251
 ---
 Joao: Parece já termos falado de tudo por hoje.
-Maria: Volta amanhã! Esperaremos por ti.
+Maria: Esperaremos por ti. Volta quando tiveres novidades.
 
 <<exit>>
 ===
@@ -32,63 +41,94 @@ tags:
 colorID: 0
 position: 1443,239
 ---
-Joao: Input Grades 2
-<<menu inputGrade>>
+Maria: Provavelmente já sairam as notas da segunda avaliação.
+Joao: Já sabes a tua nota?
 
-<<set $af2gradesComplete to true>>
+-> Ainda não sei a minha nota.
+    Maria: Quando voltares a abrir a aplicação perguntamos de novo.
+-> Sim, já sei a minha nota.
+    <<menu inputGrade>>
+    <<set $af2gradesComplete to true>>
 ===
 title: af2studyhours
 tags: 
 colorID: 0
 position: 1228,241
 ---
-Maria: Input Hours 2
+Maria: Gostavamos de saber quantas horas despendeste para estudo da segunda avaliação.
 
-<<menu inputHours>>
-
-<<set $af2studyhoursComplete to true>>
+-> Ainda não tive tempo.
+    Maria: Quando voltares a abrir a aplicação perguntamos de novo.
+-> Foram mais ou menos...
+    <<menu inputHours>>
+    <<set $af2studyhoursComplete to true>>
 ===
 title: af3studyhours
 tags: 
 colorID: 0
 position: 1659,238
 ---
-Maria: Input Hours 3
+Maria: Gostavamos de saber quantas horas despendeste para estudo da terceira avaliação.
 
-<<menu inputHours>>
-<<set $af3studyhoursComplete to true>>
+-> Ainda não tive tempo.
+    Joao: Esta bem. Não te preocupes.
+    Maria: Quando voltares a abrir a aplicação perguntamos de novo.
+-> Foram mais ou menos...
+    <<menu inputHours>>
+    <<set $af3studyhoursComplete to true>>
 ===
 title: af3grades
 tags: 
 colorID: 0
 position: 1875,240
 ---
-Joao: Input Grades 3
-<<menu inputGrade>>
+Maria: Provavelmente já sairam as notas da terceira avaliação.
+Joao: Já sabes a tua nota?
 
-<<set $af3gradesComplete to true>>
+-> Ainda não sei a minha nota.
+    Maria: Quando voltares a abrir a aplicação perguntamos de novo.
+-> Sim, já sei a minha nota.
+    <<menu inputGrade>>
+    <<set $af3gradesComplete to true>>
 ===
 title: welcome
 tags: 
 colorID: 0
-position: 505,248
+position: 351,248
 ---
 <<if $initialWelcome is false>>
+    <<Feel Maria Happiness 0.5 None>>
+    <<Feel Joao Happiness 0.5 None>>
     Maria: Olá, eu sou a Maria.
     Joao: E eu sou o João.
-    [[UserID]]
+    Maria: Bem-vindo à Tutorial Virtual.
+    Joao: Estamos em testes, por isso pedimos a sua paciência com eventuais problemas.
+    Maria: Nestes próximos dias vamos fazer-te algumas perguntas quanto às avaliações que vais fazer.
+    Joao: Por isso não te esqueças de nos visitar uma vez por dia.
+    Maria: Nós vamos recolher algumas informações anónimas.
+    Joao: Pedimos que ligues a Internet do teu telémovel.
+    <<set $initialWelcome to true>>
 <<else>>
-    Joao: Olá de novo.
+    <<if $randomWelcome is false>>
+        Joao: Olá de novo.
+        <<set $randomWelcome to true>>
+    <<else>>
+        Maria: Bom ver-te.
+        <<set $randomWelcome to false>>
+    <<endif>>
 <<endif>>
 ===
 title: UserID
 tags: 
 colorID: 0
-position: 492,484
+position: 574,246
 ---
-Joao: Precisamos do teu ID.
+Joao: Para começarmos vamos precisar do teu número de identificação.
 Maria: Deves ter recebido um ao preencher o formulário.
 
 <<menu inputId>>
-<<set $initialWelcome to true>>
+
+Joao: Muito obrigado.
+
+<<set $UserIDComplete to true>>
 ===

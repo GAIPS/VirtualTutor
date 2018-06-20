@@ -82,6 +82,14 @@ public class VT_Main : MonoBehaviour
                 BeginDate = new DateTime(2018, 6, 18, 0, 0, 0)
             };
             _manager.Strategies.Add(welcome);
+            var userID = new TaskStrategy
+            {
+                VariableStorage = storage,
+                Name = "UserID",
+                NodeName = "UserID",
+                BeginDate = new DateTime(2018, 6, 18, 0, 0, 0)
+            };
+            _manager.Strategies.Add(userID);
             var af1Studyhours = new TaskStrategy
             {
                 VariableStorage = storage,
