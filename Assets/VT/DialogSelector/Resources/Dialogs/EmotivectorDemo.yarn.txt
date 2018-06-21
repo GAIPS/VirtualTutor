@@ -1,0 +1,23 @@
+title: demo
+tags: 
+colorID: 0
+position: 1142,250
+---
+<<if $mix is false>>
+    Maria: Hello
+    <<set $mix to true>>
+<<else>>
+    Joao: Hello
+    <<set $mix to false>>
+<<endif>>
+
+-> Input Hours
+    <<menu inputHours>>
+-> Input Grades
+    <<menu inputGrade>>
+-> Input Both
+    <<menu inputHours>>
+    <<menu inputGrade>>
+-> Exit
+    <<exit>>
+===

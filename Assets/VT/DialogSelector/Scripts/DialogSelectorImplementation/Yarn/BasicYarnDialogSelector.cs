@@ -11,9 +11,9 @@ namespace YarnDialog
 
         public Yarn.Dialogue Dialogue;
 
-        public BasicYarnDialogSelector()
+        public BasicYarnDialogSelector(Yarn.VariableStorage variableStorage)
         {
-            VariableStorage = new PersistentVariableStorage();
+            VariableStorage = variableStorage;
             Dialogue = new Yarn.Dialogue(VariableStorage)
             {
                 LogDebugMessage = delegate (string message)
@@ -27,12 +27,15 @@ namespace YarnDialog
             };
         }
 
-        public BasicYarnDialogSelector(string fileContent) : this()
+        public BasicYarnDialogSelector(string[] fileContent) : this(new Yarn.MemoryVariableStore())
         {
-            Dialogue.LoadString(fileContent);
+            foreach (var content in fileContent)
+            {
+                Dialogue.LoadString(content);
+            }
         }
 
-        public BasicYarnDialogSelector(string[] fileContent) : this()
+        public BasicYarnDialogSelector(Yarn.VariableStorage variableStorage, string[] fileContent) : this(variableStorage)
         {
             foreach (var content in fileContent)
             {
