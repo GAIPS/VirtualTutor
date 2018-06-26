@@ -22,6 +22,8 @@ public class PersistentDataStorage
             return _instance;
         }
     }
+    
+    public bool StoreDataOnline;
 
     private const string Id = "JSONState";
 
@@ -43,6 +45,8 @@ public class PersistentDataStorage
 
         DebugLog.Log(_state.ToString());
 
+        if (!StoreDataOnline) return;
+        
         if (_state["UserID"] == null) return;
         
         int id = _state["UserID"];

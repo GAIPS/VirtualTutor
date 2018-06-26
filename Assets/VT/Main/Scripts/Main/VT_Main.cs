@@ -9,6 +9,8 @@ public class VT_Main : MonoBehaviour
 {
     private SystemManager _manager;
 
+    public bool StoreDataOnline;
+
     public TextAsset[] YarnDialogDatabase;
 
     public VTToModuleBridge ModuleManager;
@@ -21,11 +23,13 @@ public class VT_Main : MonoBehaviour
     void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
-        
+
         DebugLog.Clean();
         DebugLog.Add(new UnityDebugLogger());
-        
-//        PersistentDataStorage.Instance.ResetState();
+
+        PersistentDataStorage.Instance.StoreDataOnline = StoreDataOnline;
+
+        PersistentDataStorage.Instance.ResetState();
 
         _manager = new SystemManager();
 
@@ -35,21 +39,6 @@ public class VT_Main : MonoBehaviour
         _manager.Tutors.Add(joao);
         _manager.Tutors.Add(maria);
 
-        BasicYarnDialogSelector dialogSelector = null;
-        // Setup Dialog Selector
-        if (YarnDialogDatabase != null)
-        {
-            string[] yarnFilesContent = new string[YarnDialogDatabase.Length];
-            for (int i = 0; i < YarnDialogDatabase.Length; i++)
-            {
-                yarnFilesContent[i] = YarnDialogDatabase[i].text;
-            }
-
-            dialogSelector = new BasicYarnDialogSelector(new PersistentVariableStorage(), yarnFilesContent);
-
-            _manager.DialogSelector = dialogSelector;
-        }
-        
         {
             EmotivectorAppraisal appraisal = new EmotivectorAppraisal();
             IPredictor predictor = new AdditiveSecondDerivativePredictor(new WeightedMovingAveragePredictor(),
@@ -68,31 +57,23 @@ public class VT_Main : MonoBehaviour
         {
             // Setup Empathic Strategy
             _manager.EmpathicStrategySelector = new BaseStrategySelector();
-            VariableStorage storage = null;
-            if (dialogSelector != null)
-            {
-                storage = dialogSelector.VariableStorage;
-            }
 
             var welcome = new TaskStrategy
             {
-                VariableStorage = storage,
                 Name = "Welcome",
                 NodeName = "welcome",
                 BeginDate = new DateTime(2018, 6, 18, 0, 0, 0)
             };
             _manager.Strategies.Add(welcome);
-            var userID = new TaskStrategy
+            var userId = new TaskStrategy
             {
-                VariableStorage = storage,
                 Name = "UserID",
                 NodeName = "UserID",
                 BeginDate = new DateTime(2018, 6, 18, 0, 0, 0)
             };
-            _manager.Strategies.Add(userID);
+            _manager.Strategies.Add(userId);
             var af1Studyhours = new TaskStrategy
             {
-                VariableStorage = storage,
                 Name = "AF1StudyHours",
                 NodeName = "af1studyhours",
                 BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
@@ -100,7 +81,6 @@ public class VT_Main : MonoBehaviour
             _manager.Strategies.Add(af1Studyhours);
             var af1Grade = new TaskStrategy
             {
-                VariableStorage = storage,
                 Name = "AF1Grades",
                 NodeName = "af1grades",
 //                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
@@ -110,7 +90,6 @@ public class VT_Main : MonoBehaviour
             _manager.Strategies.Add(af1Grade);
             var af2Studyhours = new TaskStrategy
             {
-                VariableStorage = storage,
                 Name = "AF2StudyHours",
                 NodeName = "af2studyhours",
 //                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
@@ -119,7 +98,6 @@ public class VT_Main : MonoBehaviour
             _manager.Strategies.Add(af2Studyhours);
             var af2Grade = new TaskStrategy
             {
-                VariableStorage = storage,
                 Name = "AF2Grades",
                 NodeName = "af2grades",
 //                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
@@ -129,7 +107,6 @@ public class VT_Main : MonoBehaviour
             _manager.Strategies.Add(af2Grade);
             var af3Studyhours = new TaskStrategy
             {
-                VariableStorage = storage,
                 Name = "AF3StudyHours",
                 NodeName = "af3studyhours",
 //                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
@@ -138,7 +115,6 @@ public class VT_Main : MonoBehaviour
             _manager.Strategies.Add(af3Studyhours);
             var af3Grade = new TaskStrategy
             {
-                VariableStorage = storage,
                 Name = "AF3Grades",
                 NodeName = "af3grades",
 //                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
@@ -148,7 +124,6 @@ public class VT_Main : MonoBehaviour
             _manager.Strategies.Add(af3Grade);
             var inputSubjective = new OnceADayTaskStrategy
             {
-                VariableStorage = storage,
                 Name = "InputSubjective",
                 NodeName = "inputSubjective",
                 BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
@@ -156,12 +131,25 @@ public class VT_Main : MonoBehaviour
             _manager.Strategies.Add(inputSubjective);
             var coherentEmotions = new OnceADayTaskStrategy
             {
-                VariableStorage = storage,
                 Name = "EmotionCoherence",
                 NodeName = "coherentEmotions",
                 BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
             };
             _manager.Strategies.Add(coherentEmotions);
+        }
+        
+        // Setup Dialog Selector
+        if (YarnDialogDatabase != null)
+        {
+            string[] yarnFilesContent = new string[YarnDialogDatabase.Length];
+            for (int i = 0; i < YarnDialogDatabase.Length; i++)
+            {
+                yarnFilesContent[i] = YarnDialogDatabase[i].text;
+            }
+
+            var dialogSelector = new BasicYarnDialogSelector(new PersistentVariableStorage(), yarnFilesContent);
+
+            _manager.DialogSelector = dialogSelector;
         }
 
         {
@@ -274,12 +262,12 @@ public class VT_Main : MonoBehaviour
             _manager.Update();
         }
     }
-    
+
     void OnApplicationQuit()
     {
         PersistentDataStorage.Instance.SaveState();
     }
-    
+
     void OnApplicationPause(bool pauseStatus)
     {
         PersistentDataStorage.Instance.SaveState();
