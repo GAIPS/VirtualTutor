@@ -52,12 +52,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d002bc32eb050e84287d63fa0c99ea88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StoreDataOnline: 0
+  TutorsPersonality:
+  - {fileID: 4900000, guid: e819de7e2b4f37f488d6d83ac0ba3faf, type: 3}
+  - {fileID: 4900000, guid: 5c0b2ca391cc02d4da2e8869cf965a44, type: 3}
   YarnDialogDatabase:
   - {fileID: 4900000, guid: 1de6bee36403ff94e82d3ef01ea75d69, type: 3}
   - {fileID: 4900000, guid: d766f8abbb6ee6b4bb7deaf910c74924, type: 3}
   ModuleManager: {fileID: 0}
-  Intentions:
-  - Welcome
   _commandHandler: {fileID: 114426145877066238}
   Playing: 0
 --- !u!114 &114426145877066238

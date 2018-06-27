@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using SimpleJSON;
 using UnityEngine;
 using Utilities;
@@ -49,6 +47,7 @@ public class PersistentDataStorage : IDataStorage
         
         if (_state["UserID"] == null) return;
         
+        // TODO Refractor code
         int id = _state["UserID"];
         string file = _state.ToString();
         string filename = "user" + id + ".json";

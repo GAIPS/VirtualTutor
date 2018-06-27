@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
 
-public class EnumUtils {
-
+public class EnumUtils
+{
     /// EnumTryParse implementation
     /// SOURCE: https://stackoverflow.com/questions/1082532/how-to-tryparse-for-enum-value
     /// .
@@ -79,7 +79,7 @@ public class EnumUtils {
                 case TypeCode.Int32:
                 case TypeCode.Int64:
                 case TypeCode.SByte:
-                    tokenUl = (ulong)Convert.ToInt64(tokenValue, CultureInfo.InvariantCulture);
+                    tokenUl = (ulong) Convert.ToInt64(tokenValue, CultureInfo.InvariantCulture);
                     break;
 
                 //case TypeCode.Byte:
@@ -93,11 +93,33 @@ public class EnumUtils {
 
             ul |= tokenUl;
         }
+
         value = Enum.ToObject(type, ul);
         return true;
     }
 
-    private static char[] _enumSeperators = new char[] { ',', ';', '+', '|', ' ' };
+    public static bool TryParse<E>(string input, out E value) where E : struct, IConvertible
+    {
+        if (!typeof(E).IsEnum)
+        {
+            throw new ArgumentException("T must be an enumerated type");
+        }
+
+        try
+        {
+            value = (E) Enum.Parse(typeof(E), input);
+        }
+        catch (Exception)
+        {
+            value = new E();
+            return false;
+        }
+
+        return true;
+    }
+
+    private static char[] _enumSeperators = new char[] {',', ';', '+', '|', ' '};
+
     private static object EnumToObject(Type underlyingType, string input)
     {
         if (underlyingType == typeof(int))
@@ -158,7 +180,9 @@ public class EnumUtils {
 
         return null;
     }
-    private static bool EnumToObject(Type type, Type underlyingType, string[] names, Array values, string input, out object value)
+
+    private static bool EnumToObject(Type type, Type underlyingType, string[] names, Array values, string input,
+        out object value)
     {
         for (int i = 0; i < names.Length; i++)
         {
@@ -177,6 +201,7 @@ public class EnumUtils {
                 value = Activator.CreateInstance(type);
                 return false;
             }
+
             value = obj;
             return true;
         }

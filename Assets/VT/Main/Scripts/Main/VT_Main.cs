@@ -10,6 +10,8 @@ public class VT_Main : MonoBehaviour
     private SystemManager _manager;
 
     public bool StoreDataOnline;
+    
+    public TextAsset[] TutorsPersonality;
 
     public TextAsset[] YarnDialogDatabase;
 
@@ -33,9 +35,14 @@ public class VT_Main : MonoBehaviour
 
         _manager = new SystemManager();
 
-        Tutor joao = new Tutor("Joao");
-        Tutor maria = new Tutor("Maria");
-        SetPersonality(joao, maria);
+        Tutor joao = new Tutor("Joao")
+        {
+            Personality = new ExpectancyPersonality(TutorsPersonality[0].text)
+        };
+        Tutor maria = new Tutor("Maria")
+        {
+            Personality = new ExpectancyPersonality(TutorsPersonality[1].text)
+        };
         _manager.Tutors.Add(joao);
         _manager.Tutors.Add(maria);
 
@@ -197,70 +204,6 @@ public class VT_Main : MonoBehaviour
         }
 
         Playing = true;
-    }
-
-    private static void SetPersonality(Tutor joao, Tutor maria)
-    {
-        joao.Personality = new ExpectancyPersonality(new Emotion[3, 6]
-        {
-            {
-                /* Negative */
-                new Emotion(EmotionEnum.Anger, .5f), // Punishment Worse Than Expected
-                new Emotion(EmotionEnum.Neutral, 1f), // Punishment As Expected
-                new Emotion(EmotionEnum.Surprise, .2f), // Punishment Better Than Expected
-                new Emotion(EmotionEnum.Anger, .2f), // Punishment Worse Than Expected
-                new Emotion(EmotionEnum.Neutral, 1f), // Punishment As Expected
-                new Emotion(EmotionEnum.Surprise, .8f) // Punishment Better Than Expected
-            },
-            {
-                /* Neutral */
-                new Emotion(EmotionEnum.Sadness, .3f),
-                new Emotion(EmotionEnum.Neutral, 1f),
-                new Emotion(EmotionEnum.Happiness, .6f),
-                new Emotion(EmotionEnum.Sadness, .2f),
-                new Emotion(EmotionEnum.Neutral, 1f),
-                new Emotion(EmotionEnum.Happiness, .8f)
-            },
-            {
-                /* Positive */
-                new Emotion(EmotionEnum.Sadness, .2f),
-                new Emotion(EmotionEnum.Neutral, 1f),
-                new Emotion(EmotionEnum.Happiness, .2f),
-                new Emotion(EmotionEnum.Sadness, .2f),
-                new Emotion(EmotionEnum.Neutral, 1f),
-                new Emotion(EmotionEnum.Happiness, 1f)
-            }
-        });
-        maria.Personality = new ExpectancyPersonality(new Emotion[3, 6]
-        {
-            {
-                /* Negative */
-                new Emotion(EmotionEnum.Anger, .5f), // Punishment Worse Than Expected
-                new Emotion(EmotionEnum.Neutral, 1f), // Punishment As Expected
-                new Emotion(EmotionEnum.Surprise, .2f), // Punishment Better Than Expected
-                new Emotion(EmotionEnum.Anger, .2f), // Punishment Worse Than Expected
-                new Emotion(EmotionEnum.Neutral, 1f), // Punishment As Expected
-                new Emotion(EmotionEnum.Surprise, .8f) // Punishment Better Than Expected
-            },
-            {
-                /* Neutral */
-                new Emotion(EmotionEnum.Sadness, .3f),
-                new Emotion(EmotionEnum.Neutral, 1f),
-                new Emotion(EmotionEnum.Happiness, .6f),
-                new Emotion(EmotionEnum.Sadness, .2f),
-                new Emotion(EmotionEnum.Neutral, 1f),
-                new Emotion(EmotionEnum.Happiness, .8f)
-            },
-            {
-                /* Positive */
-                new Emotion(EmotionEnum.Sadness, .2f),
-                new Emotion(EmotionEnum.Neutral, 1f),
-                new Emotion(EmotionEnum.Happiness, .2f),
-                new Emotion(EmotionEnum.Sadness, .2f),
-                new Emotion(EmotionEnum.Neutral, 1f),
-                new Emotion(EmotionEnum.Happiness, 1f)
-            }
-        });
     }
 
     // Update is called once per frame

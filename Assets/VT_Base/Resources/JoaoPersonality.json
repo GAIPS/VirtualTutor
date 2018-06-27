@@ -1,0 +1,26 @@
+﻿[
+  [
+    { "Name" : "Anger", "Intensity" : 0.5 },
+    { "Name" : "Neutral", "Intensity" : 1 },
+    { "Name" : "Surprise", "Intensity" : 0.2 },
+    { "Name" : "Anger", "Intensity" : 0.2 },
+    { "Name" : "Neutral", "Intensity" : 1 },
+    { "Name" : "Surprise", "Intensity" : 0.8 }
+  ],
+  [
+    { "Name" : "Sadness", "Intensity" : 0.3 },
+    { "Name" : "Neutral", "Intensity" : 1 },
+    { "Name" : "Happiness", "Intensity" : 0.6 },
+    { "Name" : "Sadness", "Intensity" : 0.2 },
+    { "Name" : "Neutral", "Intensity" : 1 },
+    { "Name" : "Happiness", "Intensity" : 0.8 }
+  ],
+  [
+    { "Name" : "Sadness", "Intensity" : 0.2 },
+    { "Name" : "Neutral", "Intensity" : 1 },
+    { "Name" : "Happiness", "Intensity" : 0.2 },
+    { "Name" : "Sadness", "Intensity" : 0.2 },
+    { "Name" : "Neutral", "Intensity" : 1 },
+    { "Name" : "Happiness", "Intensity" : 1 }
+  ]
+]
