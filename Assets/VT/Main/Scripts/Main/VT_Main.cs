@@ -29,7 +29,7 @@ public class VT_Main : MonoBehaviour
 
         PersistentDataStorage.Instance.StoreDataOnline = StoreDataOnline;
 
-        PersistentDataStorage.Instance.ResetState();
+        IDataStorage dataStorage = PersistentDataStorage.Instance;        
 
         _manager = new SystemManager();
 
@@ -60,6 +60,7 @@ public class VT_Main : MonoBehaviour
 
             var welcome = new TaskStrategy
             {
+                DataStorage = dataStorage,
                 Name = "Welcome",
                 NodeName = "welcome",
                 BeginDate = new DateTime(2018, 6, 18, 0, 0, 0)
@@ -67,6 +68,7 @@ public class VT_Main : MonoBehaviour
             _manager.Strategies.Add(welcome);
             var userId = new TaskStrategy
             {
+                DataStorage = dataStorage,
                 Name = "UserID",
                 NodeName = "UserID",
                 BeginDate = new DateTime(2018, 6, 18, 0, 0, 0)
@@ -74,6 +76,7 @@ public class VT_Main : MonoBehaviour
             _manager.Strategies.Add(userId);
             var af1Studyhours = new TaskStrategy
             {
+                DataStorage = dataStorage,
                 Name = "AF1StudyHours",
                 NodeName = "af1studyhours",
                 BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
@@ -81,6 +84,7 @@ public class VT_Main : MonoBehaviour
             _manager.Strategies.Add(af1Studyhours);
             var af1Grade = new TaskStrategy
             {
+                DataStorage = dataStorage,
                 Name = "AF1Grades",
                 NodeName = "af1grades",
 //                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
@@ -90,6 +94,7 @@ public class VT_Main : MonoBehaviour
             _manager.Strategies.Add(af1Grade);
             var af2Studyhours = new TaskStrategy
             {
+                DataStorage = dataStorage,
                 Name = "AF2StudyHours",
                 NodeName = "af2studyhours",
 //                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
@@ -98,6 +103,7 @@ public class VT_Main : MonoBehaviour
             _manager.Strategies.Add(af2Studyhours);
             var af2Grade = new TaskStrategy
             {
+                DataStorage = dataStorage,
                 Name = "AF2Grades",
                 NodeName = "af2grades",
 //                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
@@ -107,6 +113,7 @@ public class VT_Main : MonoBehaviour
             _manager.Strategies.Add(af2Grade);
             var af3Studyhours = new TaskStrategy
             {
+                DataStorage = dataStorage,
                 Name = "AF3StudyHours",
                 NodeName = "af3studyhours",
 //                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
@@ -124,6 +131,7 @@ public class VT_Main : MonoBehaviour
             _manager.Strategies.Add(af3Grade);
             var inputSubjective = new OnceADayTaskStrategy
             {
+                DataStorage = dataStorage,
                 Name = "InputSubjective",
                 NodeName = "inputSubjective",
                 BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
@@ -131,13 +139,14 @@ public class VT_Main : MonoBehaviour
             _manager.Strategies.Add(inputSubjective);
             var coherentEmotions = new OnceADayTaskStrategy
             {
+                DataStorage = dataStorage,
                 Name = "EmotionCoherence",
                 NodeName = "coherentEmotions",
                 BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
             };
             _manager.Strategies.Add(coherentEmotions);
         }
-        
+
         // Setup Dialog Selector
         if (YarnDialogDatabase != null)
         {
@@ -147,7 +156,7 @@ public class VT_Main : MonoBehaviour
                 yarnFilesContent[i] = YarnDialogDatabase[i].text;
             }
 
-            var dialogSelector = new BasicYarnDialogSelector(new PersistentVariableStorage(), yarnFilesContent);
+            var dialogSelector = new BasicYarnDialogSelector(new PersistentVariableStorage(dataStorage), yarnFilesContent);
 
             _manager.DialogSelector = dialogSelector;
         }

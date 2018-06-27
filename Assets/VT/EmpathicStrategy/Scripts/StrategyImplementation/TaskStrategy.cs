@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class TaskStrategy : IEmpathicStrategy
 {
+    public IDataStorage DataStorage { get; set; }
     public bool Completed { get; set; }
     public string Name { get; set; }
 
@@ -45,7 +46,8 @@ public class TaskStrategy : IEmpathicStrategy
     {
         string name = "$" + NodeName + "Complete";
 
-        var state = PersistentDataStorage.Instance.GetState();
+        if (DataStorage == null) return;
+        var state = DataStorage.GetState();
         var stateObj = state["Yarn"].AsObject[name];
 
         bool completed = false;
@@ -58,14 +60,14 @@ public class TaskStrategy : IEmpathicStrategy
     }
 }
 
-// TODO This class is a huge HACK!
 public class OnceADayTaskStrategy : TaskStrategy
 {
     public override bool IsValid()
     {
         if (base.IsValid())
         {
-            var state = PersistentDataStorage.Instance.GetState();
+            if (DataStorage == null) return false;
+            var state = DataStorage.GetState();
             return state["DailyTask"].AsObject[Name].AsObject[DateTime.Now.ToShortDateString()] == null;
         }
 

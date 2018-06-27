@@ -4,41 +4,45 @@ using Yarn;
 
 public class PersistentVariableStorage : BaseVariableStorage
 {
-    private Dictionary<string, Value> variables = new Dictionary<string, Value>();
+    private readonly string _storageSectionName;
+    private readonly IDataStorage _storage;
+
+    public PersistentVariableStorage(IDataStorage storage, string storageSectionName = "Yarn")
+    {
+        _storageSectionName = storageSectionName;
+        _storage = storage;
+    }
 
     public override void SetValue(string variableName, Value value)
     {
-        this.variables[variableName] = value;
-
-        var state = PersistentDataStorage.Instance.GetState();
-        if(state["Yarn"] == null) state["Yarn"] = new JSONObject();
+        if (_storage == null) return;
+        var state = _storage.GetState();
+        if (state[_storageSectionName] == null) state[_storageSectionName] = new JSONObject();
         switch (value.type)
         {
             case Value.Type.Bool:
-                state["Yarn"][variableName] = value.AsBool;
+                state[_storageSectionName][variableName] = value.AsBool;
                 break;
             case Value.Type.Number:
-                state["Yarn"][variableName] = value.AsNumber;
+                state[_storageSectionName][variableName] = value.AsNumber;
                 break;
             case Value.Type.String:
-                state["Yarn"][variableName] = value.AsString;
+                state[_storageSectionName][variableName] = value.AsString;
                 break;
         }
 
-        PersistentDataStorage.Instance.SaveState();
+        _storage.SaveState();
     }
 
     public override Value GetValue(string variableName)
     {
-        Value variable = Value.NULL;
-        if (this.variables.ContainsKey(variableName))
-            variable = this.variables[variableName];
+        if (_storage == null) return null;
+        var state = _storage.GetState();
 
-        var state = PersistentDataStorage.Instance.GetState();
-        if(state["Yarn"] == null) state["Yarn"] = new JSONObject();
-        if (state["Yarn"][variableName] != null)
+        Value variable = Value.NULL;
+        if (state[_storageSectionName].AsObject[variableName] != null)
         {
-            var value = state["Yarn"][variableName];
+            var value = state[_storageSectionName][variableName];
             if (value.IsBoolean)
             {
                 variable = new Value(value.AsBool);
@@ -51,11 +55,6 @@ public class PersistentVariableStorage : BaseVariableStorage
             {
                 variable = new Value(value.Value);
             }
-
-            if (!Equals(variable, Value.NULL))
-            {
-                this.variables[variableName] = variable;
-            }
         }
 
         return variable;
@@ -63,6 +62,8 @@ public class PersistentVariableStorage : BaseVariableStorage
 
     public override void Clear()
     {
-        this.variables.Clear();
+        if (_storage == null) return;
+        var state = _storage.GetState();
+        if (state[_storageSectionName] != null) state[_storageSectionName] = new JSONObject();
     }
 }

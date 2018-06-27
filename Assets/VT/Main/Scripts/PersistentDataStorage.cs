@@ -5,7 +5,7 @@ using SimpleJSON;
 using UnityEngine;
 using Utilities;
 
-public class PersistentDataStorage
+public class PersistentDataStorage : IDataStorage
 {
     private static PersistentDataStorage _instance;
 
