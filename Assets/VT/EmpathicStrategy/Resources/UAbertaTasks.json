@@ -1,0 +1,61 @@
+﻿{
+  "Tasks": [
+    {
+      "Name": "Welcome",
+      "NodeName": "welcome"
+    },
+    {
+      "Name": "UserID",
+      "NodeName": "UserID"
+    },
+    {
+      "Name": "AF1StudyHours",
+      "NodeName": "af1studyhours",
+      "BeginDate": "19/06/2018 01:00:00"
+    },
+    {
+      "Name": "AF1Grades",
+      "NodeName": "af1grades",
+      "BeginDate": "21/06/2018 01:00:00",
+      "DependsOn": [
+        "AF1StudyHours"
+      ]
+    },
+    {
+      "Name": "AF2StudyHours",
+      "NodeName": "af2studyhours",
+      "BeginDate": "22/06/2018 01:00:00"
+    },
+    {
+      "Name": "AF2Grades",
+      "NodeName": "af2grades",
+      "BeginDate": "23/06/2018 01:00:00",
+      "DependsOn": [
+        "AF2StudyHours"
+      ]
+    },
+    {
+      "Name": "AF3StudyHours",
+      "NodeName": "af3studyhours",
+      "BeginDate": "23/06/2018 01:00:00"
+    },
+    {
+      "Name": "AF3Grades",
+      "NodeName": "af3grades",
+      "BeginDate": "25/06/2018 01:00:00",
+      "DependsOn": [
+        "AF3StudyHours"
+      ]
+    }
+  ],
+  "OnceADaysTasks": [
+    {
+      "Name": "InputSubjective",
+      "NodeName": "inputSubjective"
+    },
+    {
+      "Name": "EmotionCoherence",
+      "NodeName": "coherentEmotions"
+    }
+  ]
+}

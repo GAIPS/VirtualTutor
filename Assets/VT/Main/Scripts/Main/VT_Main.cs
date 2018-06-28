@@ -12,6 +12,8 @@ public class VT_Main : MonoBehaviour
     public bool StoreDataOnline;
 
     public TextAsset[] TutorsPersonality;
+    
+    public TextAsset Tasks;
 
     public TextAsset[] YarnDialogDatabase;
 
@@ -65,93 +67,12 @@ public class VT_Main : MonoBehaviour
             // Setup Empathic Strategy
             _manager.EmpathicStrategySelector = new BaseStrategySelector();
 
-            var welcome = new TaskStrategy
+            var strategies = TaskFactory.FromJson(Tasks.text);
+            foreach (var taskStrategy in strategies)
             {
-                DataStorage = dataStorage,
-                Name = "Welcome",
-                NodeName = "welcome",
-                BeginDate = new DateTime(2018, 6, 18, 0, 0, 0)
-            };
-            _manager.Strategies.Add(welcome);
-            var userId = new TaskStrategy
-            {
-                DataStorage = dataStorage,
-                Name = "UserID",
-                NodeName = "UserID",
-                BeginDate = new DateTime(2018, 6, 18, 0, 0, 0)
-            };
-            _manager.Strategies.Add(userId);
-            var af1Studyhours = new TaskStrategy
-            {
-                DataStorage = dataStorage,
-                Name = "AF1StudyHours",
-                NodeName = "af1studyhours",
-                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
-            };
-            _manager.Strategies.Add(af1Studyhours);
-            var af1Grade = new TaskStrategy
-            {
-                DataStorage = dataStorage,
-                Name = "AF1Grades",
-                NodeName = "af1grades",
-//                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
-                BeginDate = new DateTime(2018, 6, 21, 0, 0, 0)
-            };
-            af1Grade.DependsOn.Add(af1Studyhours);
-            _manager.Strategies.Add(af1Grade);
-            var af2Studyhours = new TaskStrategy
-            {
-                DataStorage = dataStorage,
-                Name = "AF2StudyHours",
-                NodeName = "af2studyhours",
-//                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
-                BeginDate = new DateTime(2018, 6, 22, 0, 0, 0)
-            };
-            _manager.Strategies.Add(af2Studyhours);
-            var af2Grade = new TaskStrategy
-            {
-                DataStorage = dataStorage,
-                Name = "AF2Grades",
-                NodeName = "af2grades",
-//                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
-                BeginDate = new DateTime(2018, 6, 23, 0, 0, 0)
-            };
-            af2Grade.DependsOn.Add(af2Studyhours);
-            _manager.Strategies.Add(af2Grade);
-            var af3Studyhours = new TaskStrategy
-            {
-                DataStorage = dataStorage,
-                Name = "AF3StudyHours",
-                NodeName = "af3studyhours",
-//                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
-                BeginDate = new DateTime(2018, 6, 23, 0, 0, 0)
-            };
-            _manager.Strategies.Add(af3Studyhours);
-            var af3Grade = new TaskStrategy
-            {
-                Name = "AF3Grades",
-                NodeName = "af3grades",
-//                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
-                BeginDate = new DateTime(2018, 6, 25, 0, 0, 0)
-            };
-            af3Grade.DependsOn.Add(af3Studyhours);
-            _manager.Strategies.Add(af3Grade);
-            var inputSubjective = new OnceADayTaskStrategy
-            {
-                DataStorage = dataStorage,
-                Name = "InputSubjective",
-                NodeName = "inputSubjective",
-                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
-            };
-            _manager.Strategies.Add(inputSubjective);
-            var coherentEmotions = new OnceADayTaskStrategy
-            {
-                DataStorage = dataStorage,
-                Name = "EmotionCoherence",
-                NodeName = "coherentEmotions",
-                BeginDate = new DateTime(2018, 6, 19, 0, 0, 0)
-            };
-            _manager.Strategies.Add(coherentEmotions);
+                taskStrategy.DataStorage = dataStorage;
+                _manager.Strategies.Add(taskStrategy);
+            }
         }
 
         // Setup Dialog Selector

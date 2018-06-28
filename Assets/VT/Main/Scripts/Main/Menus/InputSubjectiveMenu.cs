@@ -21,7 +21,7 @@ public class InputSubjectiveMenu : MonoBehaviour
             values["Challenge"] = Convert.ToInt32(_sliderChallenge.value);
             values["Enjoyment"] = Convert.ToInt32(_sliderEnjoyment.value);
             values["Importance"] = Convert.ToInt32(_sliderImportance.value);
-            state["InputSubjective"].AsObject[DateTime.Now.ToShortDateString()] = values;
+            state["DailyTask"].AsObject["InputSubjective"].AsObject[DateTime.Now.ToShortDateString()] = values;
 
             PersistentDataStorage.Instance.SaveState();
         }
@@ -38,7 +38,7 @@ public class InputSubjectiveMenu : MonoBehaviour
         }
 
         var state = PersistentDataStorage.Instance.GetState();
-        var emotionCoherence = state["InputSubjective"].AsObject;
+        var emotionCoherence = state["DailyTask"].AsObject["InputSubjective"].AsObject;
         if (emotionCoherence.Count > 0 && emotionCoherence[emotionCoherence.Count - 1] != null)
         {
             JSONNode values = emotionCoherence[emotionCoherence.Count - 1];
