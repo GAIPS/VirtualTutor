@@ -10,7 +10,7 @@ public class VT_Main : MonoBehaviour
     private SystemManager _manager;
 
     public bool StoreDataOnline;
-    
+
     public TextAsset[] TutorsPersonality;
 
     public TextAsset[] YarnDialogDatabase;
@@ -31,7 +31,7 @@ public class VT_Main : MonoBehaviour
 
         PersistentDataStorage.Instance.StoreDataOnline = StoreDataOnline;
 
-        IDataStorage dataStorage = PersistentDataStorage.Instance;        
+        IDataStorage dataStorage = PersistentDataStorage.Instance;
 
         _manager = new SystemManager();
 
@@ -163,7 +163,8 @@ public class VT_Main : MonoBehaviour
                 yarnFilesContent[i] = YarnDialogDatabase[i].text;
             }
 
-            var dialogSelector = new BasicYarnDialogSelector(new PersistentVariableStorage(dataStorage), yarnFilesContent);
+            var dialogSelector =
+                new BasicYarnDialogSelector(new PersistentVariableStorage(dataStorage), yarnFilesContent);
 
             _manager.DialogSelector = dialogSelector;
         }
