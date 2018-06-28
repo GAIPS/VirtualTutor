@@ -102,7 +102,7 @@ public class EnumUtils
     {
         if (!typeof(E).IsEnum)
         {
-            throw new ArgumentException("T must be an enumerated type");
+            throw new ArgumentException("Template E must be an enumerated type");
         }
 
         try

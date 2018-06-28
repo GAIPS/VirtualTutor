@@ -11,6 +11,7 @@ public class VT_MainEditor : Editor
         var dataStorage = PersistentDataStorage.Instance;
         GUILayout.Space(15);
         EditorGUILayout.LabelField("Data Storage", EditorStyles.largeLabel, GUILayout.MinHeight(20));
+        GUI.skin.label.wordWrap = true;
         GUILayout.Label(dataStorage.GetState().ToString());
         if (GUILayout.Button("Reset Data Storage"))
         {
