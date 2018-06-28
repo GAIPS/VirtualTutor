@@ -6,7 +6,7 @@ using System;
 
 namespace UserInfo
 {
-    public class jsonValues : MonoBehaviour
+    public class jsonValues
     {
         [Serializable]
         public class users
@@ -18,6 +18,7 @@ namespace UserInfo
             public string lang;
             public string auth;
             public int firstaccess;
+
             public int lastaccess;
             //public List<preferences> pref ;
         }
@@ -33,10 +34,9 @@ namespace UserInfo
             public String summary;
 
             public List<assignments> assignments;
-            
+
             //public int startdate;
             //public int enddata;
-
         }
 
         [Serializable]
@@ -46,6 +46,7 @@ namespace UserInfo
             public string grade;
             public string graderaw;
         }
+
         [Serializable]
         public class Topics
         {
@@ -55,10 +56,9 @@ namespace UserInfo
             public String summary;
             public String uservisible;
             public List<Modules> modules;
-            
+
             //public int startdate;
             //public int enddata;
-
         }
 
         [Serializable]
@@ -71,11 +71,11 @@ namespace UserInfo
             public String description;
             public String uservisible;
             public List<Contents> contents;
-            
+
             //public int startdate;
             //public int enddata;
-
         }
+
         [Serializable]
         public class Contents
         {
@@ -91,10 +91,9 @@ namespace UserInfo
             public int isexternalfile;
             public String summary;
             public String uservisible;
-            
+
             //public int startdate;
             //public int enddata;
-
         }
 
         [Serializable]
@@ -111,7 +110,9 @@ namespace UserInfo
         {
             public int id;
             public String itemname;
+
             public int graderaw;
+
             // in case the value is null, this happens when the grade wasn't given
             public int gradedatesubmitted;
             public int gradedategraded;
@@ -168,7 +169,10 @@ namespace UserInfo
             public int timeopen; // Optional The time when this quiz opens. (0 = no restriction.)
             public int timeclose; //Optional The time when this quiz closes. (0 = no restriction.)
             public int timelimit; // Optional The time limit for quiz attempts, in seconds.
-            public String overduehandling; //Optional //The method used to handle overdue attempts.'autosubmit', 'graceperiod' or 'autoabandon'.
+
+            public String
+                overduehandling; //Optional //The method used to handle overdue attempts.'autosubmit', 'graceperiod' or 'autoabandon'.
+
             public int attempts;
             public double grade;
         }
@@ -189,7 +193,7 @@ namespace UserInfo
         public class instances
         {
             public String contextlevel; //the context level
-            public int id;  //Instance id
+            public int id; //Instance id
             public List<updates> updates;
         }
 
@@ -207,9 +211,8 @@ namespace UserInfo
             public int id; //Forum id
             public String type; //The forum type
             public String name; //Forum name
-            public String intro;  //The forum intro
+            public String intro; //The forum intro
             public List<introfiles> introfiles;
-
         }
 
         [Serializable]
@@ -217,29 +220,28 @@ namespace UserInfo
         {
             public int id; //Post id -> temporariamente não tem utilidade
             public string name; //Discussion name
-            public int timemodified;  //Time modified
+            public int timemodified; //Time modified
             public int discussion; // discussion id
             public String subject; //subject of message
             public String message; //message posted
             public String userfullname; //Post author full name
             public String usermodifiedfullname; //Post modifier full name
-            public int created;//Creation time
-            public int modified;//Time modified
+            public int created; //Creation time
+            public int modified; //Time modified
             public int userid; // id of user who created the discussion
-
         }
 
         [Serializable]
         public class posts
         {
-            public int id;//Post id
-            public int discussion;//Discussion id
-            public int parent;//Parent id
-            public int userid;//User id
-            public int created;//Creation time
-            public int modified;//Time modified
-            public String subject;//The post subject
-            public String message;//The post message
+            public int id; //Post id
+            public int discussion; //Discussion id
+            public int parent; //Parent id
+            public int userid; //User id
+            public int created; //Creation time
+            public int modified; //Time modified
+            public String subject; //The post subject
+            public String message; //The post message
         }
 
 
@@ -249,12 +251,6 @@ namespace UserInfo
             public int itemid;
             public String warningcode;
             public String message;
-        }
-
-        // Use this for initialization
-        void Start()
-        {
-
         }
     }
 }

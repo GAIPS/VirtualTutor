@@ -2,8 +2,12 @@ using HookControl;
 using UnityEngine;
 using UserInfo;
 
-namespace VT {
-    public class CourseControl : IControl {
+namespace VT
+{
+    public delegate void CourseFunc(UserInfo.Course course);
+
+    public class CourseControl : IControl
+    {
         private CourseHooks hook;
 
         private Control control;
@@ -12,28 +16,36 @@ namespace VT {
 
         public event CourseFunc CourseSelectionEvent;
 
-        public CourseControl(GameObject prefab) {
+        public CourseControl(GameObject prefab)
+        {
             control = new Control();
             control.prefab = prefab;
         }
 
-        public void Set(UserInfo.Course course) {
+        public void Set(UserInfo.Course course)
+        {
             this.course = course;
         }
 
-        private void sendCourseEvent() {
-            if (CourseSelectionEvent != null) {
+        private void sendCourseEvent()
+        {
+            if (CourseSelectionEvent != null)
+            {
                 CourseSelectionEvent(course);
             }
         }
 
-        public ShowResult Show() {
+        public ShowResult Show()
+        {
             var ret = control.Show();
-            if (ret == ShowResult.FIRST || ret == ShowResult.OK) {
+            if (ret == ShowResult.FIRST || ret == ShowResult.OK)
+            {
                 hook = control.instance.GetComponent<CourseHooks>();
-                if (hook != null) {
+                if (hook != null)
+                {
                     hook.onConfirm = sendCourseEvent;
-                    if (course != null) {
+                    if (course != null)
+                    {
                         hook.CourseName = course.fullName;
                         hook.onEaseSlider = (float value) => { SliderUpdate(value, out course.importance); };
                         hook.onLikeSlider = (float value) => { SliderUpdate(value, out course.importance); };
@@ -44,49 +56,59 @@ namespace VT {
                         //    hook.AddCheckpoint(course.Checkpoints[i]);
                         //}
                     }
+
                     hook.Show();
                 }
             }
+
             return ret;
         }
 
 
-        public ShowResult SetAndShow(UserInfo.Course course) {
+        public ShowResult SetAndShow(UserInfo.Course course)
+        {
             this.Set(course);
             return Show();
         }
 
-        public void Destroy() {
-            if (hook) {
-                hook.onHideEnded = () => {
-                    control.Destroy();
-                };
+        public void Destroy()
+        {
+            if (hook)
+            {
+                hook.onHideEnded = () => { control.Destroy(); };
                 hook.Hide();
-            } else {
+            }
+            else
+            {
                 control.Destroy();
             }
         }
 
-        public void Disable() {
-            if (hook) {
-                hook.onHideEnded = () => {
-                    control.Disable();
-                };
+        public void Disable()
+        {
+            if (hook)
+            {
+                hook.onHideEnded = () => { control.Disable(); };
                 hook.Hide();
-            } else {
+            }
+            else
+            {
                 control.Disable();
             }
         }
 
-        public bool IsVisible() {
+        public bool IsVisible()
+        {
             return control.IsVisible();
         }
 
-        public void Enable() {
+        public void Enable()
+        {
             control.Enable();
         }
 
-        public void SliderUpdate(float value, out float savedValue) {
+        public void SliderUpdate(float value, out float savedValue)
+        {
             savedValue = value;
         }
     }
