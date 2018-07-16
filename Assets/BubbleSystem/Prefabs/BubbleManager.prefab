@@ -82,10 +82,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0855fdf3ec559014596539d53e8bb0e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 5
+  defaultColor:
+    serializedVersion: 2
+    rgba: 4294967295
   mixColors: 1
   forceTextUpdate: 1
   blendBalloonAnimation: 0
+  Default: Default
 --- !u!114 &114361873975393698
 MonoBehaviour:
   m_ObjectHideFlags: 1

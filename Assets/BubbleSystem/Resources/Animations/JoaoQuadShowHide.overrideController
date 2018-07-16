@@ -1,0 +1,14 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: JoaoQuadShowHide
+  m_Controller: {fileID: 9100000, guid: 5eea77926b6844e999d8a4831dfb14d8, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: a0314c06743494b7ab78272d10914af7, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: b5e30695c91f4654da275e8874d1e6dc, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: c39df00da9001434f9b2cd32f17b9c84, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 25cdd1cb922f7ff4fa27f5b7bdb17d60, type: 2}

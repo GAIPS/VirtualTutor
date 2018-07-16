@@ -1,0 +1,14 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: MariaQuadShowHide
+  m_Controller: {fileID: 9100000, guid: 5eea77926b6844e999d8a4831dfb14d8, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: a0314c06743494b7ab78272d10914af7, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 27a6f6a24b9bd1145bf4bfa1ee05839b, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: c39df00da9001434f9b2cd32f17b9c84, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: ade287f5538f2c748bfb10c10aa88160, type: 2}

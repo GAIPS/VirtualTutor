@@ -1,8 +1,5 @@
-﻿using System;
-using SimpleJSON;
-using UnityEngine;
+﻿using UnityEngine;
 using Utilities;
-using Yarn;
 using YarnDialog;
 
 public class VT_Main : MonoBehaviour
@@ -60,6 +57,7 @@ public class VT_Main : MonoBehaviour
                 AffectiveUpdater updater = new StudyHoursAffectiveUpdater {Emotivector = new Emotivector(predictor)};
                 appraisal.AddUpdater(updater);
             }
+            // TODO Add updaters to all the metrics
             _manager.AffectiveAppraisal = appraisal;
         }
 
