@@ -269,6 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   showHideAnimator: {fileID: 95127164802091294}
+  ShowOnStart: 0
 --- !u!114 &114113946974525520
 MonoBehaviour:
   m_ObjectHideFlags: 1

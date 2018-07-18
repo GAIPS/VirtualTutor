@@ -818,6 +818,10 @@ Prefab:
       propertyPath: ModuleManager
       value: 
       objectReference: {fileID: 551055527}
+    - target: {fileID: 1513231979095446, guid: f0525aadcc90b18499a6b7a1b0dfe60c, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f0525aadcc90b18499a6b7a1b0dfe60c, type: 2}
   m_IsPrefabParent: 0

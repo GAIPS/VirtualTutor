@@ -57,8 +57,9 @@ namespace VT
                         //}
                     }
 
-                    hook.Show();
+//                    hook.Show();
                 }
+                
             }
 
             return ret;
@@ -73,28 +74,28 @@ namespace VT
 
         public void Destroy()
         {
-            if (hook)
-            {
-                hook.onHideEnded = () => { control.Destroy(); };
-                hook.Hide();
-            }
-            else
-            {
+//            if (hook)
+//            {
+//                hook.onHideEnded = () => { control.Destroy(); };
+//                hook.Hide();
+//            }
+//            else
+//            {
                 control.Destroy();
-            }
+//            }
         }
 
         public void Disable()
         {
-            if (hook)
-            {
-                hook.onHideEnded = () => { control.Disable(); };
-                hook.Hide();
-            }
-            else
-            {
+//            if (hook)
+//            {
+//                hook.onHideEnded = () => { control.Disable(); };
+//                hook.Hide();
+//            }
+//            else
+//            {
                 control.Disable();
-            }
+//            }
         }
 
         public bool IsVisible()
