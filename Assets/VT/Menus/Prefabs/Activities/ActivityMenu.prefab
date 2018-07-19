@@ -21,8 +21,9 @@ GameObject:
   - component: {fileID: 224582168825656390}
   - component: {fileID: 114871019547597010}
   - component: {fileID: 222084344340182064}
+  - component: {fileID: 114999343609414336}
   m_Layer: 5
-  m_Name: Metrics Scroll View
+  m_Name: MetricsTab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57,23 +58,6 @@ GameObject:
   - component: {fileID: 114417817535203754}
   m_Layer: 5
   m_Name: ImportanceSlider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1044197221603854
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 224350504818136488}
-  - component: {fileID: 114796660605382528}
-  - component: {fileID: 114666441082547934}
-  m_Layer: 5
-  m_Name: Checkpoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -732,11 +716,11 @@ GameObject:
   - component: {fileID: 223085131702598428}
   - component: {fileID: 114276432261366888}
   - component: {fileID: 114459941555146754}
-  - component: {fileID: 114151749608123152}
+  - component: {fileID: 114863728605296306}
   - component: {fileID: 95289763959395316}
   - component: {fileID: 114205135415685372}
   m_Layer: 5
-  m_Name: CourseMenu
+  m_Name: ActivityMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -886,8 +870,9 @@ GameObject:
   - component: {fileID: 224787610264352814}
   - component: {fileID: 114504826590006878}
   - component: {fileID: 222649724562135614}
+  - component: {fileID: 114462525031630362}
   m_Layer: 5
-  m_Name: Checkpoints Scroll View
+  m_Name: CheckpointsTab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1180,6 +1165,7 @@ GameObject:
   - component: {fileID: 224898153336307920}
   - component: {fileID: 222559795553709890}
   - component: {fileID: 114508520846130628}
+  - component: {fileID: 114469535873572592}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -1512,25 +1498,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: p
---- !u!114 &114151749608123152
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1602143297698298}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cd00d59d0b0645759972358adae51dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EasySlider: {fileID: 0}
-  LikeSlider: {fileID: 0}
-  ImportanceSlider: {fileID: 0}
-  courseName: {fileID: 114278265140939056}
-  checkpointPrefab: {fileID: 1523794819672478, guid: 9f937c7537703b74886fb99c0015268f,
-    type: 2}
-  listObject: {fileID: 1044197221603854}
-  checkpointsControls: []
 --- !u!114 &114167400955512848
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1599,18 +1566,7 @@ MonoBehaviour:
   m_Group: {fileID: 114694659053534040}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114952136680035768}
-        m_MethodName: OnToggleSwitched
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 0
@@ -1947,23 +1903,12 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224161454058318874}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 5
-  m_WholeNumbers: 1
-  m_Value: 3
+  m_MaxValue: 1
+  m_WholeNumbers: 0
+  m_Value: 0.5
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114151749608123152}
-        m_MethodName: UIImportanceSlider
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114295086904013986
@@ -2033,23 +1978,12 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224598431686603710}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 5
-  m_WholeNumbers: 1
-  m_Value: 2
+  m_MaxValue: 1
+  m_WholeNumbers: 0
+  m_Value: 0.5
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114151749608123152}
-        m_MethodName: UILikeSlider
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114306298989329076
@@ -2220,18 +2154,7 @@ MonoBehaviour:
   m_Group: {fileID: 114694659053534040}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114952136680035768}
-        m_MethodName: OnToggleSwitched
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 1
@@ -2355,6 +2278,20 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &114462525031630362
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1760975051373142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc9958bca02745b7839a020c647b96cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _checkpointPrefab: {fileID: 1523794819672478, guid: 9f937c7537703b74886fb99c0015268f,
+    type: 2}
+  _listObject: {fileID: 1206103422782272}
 --- !u!114 &114467876682193286
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2382,6 +2319,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114469535873572592
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1961212861969156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1200242548, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowMaskGraphic: 1
 --- !u!114 &114475139940901940
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2718,23 +2667,12 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224089976665543518}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 5
-  m_WholeNumbers: 1
-  m_Value: 4
+  m_MaxValue: 1
+  m_WholeNumbers: 0
+  m_Value: 0.5
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114151749608123152}
-        m_MethodName: UIEaseSlider
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114616822714769794
@@ -2830,19 +2768,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114666441082547934
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1044197221603854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
-  m_VerticalFit: 1
 --- !u!114 &114681216283409328
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3019,28 +2944,6 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
   m_ChildControlHeight: 0
---- !u!114 &114796660605382528
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1044197221603854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1297475563, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 1
-  m_Spacing: 0
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 0
 --- !u!114 &114849607650927110
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3080,7 +2983,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114151749608123152}
+      - m_Target: {fileID: 0}
         m_MethodName: UIConfirm
         m_Mode: 1
         m_Arguments:
@@ -3093,6 +2996,22 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114863728605296306
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1602143297698298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abdccf82245daaa408ff8b9e68e5a835, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _titleText: {fileID: 114278265140939056}
+  _confirmButton: {fileID: 0}
+  Tabs: {fileID: 114952136680035768}
+  MetricsTab: {fileID: 114999343609414336}
+  CheckpointsTab: {fileID: 114462525031630362}
 --- !u!114 &114867539360179444
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3346,9 +3265,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a562609170e50438eff5257172b370, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _toggles:
+  - {fileID: 114359999245276442}
+  - {fileID: 114179314799497886}
   _tabObjects:
   - {fileID: 224787610264352814}
   - {fileID: 224582168825656390}
+  Speed: 4
 --- !u!114 &114982917486892184
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3388,6 +3311,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: p
+--- !u!114 &114999343609414336
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1021233285921606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3993249db6f791d4aa9260b196801ef1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _easySlider: {fileID: 114594788412692582}
+  _likeSlider: {fileID: 114298620313203346}
+  _importanceSlider: {fileID: 114290342018727264}
 --- !u!222 &222018225097781236
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -3778,8 +3715,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 224350504818136488}
+  m_Children: []
   m_Father: {fileID: 224361213248784000}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4073,24 +4009,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: -17}
   m_Pivot: {x: 1, y: 1}
---- !u!224 &224350504818136488
-RectTransform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1044197221603854}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 224090135968800494}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224353715541566724
 RectTransform:
   m_ObjectHideFlags: 1
@@ -4443,10 +4361,10 @@ RectTransform:
   m_Father: {fileID: 224681239087991454}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 400, y: 128}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224667245974142158
 RectTransform:
@@ -4808,10 +4726,10 @@ RectTransform:
   m_Father: {fileID: 224877749916563670}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 400, y: 128}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224912349924158990
 RectTransform:

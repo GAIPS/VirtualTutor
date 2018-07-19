@@ -494,12 +494,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68f5796d63df90e40b51a1a3c41dbe0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointName: {fileID: 114756810209588272}
-  date: {fileID: 114021282791026306}
-  score: {fileID: 114009587397717946}
-  daysMissing: {fileID: 114122106445227572}
-  check: 0
-  checkObj: {fileID: 114113436287646968}
+  _nameText: {fileID: 114756810209588272}
+  _dateText: {fileID: 114021282791026306}
+  _scoreText: {fileID: 114009587397717946}
+  _daysMissingText: {fileID: 114122106445227572}
+  _checkToggle: {fileID: 114113436287646968}
 --- !u!222 &222008066056922554
 CanvasRenderer:
   m_ObjectHideFlags: 1
