@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Globalization;
 using HookControl;
 using UnityEngine;
 using UnityEngine.UI;
-using VT;
 
 public class ActivityMenuHook : Hook
 {
@@ -52,69 +50,24 @@ public class ActivityMenuHook : Hook
         }
     }
 
-    private void Start()
-    {
-        if (CheckpointsTab == null) return;
-
-        CheckpointsTab.AddCheckpoint(new CheckBoxPoint(
-            "Test",
-            DateTime.Now.ToShortDateString(),
-            1,
-            2,
-            false));
-        CheckpointsTab.AddCheckpoint(new CheckBoxPoint(
-            "Test",
-            DateTime.Now.ToShortDateString(),
-            1,
-            2,
-            false));
-        CheckpointsTab.AddCheckpoint(new CheckBoxPoint(
-            "Test",
-            DateTime.Now.ToShortDateString(),
-            1,
-            2,
-            false));
-        CheckpointsTab.AddCheckpoint(new CheckBoxPoint(
-            "Test",
-            DateTime.Now.ToShortDateString(),
-            1,
-            2,
-            false));
-        CheckpointsTab.AddCheckpoint(new CheckBoxPoint(
-            "Test",
-            DateTime.Now.ToShortDateString(),
-            1,
-            2,
-            false));
-        CheckpointsTab.AddCheckpoint(new CheckBoxPoint(
-            "Test",
-            DateTime.Now.ToShortDateString(),
-            1,
-            2,
-            false));
-        CheckpointsTab.AddCheckpoint(new CheckBoxPoint(
-            "Test",
-            DateTime.Now.ToShortDateString(),
-            1,
-            2,
-            false));
-        CheckpointsTab.AddCheckpoint(new CheckBoxPoint(
-            "Test",
-            DateTime.Now.ToShortDateString(),
-            1,
-            2,
-            false));
-        CheckpointsTab.AddCheckpoint(new CheckBoxPoint(
-            "Test",
-            DateTime.Now.ToShortDateString(),
-            1,
-            2,
-            false));
-        
-        if (MetricsTab == null) return;
-
-        MetricsTab.OnEaseSlider = value => Debug.Log("Ease Slider: " + value);
-        MetricsTab.OnImportanceSlider = value => Debug.Log("Importance Slider: " + value);
-        MetricsTab.OnLikeSlider = value => Debug.Log("Like Slider: " + value);
-    }
+//    private void Start()
+//    {
+//        if (CheckpointsTab == null) return;
+//
+//        CheckpointsTab.AddCheckpoint(new Checkpoint
+//        {
+//            Type = Checkpoint.CType.Checkbox,
+//            Name = "Test",
+//            Date = DateTime.Now,
+//            Effort = .5f,
+//            Importance = .7f,
+//            CheckboxDone = false
+//        });
+//
+//        if (MetricsTab == null) return;
+//
+//        MetricsTab.OnEaseSlider = value => Debug.Log("Ease Slider: " + value);
+//        MetricsTab.OnImportanceSlider = value => Debug.Log("Importance Slider: " + value);
+//        MetricsTab.OnLikeSlider = value => Debug.Log("Like Slider: " + value);
+//    }
 }

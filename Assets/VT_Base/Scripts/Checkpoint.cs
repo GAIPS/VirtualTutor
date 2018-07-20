@@ -1,36 +1,44 @@
-﻿public abstract class Checkpoint
+﻿using System;
+using Utilities;
+
+public class Checkpoint
 {
-    private string _name;
-    private string _date;
-    private int _effort;
-    private int _importance;
+    public enum CType
+    {
+        Evaluation,
+        Checkbox
+    }
+
+    private float _effort;
+    private float _importance;
 
     public Checkpoint()
     {
     }
+    
+    public CType Type { get; set; }
 
-    public string Date
+    public string Name { get; set; }
+
+    public DateTime Date { get; set; }
+
+    public float Effort
     {
-        get { return this._date; }
-        set { _date = value; }
+        get { return _effort; }
+        set { _effort = value.Clamp(0, 1); }
     }
 
-
-    public string Name
+    public float Importance
     {
-        get { return this._name; }
-        set { _name = value; }
+        get { return _importance; }
+        set { _importance = value.Clamp(0, 1); }
     }
-
-    public int Effort
-    {
-        get { return this._effort; }
-        set { _effort = value; }
-    }
-
-    public int Importance
-    {
-        get { return this._importance; }
-        set { _importance = value; }
-    }
+    
+    // Checkbox
+    
+    public bool CheckboxDone { get; set; }
+    
+    // Evaluation
+    
+    public float? EvaluationScore { get; set; }
 }

@@ -215,34 +215,31 @@ namespace VT
         public void Set(Checkpoint checkpoint)
         {
             Name = checkpoint.Name;
-            Date = checkpoint.Date;
+            Date = checkpoint.Date.ToShortDateString();
 
             // check respective conversions to Evaluation or checkbox
             DaysMissingVisibility = false;
             ScoreVisibility = false;
             CheckVisibility = false;
 
-            Evaluation evaluation = checkpoint as Evaluation;
-            if (evaluation != null)
+            switch (checkpoint.Type)
             {
-                if (string.IsNullOrEmpty(evaluation.Score))
-                {
-                    DaysMissingVisibility = true;
-                }
-                else
-                {
-                    Score = evaluation.Score;
-                    ScoreVisibility = true;
-                }
-            }
-            else
-            {
-                CheckBoxPoint checkbox = checkpoint as CheckBoxPoint;                
-                if (checkbox != null)
-                {
-                    Check = checkbox.Done;
+                case Checkpoint.CType.Evaluation:
+                    if (checkpoint.EvaluationScore.HasValue)
+                    {
+                        Score = checkpoint.EvaluationScore.ToString();
+                        ScoreVisibility = true;
+                    }
+                    else
+                    {
+                        DaysMissingVisibility = true;
+                    }
+
+                    break;
+                case Checkpoint.CType.Checkbox:
+                    Check = checkpoint.CheckboxDone;
                     CheckVisibility = true;
-                }
+                    break;
             }
         }
     }
