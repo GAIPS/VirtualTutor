@@ -21,6 +21,7 @@ public class ActivityMenuHook : Hook
             _onConfirm = value;
             if (_confirmButton && _onConfirm != null)
             {
+                _confirmButton.onClick.RemoveAllListeners();
                 _confirmButton.onClick.AddListener(() => OnConfirm());
             }
         }
@@ -42,32 +43,11 @@ public class ActivityMenuHook : Hook
 
     public string Title
     {
-        get { return this._titleText.text; }
+        get { return _titleText.text; }
         set
         {
-            if (!value.Equals(this._titleText.text))
-                this._titleText.text = value;
+            if (!value.Equals(_titleText.text))
+                _titleText.text = value;
         }
     }
-
-//    private void Start()
-//    {
-//        if (CheckpointsTab == null) return;
-//
-//        CheckpointsTab.AddCheckpoint(new Checkpoint
-//        {
-//            Type = Checkpoint.CType.Checkbox,
-//            Name = "Test",
-//            Date = DateTime.Now,
-//            Effort = .5f,
-//            Importance = .7f,
-//            CheckboxDone = false
-//        });
-//
-//        if (MetricsTab == null) return;
-//
-//        MetricsTab.OnEaseSlider = value => Debug.Log("Ease Slider: " + value);
-//        MetricsTab.OnImportanceSlider = value => Debug.Log("Importance Slider: " + value);
-//        MetricsTab.OnLikeSlider = value => Debug.Log("Like Slider: " + value);
-//    }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using SimpleJSON;
+using UnityEngine;
 using Utilities;
 using YarnDialog;
 
@@ -9,7 +10,7 @@ public class VT_Main : MonoBehaviour
     public bool StoreDataOnline;
 
     public TextAsset[] TutorsPersonality;
-    
+
     public TextAsset Tasks;
 
     public TextAsset[] YarnDialogDatabase;
@@ -19,6 +20,9 @@ public class VT_Main : MonoBehaviour
     [SerializeField] private MenuCommandHandler _commandHandler;
 
     public bool Playing;
+
+    // TESTING
+    [SerializeField] private GameObject _activityMenuPrefab;
 
     // Use this for initialization
     void Start()
@@ -122,6 +126,24 @@ public class VT_Main : MonoBehaviour
                 dialogManager.Handlers.Add(_commandHandler);
             }
         }
+
+//        var state = dataStorage.GetState();
+//        state["Current"].AsObject["Activity"] = "Test";
+//        var activity = state["Activities"].AsObject["Test"].AsObject;
+//        activity["Name"] = "Test Activity";
+//        var checkpoints = activity["Checkpoints"].AsArray;
+//        var checkpoint = new JSONObject();
+//        checkpoint["Type"] = "Checkbox";
+//        checkpoint["Name"] = "Test Checkpoint";
+//        checkpoint["Date"] = "23/07/2018";
+//        checkpoint["Effort"] = .5f;
+//        checkpoint["Effort"] = .7f;
+//        checkpoint["CheckboxDone"] = true;
+//        checkpoints[0] = checkpoint;
+//
+//        ActivityMenuController activityMenuController = new ActivityMenuController();
+//        activityMenuController.MenuPrefab = _activityMenuPrefab;
+//        activityMenuController.Show();
 
         Playing = true;
     }

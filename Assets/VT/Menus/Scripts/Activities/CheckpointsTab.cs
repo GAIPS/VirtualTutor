@@ -10,17 +10,14 @@ public class CheckpointsTab : MonoBehaviour
 
     public List<Control> CheckpointsControls { get; set; }
 
-    private void Start()
-    {
-        CheckpointsControls = new List<Control>();
-    }
-
     public void AddCheckpoint(Checkpoint checkpoint)
     {
         Control buttonControl = new Control(_checkpointPrefab);
         ShowResult result = buttonControl.Show();
         if (result == ShowResult.FIRST)
         {
+            if (CheckpointsControls == null)
+                CheckpointsControls = new List<Control>();
             CheckpointsControls.Add(buttonControl);
             if (_listObject)
             {
