@@ -10,7 +10,7 @@ public class Manager : MonoBehaviour {
     private float intensity = 0.0f;
     private EmotionEnum emotion = EmotionEnum.Neutral;
     private Tutor[] tutors;
-    private Reason reason = Reason.Challenge;
+    private Reason reason = Reason.None;
     private int currentTutor = 0;
     private int mix = 0;
     private int forceText = 0;

@@ -857,7 +857,7 @@ public class DefaultData : Singleton<DefaultData>
         Dictionary<Reason, Texture2D> surpriseDict = new Dictionary<Reason, Texture2D>();
 
 
-        defaultBackgroundData = (Texture2D)Resources.Load("Backgrounds/Images/tutorBackground");
+        defaultBackgroundData = (Texture2D)Resources.Load("Backgrounds/Images/userBackground");
         neutralDict.Add(Reason.None, defaultBackgroundData);
         happinessDict.Add(Reason.None, defaultBackgroundData);
         sadnessDict.Add(Reason.None, defaultBackgroundData);
