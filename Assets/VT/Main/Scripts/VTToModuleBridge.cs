@@ -59,54 +59,46 @@ public class VTToModuleBridge : MonoBehaviour
         {
             //BubbleSystem Commands
             switch (info[0])
-            {     
-                case "SetNextDialogueData":
-                    SetNextDialogueData(parameters);
-                    break;
-
-                //case "UpdateBackground":
-                //    UpdateBackground(parameters);
+            {
+                //case "OverrideTextEffects":
+                //    BubbleSystemCommands.OverrideTextEffects(parameters);
                 //    break;
 
-                case "OverrideTextEffects":
-                    OverrideTextEffects(parameters);
-                    break;
+                //case "SetMixColors":
+                //    BubbleSystemCommands.SetMixColors(parameters);
+                //    break;
 
-                case "SetMixColors":
-                    SetMixColors(parameters);
-                    break;
+                //case "OverrideBlushColor":
+                //    BubbleSystemCommands.OverrideBlushColor(parameters);
+                //    break;
 
-                case "OverrideBlushColor":
-                    OverrideBlushColor(parameters);
-                    break;
+                //case "OverrideEmotionColor":
+                //    BubbleSystemCommands.OverrideEmotionColor(parameters);
+                //    break;
 
-                case "OverrideEmotionColor":
-                    OverrideEmotionColor(parameters);
-                    break;
+                //case "AddAnimationCurve":
+                //    BubbleSystemCommands.AddAnimationCurve(parameters);
+                //    break;
 
-                case "AddAnimationCurve":
-                    AddAnimationCurve(parameters);
-                    break;
+                //case "SetForceTextUpdate":
+                //    BubbleSystemCommands.SetForceTextUpdate(parameters);
+                //    break;
 
-                case "SetForceTextUpdate":
-                    SetForceTextUpdate(parameters);
-                    break;
+                //case "SetBalloonAnimationBlending":
+                //    BubbleSystemCommands.SetBalloonAnimationBlending(parameters);
+                //    break;
 
-                case "SetBalloonAnimationBlending":
-                    SetBalloonAnimationBlending(parameters);
-                    break;
+                //case "SetBalloonDuration":
+                //    BubbleSystemCommands.SetBalloonDuration(parameters);
+                //    break;
 
-                case "SetBalloonDuration":
-                    SetBalloonDuration(parameters);
-                    break;
+                //case "SetBackgroundDuration":
+                //    BubbleSystemCommands.SetBackgroundDuration(parameters);
+                //    break;
 
-                case "SetBackgroundDuration":
-                    SetBackgroundDuration(parameters);
-                    break;
-
-                case "SetOptionsDuration":
-                    SetOptionsDuration(parameters);
-                    break;
+                //case "SetOptionsDuration":
+                //    BubbleSystemCommands.SetOptionsDuration(parameters);
+                //    break;
 
                 //  SHARED COMMANDS
                 case "Feel":
@@ -515,31 +507,31 @@ public class VTToModuleBridge : MonoBehaviour
 
     public void UpdateBackground(Tutor tutor, Reason reason)
     {
-        Dictionary<string, float> dict = new Dictionary<string, float>();
-        dict.Add(tutor.Emotion.Name.ToString(), tutor.Emotion.Intensity);
-        bubbleSystem.UpdateBackground(tutor.Name, dict, reason);
+        //Dictionary<string, float> dict = new Dictionary<string, float>();
+        //dict.Add(tutor.Emotion.Name.ToString(), tutor.Emotion.Intensity);
+        //bubbleSystem.UpdateBackground(tutor.Name, dict, reason);
     }
 
     public void Speak(Tutor tutor, string[] text, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
     {
-        Dictionary<string, float> dict = new Dictionary<string, float>();
-        dict.Add(tutor.Emotion.Name.ToString(), tutor.Emotion.Intensity);
-        bubbleSystem.Speak(tutor.Name, dict, text, showEffects, hideEffects);
+        //Dictionary<string, float> dict = new Dictionary<string, float>();
+        //dict.Add(tutor.Emotion.Name.ToString(), tutor.Emotion.Intensity);
+        //bubbleSystem.Speak(tutor.Name, dict, text, showEffects, hideEffects);
     }
 
     public void HideBalloon(Tutor tutor, float duration = 0.0f)
     {
-        bubbleSystem.HideBalloon(tutor.Name, duration);
+        //bubbleSystem.HideBalloon(tutor.Name, duration);
     }
 
     public void HideBalloon(string tutor, float duration = 0.0f)
     {
-        bubbleSystem.HideBalloon(tutor, duration);
+        //bubbleSystem.HideBalloon(tutor, duration);
     }
 
     public void UpdateOptions(string[] text, HookControl.IntFunc[] callbacks = null, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
     {
-        bubbleSystem.UpdateOptions(text, callbacks, showEffects, hideEffects);
+        //bubbleSystem.UpdateOptions(text, callbacks, showEffects, hideEffects);
     }
 
 
@@ -547,188 +539,17 @@ public class VTToModuleBridge : MonoBehaviour
                                                     COMMANDS
     **********************************************************************************************************/
 
-    //<< OverrideTextEffects emotion intensity [showEffects [curve] ...] [hideEffects effect1 [curve] ...] >>
-    public void OverrideTextEffects(string[] info)
-    {
-        BubbleSystem.Emotion emotion = (BubbleSystem.Emotion)Enum.Parse(typeof(BubbleSystem.Emotion), info[0]);
-        float intensity = Mathf.Clamp01(Convert.ToSingle(info[1]));
-
-        KeyValuePair<Dictionary<Effect, AnimationCurve>, Dictionary<Effect, AnimationCurve>> effects = SetTextEffects(info, 2);
-        DefaultData.Instance.SetTextEffects(emotion, intensity, effects.Key, effects.Value);
-    }
-
     //<< UpdateBackground tutor emotion intensity reason>>
     private void UpdateBackground(string[] info)
     {
-        Reason reason = (Reason)Enum.Parse(typeof(Reason), info[info.Length - 1]);
-        KeyValuePair<int, Dictionary<string, float>> kvp = GetEmotions(info, 1);
-        bubbleSystem.UpdateBackground(info[0], kvp.Value, reason);
-    }
-
-    //<< SetNextDialogueData tutor emotion intensity [showEffects effect1 [curve] ...] [hideEffects effect1 [curve] ...] >>
-    public void SetNextDialogueData(string[] info)
-    {
-        NextDialogueData nextData = new NextDialogueData();
-        KeyValuePair<int, Dictionary<string, float>> kvp = GetEmotions(info, 1);
-
-        nextData.emotions = kvp.Value;
-        int i = kvp.Key;
-
-        KeyValuePair<Dictionary<Effect, AnimationCurve>, Dictionary<Effect, AnimationCurve>> effects = SetTextEffects(info, i);
-        nextData.showEffects = effects.Key;
-        nextData.hideEffects = effects.Value;
-
-        nextData.isSet = true;
-
-        bubbleSystem.AddToTutorNextData(info[0], nextData);
-    }
-
-    //<< SetMixColors boolInIntFormat >>   0 -> false; 1 -> true
-    public void SetMixColors(string[] info)
-    {
-        DefaultData.Instance.mixColors = Convert.ToBoolean(Convert.ToInt16(info[0]));
-    }
-
-    //<< OverrideBlushColor color >>   Color in #RRGGBBAA format
-    public void OverrideBlushColor(string[] info)
-    {
-        Color color;
-        ColorUtility.TryParseHtmlString(info[0], out color);
-        DefaultData.Instance.SetBlushColor(color);
-    }
-
-    //Only works for backgrounds
-    //<< OverrideEmotionColor emotion color >>   Color in #RRGGBBAA format
-    public void OverrideEmotionColor(string[] info)
-    {
-        BubbleSystem.Emotion emotion = (BubbleSystem.Emotion)Enum.Parse(typeof(BubbleSystem.Emotion), info[0]);
-        Color color;
-        ColorUtility.TryParseHtmlString(info[1], out color);
-        DefaultData.Instance.SetColor(emotion, color);
-    }
-
-    //Can also override
-    //<< AddAnimationCurve name time1 value1 [smooth weight1] time2 value2 [smooth weight2] ... >>
-    public void AddAnimationCurve(string[] info)
-    {
-        string name = info[0];
-        AnimationCurve curve = new AnimationCurve();
-        int indexToSmooth = -1;
-        List<KeyValuePair<int, float>> smoothTangents = new List<KeyValuePair<int, float>>();
-
-        for (int i = 1; i < info.Length; i = i + 2)
-        {
-            if (info[i].Equals("smooth"))
-                smoothTangents.Add(new KeyValuePair<int, float>(indexToSmooth, Convert.ToSingle(info[i + 1])));
-            else
-            {
-                curve.AddKey(new Keyframe(Convert.ToSingle(info[i]), Convert.ToSingle(info[i + 1])));
-                indexToSmooth++;
-            }
-        }
-
-        foreach(KeyValuePair<int, float> kvp in smoothTangents)
-        {
-            curve.SmoothTangents(kvp.Key, kvp.Value);
-        }
-
-        DefaultData.Instance.AddCurve(name, curve);
-    }
-
-    //<< SetForceTextUpdate boolInIntFormat >>   0 -> false; 1 -> true
-    public void SetForceTextUpdate(string[] info)
-    {
-        DefaultData.Instance.forceTextUpdate = Convert.ToBoolean(Convert.ToInt16(info[0]));
-    }
-
-    //<< SetEmotionBlending boolInIntFormat >>   0 -> false; 1 -> true
-    public void SetBalloonAnimationBlending(string[] info)
-    {
-        DefaultData.Instance.blendBalloonAnimation = Convert.ToBoolean(Convert.ToInt16(info[0]));
-    }
-
-    //<< SetBalloonDuration duration >>
-    public void SetBalloonDuration(string[] info)
-    {
-        DefaultData.Instance.SetBalloonDuration(Convert.ToSingle(info[0]));
-    }
-
-    //<< SetBackgroundDuration duration >>
-    public void SetBackgroundDuration(string[] info)
-    {
-        DefaultData.Instance.SetBackgroundDuration(Convert.ToSingle(info[0]));
-    }
-
-    //<<SetOptionsDuration duration>>
-    public void SetOptionsDuration(string[] info)
-    {
-        DefaultData.Instance.SetOptionsDuration(Convert.ToSingle(info[0]));
+        //Reason reason = (Reason)Enum.Parse(typeof(Reason), info[info.Length - 1]);
+        //KeyValuePair<int, Dictionary<string, float>> kvp = GetEmotions(info, 1);
+        //bubbleSystem.UpdateBackground(info[0], kvp.Value, reason);
     }
 
     /**********************************************************************************************************
                                                     HELP FUNCTIONS
     **********************************************************************************************************/
-
-    private KeyValuePair<Dictionary<Effect, AnimationCurve>, Dictionary<Effect, AnimationCurve>> SetTextEffects(string[] info, int i)
-    {
-        Dictionary<Effect, AnimationCurve> showEffects = null;
-        Dictionary<Effect, AnimationCurve> hideEffects = null;
-        KeyValuePair<int, Dictionary<Effect, AnimationCurve>> kvp;
-        int size = info.Length;
-        if (size > i)
-        {
-            if (info[i].Equals("showEffects"))
-            {
-                kvp = GetEffects(info, i + 1);
-                showEffects = kvp.Value;
-                if (size > kvp.Key)
-                {
-                    if (info[kvp.Key].Equals("hideEffects"))
-                    {
-                        kvp = GetEffects(info, kvp.Key + 1);
-                        hideEffects = kvp.Value;
-                    }
-                }
-            }
-            else if (info[i].Equals("hideEffects"))
-            {
-                kvp = GetEffects(info, i + 1);
-                hideEffects = kvp.Value;
-            }
-        }
-
-        return new KeyValuePair<Dictionary<Effect, AnimationCurve>, Dictionary<Effect, AnimationCurve>>(showEffects, hideEffects);
-    }
-
-    private KeyValuePair<int, Dictionary<Effect, AnimationCurve>> GetEffects(string[] info, int i)
-    {
-        Dictionary<Effect, AnimationCurve> effects = new Dictionary<Effect, AnimationCurve>();
-        string stringToLook = "hideEffects";
-        while (i < info.Length)
-        {
-            if (info[i].Equals(stringToLook))
-                break;
-
-            Effect effect;
-            AnimationCurve animationCurve;
-            try
-            {
-                effect = (Effect)Enum.Parse(typeof(Effect), info[i]);
-                animationCurve = (i + 1 >= info.Length) ? null : (info[i + 1].Equals(stringToLook)) ? null : DefaultData.Instance.GetCurve(info[i + 1]);
-                i += (animationCurve != null) ? 2 : 1;
-
-                effects.Add(effect, animationCurve);
-                continue;
-            }
-            catch
-            {
-                i++;
-                continue;
-            }
-        }
-
-        return new KeyValuePair<int, Dictionary<Effect, AnimationCurve>>(i, effects);
-    }
 
     private KeyValuePair<int, Dictionary<string, float>> GetEmotions(string[] info, int i)
     {

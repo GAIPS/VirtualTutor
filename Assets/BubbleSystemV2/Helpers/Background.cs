@@ -35,14 +35,15 @@ namespace BubbleSystem2
             bgData.textureData = DefaultData.Instance.GetDefaultBackgroundDataDictionary(emotionPair.Key.Get(), emotionPair.Value, data.backgroundData.reason);
             float duration = DefaultData.Instance.GetBackgroundDuration();
             bgData.renderer = GetComponent<Renderer>();
+            EffectsData<AbstractImageEffect.ImageEffectEnum> effects = data.backgroundData.effects.IsCleared() ? DefaultData.Instance.GetDefaultBackgroundAnimationData(emotionPair.Key.Get(), emotionPair.Value) : data.backgroundData.effects;
 
             bgData.duration = duration / 2;
 
             if (!bgData.textureData.name.Equals(bgData.renderer.materials[1].mainTexture.name))
             {
-                foreach (AbstractImageEffect.ImageEffectEnum fx in data.backgroundData.effects.hideEffects.Keys)
+                foreach (AbstractImageEffect.ImageEffectEnum fx in effects.hideEffects.Keys)
                 {
-                    bgData.curve = data.backgroundData.effects.hideEffects[fx];
+                    bgData.curve = effects.hideEffects[fx];
                     coroutines.Add(EffectsManager.Instance.Play(fx, bgData));
                 }
 
@@ -61,9 +62,9 @@ namespace BubbleSystem2
             if (!bgData.renderer.material.color.Equals(bgData.colorToLerpTo))
             {
 
-                foreach (AbstractImageEffect.ImageEffectEnum fx in data.backgroundData.effects.colorEffects.Keys)
+                foreach (AbstractImageEffect.ImageEffectEnum fx in effects.colorEffects.Keys)
                 {
-                    bgData.curve = data.backgroundData.effects.colorEffects[fx];
+                    bgData.curve = effects.colorEffects[fx];
                     coroutines.Add(EffectsManager.Instance.Play(fx, bgData));
                 }
 

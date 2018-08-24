@@ -9,36 +9,27 @@ namespace BubbleSystem2 {
         const int DATA_SIZE = 4;
 
         public BubbleSystemManager manager;
-        Emotion emotion = new Emotion();
+        Queue<Emotion> emotion = new Queue<Emotion>();
         Emotion.EmotionEnum emotionEnum = Emotion.EmotionEnum.Happiness;
         Tutor.TutorEnum _tutor = Tutor.TutorEnum.Maria;
         Reason.ReasonEnum reason = Reason.ReasonEnum.None;
-        BubbleSystemData[] data = new BubbleSystemData[DATA_SIZE];
-        BubbleSystemData[] newData = new BubbleSystemData[DATA_SIZE];
+        Queue<BubbleSystemData> data = new Queue<BubbleSystemData>();
         float intensity = 1.0f;
-
-        static uint currentData = 0;
-        static uint currentNewData = 0;
 
         private void Start()
         {
             for (int i = 0; i < DATA_SIZE; ++i)
-                data[i] = new BubbleSystemData();
+                data.Enqueue(new BubbleSystemData());
 
             for (int i = 0; i < DATA_SIZE; ++i)
-                newData[i] = new BubbleSystemData();
+                emotion.Enqueue(new Emotion());
         }
 
         void UpdateScene()
         {
-            manager.UpdateScene(data[currentData]);
-            currentData = (currentData + 1) % DATA_SIZE;
-        }
-
-        void SetData()
-        {
-            manager.AddTutorNextData(newData[currentNewData]);
-            currentNewData = (currentNewData + 1) % DATA_SIZE;
+            BubbleSystemData first = data.Dequeue();
+            manager.UpdateScene(first);
+            data.Enqueue(first);
         }
 
         private void Update()
@@ -46,62 +37,45 @@ namespace BubbleSystem2 {
             if (Input.GetKeyDown(KeyCode.B))
             {
                 
-                data[currentData].Clear();
-                emotion.Set(emotionEnum.ToString());
-                data[currentData].emotions.Add(emotion, 1.0f);
-                data[currentData].backgroundData.effects.showEffects.Add(AbstractImageEffect.ImageEffectEnum.FadeTexture, DefaultData.Instance.GetCurve("linearCurve"));
-                data[currentData].backgroundData.effects.hideEffects.Add(AbstractImageEffect.ImageEffectEnum.FadeTexture, DefaultData.Instance.GetCurve("linearCurve"));
-                data[currentData].backgroundData.effects.colorEffects.Add(AbstractImageEffect.ImageEffectEnum.FadeColor, DefaultData.Instance.GetCurve("linearCurve"));
-                data[currentData].tutor.Set(_tutor.ToString());
-                data[currentData].backgroundData.reason.Set(reason.ToString());
+                data.Peek().Clear();
+                Emotion first = emotion.Dequeue();
+                first.Set(emotionEnum.ToString());
+                data.Peek().emotions.Add(first, 1.0f);
+                data.Peek().tutor.Set(_tutor.ToString());
+                data.Peek().backgroundData.reason.Set(reason.ToString());
                 UpdateScene();
+                emotion.Enqueue(first);
             }
 
             if (Input.GetKeyDown(KeyCode.S))
             {
-                data[currentData].Clear();
-                emotion.Set(emotionEnum.ToString());
-                data[currentData].emotions.Add(emotion, 1.0f);
-                data[currentData].tutor.Set(_tutor.ToString());
-                if (data[currentData].tutor.GetString().Equals("User")) {
-                    data[currentData].balloonData.options = true;
+                data.Peek().Clear();
+                Emotion first = emotion.Dequeue();
+                first.Set(emotionEnum.ToString());
+                data.Peek().emotions.Add(first, 1.0f);
+                data.Peek().tutor.Set(_tutor.ToString());
+                if (data.Peek().tutor.GetString().Equals("User")) {
+                    data.Peek().balloonData.options = true;
                 }
-                data[currentData].balloonData.text = new List<string> { "Hello World", "asfd" };
+                data.Peek().balloonData.text = new List<string> { "Hello World", "asfd" };
                 UpdateScene();
+                emotion.Enqueue(first);
             }
 
             if (Input.GetKeyDown(KeyCode.P))
             {
-                data[currentData].Clear();
-                emotion.Set(emotionEnum.ToString());
-                data[currentData].emotions.Add(emotion, 1.0f);
-                data[currentData].tutor.Set(_tutor.ToString());
-                if (data[currentData].tutor.GetString().Equals("User"))
+                data.Peek().Clear();
+                Emotion first = emotion.Dequeue();
+                first.Set(emotionEnum.ToString());
+                data.Peek().emotions.Add(first, 1.0f);
+                data.Peek().tutor.Set(_tutor.ToString());
+                if (data.Peek().tutor.GetString().Equals("User"))
                 {
-                    data[currentData].balloonData.options = true;
+                    data.Peek().balloonData.options = true;
                 }
-                data[currentData].balloonData.show = false;
+                data.Peek().balloonData.show = false;
                 UpdateScene();
-            }
-
-            if (Input.GetKeyDown(KeyCode.D))
-            {
-                newData[currentNewData].Clear();
-                emotion.Set(emotionEnum.ToString());
-                newData[currentNewData].emotions.Add(emotion, 1.0f);
-                newData[currentNewData].tutor.Set(_tutor.ToString());
-                if (newData[currentNewData].tutor.GetString().Equals("User"))
-                {
-                    newData[currentNewData].balloonData.options = true;
-                }
-                newData[currentNewData].balloonData.text = new List<string> { "asdfsad", "123" };
-
-                data[currentData].backgroundData.effects.showEffects.Add(AbstractImageEffect.ImageEffectEnum.FadeTexture, DefaultData.Instance.GetCurve("linearCurve"));
-                data[currentData].backgroundData.effects.hideEffects.Add(AbstractImageEffect.ImageEffectEnum.FadeTexture, DefaultData.Instance.GetCurve("linearCurve"));
-                data[currentData].backgroundData.effects.colorEffects.Add(AbstractImageEffect.ImageEffectEnum.FadeColor, DefaultData.Instance.GetCurve("linearCurve"));
-                data[currentData].backgroundData.reason.Set(reason.ToString());
-
-                SetData();
+                emotion.Enqueue(first);
             }
 
             if (Input.GetKeyDown(KeyCode.Z)) _tutor = Tutor.TutorEnum.Joao;

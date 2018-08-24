@@ -6,6 +6,8 @@ using UnityEngine;
 namespace BubbleSystem2{
     public class Reason : AbstractVTData
     {
+        public Reason() { }
+
         public Reason(string value)
         {
             Set<ReasonEnum>(value);

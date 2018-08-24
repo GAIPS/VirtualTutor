@@ -280,6 +280,7 @@ MonoBehaviour:
   mixColors: 1
   forceTextUpdate: 1
   blendBalloonAnimation: 0
+  noColor: {r: 0, g: 0, b: 0, a: 0}
   Default: Default
 --- !u!4 &204460589
 Transform:

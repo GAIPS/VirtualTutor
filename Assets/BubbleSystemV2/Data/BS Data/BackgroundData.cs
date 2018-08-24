@@ -7,7 +7,7 @@ namespace BubbleSystem2
 {
     public class BackgroundData : AbstractBubbleSystemData
     {
-        public Reason reason = new Reason(Reason.ReasonEnum.None.ToString());
+        public Reason reason = new Reason();
         public EffectsData<AbstractImageEffect.ImageEffectEnum> effects = new EffectsData<AbstractImageEffect.ImageEffectEnum>();
 
 
