@@ -289,7 +289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba6f7341471425f43b239faa5a1eb100, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bubbleSystem: {fileID: 1805335951}
+  bubbleSystem: {fileID: 1723239319}
   avatarManager: {fileID: 0}
   Tutors: []
 --- !u!4 &470417366
@@ -596,15 +596,26 @@ Prefab:
       propertyPath: backgrounds.Array.data[2].background
       value: 
       objectReference: {fileID: 685161604}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114676005032338540, guid: 1630181a49f4afd4a85c1b3bb12f9332, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 1630181a49f4afd4a85c1b3bb12f9332, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &1805335951 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114676005032338540, guid: 1630181a49f4afd4a85c1b3bb12f9332,
+--- !u!1 &1723239318 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1026085270474014, guid: 1630181a49f4afd4a85c1b3bb12f9332,
     type: 2}
   m_PrefabInternal: {fileID: 1723239317}
-  m_Script: {fileID: 11500000, guid: 2a7311b5d1075b449b83038de8cba941, type: 3}
+--- !u!114 &1723239319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1723239318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99eb678d18a669446ab5f7c844908afa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2058901501
 GameObject:
   m_ObjectHideFlags: 0

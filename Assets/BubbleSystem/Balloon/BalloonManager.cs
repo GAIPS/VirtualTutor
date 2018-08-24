@@ -6,6 +6,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using BubbleSystem2;
 
 namespace BubbleSystem
 {
@@ -17,7 +18,7 @@ namespace BubbleSystem
             public string name;
             public GameObject balloon;
             public bool dontSwitch;
-            public bool isPeakTop, isPeakLeft;
+            public bool isTailTop, isTailLeft;
         }
 
         public Balloon[] balloons;
@@ -33,7 +34,7 @@ namespace BubbleSystem
             foreach (Balloon balloon in balloons)
             {
                 controllers.Add(balloon.name, new Control(balloon.balloon));
-                balloon.balloon.GetComponentInChildren<BalloonsHooks>().SetPeak(balloon.isPeakTop, balloon.isPeakLeft);
+                balloon.balloon.GetComponentInChildren<BalloonsHooks>().SetTail(balloon.isTailTop, balloon.isTailLeft);
             }
 
             controllers.Add(options.name, new Control(options.balloon));
@@ -55,7 +56,7 @@ namespace BubbleSystem
 
             foreach (Balloon balloon in balloons)
             {
-                balloon.balloon.GetComponentInChildren<BalloonsHooks>().SetPeak(balloon.isPeakTop, !balloon.name.Equals(tutor));
+                balloon.balloon.GetComponentInChildren<BalloonsHooks>().SetTail(balloon.isTailTop, !balloon.name.Equals(tutor));
             }
         }
 
@@ -98,10 +99,10 @@ namespace BubbleSystem
                     hooks.balloon.GetComponent<RectTransform>().anchorMin = positionData.anchorMin;
                     hooks.balloon.GetComponent<RectTransform>().anchorMax = positionData.anchorMax;
 
-                    SetBeaks(emotion, hooks.peakTopLeft, spriteData.beak, intensity, color);
-                    SetBeaks(emotion, hooks.peakBotLeft, spriteData.beak, intensity, color);
-                    SetBeaks(emotion, hooks.peakTopRight, spriteData.beak, intensity, color);
-                    SetBeaks(emotion, hooks.peakBotRight, spriteData.beak, intensity, color);
+                    SetBeaks(emotion, hooks.tailTopLeft, spriteData.beak, intensity, color);
+                    SetBeaks(emotion, hooks.tailBotLeft, spriteData.beak, intensity, color);
+                    SetBeaks(emotion, hooks.tailTopRight, spriteData.beak, intensity, color);
+                    SetBeaks(emotion, hooks.tailBotRight, spriteData.beak, intensity, color);
                 }
             }
         }
