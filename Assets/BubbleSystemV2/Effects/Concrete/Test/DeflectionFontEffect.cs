@@ -8,16 +8,7 @@ namespace BubbleSystem2
 {
     public class DeflectionFontEffect : AbstractTextEffect
     {
-        private static readonly DeflectionFontEffect instance = new DeflectionFontEffect();
-
-        private DeflectionFontEffect() { }
-
-        public static DeflectionFontEffect Instance
-        {
-            get
-            {
-                return instance;
-            }
+        public DeflectionFontEffect() {
         }
 
         protected override void Clean(TextEffectData data)

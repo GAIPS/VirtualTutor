@@ -7,19 +7,9 @@ namespace BubbleSystem2
 {
     public class JitterEffect : AbstractTextEffect
     {
-        private static readonly JitterEffect instance = new JitterEffect();
-
-        private JitterEffect() {
+        public JitterEffect() {
             keepAnimating = false;
             random = true;
-        }
-
-        public static JitterEffect Instance
-        {
-            get
-            {
-                return instance;
-            }
         }
 
         protected override void Clean(TextEffectData data)

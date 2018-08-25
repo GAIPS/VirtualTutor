@@ -6,17 +6,7 @@ namespace BubbleSystem2
 {
     public class FadeTextureEffect : AbstractImageEffect
     {
-        private static readonly FadeTextureEffect instance = new FadeTextureEffect();
-
-        private FadeTextureEffect() { }
-
-        public static FadeTextureEffect Instance
-        {
-            get
-            {
-                return instance;
-            }
-        }
+        public FadeTextureEffect() { }
 
         public override IEnumerator Run(ImageEffectData data)
         {

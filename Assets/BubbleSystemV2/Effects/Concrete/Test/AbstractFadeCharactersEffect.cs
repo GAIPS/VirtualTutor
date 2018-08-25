@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace BubbleSystem2
 {
-    public class AbstractFadeCharactersEffect : AbstractTextEffect
+    public abstract class AbstractFadeCharactersEffect : AbstractTextEffect
     {
         public override IEnumerator Run(TextEffectData data)
         {

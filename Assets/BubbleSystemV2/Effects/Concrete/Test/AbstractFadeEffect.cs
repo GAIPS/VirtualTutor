@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace BubbleSystem2
 {
-    public class AbstractFadeEffect : AbstractTextEffect
+    public abstract class AbstractFadeEffect : AbstractTextEffect
     {
         protected AbstractFadeEffect()
         {

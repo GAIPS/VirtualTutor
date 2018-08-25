@@ -6,17 +6,7 @@ namespace BubbleSystem2
 {
     public class LerpColorEffect : AbstractImageEffect
     {
-        private static readonly LerpColorEffect instance = new LerpColorEffect();
-
-        private LerpColorEffect() { }
-
-        public static LerpColorEffect Instance
-        {
-            get
-            {
-                return instance;
-            }
-        }
+        public LerpColorEffect() { }
 
         public override IEnumerator Run(ImageEffectData data)
         {

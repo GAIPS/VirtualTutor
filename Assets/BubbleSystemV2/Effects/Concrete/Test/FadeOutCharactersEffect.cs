@@ -8,18 +8,8 @@ namespace BubbleSystem2
 {
     public class FadeOutCharactersEffect : AbstractFadeCharactersEffect
     {
-        private static readonly FadeOutCharactersEffect instance = new FadeOutCharactersEffect();
-
-        private FadeOutCharactersEffect() {
+        public FadeOutCharactersEffect() {
             wantedAlpha = 0;
-        }
-
-        public static FadeOutCharactersEffect Instance
-        {
-            get
-            {
-                return instance;
-            }
         }
 
         protected override void Clean(TextEffectData data)

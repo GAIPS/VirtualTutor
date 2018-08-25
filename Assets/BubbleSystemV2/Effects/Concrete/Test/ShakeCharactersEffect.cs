@@ -7,19 +7,9 @@ namespace BubbleSystem2
 {
     public class ShakeCharactersEffect : AbstractShakeEffect
     {
-        private static readonly ShakeCharactersEffect instance = new ShakeCharactersEffect();
-
-        private ShakeCharactersEffect()
+        public ShakeCharactersEffect()
         {
             characters = true;
-        }
-
-        public static ShakeCharactersEffect Instance
-        {
-            get
-            {
-                return instance;
-            }
         }
     }
 }

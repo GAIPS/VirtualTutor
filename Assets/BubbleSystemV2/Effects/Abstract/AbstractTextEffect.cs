@@ -8,21 +8,21 @@ namespace BubbleSystem2
     {
         public enum TextEffectEnum
         {
-            None,
             Appear,
-            Blush,
             BlushCharacters,
+            Blush,
             DeflectionFont,
             Erase,
-            FadeIn,
             FadeInCharacters,
-            FadeOut,
+            FadeIn,
             FadeOutCharacters,
+            FadeOut,
             Flashing,
             Jitter,
+            None,
             Palpitations,
-            Shake,
             ShakeCharacters,
+            Shake,
             Squash,
             SquashX,
             SquashY,
@@ -30,12 +30,12 @@ namespace BubbleSystem2
             StretchX,
             StretchY,
             SwellingFont,
-            Swing,
             SwingCharacters,
-            Warp,
+            Swing,
             WarpCharacters,
+            Warp,
+            WaveCharacters,
             Wave,
-            WaveCharacters
         }
 
         protected int wantedAlpha = 0;

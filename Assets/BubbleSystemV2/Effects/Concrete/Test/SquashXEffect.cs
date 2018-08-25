@@ -7,20 +7,10 @@ namespace BubbleSystem2
 {
     public class SquashXEffect : AbstractSquashEffect
     {
-        private static readonly SquashXEffect instance = new SquashXEffect();
-
-        private SquashXEffect()
+        public SquashXEffect()
         {
             x = true;
             y = false;
-        }
-
-        public static SquashXEffect Instance
-        {
-            get
-            {
-                return instance;
-            }
         }
     }
 }

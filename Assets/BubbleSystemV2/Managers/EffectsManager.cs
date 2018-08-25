@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace BubbleSystem2
@@ -12,37 +13,13 @@ namespace BubbleSystem2
 
         private void Awake()
         {
-            images.Add(AbstractImageEffect.ImageEffectEnum.FadeTexture, FadeTextureEffect.Instance);
-            images.Add(AbstractImageEffect.ImageEffectEnum.FadeColor, LerpColorEffect.Instance);
+            List<AbstractImageEffect> image_effects = ReflectiveEnumerator.GetEnumerableOfType<AbstractImageEffect>().ToList();
+            for (int i = 0; i < Enum.GetNames(typeof(AbstractImageEffect.ImageEffectEnum)).Length; i++)
+                images.Add((AbstractImageEffect.ImageEffectEnum)i, image_effects[i]);
 
-            text.Add(AbstractTextEffect.TextEffectEnum.None, NoneEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.Appear, AppearEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.Blush, BlushEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.BlushCharacters, BlushCharactersEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.DeflectionFont, DeflectionFontEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.Erase, EraseEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.FadeIn, FadeInEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.FadeInCharacters, FadeInCharactersEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.FadeOut, FadeOutEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.FadeOutCharacters, FadeOutCharactersEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.Flashing, FlashingEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.Jitter, JitterEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.Palpitations, PalpitationsEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.Shake, ShakeEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.ShakeCharacters, ShakeCharactersEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.Squash, SquashEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.SquashX, SquashXEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.SquashY, SquashYEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.Stretch, StretchEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.StretchX, StretchXEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.StretchY, StretchYEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.SwellingFont, SwellingFontEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.Swing, SwingEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.SwingCharacters, SwingCharactersEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.Warp, WarpEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.WarpCharacters, WarpCharactersEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.Wave, WaveEffect.Instance);
-            text.Add(AbstractTextEffect.TextEffectEnum.WaveCharacters, WaveCharactersEffect.Instance);
+            List<AbstractTextEffect> text_effects = ReflectiveEnumerator.GetEnumerableOfType<AbstractTextEffect>().ToList();
+            for (int i = 0; i < Enum.GetNames(typeof(AbstractTextEffect.TextEffectEnum)).Length; i++)
+                text.Add((AbstractTextEffect.TextEffectEnum)i, text_effects[i]);
         }
         
         public IEnumerator Play(AbstractImageEffect.ImageEffectEnum effect, ImageEffectData bgData)
@@ -57,9 +34,9 @@ namespace BubbleSystem2
         public IEnumerator Play(AbstractTextEffect.TextEffectEnum effect, TextEffectData data)
         {
             if (!text.ContainsKey(effect)) throw new KeyNotFoundException(effect.ToString() + " not found.");
+
             IEnumerator coroutine = text[effect].Run(data);
             Play(coroutine);
-            
             return coroutine;
         }
 

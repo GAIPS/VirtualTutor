@@ -7,20 +7,10 @@ namespace BubbleSystem2
 {
     public class StretchXEffect : AbstractStretchEffect
     {
-        private static readonly StretchXEffect instance = new StretchXEffect();
-
-        private StretchXEffect()
+        public StretchXEffect()
         {
             x = true;
             y = false;
-        }
-
-        public static StretchXEffect Instance
-        {
-            get
-            {
-                return instance;
-            }
         }
 
         protected override void Clean(TextEffectData data)

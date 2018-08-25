@@ -8,18 +8,8 @@ namespace BubbleSystem2
 {
     public class WaveEffect : AbstractWaveEffect
     {
-        private static readonly WaveEffect instance = new WaveEffect();
-
-        private WaveEffect() {
+        public WaveEffect() {
             characters = false;
-        }
-
-        public static WaveEffect Instance
-        {
-            get
-            {
-                return instance;
-            }
         }
     }
 }

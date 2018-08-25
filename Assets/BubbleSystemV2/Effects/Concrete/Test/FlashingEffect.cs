@@ -8,18 +8,8 @@ namespace BubbleSystem2
 {
     public class FlashingEffect : AbstractTextEffect
     {
-        private static readonly FlashingEffect instance = new FlashingEffect();
-
-        private FlashingEffect() {
+        public FlashingEffect() {
             keepAnimating = false;
-        }
-
-        public static FlashingEffect Instance
-        {
-            get
-            {
-                return instance;
-            }
         }
 
         protected override void Clean(TextEffectData data)

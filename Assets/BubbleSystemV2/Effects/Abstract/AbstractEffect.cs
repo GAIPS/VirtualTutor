@@ -6,6 +6,6 @@ namespace BubbleSystem2
 {
     public abstract class AbstractEffect
     {
-        
+        public AbstractEffect() { }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -8,16 +9,7 @@ namespace BubbleSystem2
 {
     public class AppearEffect : AbstractTextEffect
     {
-        private static readonly AppearEffect instance = new AppearEffect();
-
-        private AppearEffect() { }
-
-        public static AppearEffect Instance
-        {
-            get
-            {
-                return instance;
-            }
+        public AppearEffect() {
         }
 
         protected override void Clean(TextEffectData data)

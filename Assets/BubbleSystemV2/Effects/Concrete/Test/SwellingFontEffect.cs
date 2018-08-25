@@ -8,16 +8,7 @@ namespace BubbleSystem2
 {
     public class SwellingFontEffect : AbstractTextEffect
     {
-        private static readonly SwellingFontEffect instance = new SwellingFontEffect();
-
-        private SwellingFontEffect() { }
-
-        public static SwellingFontEffect Instance
-        {
-            get
-            {
-                return instance;
-            }
+        public SwellingFontEffect() {
         }
 
         protected override void Clean(TextEffectData data)

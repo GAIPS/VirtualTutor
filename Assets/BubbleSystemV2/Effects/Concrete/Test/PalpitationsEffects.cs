@@ -7,18 +7,8 @@ namespace BubbleSystem2
 {
     public class PalpitationsEffect : AbstractTextEffect
     {
-        private static readonly PalpitationsEffect instance = new PalpitationsEffect();
-
-        private PalpitationsEffect() {
+        public PalpitationsEffect() {
             keepAnimating = false;
-        }
-
-        public static PalpitationsEffect Instance
-        {
-            get
-            {
-                return instance;
-            }
         }
 
         protected override void Clean(TextEffectData data)

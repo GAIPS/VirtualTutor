@@ -8,16 +8,7 @@ namespace BubbleSystem2
 {
     public class BlushCharactersEffect : AbstractTextEffect
     {
-        private static readonly BlushCharactersEffect instance = new BlushCharactersEffect();
-
-        private BlushCharactersEffect() { }
-
-        public static BlushCharactersEffect Instance
-        {
-            get
-            {
-                return instance;
-            }
+        public BlushCharactersEffect() {
         }
 
         protected override void Clean(TextEffectData data)

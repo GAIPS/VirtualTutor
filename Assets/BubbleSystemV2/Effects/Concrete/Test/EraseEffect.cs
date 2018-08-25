@@ -8,18 +8,8 @@ namespace BubbleSystem2
 {
     public class EraseEffect : AbstractTextEffect
     {
-        private static readonly EraseEffect instance = new EraseEffect();
-
-        private EraseEffect() {
+        public EraseEffect() {
             wantedAlpha = 0;
-        }
-
-        public static EraseEffect Instance
-        {
-            get
-            {
-                return instance;
-            }
         }
 
         protected override void Clean(TextEffectData data)

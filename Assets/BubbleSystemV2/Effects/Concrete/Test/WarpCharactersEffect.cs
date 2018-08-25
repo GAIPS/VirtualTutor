@@ -7,19 +7,9 @@ namespace BubbleSystem2
 {
     public class WarpCharactersEffect : AbstractTextEffect
     {
-        private static readonly WarpCharactersEffect instance = new WarpCharactersEffect();
-
-        private WarpCharactersEffect()
+        public WarpCharactersEffect()
         {
             keepAnimating = false;
-        }
-
-        public static WarpCharactersEffect Instance
-        {
-            get
-            {
-                return instance;
-            }
         }
 
         public override IEnumerator Run(TextEffectData data)

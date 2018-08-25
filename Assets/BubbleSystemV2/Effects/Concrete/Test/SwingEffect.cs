@@ -7,18 +7,8 @@ namespace BubbleSystem2
 {
     public class SwingEffect : AbstractTextEffect
     {
-        private static readonly SwingEffect instance = new SwingEffect();
-
-        private SwingEffect() {
+        public SwingEffect() {
             keepAnimating = false;
-        }
-
-        public static SwingEffect Instance
-        {
-            get
-            {
-                return instance;
-            }
         }
 
         public override IEnumerator Run(TextEffectData data)
