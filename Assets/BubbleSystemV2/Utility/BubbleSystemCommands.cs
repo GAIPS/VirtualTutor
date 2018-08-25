@@ -38,8 +38,7 @@ namespace BubbleSystem2
         {
             object parsedEnum;
             Color color;
-            ColorUtility.TryParseHtmlString(info[1], out color);
-            if (!EnumUtils.TryParse(typeof(Emotion.EmotionEnum), info[0], out parsedEnum) || color == null) return;
+            if (!EnumUtils.TryParse(typeof(Emotion.EmotionEnum), info[0], out parsedEnum) || !ColorUtility.TryParseHtmlString(info[1], out color)) return;
             DefaultData.Instance.SetColor((Emotion.EmotionEnum) parsedEnum, color);
         }
 
