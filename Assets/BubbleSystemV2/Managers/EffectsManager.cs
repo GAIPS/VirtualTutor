@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace BubbleSystem2
 {
-    public class EffectsManager : Singleton<EffectsManager>, IStopper
+    public class EffectsManager : Singleton<EffectsManager>
     {
         private Dictionary<AbstractImageEffect.ImageEffectEnum, AbstractImageEffect> images = new Dictionary<AbstractImageEffect.ImageEffectEnum, AbstractImageEffect>();
         private Dictionary<AbstractTextEffect.TextEffectEnum, AbstractTextEffect> text = new Dictionary<AbstractTextEffect.TextEffectEnum, AbstractTextEffect>();

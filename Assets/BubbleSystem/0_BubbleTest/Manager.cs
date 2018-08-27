@@ -100,7 +100,7 @@ public class Manager : MonoBehaviour {
             emotion1.Name = emotion;
             emotion1.Intensity = intensity;
             tutors[currentTutor].Emotion = emotion1;
-            manager.UpdateBackground(tutors[currentTutor], reason);
+            //manager.UpdateBackground(tutors[currentTutor], reason);
             Debug.Log(tutors[currentTutor] + " " + emotion.ToString() + " " + intensity + " " + reason);
         }
 
@@ -172,7 +172,7 @@ public class Manager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            manager.HideBalloon("Options");
+            //manager.HideBalloon("Options");
         }
     }
     

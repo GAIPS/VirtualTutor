@@ -64,6 +64,15 @@ namespace BubbleSystem2
             }
         }
 
+        public void SetAnimators(BalloonsHooks hooks, Emotion emotion)
+        {
+            Animator animator = hooks.GetComponent<Animator>();
+            if (!(animator && animator.isActiveAndEnabled)) return;
+            ResetAllFloats(animator);
+            animator.SetFloat(emotion.GetString(), 1.0f);
+            animator.SetFloat(DefaultData.Instance.Default, 1.0f);
+        }
+
         public void SetAnimators(BalloonsHooks hooks, Dictionary<Emotion, float> emotions)
         {
             Animator animator = hooks.GetComponent<Animator>();

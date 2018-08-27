@@ -7,14 +7,13 @@ using UnityEngine.UI;
 
 namespace BubbleSystem2
 {
-    public class Balloon : AbstractBubbleSystemModule, IStopper
+    public class Balloon : AbstractBubbleSystemModule
     {
         public BalloonSystemData balloonData;
         private List<IEnumerator> coroutines = new List<IEnumerator>();
         private float durationThreshold = 0.3f;
         [HideInInspector]
         public Control control;
-        private Dictionary<Emotion, float> emotions = new Dictionary<Emotion, float>();
         private TextEffectData textEffectsData = new TextEffectData();
 
         private void Start()
@@ -31,15 +30,6 @@ namespace BubbleSystem2
                 hooks.SetTail(balloonData.isTailTop, balloonData.isTailLeft);
         }
 
-        public void Play(IEnumerator coroutine)
-        {
-            StartCoroutine(coroutine);
-        }
-
-        public void Stop(IEnumerator coroutine)
-        {
-            StopCoroutine(coroutine);
-        }
 
         public void AddCoroutine(IEnumerator coroutine)
         {
@@ -51,7 +41,7 @@ namespace BubbleSystem2
         {
             if (!data.tutor.GetString().Equals(balloonData._name)) return;
             foreach (IEnumerator coroutine in coroutines)
-                Stop(coroutine);
+                StopCoroutine(coroutine);
 
             if (data.balloonData.show)
                 ShowBalloon(data);
@@ -99,7 +89,6 @@ namespace BubbleSystem2
                 Dictionary<AbstractTextEffect.TextEffectEnum, AnimationCurve> showEffects;
                 Color textColor = BubbleSystemUtility.GetTextColor(color);
                 float textDuration = realDuration - durationThreshold; // so it finishes before hide
-                emotions.Clear();
 
                 balloonData.SetContent(hooks, data.balloonData.text.Count > i ? data.balloonData.text[i] : null);
                 balloonData.SetSprites(emotionPair.Key, hooks, spriteData, emotionPair.Value, color, balloonData.options);
@@ -110,11 +99,10 @@ namespace BubbleSystem2
                 // Do not animate options
                 if (!balloonData.options)
                 {
-                    emotions.Add(emotionPair.Key, emotionPair.Value);
                     if (DefaultData.Instance.blendBalloonAnimation)
                         balloonData.SetAnimators(hooks, data.emotions);
                     else
-                        balloonData.SetAnimators(hooks, emotions);
+                        balloonData.SetAnimators(hooks, emotionPair.Key);
 
                     textData = DefaultData.Instance.GetDefaultTextData(emotionPair.Key.GetString(), emotionPair.Value);
                     balloonData.SetTexts(hooks, textData, textColor, emotionPair.Key);
