@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BubbleSystem2
+namespace BubbleSystem
 {
     public class BalloonData : AbstractBubbleSystemData
     {

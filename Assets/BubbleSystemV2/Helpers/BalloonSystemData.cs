@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
-namespace BubbleSystem2
+namespace BubbleSystem
 {
     [System.Serializable]
     public class BalloonSystemData

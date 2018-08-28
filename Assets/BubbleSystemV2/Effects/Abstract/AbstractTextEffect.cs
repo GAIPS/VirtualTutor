@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BubbleSystem2
+namespace BubbleSystem
 {
     public abstract class AbstractTextEffect : AbstractEffect
     {

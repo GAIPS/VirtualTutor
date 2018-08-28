@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BubbleSystem2
+namespace BubbleSystem
 {
     public class OverrideTextEffectsCommand : AbstractCommand
     {
@@ -18,9 +18,9 @@ namespace BubbleSystem2
             if (!CheckName(info[0])) return;
             object parsedEnum;
             float intensity;
-            if (!EnumUtils.TryParse(typeof(BubbleSystem2.Emotion.EmotionEnum), info[1], out parsedEnum) || !Single.TryParse(info[2], out intensity)) return;
+            if (!EnumUtils.TryParse(typeof(BubbleSystem.Emotion.EmotionEnum), info[1], out parsedEnum) || !Single.TryParse(info[2], out intensity)) return;
             intensity = Mathf.Clamp01(intensity);
-            BubbleSystem2.Emotion.EmotionEnum emotion = (BubbleSystem2.Emotion.EmotionEnum)parsedEnum;
+            BubbleSystem.Emotion.EmotionEnum emotion = (BubbleSystem.Emotion.EmotionEnum)parsedEnum;
 
             KeyValuePair<Dictionary<AbstractTextEffect.TextEffectEnum, AnimationCurve>, Dictionary<AbstractTextEffect.TextEffectEnum, AnimationCurve>> effects = GetTextEffects(info, 3);
             DefaultData.Instance.SetTextEffects(emotion.ToString(), intensity, effects.Key, effects.Value);

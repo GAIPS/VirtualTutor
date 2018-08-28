@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace BubbleSystem2
+namespace BubbleSystem
 {
     public class BubbleSystemManager : MonoBehaviour
     {

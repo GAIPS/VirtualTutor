@@ -5,7 +5,7 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 
-namespace BubbleSystem2
+namespace BubbleSystem
 {
     public class Balloon : AbstractBubbleSystemModule
     {

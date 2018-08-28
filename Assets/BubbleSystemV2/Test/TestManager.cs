@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BubbleSystem2 {
+namespace BubbleSystem {
     public class TestManager : MonoBehaviour {
         const int DATA_SIZE = 4;
 
@@ -174,7 +174,7 @@ namespace BubbleSystem2 {
 
             if (Input.GetKeyDown(KeyCode.Alpha0))
             {
-                bridge.HideBalloon(BubbleSystem2.Tutor.TutorEnum.User.ToString());
+                bridge.HideBalloon(BubbleSystem.Tutor.TutorEnum.User.ToString());
             }
         }
     }

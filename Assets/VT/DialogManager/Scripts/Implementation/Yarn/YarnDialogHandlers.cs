@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEngine;
 using Utilities;
 using Yarn;
-using BubbleSystem2;
+using BubbleSystem;
 
 namespace YarnDialog
 {
@@ -395,7 +395,7 @@ namespace YarnDialog
                     var tutor = manager.GetTutor(target);
                     if (tutor == null) continue;
                     tutor.Emotion = new Emotion(emotionEnum, intensity);
-                    manager.ModuleManager.Feel(tutor, BubbleSystem2.Reason.ReasonEnum.None);
+                    manager.ModuleManager.Feel(tutor, BubbleSystem.Reason.ReasonEnum.None);
                 }
             }
         }

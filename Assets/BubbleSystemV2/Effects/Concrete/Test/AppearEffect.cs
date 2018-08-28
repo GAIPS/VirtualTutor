@@ -5,7 +5,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-namespace BubbleSystem2
+namespace BubbleSystem
 {
     public class AppearEffect : AbstractTextEffect
     {
