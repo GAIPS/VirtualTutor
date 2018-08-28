@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using BubbleSystem;
 using UnityEngine;
 using Utilities;
 using Yarn;
+using BubbleSystem2;
 
 namespace YarnDialog
 {
@@ -180,7 +180,7 @@ namespace YarnDialog
             {
                 IList<string> options = new List<string>(optionSetResult.options.options);
                 options.Remove("BLANK");
-                manager.ModuleManager.UpdateOptions(options.ToArray(), callbacks.ToArray());
+                manager.ModuleManager.UpdateOptions(options.ToArray(), callbacks);
 
                 float duration = DefaultData.Instance.GetOptionsDuration();
                 if (duration < 0)
@@ -223,7 +223,7 @@ namespace YarnDialog
 
 
                 // Hide Options
-                manager.ModuleManager.HideBalloon("Options");
+                manager.ModuleManager.HideBalloon("User");
             }
         }
 
@@ -395,7 +395,7 @@ namespace YarnDialog
                     var tutor = manager.GetTutor(target);
                     if (tutor == null) continue;
                     tutor.Emotion = new Emotion(emotionEnum, intensity);
-                    manager.ModuleManager.Feel(tutor, Reason.None);
+                    manager.ModuleManager.Feel(tutor, BubbleSystem2.Reason.ReasonEnum.None);
                 }
             }
         }

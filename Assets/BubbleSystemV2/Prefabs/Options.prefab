@@ -40,7 +40,6 @@ GameObject:
   - component: {fileID: 224438917590324278}
   - component: {fileID: 222758879563731464}
   - component: {fileID: 114156085748689028}
-  - component: {fileID: 114415100895274888}
   m_Layer: 5
   m_Name: TextMeshPro Text
   m_TagString: Untagged
@@ -58,7 +57,6 @@ GameObject:
   - component: {fileID: 224244741757557352}
   - component: {fileID: 222692656702272002}
   - component: {fileID: 114895100654968874}
-  - component: {fileID: 114420251058416858}
   m_Layer: 5
   m_Name: TextMeshPro Text
   m_TagString: Untagged
@@ -76,7 +74,6 @@ GameObject:
   - component: {fileID: 224269693440712786}
   - component: {fileID: 222088331692091240}
   - component: {fileID: 114970898643322202}
-  - component: {fileID: 114916374699449266}
   m_Layer: 5
   m_Name: TextMeshPro Text
   m_TagString: Untagged
@@ -237,7 +234,6 @@ GameObject:
   - component: {fileID: 224717414302798914}
   - component: {fileID: 222588235188041432}
   - component: {fileID: 114667970251035686}
-  - component: {fileID: 114832973400708878}
   m_Layer: 5
   m_Name: TextMeshPro Text
   m_TagString: Untagged
@@ -663,28 +659,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114415100895274888
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1052048563020698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7783a7b55f20ab8408a8c31508480147, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114420251058416858
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1140342561088316}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7783a7b55f20ab8408a8c31508480147, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114451810995116746
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -936,17 +910,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114832973400708878
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1979436965091434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7783a7b55f20ab8408a8c31508480147, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114878310948788188
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1086,17 +1049,6 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &114916374699449266
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1153489881236836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7783a7b55f20ab8408a8c31508480147, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114970898643322202
 MonoBehaviour:
   m_ObjectHideFlags: 1

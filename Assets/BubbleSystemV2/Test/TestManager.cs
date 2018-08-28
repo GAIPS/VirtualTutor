@@ -1,5 +1,4 @@
-﻿using BubbleSystem;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -62,7 +61,7 @@ namespace BubbleSystem2 {
                 if (data.Peek().tutor.GetString().Equals("User")) {
                     data.Peek().balloonData.options = true;
                 }
-                data.Peek().balloonData.text = new List<string> { "Hello World", "asfd" };
+                data.Peek().balloonData.text.Add("There are only 2 genders!");
                 UpdateScene();
                 emotion.Enqueue(first);
             }
@@ -170,7 +169,7 @@ namespace BubbleSystem2 {
 
             if (Input.GetKeyDown(KeyCode.Alpha9))
             {
-                bridge.UpdateOptions(new string[] { "text" });
+                bridge.Handle(new string[] { "UpdateBackground", Tutor.TutorEnum.Maria.ToString(), "Fear", "1", "None" });
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha0))

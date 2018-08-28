@@ -338,7 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba6f7341471425f43b239faa5a1eb100, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bubbleSystem: {fileID: 0}
+  bubbleSystem: {fileID: 204460585}
   avatarManager: {fileID: 0}
   Tutors: []
 --- !u!4 &470417366

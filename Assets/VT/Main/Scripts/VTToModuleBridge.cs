@@ -1,4 +1,4 @@
-﻿using BubbleSystem;
+﻿using BubbleSystem2;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -7,10 +7,19 @@ using UnityEngine;
 
 public class VTToModuleBridge : MonoBehaviour
 {
-    public BubbleSystemManager bubbleSystem;
+    public BubbleSystem2.BubbleSystemManager bubbleSystem;
     public AvatarManager avatarManager;
+    private Dictionary<string, BubbleSystemData> bsData = new Dictionary<string, BubbleSystemData>(); 
 
     public List<Tutor> Tutors;
+
+    private void Start()
+    {
+        foreach (BubbleSystem2.Tutor.TutorEnum t in (BubbleSystem2.Tutor.TutorEnum[])Enum.GetValues(typeof(BubbleSystem2.Tutor.TutorEnum)))
+        {
+            bsData.Add(t.ToString(), new BubbleSystemData());
+        }
+    }
 
     public void Handle(string[] info)
     {
@@ -57,48 +66,14 @@ public class VTToModuleBridge : MonoBehaviour
         }
         else
         {
-            //BubbleSystem Commands
             switch (info[0])
             {
-                //case "OverrideTextEffects":
-                //    BubbleSystemCommands.OverrideTextEffects(parameters);
-                //    break;
+                //BubbleSystem Commands
 
-                //case "SetMixColors":
-                //    BubbleSystemCommands.SetMixColors(parameters);
-                //    break;
+                case "UpdateBackground":
+                    UpdateBackground(parameters);
+                    break;
 
-                //case "OverrideBlushColor":
-                //    BubbleSystemCommands.OverrideBlushColor(parameters);
-                //    break;
-
-                //case "OverrideEmotionColor":
-                //    BubbleSystemCommands.OverrideEmotionColor(parameters);
-                //    break;
-
-                //case "AddAnimationCurve":
-                //    BubbleSystemCommands.AddAnimationCurve(parameters);
-                //    break;
-
-                //case "SetForceTextUpdate":
-                //    BubbleSystemCommands.SetForceTextUpdate(parameters);
-                //    break;
-
-                //case "SetBalloonAnimationBlending":
-                //    BubbleSystemCommands.SetBalloonAnimationBlending(parameters);
-                //    break;
-
-                //case "SetBalloonDuration":
-                //    BubbleSystemCommands.SetBalloonDuration(parameters);
-                //    break;
-
-                //case "SetBackgroundDuration":
-                //    BubbleSystemCommands.SetBackgroundDuration(parameters);
-                //    break;
-
-                //case "SetOptionsDuration":
-                //    BubbleSystemCommands.SetOptionsDuration(parameters);
-                //    break;
 
                 //  SHARED COMMANDS
                 case "Feel":
@@ -106,6 +81,7 @@ public class VTToModuleBridge : MonoBehaviour
                     break;
 
                 default:
+                    BubbleSystemCommands.Instance.Run(info);
                     break;
             }
         }
@@ -120,13 +96,16 @@ public class VTToModuleBridge : MonoBehaviour
     {
         Tutor tutor;
         Emotion emotion;
+        Reason.ReasonEnum reason = Reason.ReasonEnum.None;
+        object parsedReason;
 
         if (parseTutorName(parameters[0], out tutor) && parseEmotion(parameters[1], parameters[2], out emotion))
         {
             tutor.Emotion = emotion;
         }
 
-        Reason reason = (Reason)Enum.Parse(typeof(Reason), parameters[3]);
+        if (EnumUtils.TryParse(typeof(Reason.ReasonEnum), parameters[3], out parsedReason))
+            reason = (Reason.ReasonEnum)parsedReason;
 
         Feel(tutor, reason);
     }
@@ -135,7 +114,7 @@ public class VTToModuleBridge : MonoBehaviour
                                                 SHARED CALLS
     **********************************************************************************************************/
 
-    public void Feel(Tutor who, Reason why)
+    public void Feel(Tutor who, Reason.ReasonEnum why)
     {
         Feel(who);
         UpdateBackground(who, why);
@@ -505,33 +484,65 @@ public class VTToModuleBridge : MonoBehaviour
                                                  BUBBLE SYSTEM
     **********************************************************************************************************/
 
-    public void UpdateBackground(Tutor tutor, Reason reason)
+    public void UpdateBackground(Tutor tutor, Reason.ReasonEnum reason)
     {
-        //Dictionary<string, float> dict = new Dictionary<string, float>();
-        //dict.Add(tutor.Emotion.Name.ToString(), tutor.Emotion.Intensity);
-        //bubbleSystem.UpdateBackground(tutor.Name, dict, reason);
+        BubbleSystemData data = bsData[tutor.Name];
+        data.Clear();
+        BubbleSystem2.Emotion emotion = new BubbleSystem2.Emotion();
+        emotion.Set(tutor.Emotion.Name.ToString());
+        data.tutor.Set(tutor.Name);
+        data.emotions.Add(emotion, tutor.Emotion.Intensity);
+        data.backgroundData.reason.Set(reason.ToString());
+        bubbleSystem.UpdateScene(data);
     }
 
     public void Speak(Tutor tutor, string[] text, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
     {
-        //Dictionary<string, float> dict = new Dictionary<string, float>();
-        //dict.Add(tutor.Emotion.Name.ToString(), tutor.Emotion.Intensity);
-        //bubbleSystem.Speak(tutor.Name, dict, text, showEffects, hideEffects);
+        BubbleSystemData data = bsData[tutor.Name];
+        data.Clear();
+        BubbleSystem2.Emotion emotion = new BubbleSystem2.Emotion();
+        emotion.Set(tutor.Emotion.Name.ToString());
+        data.tutor.Set(tutor.Name);
+        data.emotions.Add(emotion, tutor.Emotion.Intensity);
+        data.balloonData.text = text.ToList();
+        if (showEffects != null)
+            data.balloonData.effects.showEffects = getEffectsDictionary(showEffects);
+        if (hideEffects != null)
+            data.balloonData.effects.hideEffects = getEffectsDictionary(hideEffects);
+        bubbleSystem.UpdateScene(data);
     }
 
-    public void HideBalloon(Tutor tutor, float duration = 0.0f)
+    public void HideBalloon(Tutor tutor)
     {
-        //bubbleSystem.HideBalloon(tutor.Name, duration);
+        BubbleSystemData data = bsData[tutor.Name];
+        data.balloonData.show = false;
+        bubbleSystem.UpdateScene(data);
     }
 
-    public void HideBalloon(string tutor, float duration = 0.0f)
+    public void HideBalloon(string tutor)
     {
-        //bubbleSystem.HideBalloon(tutor, duration);
+        BubbleSystemData data = bsData[tutor];
+        data.balloonData.show = false;
+        bubbleSystem.UpdateScene(data);
     }
 
-    public void UpdateOptions(string[] text, HookControl.IntFunc[] callbacks = null, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
+    public void UpdateOptions(string[] text, List<HookControl.IntFunc> callbacks = null, Dictionary<string, string> showEffects = null, Dictionary<string, string> hideEffects = null)
     {
-        //bubbleSystem.UpdateOptions(text, callbacks, showEffects, hideEffects);
+        BubbleSystemData data = bsData[BubbleSystem2.Tutor.TutorEnum.User.ToString()];
+        data.Clear();
+        data.balloonData.text = text.ToList();
+        BubbleSystem2.Emotion emotion = new BubbleSystem2.Emotion();
+        emotion.Set(BubbleSystem2.Emotion.EmotionEnum.Neutral.ToString());
+        data.tutor.Set(BubbleSystem2.Tutor.TutorEnum.User.ToString());
+        data.emotions.Add(emotion, 1.0f);
+        data.balloonData.options = true;
+        if(callbacks != null)
+            data.balloonData.callbacks = callbacks;
+        if (showEffects != null)
+            data.balloonData.effects.showEffects = getEffectsDictionary(showEffects);
+        if (hideEffects != null)
+            data.balloonData.effects.hideEffects = getEffectsDictionary(hideEffects);
+        bubbleSystem.UpdateScene(data);
     }
 
 
@@ -542,26 +553,63 @@ public class VTToModuleBridge : MonoBehaviour
     //<< UpdateBackground tutor emotion intensity reason>>
     private void UpdateBackground(string[] info)
     {
-        //Reason reason = (Reason)Enum.Parse(typeof(Reason), info[info.Length - 1]);
-        //KeyValuePair<int, Dictionary<string, float>> kvp = GetEmotions(info, 1);
-        //bubbleSystem.UpdateBackground(info[0], kvp.Value, reason);
+        BubbleSystemData data = bsData[info[0]];
+        data.Clear();
+        object parsedReason;
+        if(!EnumUtils.TryParse(typeof(Reason.ReasonEnum), info[info.Length - 1], out parsedReason)) return;
+        Reason.ReasonEnum reason = (Reason.ReasonEnum)parsedReason;
+        KeyValuePair<int, Dictionary<BubbleSystem2.Emotion, float>> emotions = GetEmotions(info, 1);
+        data.tutor.Set(info[0]);
+        data.emotions = emotions.Value;
+        data.backgroundData.reason.Set(reason.ToString());
+        bubbleSystem.UpdateScene(data);
     }
 
     /**********************************************************************************************************
                                                     HELP FUNCTIONS
     **********************************************************************************************************/
 
-    private KeyValuePair<int, Dictionary<string, float>> GetEmotions(string[] info, int i)
+    private Dictionary<BubbleSystem2.AbstractTextEffect.TextEffectEnum, AnimationCurve> getEffectsDictionary(Dictionary<string, string> effects)
     {
-        Dictionary<string, float> dict = new Dictionary<string, float>();
+        Dictionary<BubbleSystem2.AbstractTextEffect.TextEffectEnum, AnimationCurve> effectsDictionary = new Dictionary<BubbleSystem2.AbstractTextEffect.TextEffectEnum, AnimationCurve>();
+        if (effects != null)
+        {
+            foreach (string fx in effects.Keys)
+            {
+                object parsedEnum;
+                if (!EnumUtils.TryParse(typeof(BubbleSystem2.AbstractTextEffect.TextEffectEnum), fx, out parsedEnum)) continue;
+                AnimationCurve curve = DefaultData.Instance.GetCurve(effects[fx]);
+                effectsDictionary.Add((BubbleSystem2.AbstractTextEffect.TextEffectEnum) parsedEnum, curve);
+            }
+            return effectsDictionary;
+        }
+        return null;
+    }
+
+    private KeyValuePair<int, Dictionary<BubbleSystem2.Emotion, float>> GetEmotions(string[] info, int i)
+    {
+        Dictionary<BubbleSystem2.Emotion, float> dict = new Dictionary<BubbleSystem2.Emotion, float>();
         while (i < info.Length)
         {
+            BubbleSystem2.Emotion emotion = new BubbleSystem2.Emotion();
+            BubbleSystem2.Emotion.EmotionEnum emotionEnum;
+            object parsedEmotion;
+            float intensity;
+
             if (info[i].Equals("showEffects") || info[i].Equals("hideEffects"))
                 break;
-            dict.Add(info[i], Mathf.Clamp01(System.Convert.ToSingle(info[i + 1])));
+            if (!EnumUtils.TryParse(typeof(BubbleSystem2.Emotion.EmotionEnum), info[i], out parsedEmotion) || !Single.TryParse(info[i + 1], out intensity)) {
+                i += 2;
+                continue;
+            }
+
+            emotionEnum = (BubbleSystem2.Emotion.EmotionEnum)parsedEmotion;
+            emotion.Set(emotionEnum.ToString());    
+
+            dict.Add(emotion, Mathf.Clamp01(intensity));
             i += 2;
         }
 
-        return new KeyValuePair<int, Dictionary<string, float>>(i, dict);
+        return new KeyValuePair<int, Dictionary<BubbleSystem2.Emotion, float>>(i, dict);
     }
 }

@@ -5,16 +5,16 @@ using UnityEngine;
 public class ScrollTexture : MonoBehaviour {
 
     public float scrollSpeed = 0.5f;
-    private new Renderer renderer;
+    private Renderer _renderer;
 
     void Start () {
-        renderer = GetComponent<Renderer>();
+        _renderer = GetComponent<Renderer>();
     }
 	
 	
 	void Update () {
         float offset = Time.time * scrollSpeed;
-        for(int i = 0; i < renderer.materials.Length; i++)
-            renderer.materials[i].SetTextureOffset("_MainTex", new Vector2(offset, 0));
+        for(int i = 0; i < _renderer.materials.Length; i++)
+            _renderer.materials[i].SetTextureOffset("_MainTex", new Vector2(offset, 0));
     }
 }

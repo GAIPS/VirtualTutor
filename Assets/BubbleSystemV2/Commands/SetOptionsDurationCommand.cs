@@ -16,7 +16,9 @@ namespace BubbleSystem2
         public override void Run(string[] info)
         {
             if (!CheckName(info[0])) return;
-            DefaultData.Instance.SetOptionsDuration(Convert.ToSingle(info[1]));
+            float duration;
+            if (!Single.TryParse(info[1], out duration)) return;
+            DefaultData.Instance.SetOptionsDuration(duration);
         }
     }
 }

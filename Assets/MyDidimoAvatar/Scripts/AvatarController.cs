@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using BubbleSystem2;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
@@ -94,7 +95,7 @@ public partial class AvatarController : MonoBehaviour
         parameters.setAllParameters<ControllerParams>(preset[1]);
         finalIntensity = finalIntensity * parameters.getMoodDampenerValue();
 
-        if (BubbleSystem.BubbleSystemUtility.CheckCoroutine(ref corrotina)) { StopCoroutine(corrotina); }
+        if (BubbleSystemUtility.CheckCoroutine(ref corrotina)) { StopCoroutine(corrotina); }
         corrotina = MoodTransition(animator.GetFloat("Mood Intensity"), finalIntensity, duration);
         StartCoroutine(corrotina);
 
@@ -126,7 +127,7 @@ public partial class AvatarController : MonoBehaviour
                 SetMood(EmotionalState.NEUTRAL, 0.0f);
             if (ApproachLowerIntensity)
             {
-                if (BubbleSystem.BubbleSystemUtility.CheckCoroutine(ref corrotina)) { StopCoroutine(corrotina); }
+                if (BubbleSystemUtility.CheckCoroutine(ref corrotina)) { StopCoroutine(corrotina); }
 
                 corrotina = MoodTransition(animator.GetFloat("Mood Intensity"), animator.GetFloat("Desired Intensity") * 0.5f, 1.0f);
                 StartCoroutine(corrotina);
@@ -137,7 +138,7 @@ public partial class AvatarController : MonoBehaviour
         {
             if (ApproachNeutral || ApproachLowerIntensity)
             {
-                if (BubbleSystem.BubbleSystemUtility.CheckCoroutine(ref corrotina)) { StopCoroutine(corrotina); }
+                if (BubbleSystemUtility.CheckCoroutine(ref corrotina)) { StopCoroutine(corrotina); }
                 corrotina = MoodTransition(animator.GetFloat("Mood Intensity"), animator.GetFloat("Mood Intensity") / 0.5f, 1.0f);
                 StartCoroutine(corrotina);
             }

@@ -22,7 +22,7 @@ namespace BubbleSystem2
             intensity = Mathf.Clamp01(intensity);
             BubbleSystem2.Emotion.EmotionEnum emotion = (BubbleSystem2.Emotion.EmotionEnum)parsedEnum;
 
-            KeyValuePair<Dictionary<AbstractTextEffect.TextEffectEnum, AnimationCurve>, Dictionary<AbstractTextEffect.TextEffectEnum, AnimationCurve>> effects = SetTextEffects(info, 3);
+            KeyValuePair<Dictionary<AbstractTextEffect.TextEffectEnum, AnimationCurve>, Dictionary<AbstractTextEffect.TextEffectEnum, AnimationCurve>> effects = GetTextEffects(info, 3);
             DefaultData.Instance.SetTextEffects(emotion.ToString(), intensity, effects.Key, effects.Value);
         }
 
@@ -30,7 +30,7 @@ namespace BubbleSystem2
                                                 HELP FUNCTIONS
         **********************************************************************************************************/
 
-        private static KeyValuePair<Dictionary<AbstractTextEffect.TextEffectEnum, AnimationCurve>, Dictionary<AbstractTextEffect.TextEffectEnum, AnimationCurve>> SetTextEffects(string[] info, int i)
+        private static KeyValuePair<Dictionary<AbstractTextEffect.TextEffectEnum, AnimationCurve>, Dictionary<AbstractTextEffect.TextEffectEnum, AnimationCurve>> GetTextEffects(string[] info, int i)
         {
             Dictionary<AbstractTextEffect.TextEffectEnum, AnimationCurve> showEffects = null;
             Dictionary<AbstractTextEffect.TextEffectEnum, AnimationCurve> hideEffects = null;

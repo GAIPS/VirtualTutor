@@ -39,7 +39,6 @@ GameObject:
   - component: {fileID: 224710996481529154}
   - component: {fileID: 222111352288951714}
   - component: {fileID: 114385108392335126}
-  - component: {fileID: 114985822772067788}
   m_Layer: 5
   m_Name: TextMeshPro Text
   m_TagString: Untagged
@@ -80,7 +79,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1612399831856838
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,7 +132,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1973117932757238
 GameObject:
   m_ObjectHideFlags: 1
@@ -522,17 +521,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114985822772067788
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1233464483621366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7783a7b55f20ab8408a8c31508480147, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!222 &222028098156909830
 CanvasRenderer:
   m_ObjectHideFlags: 1

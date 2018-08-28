@@ -1175,6 +1175,7 @@ GameObject:
   - component: {fileID: 33820232290656328}
   - component: {fileID: 23433018179527616}
   - component: {fileID: 114046755082078130}
+  - component: {fileID: 114635556723426912}
   m_Layer: 0
   m_Name: Quad_Joao
   m_TagString: Untagged
@@ -3586,6 +3587,18 @@ MonoBehaviour:
   moodDampener: 1
   nodInterval: 3
   nodLength: 0
+--- !u!114 &114635556723426912
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1670746926287698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717276718349b0d498238730609aa978, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: Joao
 --- !u!124 &124082181985886750
 Behaviour:
   m_ObjectHideFlags: 1
