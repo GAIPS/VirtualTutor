@@ -20,7 +20,6 @@ namespace BubbleSystem
         public Color32 defaultColor = Color.white;
 
         private float balloonDuration = 5.0f;
-
         private float optionsDuration = -1f;
         private float backgroundDuration = 5.0f;
         public bool mixColors = true;
@@ -263,6 +262,7 @@ namespace BubbleSystem
             return textSizes[emotion];
         }
 
+        // Should have multiple positions per balloon/tail, to add dynamism
         private void SetBalloonPositions()
         {
             Dictionary<string, List<PositionData>> neutralPositions = new Dictionary<string, List<PositionData>>();
@@ -287,7 +287,7 @@ namespace BubbleSystem
                 rect.anchorMax = new Vector2(0.9f, 0.75f);
                 rect.localRotation = Quaternion.Euler(0, 0, 0);
                 rectList.Add(rect);
-                neutralPositions.Add("balloon", rectList);
+                neutralPositions.Add("Balloon", rectList);
 
 
                 rectList = new List<PositionData>();
@@ -344,7 +344,7 @@ namespace BubbleSystem
                 rect.anchorMax = new Vector2(0.9f, 0.75f);
                 rect.localRotation = Quaternion.Euler(0, 0, 0);
                 rectList.Add(rect);
-                happinessPositions.Add("balloon", rectList);
+                happinessPositions.Add("Balloon", rectList);
 
                 rectList = new List<PositionData>();
 
@@ -396,7 +396,7 @@ namespace BubbleSystem
                 rect.anchorMax = new Vector2(0.9f, 0.75f);
                 rect.localRotation = Quaternion.Euler(0, 0, 0);
                 rectList.Add(rect);
-                sadnessPositions.Add("balloon", rectList);
+                sadnessPositions.Add("Balloon", rectList);
 
                 rectList = new List<PositionData>();
 
@@ -448,7 +448,7 @@ namespace BubbleSystem
                 rect.anchorMax = new Vector2(0.95f, 0.9f);
                 rect.localRotation = Quaternion.Euler(0, 0, 0);
                 rectList.Add(rect);
-                angerPositions.Add("balloon", rectList);
+                angerPositions.Add("Balloon", rectList);
 
 
                 rectList = new List<PositionData>();
@@ -499,7 +499,7 @@ namespace BubbleSystem
                 rect.anchorMax = new Vector2(0.9f, 0.75f);
                 rect.localRotation = Quaternion.Euler(0, 0, 0);
                 rectList.Add(rect);
-                fearPositions.Add("balloon", rectList);
+                fearPositions.Add("Balloon", rectList);
 
 
                 rectList = new List<PositionData>();
@@ -554,7 +554,7 @@ namespace BubbleSystem
                 rect.anchorMax = new Vector2(0.9f, 0.75f);
                 rect.localRotation = Quaternion.Euler(0, 0, 0);
                 rectList.Add(rect);
-                disgustPositions.Add("balloon", rectList);
+                disgustPositions.Add("Balloon", rectList);
 
 
                 rectList = new List<PositionData>();
@@ -605,7 +605,7 @@ namespace BubbleSystem
                 rect.anchorMax = new Vector2(0.9f, 0.75f);
                 rect.localRotation = Quaternion.Euler(0, 0, 0);
                 rectList.Add(rect);
-                surprisePositions.Add("balloon", rectList);
+                surprisePositions.Add("Balloon", rectList);
 
 
                 rectList = new List<PositionData>();
@@ -661,10 +661,10 @@ namespace BubbleSystem
                 text.showEffect = new Dictionary<AbstractTextEffect.TextEffectEnum, AnimationCurve>();
                 text.hideEffect = new Dictionary<AbstractTextEffect.TextEffectEnum, AnimationCurve>();
                 dict.Add(1f, text);
-                defaultTextData.Add("User", dict);
+                defaultTextData.Add(BubbleSystem.Tutor.TutorEnum.User.ToString(), dict);
 
-                defaultTextData["User"][1f].showEffect.Add(AbstractTextEffect.TextEffectEnum.None, null);
-                defaultTextData["User"][1f].hideEffect.Add(AbstractTextEffect.TextEffectEnum.None, null);
+                defaultTextData[BubbleSystem.Tutor.TutorEnum.User.ToString()][1f].showEffect.Add(AbstractTextEffect.TextEffectEnum.None, null);
+                defaultTextData[BubbleSystem.Tutor.TutorEnum.User.ToString()][1f].hideEffect.Add(AbstractTextEffect.TextEffectEnum.None, null);
             }
 
             {

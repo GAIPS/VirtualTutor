@@ -57,6 +57,7 @@ namespace BubbleSystem
             return color;
         }
 
+        // https://stackoverflow.com/questions/3942878
         public static Color GetTextColor(Color color)
         {
             float red = ConvertToLinear(color.r);

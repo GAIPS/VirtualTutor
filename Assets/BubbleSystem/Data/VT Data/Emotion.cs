@@ -20,12 +20,17 @@ namespace BubbleSystem
 
         public EmotionEnum Get()
         {
-            return base.Get<EmotionEnum>();
+            return base.Get<EmotionEnum>(this.GetType().Name);
         }
 
         public void Set(string value)
         {
             base.Set<EmotionEnum>(value);
+        }
+
+        public void Set(EmotionEnum value)
+        {
+            Set(value.ToString());
         }
 
         public override string GetString()

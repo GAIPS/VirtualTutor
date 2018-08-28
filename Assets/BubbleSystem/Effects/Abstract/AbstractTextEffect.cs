@@ -6,6 +6,7 @@ namespace BubbleSystem
 {
     public abstract class AbstractTextEffect : AbstractEffect
     {
+        //Should be alphabetically sorted
         public enum TextEffectEnum
         {
             Appear,

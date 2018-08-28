@@ -38,7 +38,7 @@ namespace BubbleSystem
         {
             if (!hooks || options) return;
             Image image = hooks.balloon.GetComponent<Image>();
-            DefaultData.PositionData positionData = DefaultData.Instance.GetDefaultPositions(emotion.Get(), intensity, "balloon");
+            DefaultData.PositionData positionData = DefaultData.Instance.GetDefaultPositions(emotion.Get(), intensity, hooks.balloon.name);
             RectTransform rect = hooks.balloon.GetComponent<RectTransform>();
 
             image.sprite = spriteData.sprite;

@@ -24,11 +24,15 @@ namespace BubbleSystem
 
             for (int i = 2; i < info.Length; i = i + 2)
             {
+                float weight;
+                if (!Single.TryParse(info[i + 1], out weight)) continue;
                 if (info[i].Equals("smooth"))
-                    smoothTangents.Add(new KeyValuePair<int, float>(indexToSmooth, Convert.ToSingle(info[i + 1])));
+                    smoothTangents.Add(new KeyValuePair<int, float>(indexToSmooth, weight));
                 else
                 {
-                    curve.AddKey(new Keyframe(Convert.ToSingle(info[i]), Convert.ToSingle(info[i + 1])));
+                    float time;
+                    if (!Single.TryParse(info[i + 1], out time)) continue;
+                    curve.AddKey(new Keyframe(time, weight));
                     indexToSmooth++;
                 }
             }

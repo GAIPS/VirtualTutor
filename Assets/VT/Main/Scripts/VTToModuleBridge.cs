@@ -486,13 +486,13 @@ public class VTToModuleBridge : MonoBehaviour
 
     public void UpdateBackground(Tutor tutor, Reason.ReasonEnum reason)
     {
-        BubbleSystemData data = bsData[tutor.Name];
+        BubbleSystemData data = new BubbleSystemData();
         data.Clear();
         BubbleSystem.Emotion emotion = new BubbleSystem.Emotion();
         emotion.Set(tutor.Emotion.Name.ToString());
         data.tutor.Set(tutor.Name);
         data.emotions.Add(emotion, tutor.Emotion.Intensity);
-        data.backgroundData.reason.Set(reason.ToString());
+        data.backgroundData.reason.Set(reason);
         bubbleSystem.UpdateScene(data);
     }
 
@@ -521,7 +521,10 @@ public class VTToModuleBridge : MonoBehaviour
 
     public void HideBalloon(string tutor)
     {
-        BubbleSystemData data = bsData[tutor];
+        object parsedTutor;
+        if (!EnumUtils.TryParse(typeof(BubbleSystem.Tutor.TutorEnum), tutor, out parsedTutor)) return;
+        BubbleSystem.Tutor.TutorEnum tutorEnum = (BubbleSystem.Tutor.TutorEnum)parsedTutor;
+        BubbleSystemData data = bsData[tutorEnum.ToString()];
         data.balloonData.show = false;
         bubbleSystem.UpdateScene(data);
     }
@@ -532,8 +535,8 @@ public class VTToModuleBridge : MonoBehaviour
         data.Clear();
         data.balloonData.text = text.ToList();
         BubbleSystem.Emotion emotion = new BubbleSystem.Emotion();
-        emotion.Set(BubbleSystem.Emotion.EmotionEnum.Neutral.ToString());
-        data.tutor.Set(BubbleSystem.Tutor.TutorEnum.User.ToString());
+        emotion.Set(BubbleSystem.Emotion.EmotionEnum.Neutral);
+        data.tutor.Set(BubbleSystem.Tutor.TutorEnum.User);
         data.emotions.Add(emotion, 1.0f);
         data.balloonData.options = true;
         if(callbacks != null)
@@ -553,15 +556,16 @@ public class VTToModuleBridge : MonoBehaviour
     //<< UpdateBackground tutor emotion intensity reason>>
     private void UpdateBackground(string[] info)
     {
-        BubbleSystemData data = bsData[info[0]];
+        object parsedTutor, parsedReason;
+        if (!EnumUtils.TryParse(typeof(BubbleSystem.Tutor.TutorEnum), info[0], out parsedTutor) ||
+            !EnumUtils.TryParse(typeof(Reason.ReasonEnum), info[info.Length - 1], out parsedReason)) return;
+        BubbleSystem.Tutor.TutorEnum tutor = (BubbleSystem.Tutor.TutorEnum)parsedTutor;
+        BubbleSystemData data = new BubbleSystemData();
         data.Clear();
-        object parsedReason;
-        if(!EnumUtils.TryParse(typeof(Reason.ReasonEnum), info[info.Length - 1], out parsedReason)) return;
-        Reason.ReasonEnum reason = (Reason.ReasonEnum)parsedReason;
         KeyValuePair<int, Dictionary<BubbleSystem.Emotion, float>> emotions = GetEmotions(info, 1);
-        data.tutor.Set(info[0]);
+        data.tutor.Set(tutor);
         data.emotions = emotions.Value;
-        data.backgroundData.reason.Set(reason.ToString());
+        data.backgroundData.reason.Set((Reason.ReasonEnum)parsedReason);
         bubbleSystem.UpdateScene(data);
     }
 
@@ -592,7 +596,6 @@ public class VTToModuleBridge : MonoBehaviour
         while (i < info.Length)
         {
             BubbleSystem.Emotion emotion = new BubbleSystem.Emotion();
-            BubbleSystem.Emotion.EmotionEnum emotionEnum;
             object parsedEmotion;
             float intensity;
 
@@ -602,9 +605,7 @@ public class VTToModuleBridge : MonoBehaviour
                 i += 2;
                 continue;
             }
-
-            emotionEnum = (BubbleSystem.Emotion.EmotionEnum)parsedEmotion;
-            emotion.Set(emotionEnum.ToString());    
+            emotion.Set((BubbleSystem.Emotion.EmotionEnum)parsedEmotion);    
 
             dict.Add(emotion, Mathf.Clamp01(intensity));
             i += 2;

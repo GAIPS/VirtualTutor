@@ -26,12 +26,17 @@ namespace BubbleSystem{
 
         public ReasonEnum Get()
         {
-            return base.Get<ReasonEnum>();
+            return base.Get<ReasonEnum>(this.GetType().Name);
         }
 
         public void Set(string value)
         {
             base.Set<ReasonEnum>(value);
+        }
+
+        public void Set(ReasonEnum value)
+        {
+            Set(value.ToString());
         }
 
         public override string GetString()

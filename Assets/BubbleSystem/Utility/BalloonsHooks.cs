@@ -83,15 +83,15 @@ namespace BubbleSystem
 
         public void Show()
         {
-            show();
+            UpdateBalloon(true);
         }
 
         public void Hide()
         {
-            hide();
+            UpdateBalloon(false);
         }
 
-        protected void show()
+        protected void UpdateBalloon(bool show)
         {
             if (!this.gameObject.activeSelf)
             {
@@ -100,30 +100,12 @@ namespace BubbleSystem
             var animator = this.GetComponent<Animator>();
             if (animator && animator.isActiveAndEnabled)
             {
-                animator.SetBool("Showing", true);
+                animator.SetBool("Showing", show);
             }
             else
             {
-                this.gameObject.SetActive(true);
+                this.gameObject.SetActive(show);
             }
         }
-
-        protected void hide()
-        {
-            if (!this.gameObject.activeSelf)
-            {
-                return;
-            }
-            var animator = this.GetComponent<Animator>();
-            if (animator && animator.isActiveAndEnabled)
-            {
-                animator.SetBool("Showing", false);
-            }
-            else
-            {
-                this.gameObject.SetActive(false);
-            }
-        }
-
     }
 }

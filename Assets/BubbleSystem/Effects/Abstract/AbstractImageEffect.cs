@@ -7,6 +7,7 @@ namespace BubbleSystem
 {
     public abstract class AbstractImageEffect : AbstractEffect
     {
+        //Should be alphabetically sorted
         public enum ImageEffectEnum
         {
             FadeTexture,

@@ -23,12 +23,17 @@ namespace BubbleSystem
 
         public TutorEnum Get()
         {
-            return base.Get<TutorEnum>();
+            return base.Get<TutorEnum>(this.GetType().Name);
         }
 
         public void Set(string value)
         {
             base.Set<TutorEnum>(value);
+        }
+
+        public void Set(TutorEnum value)
+        {
+            Set(value.ToString());
         }
 
         public override string GetString()

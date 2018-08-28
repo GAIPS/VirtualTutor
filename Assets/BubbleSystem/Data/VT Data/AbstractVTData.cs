@@ -9,14 +9,14 @@ namespace BubbleSystem
     {
         private string _name = "";
 
-        protected T Get<T>()
+        protected T Get<T>(string name)
         {
             object success;
             if (EnumUtils.TryParse(typeof(T), _name, out success))
             {
                 return (T)success;
             }
-            throw new NullReferenceException("Tutor is not set.");
+            throw new NullReferenceException(name + " is not set.");
         }
 
         public abstract string GetString();
