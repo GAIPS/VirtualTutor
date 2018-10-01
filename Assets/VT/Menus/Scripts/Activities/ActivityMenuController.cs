@@ -50,12 +50,12 @@ public class ActivityMenuController : IControl
             _hook = _control.instance.GetComponent<ActivityMenuHook>();
         }
 
-        // TODO Set hook variables.
         _hook.Title = activity["Name"];
         _hook.OnConfirm = () =>
         {
+            // TODO Set hook variables.
             Debug.Log("On Confirm pressed");
-            _control.Disable();
+            Disable();
         };
 
         if (_hook.CheckpointsTab != null)

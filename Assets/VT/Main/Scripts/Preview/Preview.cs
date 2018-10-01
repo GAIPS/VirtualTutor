@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using HookControl;
+using SFB;
 using UnityEngine;
 using Utilities;
 using YarnDialog;
@@ -64,17 +65,22 @@ public class Preview : MonoBehaviour
                     yarnFilesContent.Add(YarnDialogDatabase[i].text);
                 }
 
-                DirectoryInfo directory = new DirectoryInfo(Directory.GetCurrentDirectory());
-                DirectoryInfo parent = directory.Parent;
+                string directory = Directory.GetCurrentDirectory();
+#if UNITY_STANDALONE_OSX
+                directory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
+#endif
 
-                yarnFilesContent = yarnFilesContent.Concat(ReadFiles(directory))
-                    .Concat(ReadFiles(parent)).ToList();
+                string[] files = StandaloneFileBrowser.OpenFilePanel("Open Yarn Files", directory, "yarn.txt", true);
+                if (files == null || files.Length == 0)
+                {
+                    DebugLog.Warn("No Files Selected. Exiting...");
+                    return;
+                }
+                yarnFilesContent = yarnFilesContent.Concat(ReadFiles(files)).ToList();
 
                 var dialogSelector = new YarnPreviewDialogSelector(yarnFilesContent.ToArray());
 
                 _manager.DialogSelector = dialogSelector;
-                
-                DebugLog.Log("Path searched for Dialogue: " + directory.FullName);
             }
         }
 
@@ -152,6 +158,17 @@ public class Preview : MonoBehaviour
         foreach (FileInfo file in dirFiles)
         {
             filesContent.Add(File.ReadAllText(file.FullName));
+        }
+
+        return filesContent;
+    }
+
+    private IList<string> ReadFiles(string[] files)
+    {
+        IList<string> filesContent = new List<string>();
+        foreach (string file in files)
+        {
+            filesContent.Add(File.ReadAllText(file));
         }
 
         return filesContent;

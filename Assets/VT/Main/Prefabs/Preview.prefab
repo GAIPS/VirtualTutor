@@ -54,7 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _yesNoPrefab: {fileID: 1014427091761034, guid: 4f1da51c9ef1b6d4c8f6c518196d24a4,
     type: 2}
-  Preview: {fileID: 0}
+  Preview: {fileID: 114533080406871572}
 --- !u!114 &114533080406871572
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -68,8 +68,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   YarnDialogDatabase:
   - {fileID: 4900000, guid: 1de6bee36403ff94e82d3ef01ea75d69, type: 3}
-  moduleManager: {fileID: 0}
-  IntentionName: Start
+  ModuleManager: {fileID: 0}
   Playing: 1
   _stringInput: {fileID: 1839400628711484, guid: a1fcfc231072ef84895f91e952106fcf,
     type: 2}

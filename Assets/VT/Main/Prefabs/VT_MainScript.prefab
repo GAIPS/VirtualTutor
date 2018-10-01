@@ -27,7 +27,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4434590133045196
 Transform:
   m_ObjectHideFlags: 1
@@ -63,6 +63,8 @@ MonoBehaviour:
   ModuleManager: {fileID: 0}
   _commandHandler: {fileID: 114426145877066238}
   Playing: 0
+  _activityMenuPrefab: {fileID: 1602143297698298, guid: 1f4af5e9a7019864ba211a6fcfa29253,
+    type: 2}
 --- !u!114 &114426145877066238
 MonoBehaviour:
   m_ObjectHideFlags: 1

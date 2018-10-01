@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class CSSStyle : Singleton<CSSStyle> {
-
+public class CSSStyle : Singleton<CSSStyle>
+{
     [Serializable]
-    public struct TextSize {
+    public struct TextSize
+    {
         public string type;
         public int size;
     }
 
     [Serializable]
-    public struct MediaQuery {
+    public struct MediaQuery
+    {
         public float width;
         public TextSize[] typeSizes;
     }
@@ -21,54 +23,73 @@ public class CSSStyle : Singleton<CSSStyle> {
 
     private List<CSSTextType> cssTexts = new List<CSSTextType>();
 
-    protected CSSStyle() {
+    protected CSSStyle()
+    {
     }
 
     // Use this for initialization
-    void Start() {
+    void Start()
+    {
+        if (mediaQueries == null || mediaQueries.Length == 0) return;
         SortQueries();
     }
-    
+
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
+        if (mediaQueries == null || mediaQueries.Length == 0) return;
         float screenWidth = Screen.width;
-        if (Application.isPlaying) {
+        if (Application.isPlaying)
+        {
+            cssTexts.RemoveAll(x => x == null);
             ChangeSize(cssTexts.ToArray(), screenWidth);
-        } else {
+        }
+        else
+        {
 //            Debug.Log("Screen Width: " + screenWidth);
             SortQueries();
             ChangeSize(FindObjectsOfType<CSSTextType>(), screenWidth);
         }
     }
 
-    protected void ChangeSize(CSSTextType[] texts, float screenWidth) {
-        foreach (MediaQuery query in mediaQueries) {
-            if (query.width <= screenWidth) {
+    protected void ChangeSize(CSSTextType[] texts, float screenWidth)
+    {
+        foreach (MediaQuery query in mediaQueries)
+        {
+            if (query.width <= screenWidth)
+            {
                 // set sizes
-                foreach (CSSTextType text in texts) {   
+                foreach (CSSTextType text in texts)
+                {
+                    if (text == null) continue;
                     text.text.resizeTextForBestFit = true;
-                    foreach (TextSize tSize in query.typeSizes) {
-                        if (tSize.type.Equals(text.type)) {
-                            if (text && text.text) {
+                    foreach (TextSize tSize in query.typeSizes)
+                    {
+                        if (tSize.type.Equals(text.type))
+                        {
+                            if (text && text.text)
+                            {
                                 text.text.resizeTextMaxSize = tSize.size;
                             }
                         }
                     }
                 }
+
                 break;
             }
         }
     }
 
-    public void SortQueries() {
-        Array.Sort(mediaQueries, (MediaQuery a, MediaQuery b) => {
-                return a.width.CompareTo(b.width);
-            });
+    public void SortQueries()
+    {
+        Array.Sort(mediaQueries, (MediaQuery a, MediaQuery b) => { return a.width.CompareTo(b.width); });
         Array.Reverse(mediaQueries);
     }
 
-    public void Register(CSSTextType text) {
-        if (text) {
+    public void Register(CSSTextType text)
+    {
+        if (text)
+        {
             cssTexts.Add(text);
         }
     }
