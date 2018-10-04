@@ -66,12 +66,14 @@ public class Preview : MonoBehaviour
                 }
 
                 string directory = Directory.GetCurrentDirectory();
+				string extension = "yarn.txt";
 #if UNITY_STANDALONE_OSX
-                directory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
+				directory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
+				extension = "txt";
 #endif
 
-                string[] files = StandaloneFileBrowser.OpenFilePanel("Open Yarn Files", directory, "yarn.txt", true);
-                if (files == null || files.Length == 0)
+				string[] files = StandaloneFileBrowser.OpenFilePanel("Open Yarn Files", directory, extension, true);
+				if (!CheckFiles(files))
                 {
                     DebugLog.Warn("No Files Selected. Exiting...");
                     return;
@@ -168,9 +170,27 @@ public class Preview : MonoBehaviour
         IList<string> filesContent = new List<string>();
         foreach (string file in files)
         {
-            filesContent.Add(File.ReadAllText(file));
+			string filepath = file;
+#if UNITY_STANDALONE_OSX
+			filepath = filepath.Replace("file://", "");
+#endif
+			filesContent.Add(File.ReadAllText(filepath));
         }
 
         return filesContent;
     }
+
+	private bool CheckFiles(string[] files) {
+		if (files == null || files.Length == 0)
+		{
+			return false;
+		}
+		bool isValid = false;
+		foreach (var file in files) {
+			if (!string.IsNullOrEmpty(file)) {
+				isValid = true;
+			}
+		}
+		return isValid;
+	}
 }
