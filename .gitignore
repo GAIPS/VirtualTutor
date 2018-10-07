@@ -5,7 +5,7 @@ Temp/
 Library/
 Assets/UnityVS
 Assets/UnityVS.meta
-Build
+/Build/
 
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
@@ -45,7 +45,6 @@ Thumbs.db
 .idea
 Assets/Plugins/Editor/JetBrains*
 
-!BuildAssets/*
 BuildAssets/Linux/Yarn
 BuildAssets/Mac/Yarn
 BuildAssets/Windows/Yarn
