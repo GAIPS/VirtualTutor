@@ -17,6 +17,8 @@ public class Preview : MonoBehaviour
 
     public bool Playing = true;
 
+    [SerializeField] private GameObject _fileInput;
+
     [SerializeField] private GameObject _stringInput;
 
     [SerializeField] private PreviewDebugLogger _previewDebugLogger;
@@ -32,6 +34,79 @@ public class Preview : MonoBehaviour
             DebugLog.Add(_previewDebugLogger);
         }
 
+        Playing = false;
+
+        if (!_stringInput || !_fileInput)
+        {
+            DebugLog.Warn("Menus not defined.");
+            return;
+        }
+
+        Control fileControl = new Control(_fileInput);
+        if (fileControl.Show() != ShowResult.FIRST)
+        {
+            DebugLog.Warn("Failed to show File Chooser menu.");
+            return;
+        }
+
+        FileInputHook fileHook = fileControl.instance.GetComponent<FileInputHook>();
+
+        string extension = "yarn.txt";
+        fileHook.DialogTitle = "Select Yarn File";
+        fileHook.DialogExtensions = extension;
+        if (PlayerPrefs.HasKey("PreviousFile"))
+        {
+            string file = PlayerPrefs.GetString("PreviousFile");
+            fileHook.SetName(file);
+            fileHook.DialogDirectory = Path.GetDirectoryName(file);
+        }
+        else
+        {
+            string directory = Directory.GetCurrentDirectory();
+#if UNITY_STANDALONE_OSX
+            directory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
+            extension = "txt";
+#endif
+            fileHook.DialogDirectory = directory;
+        }
+
+        fileHook.OnSubmit = file =>
+        {
+            fileControl.Destroy();
+            PlayerPrefs.SetString("PreviousFile", file);
+            NodeNameInput(file);
+        };
+    }
+
+    private void NodeNameInput(string file)
+    {
+        Control control = new Control(_stringInput);
+        if (control.Show() != ShowResult.FIRST)
+        {
+            DebugLog.Warn("Failed to show Node Selector menu.");
+            return;
+        }
+
+        StringInputHook hook = control.instance.GetComponent<StringInputHook>();
+
+        if (PlayerPrefs.HasKey("PreviousNode"))
+        {
+            hook.SetName(PlayerPrefs.GetString("PreviousNode"));
+        }
+
+        hook.OnSubmit = node =>
+        {
+            control.Destroy();
+            Playing = true;
+
+            PlayerPrefs.SetString("PreviousNode", node);
+
+            InitTutors(file, node);
+        };
+    }
+
+    private void InitTutors(string file, string node)
+    {
         _manager = new SystemManager();
 
         Tutor joao = new Tutor("Joao");
@@ -52,6 +127,9 @@ public class Preview : MonoBehaviour
         {
             // Setup Empathic Strategy
             _manager.EmpathicStrategySelector = new SS_SelectFirst();
+            BasicStrategy strategy = new BasicStrategy();
+            strategy.Intentions.Add(new Intention(node));
+            _manager.Strategies.Add(strategy);
         }
 
         {
@@ -65,20 +143,7 @@ public class Preview : MonoBehaviour
                     yarnFilesContent.Add(YarnDialogDatabase[i].text);
                 }
 
-                string directory = Directory.GetCurrentDirectory();
-				string extension = "yarn.txt";
-#if UNITY_STANDALONE_OSX
-				directory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
-				extension = "txt";
-#endif
-
-				string[] files = StandaloneFileBrowser.OpenFilePanel("Open Yarn Files", directory, extension, true);
-				if (!CheckFiles(files))
-                {
-                    DebugLog.Warn("No Files Selected. Exiting...");
-                    return;
-                }
-                yarnFilesContent = yarnFilesContent.Concat(ReadFiles(files)).ToList();
+                yarnFilesContent = yarnFilesContent.Concat(ReadFiles(new[] {file})).ToList();
 
                 var dialogSelector = new YarnPreviewDialogSelector(yarnFilesContent.ToArray());
 
@@ -96,16 +161,16 @@ public class Preview : MonoBehaviour
 
 
             // Handlers Order matters
-            
+
             // Tag Handlers (should always be first)
             dialogManager.Handlers.Add(new EmotionTagNodeHandler());
-            
+
             // Line Handlers
             dialogManager.Handlers.Add(new SequenceLineHandler());
 
             // Options Handlers
             dialogManager.Handlers.Add(new SequenceOptionsHandler());
-            
+
             // Node Handlers
             dialogManager.Handlers.Add(new LogCompleteNodeHandler());
 
@@ -114,33 +179,6 @@ public class Preview : MonoBehaviour
             dialogManager.Handlers.Add(new ModuleCommandHandler());
             dialogManager.Handlers.Add(new ExitCommandHandler());
             dialogManager.Handlers.Add(new LogCommandHandler());
-        }
-
-        if (_stringInput)
-        {
-            Playing = false;
-            Control control = new Control(_stringInput);
-            if (control.Show() == ShowResult.FIRST)
-            {
-                StringInputHook hook = control.instance.GetComponent<StringInputHook>();
-
-                if (PlayerPrefs.HasKey("PreviousNode"))
-                {
-                    hook.SetName(PlayerPrefs.GetString("PreviousNode"));
-                }
-
-                hook.OnSubmit = node =>
-                {
-                    control.Destroy();
-                    Playing = true;
-
-                    PlayerPrefs.SetString("PreviousNode", node);
-                    
-                    BasicStrategy strategy = new BasicStrategy();
-                    strategy.Intentions.Add(new Intention(node));
-                    _manager.Strategies.Add(strategy);
-                };
-            }
         }
     }
 
@@ -170,27 +208,32 @@ public class Preview : MonoBehaviour
         IList<string> filesContent = new List<string>();
         foreach (string file in files)
         {
-			string filepath = file;
+            string filepath = file;
 #if UNITY_STANDALONE_OSX
 			filepath = filepath.Replace("file://", "");
 #endif
-			filesContent.Add(File.ReadAllText(filepath));
+            filesContent.Add(File.ReadAllText(filepath));
         }
 
         return filesContent;
     }
 
-	private bool CheckFiles(string[] files) {
-		if (files == null || files.Length == 0)
-		{
-			return false;
-		}
-		bool isValid = false;
-		foreach (var file in files) {
-			if (!string.IsNullOrEmpty(file)) {
-				isValid = true;
-			}
-		}
-		return isValid;
-	}
+    private bool CheckFiles(string[] files)
+    {
+        if (files == null || files.Length == 0)
+        {
+            return false;
+        }
+
+        bool isValid = false;
+        foreach (var file in files)
+        {
+            if (!string.IsNullOrEmpty(file))
+            {
+                isValid = true;
+            }
+        }
+
+        return isValid;
+    }
 }

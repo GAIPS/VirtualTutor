@@ -70,6 +70,7 @@ MonoBehaviour:
   - {fileID: 4900000, guid: 1de6bee36403ff94e82d3ef01ea75d69, type: 3}
   ModuleManager: {fileID: 0}
   Playing: 1
+  _fileInput: {fileID: 1974892314511398, guid: 0e1e2e54ffee4d446af1fa5ca1357966, type: 2}
   _stringInput: {fileID: 1839400628711484, guid: a1fcfc231072ef84895f91e952106fcf,
     type: 2}
   _previewDebugLogger: {fileID: 114522411265092224}
