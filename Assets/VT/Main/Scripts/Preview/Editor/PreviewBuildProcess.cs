@@ -1,10 +1,14 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.IO.Compression;
+using ICSharpCode.SharpZipLib.Zip;
 using UnityEditor;
 using UnityEngine;
 
 public class PreviewBuildProcess : MonoBehaviour
 {
     private static string[] previewLevels = {"Assets/VT/Main/Scenes/Preview.unity"};
+    private static string filename = "Virtual Tutor Preview";
 
     [MenuItem("VT Tools/Preview Build Tools/Build All", false, 0)]
     public static void BuildGame()
@@ -186,7 +190,65 @@ public class PreviewBuildProcess : MonoBehaviour
         }
     }
 
-    [MenuItem("VT Tools/Preview Build Tools/Clean All Builds", false, 40)]
+    [MenuItem("VT Tools/Preview Build Tools/Zip All Builds", false, 40)]
+    public static void ZipAllBuilds()
+    {
+        string path = GetProjectPath() + "/Build/Preview/";
+        ZipForPlatform(path, BuildTarget.StandaloneWindows64);
+        ZipForPlatform(path, BuildTarget.StandaloneLinux64);
+        ZipForPlatform(path, BuildTarget.StandaloneOSXIntel64);
+        Debug.Log("Zipped all builds to " + path);
+    }
+
+    [MenuItem("VT Tools/Preview Build Tools/Zip Windows Build", false, 41)]
+    public static void ZipForWindows()
+    {
+        string path = GetProjectPath() + "/Build/Preview/";
+        ZipForPlatform(path, BuildTarget.StandaloneWindows64);
+        Debug.Log("Zipped build for Windows to " + path);
+    }
+
+    [MenuItem("VT Tools/Preview Build Tools/Zip Linux Build", false, 42)]
+    public static void ZipForLinux()
+    {
+        string path = GetProjectPath() + "/Build/Preview/";
+        ZipForPlatform(path, BuildTarget.StandaloneLinux64);
+        Debug.Log("Zipped build for Linux to " + path);
+    }
+
+    [MenuItem("VT Tools/Preview Build Tools/Zip Mac Build", false, 43)]
+    public static void ZipForMac()
+    {
+        string path = GetProjectPath() + "/Build/Preview/";
+        ZipForPlatform(path, BuildTarget.StandaloneOSXIntel64);
+        Debug.Log("Zipped build for Mac to " + path);
+    }
+
+    public static void ZipForPlatform(string path, BuildTarget target)
+    {
+        string buildPath = path;
+        string filename = "Virtual Tutor Preview ";
+        switch (target)
+        {
+            case BuildTarget.StandaloneWindows64:
+                buildPath += "Windows/";
+                filename += "Windows";
+                break;
+            case BuildTarget.StandaloneLinux64:
+                buildPath += "Linux/";
+                filename += "Linux";
+                break;
+            case BuildTarget.StandaloneOSXIntel64:
+                buildPath += "Mac/";
+                filename += "Mac";
+                break;
+        }
+
+        filename += ".zip";
+        CompressDirectory(buildPath, path + filename);
+    }
+
+    [MenuItem("VT Tools/Preview Build Tools/Clean All Builds", false, 60)]
     public static void ClearBuilds()
     {
         string path = GetProjectPath() + "/Build/Preview/";
@@ -199,5 +261,79 @@ public class PreviewBuildProcess : MonoBehaviour
         DirectoryInfo projectDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());
         string projectPath = projectDirectory.FullName.Replace('\\', '/');
         return projectPath;
+    }
+
+    static void CompressDirectory(string sInDir, string sOutFile)
+    {
+        try
+        {
+            // 'using' statements guarantee the stream is closed properly which is a big source
+            // of problems otherwise.  Its exception safe as well which is great.
+            using (ZipOutputStream s = new ZipOutputStream(File.Create(sOutFile)))
+            {
+                s.SetLevel(9); // 0 - store only to 9 - means best compression
+
+                CompressInnerDirectory(s, sInDir, sInDir);
+
+                // Finish/Close arent needed strictly as the using statement does this automatically
+
+                // Finish is important to ensure trailing information for a Zip file is appended.  Without this
+                // the created file would be invalid.
+                s.Finish();
+
+                // Close is important to wrap things up and unlock the file.
+                s.Close();
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogWarning("Exception during processing " + ex);
+
+            // No need to rethrow the exception as for our purposes its handled.
+        }
+    }
+
+    static void CompressInnerDirectory(ZipOutputStream s, string directory, string rootDirectory)
+    {
+        // Depending on the directory this could be very large and would require more attention
+        // in a commercial package.
+        string[] filenames = Directory.GetFiles(directory);
+        string[] directories = Directory.GetDirectories(directory);
+
+        byte[] buffer = new byte[4096];
+
+        foreach (string file in filenames)
+        {
+            // Using GetFileName makes the result compatible with XP
+            // as the resulting path is not absolute.
+            string filename = file.Replace(rootDirectory, "");
+            var entry = new ZipEntry(filename);
+
+            // Setup the entry data as required.
+
+            // Crc and size are handled by the library for seakable streams
+            // so no need to do them here.
+
+            // Could also use the last write time or similar for the file.
+            entry.DateTime = DateTime.Now;
+            s.PutNextEntry(entry);
+
+            using (FileStream fs = File.OpenRead(file))
+            {
+                // Using a fixed size buffer here makes no noticeable difference for output
+                // but keeps a lid on memory usage.
+                int sourceBytes;
+                do
+                {
+                    sourceBytes = fs.Read(buffer, 0, buffer.Length);
+                    s.Write(buffer, 0, sourceBytes);
+                } while (sourceBytes > 0);
+            }
+        }
+
+        foreach (var dir in directories)
+        {
+            CompressInnerDirectory(s, dir, rootDirectory);
+        }
     }
 }
