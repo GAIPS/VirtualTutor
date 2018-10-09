@@ -52,7 +52,7 @@ public class Preview : MonoBehaviour
         FileInputHook fileHook = fileControl.instance.GetComponent<FileInputHook>();
 
         string extension = "yarn.txt";
-        fileHook.DialogTitle = "Select Yarn File";
+        fileHook.SetTitle("Select Yarn File");
         fileHook.DialogExtensions = extension;
         if (PlayerPrefs.HasKey("PreviousFile"))
         {
@@ -88,6 +88,7 @@ public class Preview : MonoBehaviour
         }
 
         StringInputHook hook = control.instance.GetComponent<StringInputHook>();
+        hook.SetTitle("Start Node Name");
 
         if (PlayerPrefs.HasKey("PreviousNode"))
         {

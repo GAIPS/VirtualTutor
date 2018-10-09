@@ -286,6 +286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inputField: {fileID: 114216995267322522}
+  _titleText: {fileID: 114989554835386274}
 --- !u!114 &114216995267322522
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -624,7 +625,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Start Node Name
+  m_Text: Title
 --- !u!222 &222150112922270970
 CanvasRenderer:
   m_ObjectHideFlags: 1

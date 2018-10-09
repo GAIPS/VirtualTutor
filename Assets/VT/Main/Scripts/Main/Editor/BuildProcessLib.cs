@@ -173,6 +173,11 @@ public static class BuildProcessLib
         return projectPath;
     }
 
+    private static void CompressDirectoryAsync(string sInDir, string sOutFile)
+    {
+        // TODO Implement CompressDirectoryAsync
+    }
+
     private static void CompressDirectory(string sInDir, string sOutFile)
     {
         try

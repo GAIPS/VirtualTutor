@@ -7,14 +7,24 @@ using UnityEngine.UI;
 public class FileInputHook : MonoBehaviour
 {
     [SerializeField] private InputField _inputField;
+    [SerializeField] private Text _titleText;
 
     private string _name;
-
-    public string DialogTitle { get; set; }
+    private string _title;
+    
     public string DialogDirectory { get; set; }
     public string DialogExtensions { get; set; }
 
     public StringFunc OnSubmit;
+
+    public void SetTitle(string title)
+    {
+        _title = title;
+        if (_titleText)
+        {
+            _titleText.text = title;
+        }
+    }
 
     public void SetName(string submitedName)
     {
@@ -35,7 +45,7 @@ public class FileInputHook : MonoBehaviour
 
     public void BrowseFiles()
     {
-        string title = string.IsNullOrEmpty(DialogTitle) ? "Select file" : DialogTitle;
+        string title = string.IsNullOrEmpty(_title) ? "Select file" : _title;
         string directory = string.IsNullOrEmpty(DialogDirectory) ? string.Empty : DialogDirectory;
         string extensions = string.IsNullOrEmpty(DialogExtensions) ? string.Empty : DialogExtensions;
         string[] files = StandaloneFileBrowser.OpenFilePanel(title, directory, extensions, false);
