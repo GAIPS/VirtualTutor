@@ -163,7 +163,7 @@ public static class BuildProcessLib
         }
 
         filename += ".zip";
-        CompressDirectory(buildPath, path + filename);
+        CompressDirectoryAsync(buildPath, path + filename);
     }
 
     public static string GetProjectPath()
@@ -175,7 +175,9 @@ public static class BuildProcessLib
 
     private static void CompressDirectoryAsync(string sInDir, string sOutFile)
     {
-        // TODO Implement CompressDirectoryAsync
+        Debug.Log("Zipping build to " + sOutFile + ". Please wait...");
+        var asyncAction = new Action(() => CompressDirectory(sInDir, sOutFile));
+        asyncAction.BeginInvoke(result => Debug.Log("Finished Zipping file " + sOutFile), null);
     }
 
     private static void CompressDirectory(string sInDir, string sOutFile)
