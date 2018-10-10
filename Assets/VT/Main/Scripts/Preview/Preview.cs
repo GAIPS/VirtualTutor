@@ -51,8 +51,11 @@ public class Preview : MonoBehaviour
 
         FileInputHook fileHook = fileControl.instance.GetComponent<FileInputHook>();
 
-        string extension = "yarn.txt";
         fileHook.SetTitle("Select Yarn File");
+        string extension = "yarn.txt";
+#if UNITY_STANDALONE_OSX
+        extension = "txt";
+#endif
         fileHook.DialogExtensions = extension;
         if (PlayerPrefs.HasKey("PreviousFile"))
         {
@@ -65,7 +68,6 @@ public class Preview : MonoBehaviour
             string directory = Directory.GetCurrentDirectory();
 #if UNITY_STANDALONE_OSX
             directory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
-            extension = "txt";
 #endif
             fileHook.DialogDirectory = directory;
         }
@@ -211,7 +213,7 @@ public class Preview : MonoBehaviour
         {
             string filepath = file;
 #if UNITY_STANDALONE_OSX
-			filepath = filepath.Replace("file://", "");
+            filepath = filepath.Replace("file://", "");
 #endif
             filesContent.Add(File.ReadAllText(filepath));
         }
