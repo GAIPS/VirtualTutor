@@ -35,10 +35,14 @@ public class Preview : MonoBehaviour
         }
 
         Playing = false;
+        FileSelectInput();
+    }
 
-        if (!_stringInput || !_fileInput)
+    private void FileSelectInput()
+    {
+        if (!_fileInput)
         {
-            DebugLog.Warn("Menus not defined.");
+            DebugLog.Warn("No File Selector Menu not defined.");
             return;
         }
 
@@ -74,6 +78,12 @@ public class Preview : MonoBehaviour
 
         fileHook.OnSubmit = file =>
         {
+            if (string.IsNullOrEmpty(file))
+            {
+                DebugLog.Warn("File path is empty.");
+                return;
+            }
+
             fileControl.Destroy();
             PlayerPrefs.SetString("PreviousFile", file);
             NodeNameInput(file);
@@ -82,6 +92,12 @@ public class Preview : MonoBehaviour
 
     private void NodeNameInput(string file)
     {
+        if (!_stringInput)
+        {
+            DebugLog.Warn("No String Input Menu not defined.");
+            return;
+        }
+
         Control control = new Control(_stringInput);
         if (control.Show() != ShowResult.FIRST)
         {
@@ -99,6 +115,12 @@ public class Preview : MonoBehaviour
 
         hook.OnSubmit = node =>
         {
+            if (string.IsNullOrEmpty(node))
+            {
+                DebugLog.Warn("Node Name is empty.");
+                return;
+            }
+            
             control.Destroy();
             Playing = true;
 
