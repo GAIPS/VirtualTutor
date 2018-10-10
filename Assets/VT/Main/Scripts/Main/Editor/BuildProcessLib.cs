@@ -184,23 +184,30 @@ public static class BuildProcessLib
     {
         try
         {
-            // 'using' statements guarantee the stream is closed properly which is a big source
-            // of problems otherwise.  Its exception safe as well which is great.
-            using (ZipOutputStream s = new ZipOutputStream(File.Create(sOutFile)))
-            {
-                s.SetLevel(9); // 0 - store only to 9 - means best compression
+            FastZip fastZip = new FastZip();
 
-                CompressInnerDirectory(s, sInDir, sInDir);
-
-                // Finish/Close arent needed strictly as the using statement does this automatically
-
-                // Finish is important to ensure trailing information for a Zip file is appended.  Without this
-                // the created file would be invalid.
-                s.Finish();
-
-                // Close is important to wrap things up and unlock the file.
-                s.Close();
-            }
+            bool recurse = true;  // Include all files by recursing through the directory structure
+            string filter = @"";
+            fastZip.CreateZip(sOutFile, sInDir, recurse, filter);
+            
+//            // 'using' statements guarantee the stream is closed properly which is a big source
+//            // of problems otherwise.  Its exception safe as well which is great.
+//            using (ZipOutputStream s = new ZipOutputStream(File.Create(sOutFile)))
+//            {
+//                s.SetLevel(9); // 0 - store only to 9 - means best compression
+////                s.UseZip64 = UseZip64.Off;
+//
+//                CompressInnerDirectory(s, sInDir, sInDir);
+//
+//                // Finish/Close arent needed strictly as the using statement does this automatically
+//
+//                // Finish is important to ensure trailing information for a Zip file is appended.  Without this
+//                // the created file would be invalid.
+//                s.Finish();
+//
+//                // Close is important to wrap things up and unlock the file.
+//                s.Close();
+//            }
         }
         catch (Exception ex)
         {
