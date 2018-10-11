@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using System.Text;
 using System;
 
-namespace UserInfo
-{
-    public class jsonValues
+
+    public class jsonValues : MonoBehaviour
     {
         [Serializable]
         public class users
@@ -18,7 +15,6 @@ namespace UserInfo
             public string lang;
             public string auth;
             public int firstaccess;
-
             public int lastaccess;
             //public List<preferences> pref ;
         }
@@ -34,9 +30,10 @@ namespace UserInfo
             public String summary;
 
             public List<assignments> assignments;
-
+            
             //public int startdate;
             //public int enddata;
+
         }
 
         [Serializable]
@@ -46,7 +43,6 @@ namespace UserInfo
             public string grade;
             public string graderaw;
         }
-
         [Serializable]
         public class Topics
         {
@@ -56,9 +52,10 @@ namespace UserInfo
             public String summary;
             public String uservisible;
             public List<Modules> modules;
-
+            public String availabilityinfo;
             //public int startdate;
             //public int enddata;
+
         }
 
         [Serializable]
@@ -71,11 +68,11 @@ namespace UserInfo
             public String description;
             public String uservisible;
             public List<Contents> contents;
-
+            public int visibleoncoursepage;
             //public int startdate;
             //public int enddata;
-        }
 
+        }
         [Serializable]
         public class Contents
         {
@@ -91,9 +88,17 @@ namespace UserInfo
             public int isexternalfile;
             public String summary;
             public String uservisible;
-
+            
             //public int startdate;
             //public int enddata;
+
+        }
+
+        [Serializable]
+        public class groups
+        {
+            public int id;
+            public String name;
         }
 
         [Serializable]
@@ -109,16 +114,17 @@ namespace UserInfo
         public class gradeitems
         {
             public int id;
+            public int cmid;
+            public String itemmodule;
             public String itemname;
-
-            public int graderaw;
-
+            public String graderaw;
             // in case the value is null, this happens when the grade wasn't given
             public int gradedatesubmitted;
             public int gradedategraded;
             public string gradeformatted;
             public int grademin;
             public int grademax;
+            public String weightformatted;
             public String percentageformatted;
             public String feedback;
             public String status; // optional
@@ -135,7 +141,7 @@ namespace UserInfo
             public int nosubmissions; // se houve submissoes
             public int duedate;
             public int allowsubmissionsfromdate; // data que o aluno pode fazer submissoes
-            public int grade; // grademax
+            public double grade; // grademax
             public int cutoffdate; // prazo limite
 
             // Utilizado no mod_assign_get_grades
@@ -169,10 +175,7 @@ namespace UserInfo
             public int timeopen; // Optional The time when this quiz opens. (0 = no restriction.)
             public int timeclose; //Optional The time when this quiz closes. (0 = no restriction.)
             public int timelimit; // Optional The time limit for quiz attempts, in seconds.
-
-            public String
-                overduehandling; //Optional //The method used to handle overdue attempts.'autosubmit', 'graceperiod' or 'autoabandon'.
-
+            public String overduehandling; //Optional //The method used to handle overdue attempts.'autosubmit', 'graceperiod' or 'autoabandon'.
             public int attempts;
             public double grade;
         }
@@ -193,7 +196,7 @@ namespace UserInfo
         public class instances
         {
             public String contextlevel; //the context level
-            public int id; //Instance id
+            public int id;  //Instance id
             public List<updates> updates;
         }
 
@@ -208,11 +211,13 @@ namespace UserInfo
         [Serializable]
         public class forums
         {
+            public int cmid;
             public int id; //Forum id
             public String type; //The forum type
             public String name; //Forum name
-            public String intro; //The forum intro
+            public String intro;  //The forum intro
             public List<introfiles> introfiles;
+
         }
 
         [Serializable]
@@ -220,28 +225,29 @@ namespace UserInfo
         {
             public int id; //Post id -> temporariamente não tem utilidade
             public string name; //Discussion name
-            public int timemodified; //Time modified
+            public int timemodified;  //Time modified
             public int discussion; // discussion id
             public String subject; //subject of message
             public String message; //message posted
             public String userfullname; //Post author full name
             public String usermodifiedfullname; //Post modifier full name
-            public int created; //Creation time
-            public int modified; //Time modified
+            public int created;//Creation time
+            public int modified;//Time modified
             public int userid; // id of user who created the discussion
+
         }
 
         [Serializable]
         public class posts
         {
-            public int id; //Post id
-            public int discussion; //Discussion id
-            public int parent; //Parent id
-            public int userid; //User id
-            public int created; //Creation time
-            public int modified; //Time modified
-            public String subject; //The post subject
-            public String message; //The post message
+            public int id;//Post id
+            public int discussion;//Discussion id
+            public int parent;//Parent id
+            public int userid;//User id
+            public int created;//Creation time
+            public int modified;//Time modified
+            public String subject;//The post subject
+            public String message;//The post message
         }
 
 
@@ -252,5 +258,85 @@ namespace UserInfo
             public String warningcode;
             public String message;
         }
-    }
+
+
+        //usado no core_notes_get_course_notes
+        [Serializable]
+        public class notes
+        {
+            public List<LNotes> sitenotes;
+            public List<LNotes> coursenotes;
+            public List<LNotes> personalnotes;
+
+            public int id;
+            public double aproveitamento;
+            public double assiduidade;
+            public String tutorname;
+        }
+
+        [Serializable]
+        public class LNotes
+        {
+            public int id;
+            public int courseid;
+            public int userid;
+            public String content;
+            public int created;
+            public int lastmodified;
+            public String publishstate;
+        }
+
+
+        // USADO NA DB
+        [Serializable]
+        public class logins
+        {
+            public int aluno;//id aluno
+            public int course; // id da cadeira
+            public int login; // timestamp do login
+            public int seq; // n sequencia de login
+        }
+
+        [Serializable]
+        public enum thresholds
+        {
+            LOW,
+            MIDDLE,
+            HIGH
+        }
+
+        [Serializable]
+        public class phrases
+        {
+            public String identifier;
+            public thresholds assiduidade;
+            public thresholds aproveitamento;
+            public String frase;
+        }
+
+        [Serializable]
+        public class tutor
+        {
+            public int userid;
+            public int courseid;
+            public int tutorid;
+        }
+        
+        [Serializable]
+        public class modulesViewed
+        {
+            public String component;
+            public String objecttable;
+            public int contextinstanceid;
+            public int userid;
+            public int courseid;
+            public int timecreated;
+        }
+
+        // Use this for initialization
+        void Start()
+        {
+
+        }
+    
 }
