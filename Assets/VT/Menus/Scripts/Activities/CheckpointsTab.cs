@@ -21,10 +21,10 @@ public class CheckpointsTab : MonoBehaviour
             CheckpointsControls.Add(buttonControl);
             if (_listObject)
             {
-                buttonControl.instance.transform.SetParent(_listObject.transform);
+                buttonControl.Instance.transform.SetParent(_listObject.transform);
             }
 
-            CheckpointHook checkpointHook = buttonControl.instance.GetComponent<CheckpointHook>();
+            CheckpointHook checkpointHook = buttonControl.Instance.GetComponent<CheckpointHook>();
             if (checkpointHook != null)
             {
                 checkpointHook.Set(checkpoint);

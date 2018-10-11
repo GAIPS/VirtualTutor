@@ -10,9 +10,11 @@ public class MenuCommandHandler : MonoBehaviour, YarnDialogManager.IDialogHandle
 {
     [SerializeField] private List<GameObject> _menuPrefabs = new List<GameObject>();
 
+    public List<IControl> controllers = new List<IControl>();
+
     public IEnumerator Handle(Dialogue.RunnerResult result, YarnDialogManager manager)
     {
-        var commandResult = result as Yarn.Dialogue.CommandResult;
+        var commandResult = result as Dialogue.CommandResult;
         if (commandResult == null)
         {
             yield break;
@@ -41,33 +43,34 @@ public class MenuCommandHandler : MonoBehaviour, YarnDialogManager.IDialogHandle
             }
         }
 
-        if (menuToShow == null) yield break;
+        IControl control = null;
+        if (menuToShow == null)
+        {
+            foreach (var controller in controllers)
+            {
+                if (controller.GetName().ToLower().Equals(param[1].ToLower()))
+                {
+                    control = controller;
+                    break;
+                }
+            }
 
-        Control control = new Control(menuToShow);
+            if (control == null) yield break;
+        }
+        else
+        {
+            control = new Control(menuToShow);
+        }
+
         var showResult = control.Show();
         if (showResult == ShowResult.FIRST)
         {
-            var go = control.instance;
-            var animationHook = go.GetComponent<AnimationHook>();
-            if (animationHook)
+            while (control.IsVisible())
             {
-                animationHook.Show();
-                bool isVisible = true;
-                animationHook.onHideEnded = () => isVisible = false;
-                while (isVisible)
-                {
-                    yield return null;
-                }
-                control.Destroy();
+                yield return null;
             }
-            else
-            {
-                while (control.IsVisible())
-                {
-                    yield return null;
-                }
-                control.Destroy();
-            }
+
+            control.Destroy();
         }
     }
 

@@ -16,11 +16,11 @@ namespace HookControl {
             if (result == ShowResult.FIRST) {
                 buttons.Add(buttonControl);
                 if (listObject) {
-                    buttonControl.instance.transform.SetParent(listObject.transform);
+                    buttonControl.Instance.transform.SetParent(listObject.transform);
                 }
 
                 // set button hook
-                ButtonHook buttonHook = buttonControl.instance.GetComponent<ButtonHook>();
+                ButtonHook buttonHook = buttonControl.Instance.GetComponent<ButtonHook>();
                 if (buttonHook != null) {
                     buttonHook.onClick = onClick;
                     buttonHook.text = text;

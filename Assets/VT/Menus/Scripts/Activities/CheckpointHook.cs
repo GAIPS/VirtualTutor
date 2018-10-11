@@ -233,12 +233,14 @@ namespace VT
                     else
                     {
                         DaysMissingVisibility = true;
+                        // TODO Set Difference in data
                     }
 
                     break;
                 case Checkpoint.CType.Checkbox:
                     Check = checkpoint.CheckboxDone;
                     CheckVisibility = true;
+                    // TODO Add callback...
                     break;
             }
         }

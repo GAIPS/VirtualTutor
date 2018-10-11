@@ -69,10 +69,10 @@ namespace VT {
             if (result == ShowResult.FIRST) {
                 checkpointsControls.Add(buttonControl);
                 if (listObject) {
-                    buttonControl.instance.transform.SetParent(listObject.transform);
+                    buttonControl.Instance.transform.SetParent(listObject.transform);
                 }
 
-                CheckpointHook checkpointHook = buttonControl.instance.GetComponent<CheckpointHook>();
+                CheckpointHook checkpointHook = buttonControl.Instance.GetComponent<CheckpointHook>();
                 if (checkpointHook != null) {
                     checkpointHook.Set(checkpoint);
                 } else {

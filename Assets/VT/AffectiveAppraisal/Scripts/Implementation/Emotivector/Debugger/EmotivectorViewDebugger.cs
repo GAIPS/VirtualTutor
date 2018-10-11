@@ -67,8 +67,8 @@ public class EmotivectorViewDebugger : MonoBehaviour
         Control control = new Control(prefab);
         if (control.Show() == ShowResult.FIRST)
         {
-            control.instance.transform.SetParent(_content);
-            var rect = control.instance.GetComponent<RectTransform>();
+            control.Instance.transform.SetParent(_content);
+            var rect = control.Instance.GetComponent<RectTransform>();
 
             float yUi = (_content.rect.height - rect.rect.height) * y;
 

@@ -127,23 +127,50 @@ public class VT_Main : MonoBehaviour
             }
         }
 
-//        var state = dataStorage.GetState();
-//        state["Current"].AsObject["Activity"] = "Test";
-//        var activity = state["Activities"].AsObject["Test"].AsObject;
-//        activity["Name"] = "Test Activity";
-//        var checkpoints = activity["Checkpoints"].AsArray;
-//        var checkpoint = new JSONObject();
-//        checkpoint["Type"] = "Checkbox";
-//        checkpoint["Name"] = "Test Checkpoint";
-//        checkpoint["Date"] = "23/07/2018";
-//        checkpoint["Effort"] = .5f;
-//        checkpoint["Effort"] = .7f;
-//        checkpoint["CheckboxDone"] = true;
-//        checkpoints[0] = checkpoint;
-//
-//        ActivityMenuController activityMenuController = new ActivityMenuController();
-//        activityMenuController.MenuPrefab = _activityMenuPrefab;
+        var state = dataStorage.GetState();
+        state["Current"].AsObject["Activity"] = "Test";
+        var activity = state["Activities"].AsObject["Test"].AsObject;
+        activity["Name"] = "Test Activity";
+        var checkpoints = activity["Checkpoints"].AsArray;
+        {
+            var checkpoint = new JSONObject();
+            checkpoint["Type"] = "Checkbox";
+            checkpoint["Name"] = "Test Checkpoint";
+            checkpoint["Date"] = "23/07/2018";
+            checkpoint["Effort"] = .5f;
+            checkpoint["Importance"] = .7f;
+            checkpoint["CheckboxDone"] = true;
+            checkpoints[0] = checkpoint;
+        }
+        {
+            var checkpoint = new JSONObject();
+            checkpoint["Type"] = "Evaluation";
+            checkpoint["Name"] = "Test Evaluation";
+            checkpoint["Date"] = "23/07/2018";
+            checkpoint["Effort"] = .7f;
+            checkpoint["Importance"] = .5f;
+            checkpoint["EvaluationScore"] = null;
+            checkpoints[1] = checkpoint;
+        }
+        {
+            var checkpoint = new JSONObject();
+            checkpoint["Type"] = "Evaluation";
+            checkpoint["Name"] = "Test Evaluation 2";
+            checkpoint["Date"] = "23/07/2018";
+            checkpoint["Effort"] = .7f;
+            checkpoint["Importance"] = .5f;
+            checkpoint["EvaluationScore"] = 16;
+            checkpoints[2] = checkpoint;
+        }
+
+        ActivityMenuController activityMenuController = new ActivityMenuController();
+        activityMenuController.MenuPrefab = _activityMenuPrefab;
 //        activityMenuController.Show();
+
+        if (_commandHandler)
+        {
+            _commandHandler.controllers.Add(activityMenuController);
+        }
 
         Playing = true;
     }

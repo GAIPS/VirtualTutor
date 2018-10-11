@@ -9,6 +9,16 @@ public class ActivityMenuController : IControl
     private Control _control;
     private ActivityMenuHook _hook;
 
+    public GameObject Instance
+    {
+        get { return _control.Instance; }
+    }
+
+    public string GetName()
+    {
+        return "ActivityMenu";
+    }
+
     public ShowResult Show()
     {
         var storage = PersistentDataStorage.Instance;
@@ -47,7 +57,7 @@ public class ActivityMenuController : IControl
 
         if (result == ShowResult.FIRST)
         {
-            _hook = _control.instance.GetComponent<ActivityMenuHook>();
+            _hook = _control.Instance.GetComponent<ActivityMenuHook>();
         }
 
         _hook.Title = activity["Name"];
@@ -66,27 +76,23 @@ public class ActivityMenuController : IControl
                 Checkpoint.CType type;
                 if (EnumUtils.TryParse(checkpoint["Type"], out type))
                 {
+                    float? score = null;
+                    if (checkpoint["EvaluationScore"] != null)
+                    {
+                        score = checkpoint["EvaluationScore"];
+                    }
                     _hook.CheckpointsTab.AddCheckpoint(new Checkpoint
                     {
                         Type = type,
                         Name = checkpoint["Name"],
-                        Date = DateTime.Now,
+                        Date = DateTime.Now, // TODO Convert string date to date
                         Effort = checkpoint["Effort"],
                         Importance = checkpoint["Importance"],
-                        CheckboxDone = checkpoint["CheckboxDone"] ?? false
+                        CheckboxDone = checkpoint["CheckboxDone"] ?? false,
+                        EvaluationScore = score
                     });
                 }
             }
-
-            _hook.CheckpointsTab.AddCheckpoint(new Checkpoint
-            {
-                Type = Checkpoint.CType.Checkbox,
-                Name = "Test",
-                Date = DateTime.Now,
-                Effort = .5f,
-                Importance = .7f,
-                CheckboxDone = false
-            });
         }
 
         if (_hook.MetricsTab != null)
@@ -102,33 +108,13 @@ public class ActivityMenuController : IControl
     public void Destroy()
     {
         if (_control == null) return;
-
-        var animationHook = _control.instance.GetComponent<AnimationHook>();
-        if (animationHook)
-        {
-            animationHook.onHideEnded = () => _control.Destroy();
-            animationHook.Hide();
-        }
-        else
-        {
-            _control.Destroy();
-        }
+        _control.Destroy();
     }
 
     public void Disable()
     {
         if (_control == null) return;
-
-        var animationHook = _control.instance.GetComponent<AnimationHook>();
-        if (animationHook)
-        {
-            animationHook.onHideEnded = () => _control.Disable();
-            animationHook.Hide();
-        }
-        else
-        {
-            _control.Disable();
-        }
+        _control.Disable();
     }
 
     public bool IsVisible()

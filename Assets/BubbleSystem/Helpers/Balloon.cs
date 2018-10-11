@@ -62,7 +62,7 @@ namespace BubbleSystem
         public void HideBalloon(BubbleSystemData data)
         {
             if (control.Show() == ShowResult.FAIL) return;
-            BalloonsHooks[] balloonHooks = control.instance.GetComponentsInChildren<BalloonsHooks>();
+            BalloonsHooks[] balloonHooks = control.Instance.GetComponentsInChildren<BalloonsHooks>();
 
             foreach (BalloonsHooks hooks in balloonHooks)
             {
@@ -74,7 +74,7 @@ namespace BubbleSystem
         {
             if (control.Show() == ShowResult.FAIL) return;
             int i = 0;
-            BalloonsHooks[] balloonHooks = control.instance.GetComponentsInChildren<BalloonsHooks>();
+            BalloonsHooks[] balloonHooks = control.Instance.GetComponentsInChildren<BalloonsHooks>();
 
             foreach (BalloonsHooks hooks in balloonHooks)
             {

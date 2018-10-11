@@ -15,6 +15,12 @@ namespace VT {
         public event CourseFunc CourseSelectionEvent;
         private CourseControl courseControl;
 
+        public GameObject Instance
+        {
+            get { return control.Instance; }
+            set { control.Instance = value; }
+        }
+
         public CoursesControl(GameObject prefab, CourseControl courseControl) {
             control = new Control();
             control.prefab = prefab;
@@ -24,6 +30,11 @@ namespace VT {
             //courses = user.courses; //new List<Course>();
 
             this.courseControl = courseControl;
+        }
+
+        public string GetName()
+        {
+            return "CoursesControl";
         }
 
         public void OpenDetails(UserInfo.Course course) {
@@ -44,7 +55,7 @@ namespace VT {
         public ShowResult Show() {
             var ret = control.Show();
             if (ret == ShowResult.FIRST || ret == ShowResult.OK) {
-                hook = control.instance.GetComponent<CoursesHooks>();
+                hook = control.Instance.GetComponent<CoursesHooks>();
                 if (hook != null) {
                     foreach (UserInfo.Course course in user.courses) {
                         
@@ -85,9 +96,6 @@ namespace VT {
 
         public bool IsVisible() {
             return control.IsVisible();
-        }
-        public void Enable() {
-            control.Enable();
         }
     }
 }

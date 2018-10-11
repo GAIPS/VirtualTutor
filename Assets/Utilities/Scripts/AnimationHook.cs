@@ -6,6 +6,7 @@ public class AnimationHook : Hook
     [SerializeField] private Animator showHideAnimator;
 
     public bool ShowOnStart;
+    private bool _visible;
 
     /// <summary>
     /// Called when the Show animation ended.
@@ -27,6 +28,8 @@ public class AnimationHook : Hook
 
     public void Show()
     {
+        if (_visible) return;
+        
         if (showHideAnimator)
         {
             showHideAnimator.SetBool("Showing", true);
@@ -40,6 +43,8 @@ public class AnimationHook : Hook
 
     public void Hide()
     {
+        if (!_visible) return;
+        
         if (showHideAnimator)
         {
             showHideAnimator.SetBool("Showing", false);
@@ -53,6 +58,7 @@ public class AnimationHook : Hook
 
     public void UIOnShowEnded()
     {
+        _visible = true;
         if (onShowEnded != null)
         {
             onShowEnded();
@@ -61,6 +67,7 @@ public class AnimationHook : Hook
 
     public void UIOnHideEnded()
     {
+        _visible = false;
         if (onHideEnded != null)
         {
             onHideEnded();

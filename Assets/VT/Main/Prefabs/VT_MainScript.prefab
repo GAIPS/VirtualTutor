@@ -27,7 +27,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4434590133045196
 Transform:
   m_ObjectHideFlags: 1
@@ -59,7 +59,7 @@ MonoBehaviour:
   Tasks: {fileID: 4900000, guid: cc4e678850ec4315b8389c393ca534e8, type: 3}
   YarnDialogDatabase:
   - {fileID: 4900000, guid: 1de6bee36403ff94e82d3ef01ea75d69, type: 3}
-  - {fileID: 4900000, guid: d766f8abbb6ee6b4bb7deaf910c74924, type: 3}
+  - {fileID: 4900000, guid: 2109063cdb994f849a1969f9de4f513d, type: 3}
   ModuleManager: {fileID: 0}
   _commandHandler: {fileID: 114426145877066238}
   Playing: 0

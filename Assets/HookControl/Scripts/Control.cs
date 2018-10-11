@@ -6,11 +6,13 @@ namespace HookControl
     [Serializable]
     public class Control : IControl
     {
-        /* SUPPORT to create or destroy UI
-        */
+        /*
+         * SUPPORT to create or destroy UI
+         */
         [SerializeField] public GameObject prefab;
-        public GameObject instance;
-        
+
+        public GameObject Instance { get; set; }
+
         public bool DontDestroyOnLoad { get; set; }
 
         public Control()
@@ -23,56 +25,86 @@ namespace HookControl
             this.prefab = prefab;
         }
 
+        public virtual string GetName()
+        {
+            return "Control";
+        }
+
         public ShowResult Show()
         {
-            if (instance == null)
+            var result = ShowResult.OK;
+            if (Instance == null)
             {
                 if (prefab == null)
                     return ShowResult.FAIL;
-                instance = (GameObject) GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity);
-                if (!instance)
+                Instance = GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity);
+
+                if (!Instance)
                     return ShowResult.FAIL;
                 if (DontDestroyOnLoad)
                 {
-                    GameObject.DontDestroyOnLoad(instance.gameObject);
+                    GameObject.DontDestroyOnLoad(Instance.gameObject);
                 }
 
-                return ShowResult.FIRST;
+                result = ShowResult.FIRST;
             }
-            else if (instance.activeSelf == false)
+            else if (Instance.activeSelf == false)
             {
-                instance.SetActive(true);
+                Instance.SetActive(true);
             }
 
-            return ShowResult.OK;
+            var animationHook = Instance.GetComponent<AnimationHook>();
+            if (animationHook)
+            {
+                //Default hiding behaviour
+                animationHook.onHideEnded = DestroyGameObject;
+                animationHook.Show();
+            }
+
+            return result;
         }
 
         public void Destroy()
         {
-            if (instance == null)
-                return;
-            GameObject.Destroy(instance.gameObject);
-            instance = null;
+            if (Instance == null) return;
+
+            var animationHook = Instance.GetComponent<AnimationHook>();
+            if (animationHook)
+            {
+                animationHook.onHideEnded = DestroyGameObject;
+                animationHook.Hide();
+            }
+            else
+            {
+                DestroyGameObject();
+            }
+        }
+
+        private void DestroyGameObject()
+        {
+            GameObject.Destroy(Instance.gameObject);
+            Instance = null;
         }
 
         public void Disable()
         {
-            if (instance == null)
-                return;
-            instance.SetActive(false);
+            if (Instance == null) return;
+
+            var animationHook = Instance.GetComponent<AnimationHook>();
+            if (animationHook)
+            {
+                animationHook.onHideEnded = () => { Instance.SetActive(false); };
+                animationHook.Hide();
+            }
+            else
+            {
+                Instance.SetActive(false);
+            }
         }
 
         public bool IsVisible()
         {
-            return instance != null && instance.activeSelf;
-        }
-
-        public void Enable()
-        {
-            if (instance == null)
-                return;
-            if (!IsVisible())
-                instance.SetActive(true);
+            return Instance != null && Instance.activeSelf;
         }
     }
 }

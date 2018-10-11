@@ -1,4 +1,6 @@
-﻿namespace HookControl {
+﻿using UnityEngine;
+
+namespace HookControl {
     public enum ShowResult
     {
         FIRST,
@@ -8,6 +10,10 @@
 
     public interface IControl
     {
+        string GetName();
+        
+        GameObject Instance { get; }
+        
         ShowResult Show ();
 
         void Destroy ();

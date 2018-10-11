@@ -16,10 +16,21 @@ namespace VT
 
         public event CourseFunc CourseSelectionEvent;
 
+        public GameObject Instance
+        {
+            get { return control.Instance; }
+            set { control.Instance = value; }
+        }
+
         public CourseControl(GameObject prefab)
         {
             control = new Control();
             control.prefab = prefab;
+        }
+
+        public string GetName()
+        {
+            return "CourseControl";
         }
 
         public void Set(UserInfo.Course course)
@@ -40,7 +51,7 @@ namespace VT
             var ret = control.Show();
             if (ret == ShowResult.FIRST || ret == ShowResult.OK)
             {
-                hook = control.instance.GetComponent<CourseHooks>();
+                hook = control.Instance.GetComponent<CourseHooks>();
                 if (hook != null)
                 {
                     hook.onConfirm = sendCourseEvent;
@@ -59,7 +70,6 @@ namespace VT
 
 //                    hook.Show();
                 }
-                
             }
 
             return ret;
@@ -81,7 +91,7 @@ namespace VT
 //            }
 //            else
 //            {
-                control.Destroy();
+            control.Destroy();
 //            }
         }
 
@@ -94,18 +104,13 @@ namespace VT
 //            }
 //            else
 //            {
-                control.Disable();
+            control.Disable();
 //            }
         }
 
         public bool IsVisible()
         {
             return control.IsVisible();
-        }
-
-        public void Enable()
-        {
-            control.Enable();
         }
 
         public void SliderUpdate(float value, out float savedValue)

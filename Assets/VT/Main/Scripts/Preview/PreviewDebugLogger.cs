@@ -52,7 +52,7 @@ public class PreviewDebugLogger : MonoBehaviour, IDebugLogger
         var show = _yesNoObject.Show();
         if (show == ShowResult.FIRST || _hook == null)
         {
-            _hook = _yesNoObject.instance.GetComponent<YesNoHook>();
+            _hook = _yesNoObject.Instance.GetComponent<YesNoHook>();
             _hook.NoText = "Restart";
             _hook.NoFunction = HideRestart;
             _hook.YesText = "Continue";
