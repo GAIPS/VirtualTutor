@@ -235,9 +235,15 @@ public class Preview : MonoBehaviour
         {
             string filepath = file;
 #if UNITY_STANDALONE_OSX
-            filepath = filepath.Replace("file://", "");
+			filepath = filepath.Replace("file://", "");
+			filepath = filepath.Replace("%20", " ");
 #endif
-            filesContent.Add(File.ReadAllText(filepath));
+			try {
+				var content = File.ReadAllText (filepath);
+				filesContent.Add(content);
+			} catch (System.Exception ex) {
+				DebugLog.Err ("Unable to read file.\n" + ex.Message);
+			}
         }
 
         return filesContent;

@@ -30,11 +30,12 @@ public class FileInputHook : MonoBehaviour
     {
         _name = submitedName;
 #if UNITY_STANDALONE_OSX
-        _name = _name.Replace("file://", "");
+		_name = _name.Replace("file://", "");
+		_name = _name.Replace("%20", " ");
 #endif
         if (_inputField)
         {
-            _inputField.text = submitedName;
+			_inputField.text = _name;
         }
     }
 
