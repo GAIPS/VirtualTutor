@@ -3,26 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DataManager : MonoBehaviour {
-
+public class DataManager : MonoBehaviour
+{
     public UserInfo.UserData user;
     public List<UserInfo.Course> courses = new List<UserInfo.Course>();
-    
 
-	// Use this for initialization
-	void Start () {
-        
+
+    // Use this for initialization
+    void Start()
+    {
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
 
     public Boolean getURunning = false;
+
     public UserInfo.UserData getUser()
     {
-        while(getURunning);
+        while (getURunning) {}
 
         getURunning = true;
         if (user == null)
@@ -30,8 +31,9 @@ public class DataManager : MonoBehaviour {
             user = new UserInfo.UserData();
             Debug.Log("NEW USER");
         }
+
         getURunning = false;
-        
+
         return user;
     }
 
@@ -42,6 +44,7 @@ public class DataManager : MonoBehaviour {
             courses = new List<UserInfo.Course>();
             Debug.Log("NEW Course");
         }
+
         return courses;
     }
 
@@ -52,6 +55,7 @@ public class DataManager : MonoBehaviour {
             if (co.id == id)
                 return co;
         }
+
         return null;
     }
 
@@ -85,7 +89,7 @@ public class DataManager : MonoBehaviour {
                     template.shortName = co.shortname;
                     template.fullName = co.fullname;
                     template.summary = UserInfo.Course.HtmlDecode(co.summary);
-                    
+
                     template.visible = co.visible;
                     courses.Add(template);
                 }
@@ -99,11 +103,10 @@ public class DataManager : MonoBehaviour {
                 template.shortName = co.shortname;
                 template.fullName = co.fullname;
                 template.summary = UserInfo.Course.HtmlDecode(co.summary);
-                
+
                 template.visible = co.visible;
                 courses.Add(template);
             }
-
         }
     }
 
@@ -117,7 +120,6 @@ public class DataManager : MonoBehaviour {
         bool isNumeric;
         foreach (jsonValues.Grades gr in g)
         {
-
             template = getCourseById(gr.courseid);
             if (template != null)
             {
@@ -126,11 +128,7 @@ public class DataManager : MonoBehaviour {
                 {
                     template.grade = double.Parse(gr.grade);
                 }
-
-
             }
         }
-
     }
-
 }

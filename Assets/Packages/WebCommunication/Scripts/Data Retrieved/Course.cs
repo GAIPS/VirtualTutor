@@ -42,6 +42,11 @@ namespace UserInfo
             public int login_low;
             public int aprov_high;
             public int aprov_low;
+            public int startCourseDate;
+            public int login_importance;
+            public int post_importance;
+            public int assid_high;
+            public int assid_low;
         }
         public dbValues parameters = null;
         // valores relativos ao aluno

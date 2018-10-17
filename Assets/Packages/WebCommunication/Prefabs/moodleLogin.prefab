@@ -53,22 +53,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccac3a4746cc5e0429f7d002b431f28c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parameters:
-    post_high: 0
-    post_low: 0
-    login_high: 0
-    login_low: 0
-    aprov_high: 0
-    aprov_low: 0
   success: 0
   tutor: 
   tutorchosen: 0
   manager: {fileID: 114971049363573234}
-  Instance: {fileID: 0}
-  userId: 0
-  userName: 
-  courseId: 0
-  password: 
+  assid: 
+  aprov: 
+  userId: 3
+  userName: ricardo123
+  courseId: 17
+  password: Ricardo@123
 --- !u!114 &114971049363573234
 MonoBehaviour:
   m_ObjectHideFlags: 1

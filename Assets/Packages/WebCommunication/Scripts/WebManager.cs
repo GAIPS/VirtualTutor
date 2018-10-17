@@ -1,16 +1,12 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
-using System.Net;
 using System.Text;
 
-public class WebManager : MonoBehaviour {
-
-    
-    
+public class WebManager : MonoBehaviour
+{
     [Serializable]
     public class Values
     {
@@ -18,7 +14,9 @@ public class WebManager : MonoBehaviour {
         public List<jsonValues.tutor> tutor;
         public List<jsonValues.modulesViewed> modules;
     }
+
     private Values v;
+
     //DB
     public Boolean success;
     public string tutor = null;
@@ -33,7 +31,7 @@ public class WebManager : MonoBehaviour {
     private String phrase;
 
     private List<String> requestsMade = new List<string>();
-    
+
     // Use this for initialization
     void Start()
     {
@@ -48,14 +46,20 @@ public class WebManager : MonoBehaviour {
         //makeConnection();
     }
 
-    int i=0;
-    DateTime last = DateTime.UtcNow;
-    // Update is called once per frame
-    void Update() {
+    int i = 0;
 
-        if (manager.getUser().readyForRead && i == 0 && login.userVerified) // a escrita do aluno foi completa e foi autenticado
+    DateTime last = DateTime.UtcNow;
+    private bool _onlyConnect = true;
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (_onlyConnect)
+            return;
+        
+        if (manager.getUser().readyForRead && i == 0 && login.userVerified
+        ) // a escrita do aluno foi completa e foi autenticado
         {
-            
 #if UNITY_WEBGL
             getTutor();
 #endif
@@ -67,28 +71,33 @@ public class WebManager : MonoBehaviour {
             i++;
         }
 
-        if(manager.getUser().readyForRead && login.userVerified && manager.getCourseById(courseId).parameters != null && manager.getCourseById(courseId).logins.Count != 0 && i==1)
+        if (manager.getUser().readyForRead && login.userVerified &&
+            manager.getCourseById(courseId).parameters != null && manager.getCourseById(courseId).logins.Count != 0 &&
+            i == 1)
         {
             // fazer calculos para obter frases
-            double loginI = manager.getCourseById(courseId).averageLoginSpace / 86400;
+            double loginI = manager.getCourseById(courseId).averageLoginSpace / 86400.0;
             //Debug.Log(manager.getCourseById(courseId).averageLoginSpace);
-            if(loginI < manager.getCourseById(courseId).parameters.login_low)
+            if (loginI < manager.getCourseById(courseId).parameters.login_low)
             {
                 //Debug.Log("ASSID HIGH");
                 assid = "high";
             }
             else
-                assid = (loginI< manager.getCourseById(courseId).parameters.login_high)? "middle" : "low";
+                assid = (loginI < manager.getCourseById(courseId).parameters.login_high) ? "middle" : "low";
+
             //Debug.Log(assid);
             //Debug.Log(manager.getCourseById(courseId).currentAprov + "/" + manager.getCourseById(courseId).maxCurrentAprov);
-            int aprovV = (((manager.getCourseById(courseId).currentAprov * 100) / manager.getCourseById(courseId).maxCurrentAprov)); 
+            int maxAprov = manager.getCourseById(courseId).maxCurrentAprov;
+            maxAprov = Math.Max(maxAprov, 1);
+            int aprovV = manager.getCourseById(courseId).currentAprov * 100 / maxAprov;
             //Debug.Log(aprovV);
-            if ( aprovV> manager.getCourseById(courseId).parameters.aprov_high)
+            if (aprovV > manager.getCourseById(courseId).parameters.aprov_high)
                 aprov = "high";
             else
-                aprov = (aprovV> manager.getCourseById(courseId).parameters.aprov_low) ? "middle" : "low";
+                aprov = (aprovV > manager.getCourseById(courseId).parameters.aprov_low) ? "middle" : "low";
             //Debug.Log(aprov);
-            getPhrases(aprov,assid);
+            getPhrases(aprov, assid);
             putPerformance();
             insertLogin();
             i++;
@@ -100,7 +109,8 @@ public class WebManager : MonoBehaviour {
             if (sp.TotalSeconds > 1)
             {
                 last = DateTime.UtcNow;
-                String[] copyR = new String[requestsMade.Count];requestsMade.CopyTo(copyR);
+                String[] copyR = new String[requestsMade.Count];
+                requestsMade.CopyTo(copyR);
                 foreach (String s in copyR)
                 {
                     if (dbCons.hashtable.ContainsKey(s))
@@ -112,29 +122,30 @@ public class WebManager : MonoBehaviour {
                             {
                                 manager.getCourseById(l.course).logins.Add(l.login);
                             }
-
                         }
                         else if (s.Equals("getphrases")) // check error
                         {
-
                             Values v = JsonUtility.FromJson<Values>("{\"phrases\":" + dbCons.hashtable[s] + "}");
 
                             phrase = filterText(v.phrases);
 
                             Debug.Log(phrase);
                         }
+
                         if (s.Contains("getparameters"))
                         {
-
-                            UserInfo.Course.dbValues temp = UnityEngine.JsonUtility.FromJson<UserInfo.Course.dbValues>(dbCons.hashtable[s] as String);
+                            string text = dbCons.hashtable[s] as string;
+                            text = Regex.Replace(text, @"^\[|\]$", string.Empty);
+                            UserInfo.Course.dbValues temp =
+                                UnityEngine.JsonUtility.FromJson<UserInfo.Course.dbValues>(text);
                             manager.getCourseById(temp.courseId).parameters = temp;
                         }
+
                         if (s.Contains("gettutor")) // DEDICADO AO WEBGL
                         {
                             // ver o valor escolhido, se nao houve fazer fase de escolha de tutor
                             try
                             {
-
                                 Values v = JsonUtility.FromJson<Values>(dbCons.hashtable[s].ToString());
 
                                 if (v.tutor[0].tutorid == 0)
@@ -145,7 +156,7 @@ public class WebManager : MonoBehaviour {
                                 else
                                 {
                                     //load TUTOR
-                                    Debug.Log("Carregar o tutor " + ((v.tutor[0].tutorid==1)? "João" : "Maria"));
+                                    Debug.Log("Carregar o tutor " + ((v.tutor[0].tutorid == 1) ? "João" : "Maria"));
                                     tutor = ((v.tutor[0].tutorid == 1) ? "joao" : "Maria");
                                 }
                             }
@@ -155,23 +166,23 @@ public class WebManager : MonoBehaviour {
                                 // Proceder para a escolha do tutor
                                 tutor = "";
                             }
+
                             tutorchosen++;
                             Debug.Log("Final tutor: " + tutor);
                         }
 
                         if (s.Contains("getmodulesviewed"))
                         {
-                            
                             StringBuilder por = new StringBuilder();
                             por.Append("{\"modules\":");
                             por.Append(dbCons.hashtable[s] + "}");
-                            
+
                             List<jsonValues.modulesViewed> m = JsonUtility.FromJson<Values>(por.ToString()).modules;
                             DateTime time;
-                            foreach(jsonValues.modulesViewed mod in m)
+                            foreach (jsonValues.modulesViewed mod in m)
                             {
                                 time = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Local);
-                                
+
                                 time = time.AddSeconds(mod.timecreated).ToLocalTime();
                                 //if (mod.objecttable.Equals("forum"))
                                 //{
@@ -202,7 +213,6 @@ public class WebManager : MonoBehaviour {
                                 Debug.Log("COURSE: " + c.fullName);
                                 foreach (UserInfo.Course.newsUpdate n in c.news)
                                 {
-
                                     Debug.Log(n.cmid + " " + n.news);
                                 }
                             }
@@ -214,7 +224,6 @@ public class WebManager : MonoBehaviour {
                 }
             }
         }
-        
     }
 
     public void multiCourseSelection()
@@ -223,16 +232,24 @@ public class WebManager : MonoBehaviour {
     }
 
     // COMUNICACAO COM O MOODLE
-   public void makeConnection()
+    public void makeConnection()
     {
-        Dictionary<String, object> values = new Dictionary<string, object>();
-#if UNITY_ANDROID
-  
-        if(!login.multi)
+#if !UNITY_WEBGL
+        Action callback = () =>
+        {
+            if (manager.getUser().readyForRead && login.userVerified)
+            {
+                Debug.Log("Logging Successful!");
+            }
+            else
+            {
+                Debug.Log("Logging failed...");
+            }
+        };
+        
+        if (!login.multi)
             login.selectionMulti();
-        values.Add("username", userName);
-        values.Add("password", password); 
-        login.beginConnection(values);
+        StartCoroutine(LoginCoroutine(callback));
 #else
         if (login.multi)
         {
@@ -245,6 +262,15 @@ public class WebManager : MonoBehaviour {
         if (userId != 0 && courseId != 0)
             login.beginConnection(values);
 #endif
+    }
+
+    private IEnumerator LoginCoroutine(Action callback)
+    {
+        yield return login.beginConnection(userName, password);
+        if (callback != null)
+        {
+            callback();
+        }
     }
 
 
@@ -262,21 +288,27 @@ public class WebManager : MonoBehaviour {
         int seconds = Convert.ToInt32(s.TotalSeconds);
         foreach (UserInfo.Course c in manager.getCourses())
         {
-            
-            if ((new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddSeconds(manager.getCourseById(c.id).logins[manager.getCourseById(c.id).logins.Count-1]).Day) != (new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddSeconds(seconds).Day)){ // TEMPORARIO LIMITA A UM POR DIA
+            if ((new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                    .AddSeconds(manager.getCourseById(c.id).logins[manager.getCourseById(c.id).logins.Count - 1])
+                    .Day) != (new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddSeconds(seconds).Day))
+            {
+                // TEMPORARIO LIMITA A UM POR DIA
                 StartCoroutine(dbCons.insertLogin(c.id));
                 manager.getCourseById(c.id).logins.Add(seconds);
             }
 
 
             manager.getCourseById(c.id).logins.Sort();
-           
-            login.startUpdateCheck(manager.getCourseById(c.id).logins[manager.getCourseById(c.id).logins.Count-1]);
+
+            login.startUpdateCheck(manager.getCourseById(c.id).logins[manager.getCourseById(c.id).logins.Count - 1]);
             manager.getCourseById(c.id).getAverageLoginSpace();
-            Debug.Log("CADEIRA: " + manager.getCourseById(c.id).fullName + " nlogins: " + manager.getCourseById(c.id).logins.Count);
+            Debug.Log("CADEIRA: " + manager.getCourseById(c.id).fullName + " nlogins: " +
+                      manager.getCourseById(c.id).logins.Count);
         }
+
         requestsMade.Add("insertLogin");
     }
+
     /**
      * Metodo que vai buscar os Logins, Ainda precisa de ajustes
      **/
@@ -285,25 +317,24 @@ public class WebManager : MonoBehaviour {
         List<int> courseidList = new List<int>();
         foreach (UserInfo.Course c in manager.getCourses())
         {
-
             courseidList.Add(c.id);
         }
+
         dbCons.getLogins(courseidList);
         requestsMade.Add("getLogins");
-        
     }
 
     /**
      * Busca as frases de feedback com base no aproveitamento e assiduidade do aluno
      * 
      * */
-    public void getPhrases(String aproveitamento,String assiduidade)
+    public void getPhrases(String aproveitamento, String assiduidade)
     {
         String filename = "phrases.php";
         Hashtable parameters = new Hashtable();
         parameters.Add("function", "getphrases");
         requestsMade.Add(parameters["function"].ToString());
-        parameters.Add("iden",new String[] {"f"});
+        parameters.Add("iden", new String[] {"f"});
         parameters.Add("aprov", aproveitamento);
         parameters.Add("assid", assiduidade);
         dbCons.prepareRequest(filename, parameters);
@@ -318,9 +349,9 @@ public class WebManager : MonoBehaviour {
         Hashtable parameters = new Hashtable();
         parameters.Add("function", "gettutor");
         requestsMade.Add(parameters["function"].ToString());
-        
+
         parameters.Add("courseid", courseId);
-        parameters.Add("userid",userId);
+        parameters.Add("userid", userId);
 
         dbCons.prepareRequest(filename, parameters);
     }
@@ -348,7 +379,7 @@ public class WebManager : MonoBehaviour {
         Hashtable parameters = new Hashtable();
         parameters.Add("function", "getmodulesviewed");
         requestsMade.Add(parameters["function"].ToString());
-        parameters.Add("secret",true);
+        parameters.Add("secret", true);
         parameters.Add("courseid", courseId);
         parameters.Add("userid", userId);
         parameters.Add("timecreated", manager.getUser().datelast);
@@ -362,9 +393,9 @@ public class WebManager : MonoBehaviour {
         Hashtable parameters = new Hashtable();
         parameters.Add("function", "getparameters");
         requestsMade.Add(parameters["function"].ToString());
-        
+
         parameters.Add("courseid", courseId);
-      
+
         dbCons.prepareRequest(filename, parameters);
     }
 
@@ -374,18 +405,17 @@ public class WebManager : MonoBehaviour {
         Hashtable parameters = new Hashtable();
         parameters.Add("function", "getperformance");
         requestsMade.Add(parameters["function"].ToString());
-        
+
         parameters.Add("courseid", courseId);
         parameters.Add("studentid", userId);
-        
+
 
         dbCons.prepareRequest(filename, parameters);
     }
 
     public void putPerformance()
     {
-
-#if UNITY_ANDROID
+#if !UNITY_WEBGL
         TimeSpan s = DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc));
         int seconds = Convert.ToInt32(s.TotalSeconds);
         List<Hashtable> param = new List<Hashtable>();
@@ -393,23 +423,30 @@ public class WebManager : MonoBehaviour {
         foreach (UserInfo.Course c in manager.getCourses())
         {
             manager.getCourseById(courseId).getAverageLoginSpace();
-            if ((new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddSeconds(manager.getCourseById(c.id).logins[manager.getCourseById(c.id).logins.Count - 1]).Day) != (new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddSeconds(seconds).Day))
-            { // TEMPORARIO LIMITA A UM POR DIA
-                
+            if ((new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                    .AddSeconds(manager.getCourseById(c.id).logins[manager.getCourseById(c.id).logins.Count - 1])
+                    .Day) != (new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddSeconds(seconds).Day))
+            {
+                // TEMPORARIO LIMITA A UM POR DIA
+
                 Hashtable parameters = new Hashtable();
                 parameters.Add("function", "putperformance");
                 //requestsMade.Add(parameters["function"].ToString());
 
                 parameters.Add("courseid", c.id);
                 parameters.Add("studentid", userId);
-                parameters.Add("aproveitamento", ((manager.getCourseById(c.id).currentAprov * 100) / manager.getCourseById(c.id).maxCurrentAprov));
+
+                int maxAprov = manager.getCourseById(c.id).maxCurrentAprov;
+                maxAprov = Math.Max(maxAprov, 1);
+                parameters.Add("aproveitamento", manager.getCourseById(c.id).currentAprov * 100 / maxAprov);
                 parameters.Add("assiduidade", manager.getCourseById(courseId).averageLoginSpace);
                 parameters.Add("time", seconds);
                 param.Add(parameters);
             }
         }
-        if(param.Count>0)
-        dbCons.prepareRequests(filename, param);
+
+        if (param.Count > 0)
+            dbCons.prepareRequests(filename, param);
 #else
         TimeSpan s = DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc));
         int seconds = Convert.ToInt32(s.TotalSeconds);
@@ -456,20 +493,21 @@ public class WebManager : MonoBehaviour {
         System.Random n = new System.Random();
         ArrayList feedbackE = new ArrayList();
         ArrayList feedbackf = new ArrayList();
-        foreach(jsonValues.phrases i in p)
+        foreach (jsonValues.phrases i in p)
         {
             if (i.identifier.Contains("fe"))
                 feedbackE.Add(i.frase);
             if (i.identifier.Contains("ff"))
                 feedbackf.Add(i.frase);
         }
+
         StringBuilder sb = new StringBuilder();
         if (feedbackE.Count > 0)
             sb.Append(feedbackE[n.Next(0, feedbackE.Count)]);
         sb.Append(" ");
         if (feedbackf.Count > 0)
             sb.Append(feedbackf[n.Next(0, feedbackf.Count)]);
-        
+
 
         String si = Regex.Replace(sb.ToString(), "@username", manager.getUser().userName);
 
@@ -478,9 +516,9 @@ public class WebManager : MonoBehaviour {
         return si;
     }
 
-    public int userId=0;
+    public int userId = 0;
     public String userName = "";
-    public int courseId=0;
+    public int courseId = 0;
     public String password = "";
 
     // METODOS PARA IR BUSCAR VALORES DADOS PELO USER
@@ -497,7 +535,7 @@ public class WebManager : MonoBehaviour {
 
     public void Get_courseId(int id)
     {
-       courseId = id;
+        courseId = id;
     }
 
     public String GetPhrase()

@@ -20,23 +20,29 @@ public class WebserviceLogin : MonoBehaviour
         // course
         public List<jsonValues.Courses> courses;
         public List<jsonValues.Grades> grades;
-        
+
         public List<jsonValues.Topics> topics;
         public List<jsonValues.assignments> assignments;
         public List<jsonValues.usergrades> usergrades;
+
         public List<jsonValues.groups> groups;
+
         //quizzes
         public List<jsonValues.quizzes> quizzes; // TODO IMPLEMENT
+
         //update related
         public List<jsonValues.instances> instances;
+
         // forum related
         public List<jsonValues.forums> forums;
         public List<jsonValues.discussions> discussions;
+
         public List<jsonValues.posts> posts;
+
         // notes related
         public List<jsonValues.notes> notes;
     }
-    
+
 
     DateTime lastupdate;
 
@@ -47,22 +53,28 @@ public class WebserviceLogin : MonoBehaviour
     String tutorToken = "14ab94c8af25f6b426fc61cde1ed090b";
     int tutorID;
     public Boolean userVerified = false;
-    String userToken ="14ab94c8af25f6b426fc61cde1ed090b";
+    String userToken = "14ab94c8af25f6b426fc61cde1ed090b";
+
+
+    private string adminToken = "fff2866b7aa75ca34556714df5e2c173";
+
+    private string mobileToken = "e31456840389b6093b0119a6d07229d4";
+    // http://ec2-34-240-43-90.eu-west-1.compute.amazonaws.com/moodleFCUL/webservice/rest/server.php?wstoken=fff2866b7aa75ca34556714df5e2c173&wsfunction=get_data&moodlewsrestformat=json&courseid=16
+    // http://ec2-34-240-43-90.eu-west-1.compute.amazonaws.com/moodleFCUL/course/view.php?id=17 <--- ID 17
 
     DataManager dataM;
 
-    
 
     //HUDSize hud; ONDE VAI BUSCAR OS VALORES INSERIDOS PELO USER
 
 
-    String moodleUrl = "http://ec2-52-211-160-228.eu-west-1.compute.amazonaws.com/moodleFCUL";
+    String moodleUrl = "http://ec2-34-240-43-90.eu-west-1.compute.amazonaws.com/moodleFCUL";
 
     int cycle = 0; // saber o nº de vezes que tentou ver actualizações
 
     // usado para separar multiplas cadeiras de so uma
     public Boolean multi = false;
-    int courseId=0;
+    int courseId = 0;
 
     public void selectionMulti()
     {
@@ -75,45 +87,45 @@ public class WebserviceLogin : MonoBehaviour
         //hud = gameObject.AddComponent(typeof(HUDSize)) as HUDSize;
         //StartCoroutine("webGlRequests");
         //StartCoroutine("RetrieveTutorID");
-        
     }
 
     DateTime begining;
+
     public void compareTime()
     {
-
         TimeSpan span = DateTime.UtcNow.Subtract(begining);
         StringBuilder timeString = new StringBuilder();
         if (span.Minutes > 0)
         {
             timeString.Append(span.Minutes + "minutos ");
         }
+
         timeString.Append(span.Seconds + "segundos");
         Debug.Log("Differença de tempo: " + timeString.ToString());
-
     }
 
     public void findDataManager()
     {
-        GameObject moodleLogin = GameObject.Find("moodleLogin");
+        GameObject moodleLogin = gameObject;
         dataM = moodleLogin.GetComponent(typeof(DataManager)) as DataManager;
     }
-    
+
 
     int npoints = 0;
     DateTime last = DateTime.UtcNow, current, lastCheck;
     TimeSpan s;
+
     Boolean wasPressed = false;
+
     // Update is called once per frame
     void Update()
     {
-        if(dataM != null)
-        if (dataM.getUser().readyForRead && npoints !=1)
-        {
-            
-            compareTime();
-            npoints=1;
-        }
+        if (dataM != null)
+            if (dataM.getUser().readyForRead && npoints != 1)
+            {
+                compareTime();
+                npoints = 1;
+            }
 
         //if (scrollview.giveText().Contains("A carregar informação") && dataM.getUser().readyForRead)
         //{
@@ -130,10 +142,8 @@ public class WebserviceLogin : MonoBehaviour
         //    StartCoroutine("hasUpdates");
         //    lastCheck = DateTime.UtcNow;
         //}
-
     }
 
-    
 
     public void press()
     {
@@ -141,8 +151,9 @@ public class WebserviceLogin : MonoBehaviour
         {
             wasPressed = true;
             StartCoroutine("StartUp");
-            
-            lastupdate = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc).AddSeconds(dataM.getUser().datelast);
+
+            lastupdate =
+                new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc).AddSeconds(dataM.getUser().datelast);
             // consequentes updates
             lastupdate = DateTime.UtcNow;
             lastCheck = DateTime.UtcNow;
@@ -158,7 +169,6 @@ public class WebserviceLogin : MonoBehaviour
 
     public Boolean beginConnection()
     {
-        
         StartCoroutine("StartUp");
         lastupdate = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc).AddSeconds(dataM.getUser().datelast);
 
@@ -171,11 +181,11 @@ public class WebserviceLogin : MonoBehaviour
 
     //public Boolean beginConnectionWithMobile(String username, string password)
     //{
-       
+
     //    begining = DateTime.UtcNow;
-        
+
     //    StartCoroutine(getUserDataMobile(username, password));
-        
+
     //    return userVerified;
     //}
 
@@ -193,12 +203,12 @@ public class WebserviceLogin : MonoBehaviour
     //    return userVerified;
     //}
 
-    public Boolean beginConnection(Dictionary<String,object> values)
+    public Boolean beginConnection(Dictionary<String, object> values)
     {
         findDataManager();
         begining = DateTime.UtcNow;
-#if UNITY_ANDROID
-         StartCoroutine(getUserDataMobile(Convert.ToString(values["username"]), Convert.ToString(values["password"])));
+#if !UNITY_WEBGL
+        StartCoroutine(getUserDataMobile(Convert.ToString(values["username"]), Convert.ToString(values["password"])));
 #else
         dataM.getUser().id = Convert.ToInt32(values["userId"]);
         if (!multi)
@@ -211,18 +221,25 @@ public class WebserviceLogin : MonoBehaviour
         return userVerified;
     }
 
-
-    IEnumerator getUserDataMobile(String username, string password) // Metodo que organiza a busca de informação feita na aplicação mobile
+    public IEnumerator beginConnection(string username, string password)
     {
-        
+        findDataManager();
+        begining = DateTime.UtcNow;
+        return getUserDataMobile(username, password);
+    }
+
+
+    // Metodo que organiza a busca de informação feita na aplicação mobile
+    IEnumerator getUserDataMobile(String username, string password)
+    {
         yield return testLogin(username, password);
         if (userVerified)
         {
-
             //yield return RetrieveToken(username, password);
             yield return retrieveUser(username);
-            yield return RetrieveCourses(); // busca as cadeiras que o aluno esta inscrito, tem em conta se são varias cadeiras
-            
+            yield return
+                RetrieveCourses(); // busca as cadeiras que o aluno esta inscrito, tem em conta se são varias cadeiras
+
             retrieveCourseGroups();
             yield return RetrieveCourseTopics();
 
@@ -230,18 +247,21 @@ public class WebserviceLogin : MonoBehaviour
             yield return RetrieveCourseGrades();
             RetrieveUserGrades();
             RetrieveForumData();
-            lastupdate = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc).AddSeconds(dataM.getUser().datelast);
+            lastupdate =
+                new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc).AddSeconds(dataM.getUser().datelast);
 
             dataM.getUser().doneWriting(); // marca o final da captacao de dados do user
         }
     }
 
-    IEnumerator getUserData() // Metodo que organiza a busca de informação feita na aplicação WebGl
+    // Metodo que organiza a busca de informação feita na aplicação WebGl
+    IEnumerator getUserData()
     {
-       
-        StartCoroutine(retrieveUser("")); // não eh preciso autenticar ou verificar o aluno, assumindo que este metodo eh soh chamado no WebGl dentro do moodle
-        
-        yield return RetrieveCourses(); // busca as cadeiras que o aluno esta inscrito, tem em conta se são varias cadeiras
+        StartCoroutine(
+            retrieveUser("")); // não eh preciso autenticar ou verificar o aluno, assumindo que este metodo eh soh chamado no WebGl dentro do moodle
+
+        yield return
+            RetrieveCourses(); // busca as cadeiras que o aluno esta inscrito, tem em conta se são varias cadeiras
 
         retrieveCourseGroups();
         yield return RetrieveCourseTopics();
@@ -250,12 +270,9 @@ public class WebserviceLogin : MonoBehaviour
         yield return RetrieveCourseGrades();
         RetrieveUserGrades();
         yield return RetrieveForumData();
-        
+
         lastupdate = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc).AddSeconds(dataM.getUser().datelast);
         dataM.getUser().doneWriting(); // marca o final da captacao de dados do user
-
-        
-        
     }
 
     /**
@@ -263,18 +280,18 @@ public class WebserviceLogin : MonoBehaviour
      */
     IEnumerator RetrieveToken(String username, String password)
     {
-        WWW www = new WWW(moodleUrl + "/login/token.php" + "?service=TVService&username=" + username + "&password=" + password);
+        WWW www = new WWW(moodleUrl + "/login/token.php" + "?service=TVService&username=" + username + "&password=" +
+                          password);
         yield return www;
         String content = www.text;
-        String[] variable = content.Split(new[] { "\"token\":\"" }, StringSplitOptions.None);
+        String[] variable = content.Split(new[] {"\"token\":\""}, StringSplitOptions.None);
         if (variable.Length > 1)
         {
-            variable = variable[1].Split(new[] { "\"" }, StringSplitOptions.None);
+            variable = variable[1].Split(new[] {"\""}, StringSplitOptions.None);
             if (variable.Length > 0)
             {
                 userVerified = true;
                 userToken = variable[0];
-
             }
         }
     }
@@ -284,35 +301,36 @@ public class WebserviceLogin : MonoBehaviour
      */
     IEnumerator retrieveUser(String username)
     {
-
-#if UNITY_ANDROID
-        WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + userToken + "&wsfunction=core_user_get_users&criteria[0][key]=username&criteria[0][value]=" + username + "&moodlewsrestformat=json");
+#if !UNITY_WEBGL
+        WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + userToken +
+                          "&wsfunction=core_user_get_users&criteria[0][key]=username&criteria[0][value]=" + username +
+                          "&moodlewsrestformat=json");
 #else
-        //Debug.Log(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + tutorToken + "&wsfunction=core_user_get_users&criteria[0][key]=id&criteria[0][value]=" + dataM.getUser().id + "&moodlewsrestformat=json");
-        WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + tutorToken + "&wsfunction=core_user_get_users&criteria[0][key]=id&criteria[0][value]=" + dataM.getUser().id + "&moodlewsrestformat=json");
+//Debug.Log(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + tutorToken + "&wsfunction=core_user_get_users&criteria[0][key]=id&criteria[0][value]=" + dataM.getUser().id + "&moodlewsrestformat=json");
+        WWW www =
+ new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + tutorToken + "&wsfunction=core_user_get_users&criteria[0][key]=id&criteria[0][value]=" + dataM.getUser().id + "&moodlewsrestformat=json");
 #endif
         yield return www;
         String content = www.text;
-        
+
         Values v = UnityEngine.JsonUtility.FromJson<Values>(content);
 
-        if (v.users.Count>0)
+        if (v.users.Count > 0)
         {
             dataM.getUser().receiveUsers(v.users[0]);
-             
+
             userVerified = true;
         }
         else
             userVerified = false;
-        
     }
 
     public IEnumerator testLogin(String Username, string Password)
     {
-        string formUrl = "http://ec2-52-211-160-228.eu-west-1.compute.amazonaws.com/moodleFCUL/login/index.php";
+        string formUrl = moodleUrl + "/login/index.php";
 
         WWWForm loginFields = new WWWForm();
-        
+
         loginFields.AddField("username", Username);
         loginFields.AddField("password", Password);
 
@@ -321,7 +339,7 @@ public class WebserviceLogin : MonoBehaviour
         yield return www;
 
         String pageSource = www.text;
-        
+
         if (pageSource.Contains("<title>Dashboard</title>"))
             userVerified = true;
         else
@@ -335,30 +353,35 @@ public class WebserviceLogin : MonoBehaviour
      */
     IEnumerator RetrieveTutorID()
     {
-#if UNITY_ANDROID
+#if !UNITY_WEBGL
         String token = userToken;
 #else
         String token = tutorToken;
 #endif
-        WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token + "&wsfunction=core_user_get_users&criteria[0][key]=username&criteria[0][value]=" + "tutor_virtual" + "&moodlewsrestformat=json");
+        WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+                          "&wsfunction=core_user_get_users&criteria[0][key]=username&criteria[0][value]=" +
+                          "tutor_virtual" + "&moodlewsrestformat=json");
         yield return www;
         String content = www.text;
 
         Values v = UnityEngine.JsonUtility.FromJson<Values>(content);
         tutorID = v.users[0].id;
     }
+
     /**
      *  Metodo que comunica com o servidor e busca a informacao dos cursos a que o utilizador esta inscrito, nao utiliza sockets
      */
     IEnumerator RetrieveCourses()
     {
-#if UNITY_ANDROID
+#if !UNITY_WEBGL
         String token = userToken;
 #else
         String token = tutorToken;
 #endif
 
-        WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token + "&wsfunction=core_enrol_get_users_courses&userid=" + dataM.getUser().id + "&moodlewsrestformat=json");
+        WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+                          "&wsfunction=core_enrol_get_users_courses&userid=" + dataM.getUser().id +
+                          "&moodlewsrestformat=json");
         yield return www;
         String content = www.text;
 
@@ -367,31 +390,31 @@ public class WebserviceLogin : MonoBehaviour
         por.Append(content + "}");
 
         Values v = JsonUtility.FromJson<Values>(por.ToString());
-        dataM.receiveCourses(v.courses,multi,courseId);
-        
+        dataM.receiveCourses(v.courses, multi, courseId);
+
         foreach (Course c in dataM.getCourses())
         {
-
             StartCoroutine(RetrieveUsersInCourse(c.id));
         }
     }
 
     IEnumerator RetrieveUsersInCourse(int courseId)
     {
-
-#if UNITY_ANDROID
+#if !UNITY_WEBGL
         String token = userToken;
 #else
         String token = tutorToken;
 #endif
-        WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token + "&wsfunction=core_enrol_get_enrolled_users&courseid="+courseId+"&moodlewsrestformat=json");
+        WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+                          "&wsfunction=core_enrol_get_enrolled_users&courseid=" + courseId +
+                          "&moodlewsrestformat=json");
         yield return www;
         String content = www.text;
-        
+
         StringBuilder por = new StringBuilder();
         por.Append("{\"users\":");
         por.Append(content + "}");
-        Values v = UnityEngine.JsonUtility.FromJson<Values>(por.ToString());
+//        Values v = UnityEngine.JsonUtility.FromJson<Values>(por.ToString());
         //tutorID = v.users[0].id;
         //foreach(jsonValues.users u in v.users)
         //{
@@ -399,14 +422,17 @@ public class WebserviceLogin : MonoBehaviour
         //} 
     }
 
-    IEnumerator RetrieveUserGrades() // gradereport_overview_get_course_grades, vai buscar as notas do aluno relativamente a cadeira no geral
+    IEnumerator
+        RetrieveUserGrades() // gradereport_overview_get_course_grades, vai buscar as notas do aluno relativamente a cadeira no geral
     {
-#if UNITY_ANDROID
+#if !UNITY_WEBGL
         String token = userToken;
 #else
         String token = tutorToken;
 #endif
-        WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token + "&wsfunction=gradereport_overview_get_course_grades&userid=" + dataM.getUser().id + "&moodlewsrestformat=json");
+        WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+                          "&wsfunction=gradereport_overview_get_course_grades&userid=" + dataM.getUser().id +
+                          "&moodlewsrestformat=json");
         yield return www;
         String content = www.text;
 
@@ -416,7 +442,7 @@ public class WebserviceLogin : MonoBehaviour
 
     IEnumerator RetrieveCourseTopics()
     {
-#if UNITY_ANDROID
+#if !UNITY_WEBGL
         String token = userToken;
 #else
         String token = tutorToken;
@@ -428,23 +454,23 @@ public class WebserviceLogin : MonoBehaviour
 
         foreach (Course c in dataM.getCourses())
         {
-            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token + "&wsfunction=core_course_get_contents&courseid=" + c.id + "&moodlewsrestformat=json"); // NAO sera utilizado de forma primaria para identificar conteudo na cadeira, eh necessario avaliar o aluno de acordo com o grupo a que pertence (avaliacao continua)
+            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+                          "&wsfunction=core_course_get_contents&courseid=" + c.id +
+                          "&moodlewsrestformat=json"); // NAO sera utilizado de forma primaria para identificar conteudo na cadeira, eh necessario avaliar o aluno de acordo com o grupo a que pertence (avaliacao continua)
             yield return www;
             content = www.text;
             por = new StringBuilder();
             por.Append("{\"topics\":");
             por.Append(content + "}");
-            
+
             v = JsonUtility.FromJson<Values>(por.ToString());
             c.receiveCourseTopics(v.topics);
-            
         }
-      
     }
 
     IEnumerator RetrieveCourseGrades() // mod_assign_get_assignments, busca as tentativas (attemptgrades)
     {
-#if UNITY_ANDROID
+#if !UNITY_WEBGL
         String token = userToken;
 #else
         String token = tutorToken;
@@ -454,10 +480,11 @@ public class WebserviceLogin : MonoBehaviour
         StringBuilder sb;
         int count = 0;
         Values v;
-        
+
         foreach (Course c in dataM.getCourses())
         {
-            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token + "&wsfunction=mod_assign_get_assignments&courseids[0]=" + c.id + "&moodlewsrestformat=json");
+            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+                          "&wsfunction=mod_assign_get_assignments&courseids[0]=" + c.id + "&moodlewsrestformat=json");
             yield return www;
             content = www.text;
 
@@ -471,7 +498,9 @@ public class WebserviceLogin : MonoBehaviour
                 sb.Append("&assignmentids[" + count + "]=" + f.id);
                 count++;
             }
-            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token + "&wsfunction=mod_assign_get_grades" + sb.ToString() + "&moodlewsrestformat=json");
+
+            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+                          "&wsfunction=mod_assign_get_grades" + sb.ToString() + "&moodlewsrestformat=json");
             yield return www;
             content = www.text;
 
@@ -479,25 +508,28 @@ public class WebserviceLogin : MonoBehaviour
             c.receiveAssignmentsGrade(v.assignments, dataM.getUser().id);
 
 
-            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + tutorToken + "&wsfunction=gradereport_user_get_grade_items&courseid=" + c.id + "&userid=" + dataM.getUser().id + "&groupid=0&moodlewsrestformat=json");
+            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + tutorToken +
+                          "&wsfunction=gradereport_user_get_grade_items&courseid=" + c.id + "&userid=" +
+                          dataM.getUser().id + "&groupid=0&moodlewsrestformat=json");
             yield return www;
             content = www.text;
-            
+
             v = JsonUtility.FromJson<Values>(content);
             foreach (jsonValues.usergrades ug in v.usergrades)
             {
-
                 c.receiveGrades(ug);
             }
+
             c.currentAprov = c.currentAproveitamento();
             c.maxCurrentAprov = c.maxCurrentAproveitamento();
-            Debug.Log(c.fullName + " Aproveitamento: " +c.currentAprov + " out of " + c.maxCurrentAprov + " " + (Convert.ToDouble(c.currentAprov) / Convert.ToDouble(c.maxCurrentAprov))*100 + "%");
+            Debug.Log(c.fullName + " Aproveitamento: " + c.currentAprov + " out of " + c.maxCurrentAprov + " " +
+                      (Convert.ToDouble(c.currentAprov) / Convert.ToDouble(c.maxCurrentAprov)) * 100 + "%");
         }
     }
 
     IEnumerator RetrieveForumData()
     {
-#if UNITY_ANDROID
+#if !UNITY_WEBGL
         String token = userToken;
 #else
         String token = tutorToken;
@@ -509,7 +541,9 @@ public class WebserviceLogin : MonoBehaviour
         // report_competency_data_for_report
         foreach (Course c in dataM.getCourses())
         {
-            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token + "&wsfunction=mod_forum_get_forums_by_courses&courseids[0]=" + c.id + "&moodlewsrestformat=json");
+            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+                          "&wsfunction=mod_forum_get_forums_by_courses&courseids[0]=" + c.id +
+                          "&moodlewsrestformat=json");
             yield return www;
             content = www.text;
             por = new StringBuilder();
@@ -522,8 +556,9 @@ public class WebserviceLogin : MonoBehaviour
 
             foreach (UserInfo.Course.Forum f in dataM.getCourseById(c.id).forums)
             {
-
-                www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token + "&wsfunction=mod_forum_get_forum_discussions_paginated&forumid=" + f.id + "&moodlewsrestformat=json"); // vem organizados pelo mais recentemente alterado
+                www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+                              "&wsfunction=mod_forum_get_forum_discussions_paginated&forumid=" + f.id +
+                              "&moodlewsrestformat=json"); // vem organizados pelo mais recentemente alterado
                 yield return www;
                 content = www.text;
                 v = JsonUtility.FromJson<Values>(content);
@@ -532,20 +567,19 @@ public class WebserviceLogin : MonoBehaviour
 
                 foreach (UserInfo.Course.Discussions d in f.discussions)
                 {
-                    www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token + "&wsfunction=mod_forum_get_forum_discussion_posts&discussionid=" + d.id + "&moodlewsrestformat=json"); // vem organizados pelo mais recentemente alterado
+                    www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+                                  "&wsfunction=mod_forum_get_forum_discussion_posts&discussionid=" + d.id +
+                                  "&moodlewsrestformat=json"); // vem organizados pelo mais recentemente alterado
                     yield return www;
                     content = www.text;
                     v = JsonUtility.FromJson<Values>(content);
                     dataM.getCourseById(c.id).receivePosts(v.posts, f.id, d.id);
-
                 }
-               
             }
-
         }
     }
 
-        public void startUpdateCheck(int timestamp)
+    public void startUpdateCheck(int timestamp)
     {
         StartCoroutine(checkNewInfo(timestamp));
     }
@@ -556,8 +590,7 @@ public class WebserviceLogin : MonoBehaviour
      * */
     IEnumerator checkNewInfo(int timestamp)
     {
-
-#if UNITY_ANDROID
+#if !UNITY_WEBGL
         String token = userToken;
 #else
         String token = tutorToken;
@@ -566,19 +599,23 @@ public class WebserviceLogin : MonoBehaviour
         UnityEngine.Debug.Log("Verificar updates: " + cycle);
         cycle++;
         StringBuilder debrief = new StringBuilder();
-        WWW www; String content; Values v;
+        WWW www;
+        String content;
+        Values v;
 
 
-            foreach (UserInfo.Course c in dataM.getCourses())
-            {
+        foreach (UserInfo.Course c in dataM.getCourses())
+        {
             //UnityEngine.Debug.Log(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token + "&wsfunction=core_course_get_updates_since&courseid=" + c.id + "&since=" + (int)s.TotalSeconds + "&moodlewsrestformat=json");
-                www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token + "&wsfunction=core_course_get_updates_since&courseid=" + c.id + "&since=" + (int)s.TotalSeconds + "&moodlewsrestformat=json");
-                yield return www;
-                content = www.text;
-                v = JsonUtility.FromJson<Values>(content);
+            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+                          "&wsfunction=core_course_get_updates_since&courseid=" + c.id + "&since=" +
+                          (int) s.TotalSeconds + "&moodlewsrestformat=json");
+            yield return www;
+            content = www.text;
+            v = JsonUtility.FromJson<Values>(content);
 
-                if (v.instances.Count > 0) // Ocurreu algo de novo
-                {
+            if (v.instances.Count > 0) // Ocurreu algo de novo
+            {
                 //debrief.Append("For Course " + c.fullName + " :\n");
                 //foreach (jsonValues.instances i in v.instances)
                 //{
@@ -608,20 +645,20 @@ public class WebserviceLogin : MonoBehaviour
 
                 //    }
                 //}
-                c.receiveUpdates(v.instances,dataM.getUser().datelast);
-                }
-                else if (v.instances.Count == 0)
-                {
-                    debrief.Append("Course " + c.fullName + " has nothing to report\n\n");
-                }
-                debrief.Append("\n");
+                c.receiveUpdates(v.instances, dataM.getUser().datelast);
+            }
+            else if (v.instances.Count == 0)
+            {
+                debrief.Append("Course " + c.fullName + " has nothing to report\n\n");
             }
 
+            debrief.Append("\n");
+        }
     }
 
     IEnumerator hasUpdates()
     {
-#if UNITY_ANDROID
+#if !UNITY_WEBGL
         String token = userToken;
 #else
         String token = tutorToken;
@@ -629,12 +666,16 @@ public class WebserviceLogin : MonoBehaviour
         TimeSpan s = lastupdate - new DateTime(1970, 1, 1);
         UnityEngine.Debug.Log("Verificar updates: " + cycle);
         cycle++;
-        Boolean happened = false;
-        WWW www; String content; Values v;
+//        Boolean happened = false;
+        WWW www;
+        String content;
+        Values v;
 
         foreach (Course c in dataM.getCourses())
         {
-            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token + "&wsfunction=core_course_get_updates_since&courseid=" + c.id + "&since=" + (int)s.TotalSeconds + "&moodlewsrestformat=json");
+            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+                          "&wsfunction=core_course_get_updates_since&courseid=" + c.id + "&since=" +
+                          (int) s.TotalSeconds + "&moodlewsrestformat=json");
             yield return www;
             content = www.text;
             v = JsonUtility.FromJson<Values>(content);
@@ -645,7 +686,7 @@ public class WebserviceLogin : MonoBehaviour
                 if (v.instances.Count > 0)
                 {
                     StartCoroutine(executeUpdates(v.instances, c.id));
-                    happened = true;
+//                    happened = true;
                 }
             }
         }
@@ -654,7 +695,7 @@ public class WebserviceLogin : MonoBehaviour
     IEnumerator executeUpdates(List<jsonValues.instances> instances, int id)
     {
         dataM.getUser().needsWriting();
-        
+
         StringBuilder sb = new StringBuilder(), modu = new StringBuilder();
         object m;
 
@@ -665,7 +706,6 @@ public class WebserviceLogin : MonoBehaviour
 
             foreach (jsonValues.updates u in i.updates)
             {
-                
                 sb.Append(u.name + ",");
                 if (u.name.ToLower().Equals("configuration"))
                 {
@@ -675,30 +715,29 @@ public class WebserviceLogin : MonoBehaviour
                     {
                         if (m.GetType().Equals(typeof(UserInfo.Course.modules)))
                         {
-                            UserInfo.Course.modules mod = (UserInfo.Course.modules)m;
+                            UserInfo.Course.modules mod = (UserInfo.Course.modules) m;
                             modu.Append("TEM O NOME: " + mod.name);
                         }
-
-
                     }
                     else
                         modu.Append("ERRO ID: " + i.id);
-                    
                 }
-
             }
-            Debug.Log("Um(a) " + i.contextlevel + " com o id: " + i.id + " sofreu uma alteracao na " + sb.Remove(sb.Length - 1, 1).ToString() + "\n" + modu.ToString());
-            
-            
+
+            Debug.Log("Um(a) " + i.contextlevel + " com o id: " + i.id + " sofreu uma alteracao na " +
+                      sb.Remove(sb.Length - 1, 1).ToString() + "\n" + modu.ToString());
+
+
             sb = new StringBuilder();
             modu = new StringBuilder();
         }
+
         dataM.getUser().doneWriting();
     }
 
     IEnumerator getCourseNotes() // USADO NUM AMBIENTE DE TESTE
     {
-#if UNITY_ANDROID
+#if !UNITY_WEBGL
         String token = userToken;
 #else
         String token = tutorToken;
@@ -706,27 +745,27 @@ public class WebserviceLogin : MonoBehaviour
         StringBuilder por;
         String content;
         Values v;
-        
+
         foreach (Course c in dataM.getCourses())
         {
-            WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token + "&wsfunction=core_notes_get_course_notes&userid=" + tutorID +
-                "&courseid=" + c.id + "&moodlewsrestformat=json");
+            WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+                              "&wsfunction=core_notes_get_course_notes&userid=" + tutorID +
+                              "&courseid=" + c.id + "&moodlewsrestformat=json");
             yield return www;
             content = www.text;
 
             por = new StringBuilder();
             por.Append("{\"notes\":[");
             por.Append(content + "]}");
-            
-            v = JsonUtility.FromJson<Values>(por.ToString());
-            c.notes.receiveNotes(v.notes,dataM.getUser().id);
 
+            v = JsonUtility.FromJson<Values>(por.ToString());
+            c.notes.receiveNotes(v.notes, dataM.getUser().id);
         }
     }
 
     IEnumerator retrieveCourseGroups()
     {
-#if UNITY_ANDROID
+#if !UNITY_WEBGL
         String token = userToken;
 #else
         String token = tutorToken;
@@ -736,7 +775,9 @@ public class WebserviceLogin : MonoBehaviour
         Values v;
         foreach (UserInfo.Course c in dataM.getCourses())
         {
-            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token + "&wsfunction=core_group_get_course_user_groups&courseid=" +c.id+ "&userid=" + dataM.getUser().id + "&moodlewsrestformat=json");
+            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+                          "&wsfunction=core_group_get_course_user_groups&courseid=" + c.id + "&userid=" +
+                          dataM.getUser().id + "&moodlewsrestformat=json");
             yield return www;
             content = www.text;
 
@@ -752,25 +793,26 @@ public class WebserviceLogin : MonoBehaviour
     * */
     IEnumerator testNewFunction()
     {
-#if UNITY_ANDROID
+#if !UNITY_WEBGL
         String token = userToken;
 #else
         String token = tutorToken;
 #endif
         UnityEngine.Debug.Log("NEW FUNCTION");
 
-        WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token + "&wsfunction=core_user_get_course_user_profiles&userlist[0][userid]=" + dataM.getUser().id + "&userlist[0][courseid]=" + courseId);
+        WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+                          "&wsfunction=core_user_get_course_user_profiles&userlist[0][userid]=" + dataM.getUser().id +
+                          "&userlist[0][courseid]=" + courseId);
         yield return www;
         String content = www.text;
         UnityEngine.Debug.Log(content);
-
     }
 
     public void EnviarNota() // USADO NUM AMBIENTE DE TESTE
     {
-        Boolean duvida=false, resolvido=false, existe;
+        Boolean duvida = false, resolvido = false, existe;
         Toggle[] infs = GUIElement.FindObjectsOfType<Toggle>();
-        String texto=null;
+        String texto = null;
         foreach (Toggle inf in infs)
         {
             if (inf.name.Equals("Duvida/Questao"))
@@ -784,8 +826,8 @@ public class WebserviceLogin : MonoBehaviour
                 if (inf.isOn)
                     resolvido = true;
             }
-
         }
+
         InputField[] textos = GUIElement.FindObjectsOfType<InputField>();
         foreach (InputField inf in textos)
         {
@@ -793,17 +835,17 @@ public class WebserviceLogin : MonoBehaviour
                 texto = inf.text;
         }
 
-        
-        existe = dataM.getCourses()[0].notes.existNote(dataM.getUser().id);// TODO TEMPORARIO
 
-        StartCoroutine(newQuestion(duvida,texto,resolvido,existe));
-        
+        existe = dataM.getCourses()[0].notes.existNote(dataM.getUser().id); // TODO TEMPORARIO
+
+        StartCoroutine(newQuestion(duvida, texto, resolvido, existe));
     }
 
-    IEnumerator newQuestion(Boolean duvida,String textoDuvida, Boolean resolvido, Boolean existe) // USADO NUM AMBIENTE DE TESTE
+    IEnumerator newQuestion(Boolean duvida, String textoDuvida, Boolean resolvido,
+        Boolean existe) // USADO NUM AMBIENTE DE TESTE
     {
         StringBuilder por = new StringBuilder();
-#if UNITY_ANDROID
+#if !UNITY_WEBGL
         String token = userToken;
 #else
         String token = tutorToken;
@@ -818,12 +860,14 @@ public class WebserviceLogin : MonoBehaviour
             UnityEngine.Debug.Log(por.ToString());
             UnityEngine.Debug.Log(tutorToken);
             UnityEngine.Debug.Log(tutorID);
-            WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token + "&wsfunction=core_notes_create_notes&notes[0][userid]=" + tutorID + "&notes[0][publishstate]=personal"
-                        + "&notes[0][courseid]=5" + "&notes[0][text]=" + por.ToString() + " " + "&notes[0][format]=2" + "&moodlewsrestformat=json");
+            WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+                              "&wsfunction=core_notes_create_notes&notes[0][userid]=" + tutorID +
+                              "&notes[0][publishstate]=personal"
+                              + "&notes[0][courseid]=5" + "&notes[0][text]=" + por.ToString() + " " +
+                              "&notes[0][format]=2" + "&moodlewsrestformat=json");
             yield return www;
-            
+
             String content = www.text;
-           
         }
 
         else
@@ -832,8 +876,10 @@ public class WebserviceLogin : MonoBehaviour
             UserInfo.Notes.Note n = dataM.getCourses()[0].notes.getNote(dataM.getUser().id); // TODO TEMPORARIO
             por.Append(Course.HtmlDecode(n.content));
             por.AppendLine(textoDuvida + " Duvida:" + duvida + " Resolvido:" + resolvido);
-            WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + tutorToken + "&wsfunction=core_notes_update_notes" + "&notes[0][publishstate]=personal"
-                       + "&notes[0][id]=" + n.id + "&notes[0][text]=" + por.ToString() + " " + "&notes[0][format]=2" + "&moodlewsrestformat=json");
+            WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + tutorToken +
+                              "&wsfunction=core_notes_update_notes" + "&notes[0][publishstate]=personal"
+                              + "&notes[0][id]=" + n.id + "&notes[0][text]=" + por.ToString() + " " +
+                              "&notes[0][format]=2" + "&moodlewsrestformat=json");
             yield return www;
             String content = www.text;
             UnityEngine.Debug.Log(content);
@@ -845,18 +891,20 @@ public class WebserviceLogin : MonoBehaviour
     IEnumerator getGrades()
     {
         StringBuilder por = new StringBuilder();
-#if UNITY_ANDROID
+#if !UNITY_WEBGL
         String token = userToken;
 #else
         String token = tutorToken;
 #endif
-        
-        WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token + "&wsfunction=core_notes_create_notes&notes[0][userid]=" + tutorID + "&notes[0][publishstate]=personal"
-                        + "&notes[0][courseid]=5" + "&notes[0][text]=" + por.ToString() + " " + "&notes[0][format]=2" + "&moodlewsrestformat=json");
-        yield return www;
 
+        WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+                          "&wsfunction=core_notes_create_notes&notes[0][userid]=" + tutorID +
+                          "&notes[0][publishstate]=personal"
+                          + "&notes[0][courseid]=5" + "&notes[0][text]=" + por.ToString() + " " +
+                          "&notes[0][format]=2" + "&moodlewsrestformat=json");
+        yield return www;
     }
-    
+
 
     public void writeToFileExample()
     {
@@ -875,5 +923,4 @@ public class WebserviceLogin : MonoBehaviour
             content.ToString();
         }
     }
-
 }

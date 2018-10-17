@@ -5,16 +5,17 @@ using System.Text;
 using System;
 using UserInfo;
 using System.Linq;
-
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
-public class databaseConnections :MonoBehaviour {
-
+public class databaseConnections : MonoBehaviour
+{
     [Serializable]
     public class Values
     {
         public List<jsonValues.logins> logins;
     }
+
     private Values v;
     private String location = "https://tutoria-virtual.uab.pt/webservices/teste/";
     private String sLocation = "https://tutoria-virtual.uab.pt/webservices/teste/moodlereplica/"; // secret location
@@ -28,14 +29,15 @@ public class databaseConnections :MonoBehaviour {
     public Hashtable hashtable = new Hashtable();
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         getUserClass();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
 
     public void getUserClass()
     {
@@ -48,6 +50,7 @@ public class databaseConnections :MonoBehaviour {
     {
         StartCoroutine(getL(course));
     }
+
     public IEnumerator getL(List<int> course)
     {
         finished = false;
@@ -57,12 +60,13 @@ public class databaseConnections :MonoBehaviour {
         List<jsonValues.logins> logins = new List<jsonValues.logins>();
         foreach (int c in course)
         {
-            parameters = new LinkedList<string>();parameters.AddLast(c.ToString());
+            parameters = new LinkedList<string>();
+            parameters.AddLast(c.ToString());
             parameters.AddLast(user.id.ToString());
-            
 
 
-            WWW www = new WWW(location + "login.php?function=getlogin&userid=" + user.id + "&courseid=" + c + "&hash=" + encryptHash(parameters));
+            WWW www = new WWW(location + "login.php?function=getlogin&userid=" + user.id + "&courseid=" + c + "&hash=" +
+                              encryptHash(parameters));
             yield return www;
             String result = www.text;
 
@@ -72,8 +76,8 @@ public class databaseConnections :MonoBehaviour {
             foreach (jsonValues.logins l in v.logins)
                 logins.Add(l);
         }
+
         hashtable.Add("getLogins", logins);
-        
     }
 
     public IEnumerator insertLogin(int course)
@@ -87,21 +91,19 @@ public class databaseConnections :MonoBehaviour {
         parameters.AddLast(seconds.ToString());
         parameters.AddLast(seq.ToString());
         parameters.AddLast(user.id.ToString());
-        
-        
-       
 
-        WWW www = new WWW(location + "login.php?function=putlogin&userid=" + user.id + "&courseid=" + course +"&login=" + seconds+ "&seqn="+ seq + "&hash=" + encryptHash(parameters));
+
+        WWW www = new WWW(location + "login.php?function=putlogin&userid=" + user.id + "&courseid=" + course +
+                          "&login=" + seconds + "&seqn=" + seq + "&hash=" + encryptHash(parameters));
         yield return www;
         String result = www.text;
 
         finished = true;
         if (result.Contains("Record updated successfully"))
-            if(!hashtable.ContainsKey("insertLogin"))
+            if (!hashtable.ContainsKey("insertLogin"))
                 hashtable.Add("insertLogin", true);
 
-        else
-           if (!hashtable.ContainsKey("insertLogin"))
+            else if (!hashtable.ContainsKey("insertLogin"))
                 hashtable.Add("insertLogin", false);
     }
 
@@ -113,6 +115,7 @@ public class databaseConnections :MonoBehaviour {
         {
             sb.Append(s);
         }
+
         sb.Append(secretKey);
 
         byte[] toBytes = System.Text.Encoding.ASCII.GetBytes(sb.ToString());
@@ -129,13 +132,11 @@ public class databaseConnections :MonoBehaviour {
     public void prepareRequest(String fileName, Hashtable parameters)
     {
         StartCoroutine(makeRequest(fileName, parameters));
-        
     }
 
     public void prepareRequests(String fileName, List<Hashtable> parameters)
     {
         StartCoroutine(requestCycle(fileName, parameters));
-
     }
 
     public IEnumerator requestCycle(String fileName, List<Hashtable> parameters)
@@ -145,15 +146,14 @@ public class databaseConnections :MonoBehaviour {
         foreach (Hashtable h in parameters)
         {
             if (h.ContainsKey("function"))
-                function = h["function"].ToString(); 
+                function = h["function"].ToString();
             yield return makeRequests(fileName, h, results);
-            
         }
 
         hashtable.Add(function, results);
     }
 
-    public IEnumerator makeRequests(String fileName, Hashtable parameters,List<String> results)
+    public IEnumerator makeRequests(String fileName, Hashtable parameters, List<String> results)
     {
         Boolean secret = false;
         LinkedList<String> toHash = new LinkedList<string>();
@@ -171,7 +171,6 @@ public class databaseConnections :MonoBehaviour {
                     sb.Append("iden[]=" + sin.ToString() + "&");
                     toHash.AddLast(sin);
                 }
-
             }
             else
             {
@@ -184,7 +183,6 @@ public class databaseConnections :MonoBehaviour {
                     sb.Append(s + "=" + parameters[s] + "&");
                     if (!s.Equals("function"))
                     {
-
                         toHash.AddLast(parameters[s].ToString());
                     }
                 }
@@ -192,65 +190,6 @@ public class databaseConnections :MonoBehaviour {
         }
 
 
-
-        WWW www;
-        sb.Append("hash=" + encryptHash(toHash));
-        if (secret)
-        {
-            //Debug.Log(sLocation + fileName + "?" + sb.ToString());
-            www = new WWW(sLocation + fileName + "?" + sb.ToString());
-        }
-        else
-        {
-           //Debug.Log(location + fileName + "?" + sb.ToString());
-            www = new WWW(location + fileName + "?" + sb.ToString());
-        }
-        yield return www;
-        results.Add(www.text);
-
-    }
-
-
-    public IEnumerator makeRequest(String fileName, Hashtable parameters)
-    {
-        Boolean secret = false;
-        LinkedList<String> toHash = new LinkedList<string>();
-        
-        StringBuilder sb = new StringBuilder();
-        //sb.Append(location + fileName + "?");
-        
-
-        foreach(String s in parameters.Keys.Cast<String>().OrderBy(c => c))
-        {
-            if (s.Contains("iden"))
-            {
-                foreach (String sin in (parameters[s] as String[]))
-                {
-                    sb.Append("iden[]=" + sin.ToString() + "&");
-                    toHash.AddLast(sin);
-                }
-
-            }
-            else
-            {
-                if (s.Contains("secret"))
-                {
-                    secret = true;
-                }
-                else
-                {
-                    sb.Append(s + "=" + parameters[s] + "&");
-                    if (!s.Equals("function"))
-                    {
-
-                        toHash.AddLast(parameters[s].ToString());
-                    }
-                }
-            }
-        }
-
-
-        
         WWW www;
         sb.Append("hash=" + encryptHash(toHash));
         if (secret)
@@ -263,10 +202,64 @@ public class databaseConnections :MonoBehaviour {
             //Debug.Log(location + fileName + "?" + sb.ToString());
             www = new WWW(location + fileName + "?" + sb.ToString());
         }
+
+        yield return www;
+        results.Add(www.text);
+    }
+
+
+    public IEnumerator makeRequest(String fileName, Hashtable parameters)
+    {
+        Boolean secret = false;
+        LinkedList<String> toHash = new LinkedList<string>();
+
+        StringBuilder sb = new StringBuilder();
+        //sb.Append(location + fileName + "?");
+
+
+        foreach (String s in parameters.Keys.Cast<String>().OrderBy(c => c))
+        {
+            if (s.Contains("iden"))
+            {
+                foreach (String sin in (parameters[s] as String[]))
+                {
+                    sb.Append("iden[]=" + sin.ToString() + "&");
+                    toHash.AddLast(sin);
+                }
+            }
+            else
+            {
+                if (s.Contains("secret"))
+                {
+                    secret = true;
+                }
+                else
+                {
+                    sb.Append(s + "=" + parameters[s] + "&");
+                    if (!s.Equals("function"))
+                    {
+                        toHash.AddLast(parameters[s].ToString());
+                    }
+                }
+            }
+        }
+
+
+        WWW www;
+        sb.Append("hash=" + encryptHash(toHash));
+        if (secret)
+        {
+            //Debug.Log(sLocation + fileName + "?" + sb.ToString());
+            www = new WWW(sLocation + fileName + "?" + sb.ToString());
+        }
+        else
+        {
+            //Debug.Log(location + fileName + "?" + sb.ToString());
+            www = new WWW(location + fileName + "?" + sb.ToString());
+        }
+
         yield return www;
 
         hashtable.Add(parameters["function"], www.text);
     }
-
-
 }
