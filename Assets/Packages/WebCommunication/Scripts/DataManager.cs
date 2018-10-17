@@ -72,14 +72,14 @@ public class DataManager : MonoBehaviour
     /*
      * Recebe informacao basica das cadeiras que o utilizador esta inscrito EM JSON
      */
-    public void receiveCourses(List<jsonValues.Courses> c, Boolean multi, int courseId)
+    public void receiveCourses(List<jsonValues.Courses> c, Boolean multiCourses, int courseId)
     {
         UserInfo.Course template;
 
 
         foreach (jsonValues.Courses co in c)
         {
-            if (!multi) // Caso seja uma cadeira
+            if (!multiCourses) // Caso seja uma cadeira
             {
                 if (co.id == courseId)
                 {

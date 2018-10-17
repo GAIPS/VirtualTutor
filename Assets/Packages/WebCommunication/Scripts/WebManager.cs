@@ -35,8 +35,8 @@ public class WebManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        GameObject moodleLogin = this.gameObject; //GameObject.Find("moodleLogin");
-        login = moodleLogin.AddComponent(typeof(WebserviceLogin)) as WebserviceLogin;
+        GameObject moodleLogin = gameObject; //GameObject.Find("moodleLogin");
+        login = new WebserviceLogin(manager);
         dbCons = moodleLogin.AddComponent(typeof(databaseConnections)) as databaseConnections;
         Instance = this;
         //startConnectionWithId(3, 5);
@@ -57,7 +57,7 @@ public class WebManager : MonoBehaviour
         if (_onlyConnect)
             return;
         
-        if (manager.getUser().readyForRead && i == 0 && login.userVerified
+        if (manager.getUser().readyForRead && i == 0 && login.UserVerified
         ) // a escrita do aluno foi completa e foi autenticado
         {
 #if UNITY_WEBGL
@@ -71,7 +71,7 @@ public class WebManager : MonoBehaviour
             i++;
         }
 
-        if (manager.getUser().readyForRead && login.userVerified &&
+        if (manager.getUser().readyForRead && login.UserVerified &&
             manager.getCourseById(courseId).parameters != null && manager.getCourseById(courseId).logins.Count != 0 &&
             i == 1)
         {
@@ -99,7 +99,7 @@ public class WebManager : MonoBehaviour
             //Debug.Log(aprov);
             getPhrases(aprov, assid);
             putPerformance();
-            insertLogin();
+            InsertLogin();
             i++;
         }
 
@@ -226,47 +226,27 @@ public class WebManager : MonoBehaviour
         }
     }
 
-    public void multiCourseSelection()
-    {
-        login.selectionMulti();
-    }
-
     // COMUNICACAO COM O MOODLE
-    public void makeConnection()
+    public void MakeConnection()
     {
-#if !UNITY_WEBGL
         Action callback = () =>
         {
-            if (manager.getUser().readyForRead && login.userVerified)
+            if (manager.getUser().readyForRead && login.UserVerified)
             {
                 Debug.Log("Logging Successful!");
+                login.compareTime();
             }
             else
             {
                 Debug.Log("Logging failed...");
             }
         };
-        
-        if (!login.multi)
-            login.selectionMulti();
         StartCoroutine(LoginCoroutine(callback));
-#else
-        if (login.multi)
-        {
-            login.selectionMulti();
-        }
-
-        Debug.Log("Values: " + userId + ", " + courseId);
-        values.Add("userId", userId);
-        values.Add("courseId", courseId);
-        if (userId != 0 && courseId != 0)
-            login.beginConnection(values);
-#endif
     }
 
     private IEnumerator LoginCoroutine(Action callback)
     {
-        yield return login.beginConnection(userName, password);
+        yield return login.BeginConnection(userName, password);
         if (callback != null)
         {
             callback();
@@ -279,7 +259,7 @@ public class WebManager : MonoBehaviour
      * Metodo que insere o Login em cada cadeira presente, sendo uma no WebGL e X no Android
      * 
      * */
-    public void insertLogin()
+    public void InsertLogin()
     {
         //DateTime time = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Local);
 
@@ -300,7 +280,7 @@ public class WebManager : MonoBehaviour
 
             manager.getCourseById(c.id).logins.Sort();
 
-            login.startUpdateCheck(manager.getCourseById(c.id).logins[manager.getCourseById(c.id).logins.Count - 1]);
+            StartCoroutine(login.StartUpdateCheck(manager.getCourseById(c.id).logins[manager.getCourseById(c.id).logins.Count - 1]));
             manager.getCourseById(c.id).getAverageLoginSpace();
             Debug.Log("CADEIRA: " + manager.getCourseById(c.id).fullName + " nlogins: " +
                       manager.getCourseById(c.id).logins.Count);
