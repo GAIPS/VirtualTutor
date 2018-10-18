@@ -116,9 +116,9 @@ public class WebserviceLogin
             yield return RetrieveUserGrades();
             yield return RetrieveForumData();
             _lastUpdate =
-                new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddSeconds(_dataM.getUser().datelast);
+                new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddSeconds(_dataM.GetUser().datelast);
 
-            _dataM.getUser().doneWriting(); // marca o final da captacao de dados do user
+            _dataM.GetUser().doneWriting(); // marca o final da captacao de dados do user
         }
     }
 
@@ -137,7 +137,7 @@ public class WebserviceLogin
 
         if (v.users.Count > 0)
         {
-            _dataM.getUser().receiveUsers(v.users[0]);
+            _dataM.GetUser().receiveUsers(v.users[0]);
 
             UserVerified = true;
         }
@@ -176,7 +176,7 @@ public class WebserviceLogin
         String token = _userToken;
 
         WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
-                          "&wsfunction=core_enrol_get_users_courses&userid=" + _dataM.getUser().id +
+                          "&wsfunction=core_enrol_get_users_courses&userid=" + _dataM.GetUser().id +
                           "&moodlewsrestformat=json");
         yield return www;
         String content = www.text;
@@ -186,9 +186,9 @@ public class WebserviceLogin
         por.Append(content + "}");
 
         Values v = JsonUtility.FromJson<Values>(por.ToString());
-        _dataM.receiveCourses(v.courses, MultiCourses, courseId);
+        _dataM.ReceiveCourses(v.courses, MultiCourses, courseId);
 
-        foreach (Course c in _dataM.getCourses())
+        foreach (Course c in _dataM.GetCourses())
         {
             yield return RetrieveUsersInCourse(c.id);
         }
@@ -219,13 +219,13 @@ public class WebserviceLogin
     {
         String token = _userToken;
         WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
-                          "&wsfunction=gradereport_overview_get_course_grades&userid=" + _dataM.getUser().id +
+                          "&wsfunction=gradereport_overview_get_course_grades&userid=" + _dataM.GetUser().id +
                           "&moodlewsrestformat=json");
         yield return www;
         String content = www.text;
 
         Values v = JsonUtility.FromJson<Values>(content);
-        _dataM.receiveGrades(v.grades);
+        _dataM.ReceiveGrades(v.grades);
     }
 
     IEnumerator RetrieveCourseTopics()
@@ -236,7 +236,7 @@ public class WebserviceLogin
         StringBuilder por;
         Values v;
 
-        foreach (Course c in _dataM.getCourses())
+        foreach (Course c in _dataM.GetCourses())
         {
             www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
                           "&wsfunction=core_course_get_contents&courseid=" + c.id +
@@ -261,7 +261,7 @@ public class WebserviceLogin
         int count;
         Values v;
 
-        foreach (Course c in _dataM.getCourses())
+        foreach (Course c in _dataM.GetCourses())
         {
             www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
                           "&wsfunction=mod_assign_get_assignments&courseids[0]=" + c.id + "&moodlewsrestformat=json");
@@ -285,12 +285,12 @@ public class WebserviceLogin
             content = www.text;
 
             v = JsonUtility.FromJson<Values>(content);
-            c.receiveAssignmentsGrade(v.assignments, _dataM.getUser().id);
+            c.receiveAssignmentsGrade(v.assignments, _dataM.GetUser().id);
 
 
             www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
                           "&wsfunction=gradereport_user_get_grade_items&courseid=" + c.id + "&userid=" +
-                          _dataM.getUser().id + "&groupid=0&moodlewsrestformat=json");
+                          _dataM.GetUser().id + "&groupid=0&moodlewsrestformat=json");
             yield return www;
             content = www.text;
 
@@ -315,7 +315,7 @@ public class WebserviceLogin
         Values v;
         WWW www;
         // report_competency_data_for_report
-        foreach (Course c in _dataM.getCourses())
+        foreach (Course c in _dataM.GetCourses())
         {
             www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
                           "&wsfunction=mod_forum_get_forums_by_courses&courseids[0]=" + c.id +
@@ -328,9 +328,9 @@ public class WebserviceLogin
 
             v = JsonUtility.FromJson<Values>(por.ToString());
 
-            _dataM.getCourseById(c.id).receiveForums(v.forums);
+            _dataM.GetCourseById(c.id).receiveForums(v.forums);
 
-            foreach (var f in _dataM.getCourseById(c.id).forums)
+            foreach (var f in _dataM.GetCourseById(c.id).forums)
             {
                 www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
                               "&wsfunction=mod_forum_get_forum_discussions_paginated&forumid=" + f.id +
@@ -338,7 +338,7 @@ public class WebserviceLogin
                 yield return www;
                 content = www.text;
                 v = JsonUtility.FromJson<Values>(content);
-                _dataM.getCourseById(c.id).receiveDiscussions(v.discussions, f.cmid);
+                _dataM.GetCourseById(c.id).receiveDiscussions(v.discussions, f.cmid);
 
 
                 foreach (var d in f.discussions)
@@ -349,7 +349,7 @@ public class WebserviceLogin
                     yield return www;
                     content = www.text;
                     v = JsonUtility.FromJson<Values>(content);
-                    _dataM.getCourseById(c.id).receivePosts(v.posts, f.id, d.id);
+                    _dataM.GetCourseById(c.id).receivePosts(v.posts, f.id, d.id);
                 }
             }
         }
@@ -376,7 +376,7 @@ public class WebserviceLogin
         Values v;
 
 
-        foreach (Course c in _dataM.getCourses())
+        foreach (Course c in _dataM.GetCourses())
         {
             //UnityEngine.Debug.Log(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token + "&wsfunction=core_course_get_updates_since&courseid=" + c.id + "&since=" + (int)s.TotalSeconds + "&moodlewsrestformat=json");
             www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
@@ -388,7 +388,7 @@ public class WebserviceLogin
 
             if (v.instances.Count > 0) // Ocurreu algo de novo
             {
-                c.receiveUpdates(v.instances, _dataM.getUser().datelast);
+                c.receiveUpdates(v.instances, _dataM.GetUser().datelast);
             }
             else if (v.instances.Count == 0)
             {
@@ -409,7 +409,7 @@ public class WebserviceLogin
         String content;
         Values v;
 
-        foreach (Course c in _dataM.getCourses())
+        foreach (Course c in _dataM.GetCourses())
         {
             www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
                           "&wsfunction=core_course_get_updates_since&courseid=" + c.id + "&since=" +
@@ -431,7 +431,7 @@ public class WebserviceLogin
 
     private IEnumerator ExecuteUpdates(List<jsonValues.instances> instances, int id)
     {
-        _dataM.getUser().needsWriting();
+        _dataM.GetUser().needsWriting();
 
         StringBuilder sb = new StringBuilder(), modu = new StringBuilder();
         object m;
@@ -446,7 +446,7 @@ public class WebserviceLogin
                 sb.Append(u.name + ",");
                 if (u.name.ToLower().Equals("configuration"))
                 {
-                    m = _dataM.getCourseById(id).getUndefinedModule(i.id);
+                    m = _dataM.GetCourseById(id).getUndefinedModule(i.id);
 
                     if (m != null)
                     {
@@ -469,7 +469,7 @@ public class WebserviceLogin
             modu = new StringBuilder();
         }
 
-        _dataM.getUser().doneWriting();
+        _dataM.GetUser().doneWriting();
     }
 
     private IEnumerator RetrieveCourseGroups()
@@ -478,11 +478,11 @@ public class WebserviceLogin
         WWW www;
         String content;
         Values v;
-        foreach (var c in _dataM.getCourses())
+        foreach (var c in _dataM.GetCourses())
         {
             www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
                           "&wsfunction=core_group_get_course_user_groups&courseid=" + c.id + "&userid=" +
-                          _dataM.getUser().id + "&moodlewsrestformat=json");
+                          _dataM.GetUser().id + "&moodlewsrestformat=json");
             yield return www;
             content = www.text;
 

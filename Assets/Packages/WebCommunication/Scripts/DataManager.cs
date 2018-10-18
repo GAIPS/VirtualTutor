@@ -1,56 +1,39 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UserInfo;
 
 public class DataManager : MonoBehaviour
 {
-    public UserInfo.UserData user;
-    public List<UserInfo.Course> courses = new List<UserInfo.Course>();
+    [SerializeField]
+    private UserData _user = new UserData();
+    private List<Course> _courses = new List<Course>();
 
-
-    // Use this for initialization
-    void Start()
+    public UserData GetUser()
     {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
-    public Boolean getURunning = false;
-
-    public UserInfo.UserData getUser()
-    {
-        while (getURunning) {}
-
-        getURunning = true;
-        if (user == null)
+        if (_user == null)
         {
-            user = new UserInfo.UserData();
+            _user = new UserData();
             Debug.Log("NEW USER");
         }
 
-        getURunning = false;
-
-        return user;
+        return _user;
     }
 
-    public List<UserInfo.Course> getCourses()
+    public List<Course> GetCourses()
     {
-        if (courses == null)
+        if (_courses == null)
         {
-            courses = new List<UserInfo.Course>();
+            _courses = new List<Course>();
             Debug.Log("NEW Course");
         }
 
-        return courses;
+        return _courses;
     }
 
-    public UserInfo.Course getCourseById(int id)
+    public Course GetCourseById(int id)
     {
-        foreach (UserInfo.Course co in courses)
+        foreach (Course co in _courses)
         {
             if (co.id == id)
                 return co;
@@ -63,18 +46,18 @@ public class DataManager : MonoBehaviour
     /*
       * Recebe informacao basica do utilizador EM JSON
       */
-    public void receiveUser(jsonValues.users u)
+    public void ReceiveUser(jsonValues.users u)
     {
-        user.receiveUsers(u);
+        _user.receiveUsers(u);
     }
 
     // DADOS DO COURSE
     /*
      * Recebe informacao basica das cadeiras que o utilizador esta inscrito EM JSON
      */
-    public void receiveCourses(List<jsonValues.Courses> c, Boolean multiCourses, int courseId)
+    public void ReceiveCourses(List<jsonValues.Courses> c, Boolean multiCourses, int courseId)
     {
-        UserInfo.Course template;
+        Course template;
 
 
         foreach (jsonValues.Courses co in c)
@@ -83,29 +66,29 @@ public class DataManager : MonoBehaviour
             {
                 if (co.id == courseId)
                 {
-                    template = new UserInfo.Course();
+                    template = new Course();
                     template.id = co.id;
                     template.idNumber = co.idnumber;
                     template.shortName = co.shortname;
                     template.fullName = co.fullname;
-                    template.summary = UserInfo.Course.HtmlDecode(co.summary);
+                    template.summary = Course.HtmlDecode(co.summary);
 
                     template.visible = co.visible;
-                    courses.Add(template);
+                    _courses.Add(template);
                 }
             }
 
             else
             {
-                template = new UserInfo.Course();
+                template = new Course();
                 template.id = co.id;
                 template.idNumber = co.idnumber;
                 template.shortName = co.shortname;
                 template.fullName = co.fullname;
-                template.summary = UserInfo.Course.HtmlDecode(co.summary);
+                template.summary = Course.HtmlDecode(co.summary);
 
                 template.visible = co.visible;
-                courses.Add(template);
+                _courses.Add(template);
             }
         }
     }
@@ -113,14 +96,14 @@ public class DataManager : MonoBehaviour
     /*
         * 
         */
-    public void receiveGrades(List<jsonValues.Grades> g)
+    public void ReceiveGrades(List<jsonValues.Grades> g)
     {
-        UserInfo.Course template;
+        Course template;
         double n;
         bool isNumeric;
         foreach (jsonValues.Grades gr in g)
         {
-            template = getCourseById(gr.courseid);
+            template = GetCourseById(gr.courseid);
             if (template != null)
             {
                 isNumeric = double.TryParse(gr.grade, out n);

@@ -1,14 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System.Text;
-using System;
-using UserInfo;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Text.RegularExpressions;
+using System.Text;
+using UnityEngine;
+using UserInfo;
 
-public class databaseConnections : MonoBehaviour
+public class DatabaseConnections
 {
     [Serializable]
     public class Values
@@ -22,51 +21,32 @@ public class databaseConnections : MonoBehaviour
 
     String secretKey = "mySecretKey";
 
-    public UserData user;
+    public UserData User;
 
-    public Boolean finished = false, success = false;
+    public Boolean finished, success = false;
 
     public Hashtable hashtable = new Hashtable();
 
     // Use this for initialization
-    void Start()
+    public DatabaseConnections(UserData user)
     {
-        getUserClass();
+        User = user;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
-    public void getUserClass()
-    {
-        GameObject moodleLogin = GameObject.Find("moodleLogin");
-        DataManager dataM = moodleLogin.GetComponent(typeof(DataManager)) as DataManager;
-        user = dataM.getUser();
-    }
-
-    public void getLogins(List<int> course)
-    {
-        StartCoroutine(getL(course));
-    }
-
-    public IEnumerator getL(List<int> course)
+    public IEnumerator GetLogins(List<int> course)
     {
         finished = false;
         LinkedList<String> parameters;
-        if (user == null)
-            getUserClass();
         List<jsonValues.logins> logins = new List<jsonValues.logins>();
         foreach (int c in course)
         {
             parameters = new LinkedList<string>();
             parameters.AddLast(c.ToString());
-            parameters.AddLast(user.id.ToString());
+            parameters.AddLast(User.id.ToString());
 
 
-            WWW www = new WWW(location + "login.php?function=getlogin&userid=" + user.id + "&courseid=" + c + "&hash=" +
-                              encryptHash(parameters));
+            WWW www = new WWW(location + "login.php?function=getlogin&userid=" + User.id + "&courseid=" + c + "&hash=" +
+                              EncryptHash(parameters));
             yield return www;
             String result = www.text;
 
@@ -80,7 +60,7 @@ public class databaseConnections : MonoBehaviour
         hashtable.Add("getLogins", logins);
     }
 
-    public IEnumerator insertLogin(int course)
+    public IEnumerator InsertLogin(int course)
     {
         finished = false;
         int seq = v.logins.Count + 1;
@@ -90,11 +70,11 @@ public class databaseConnections : MonoBehaviour
         parameters.AddLast(course.ToString());
         parameters.AddLast(seconds.ToString());
         parameters.AddLast(seq.ToString());
-        parameters.AddLast(user.id.ToString());
+        parameters.AddLast(User.id.ToString());
 
 
-        WWW www = new WWW(location + "login.php?function=putlogin&userid=" + user.id + "&courseid=" + course +
-                          "&login=" + seconds + "&seqn=" + seq + "&hash=" + encryptHash(parameters));
+        WWW www = new WWW(location + "login.php?function=putlogin&userid=" + User.id + "&courseid=" + course +
+                          "&login=" + seconds + "&seqn=" + seq + "&hash=" + EncryptHash(parameters));
         yield return www;
         String result = www.text;
 
@@ -107,9 +87,9 @@ public class databaseConnections : MonoBehaviour
                 hashtable.Add("insertLogin", false);
     }
 
-    public String encryptHash(LinkedList<String> parameters)
+    public String EncryptHash(LinkedList<String> parameters)
     {
-        MD5 md5 = System.Security.Cryptography.MD5.Create();
+        MD5 md5 = MD5.Create();
         StringBuilder sb = new StringBuilder();
         foreach (String s in parameters)
         {
@@ -118,7 +98,7 @@ public class databaseConnections : MonoBehaviour
 
         sb.Append(secretKey);
 
-        byte[] toBytes = System.Text.Encoding.ASCII.GetBytes(sb.ToString());
+        byte[] toBytes = Encoding.ASCII.GetBytes(sb.ToString());
 
 
         byte[] hash = md5.ComputeHash(toBytes);
@@ -129,17 +109,17 @@ public class databaseConnections : MonoBehaviour
         return sb.ToString().ToLower();
     }
 
-    public void prepareRequest(String fileName, Hashtable parameters)
+    public IEnumerator PrepareRequest(String fileName, Hashtable parameters)
     {
-        StartCoroutine(makeRequest(fileName, parameters));
+        return MakeRequest(fileName, parameters);
     }
 
-    public void prepareRequests(String fileName, List<Hashtable> parameters)
+    public IEnumerator PrepareRequests(String fileName, List<Hashtable> parameters)
     {
-        StartCoroutine(requestCycle(fileName, parameters));
+        return RequestCycle(fileName, parameters);
     }
 
-    public IEnumerator requestCycle(String fileName, List<Hashtable> parameters)
+    public IEnumerator RequestCycle(String fileName, List<Hashtable> parameters)
     {
         String function = null;
         List<String> results = new List<string>();
@@ -147,28 +127,29 @@ public class databaseConnections : MonoBehaviour
         {
             if (h.ContainsKey("function"))
                 function = h["function"].ToString();
-            yield return makeRequests(fileName, h, results);
+            yield return MakeRequests(fileName, h, results);
         }
 
-        hashtable.Add(function, results);
+        if (function != null)
+            hashtable.Add(function, results);
     }
 
-    public IEnumerator makeRequests(String fileName, Hashtable parameters, List<String> results)
+    public IEnumerator MakeRequests(String fileName, Hashtable parameters, List<string> results)
     {
         Boolean secret = false;
-        LinkedList<String> toHash = new LinkedList<string>();
+        LinkedList<string> toHash = new LinkedList<string>();
 
         StringBuilder sb = new StringBuilder();
         //sb.Append(location + fileName + "?");
 
 
-        foreach (String s in parameters.Keys.Cast<String>().OrderBy(c => c))
+        foreach (var s in parameters.Keys.Cast<string>().OrderBy(c => c))
         {
             if (s.Contains("iden"))
             {
-                foreach (String sin in (parameters[s] as String[]))
+                foreach (var sin in parameters[s] as string[])
                 {
-                    sb.Append("iden[]=" + sin.ToString() + "&");
+                    sb.Append("iden[]=" + sin + "&");
                     toHash.AddLast(sin);
                 }
             }
@@ -191,16 +172,16 @@ public class databaseConnections : MonoBehaviour
 
 
         WWW www;
-        sb.Append("hash=" + encryptHash(toHash));
+        sb.Append("hash=" + EncryptHash(toHash));
         if (secret)
         {
             //Debug.Log(sLocation + fileName + "?" + sb.ToString());
-            www = new WWW(sLocation + fileName + "?" + sb.ToString());
+            www = new WWW(sLocation + fileName + "?" + sb);
         }
         else
         {
             //Debug.Log(location + fileName + "?" + sb.ToString());
-            www = new WWW(location + fileName + "?" + sb.ToString());
+            www = new WWW(location + fileName + "?" + sb);
         }
 
         yield return www;
@@ -208,7 +189,7 @@ public class databaseConnections : MonoBehaviour
     }
 
 
-    public IEnumerator makeRequest(String fileName, Hashtable parameters)
+    public IEnumerator MakeRequest(String fileName, Hashtable parameters)
     {
         Boolean secret = false;
         LinkedList<String> toHash = new LinkedList<string>();
@@ -221,9 +202,9 @@ public class databaseConnections : MonoBehaviour
         {
             if (s.Contains("iden"))
             {
-                foreach (String sin in (parameters[s] as String[]))
+                foreach (String sin in parameters[s] as String[])
                 {
-                    sb.Append("iden[]=" + sin.ToString() + "&");
+                    sb.Append("iden[]=" + sin + "&");
                     toHash.AddLast(sin);
                 }
             }
@@ -246,16 +227,16 @@ public class databaseConnections : MonoBehaviour
 
 
         WWW www;
-        sb.Append("hash=" + encryptHash(toHash));
+        sb.Append("hash=" + EncryptHash(toHash));
         if (secret)
         {
             //Debug.Log(sLocation + fileName + "?" + sb.ToString());
-            www = new WWW(sLocation + fileName + "?" + sb.ToString());
+            www = new WWW(sLocation + fileName + "?" + sb);
         }
         else
         {
             //Debug.Log(location + fileName + "?" + sb.ToString());
-            www = new WWW(location + fileName + "?" + sb.ToString());
+            www = new WWW(location + fileName + "?" + sb);
         }
 
         yield return www;

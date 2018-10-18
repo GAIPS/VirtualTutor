@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4446581941070300}
   - component: {fileID: 114971049363573234}
   - component: {fileID: 114336880945492370}
-  - component: {fileID: 114975577667233684}
   m_Layer: 0
   m_Name: moodleLogin
   m_TagString: Untagged
@@ -53,12 +52,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccac3a4746cc5e0429f7d002b431f28c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  success: 0
-  tutor: 
-  tutorchosen: 0
-  manager: {fileID: 114971049363573234}
-  assid: 
-  aprov: 
+  Success: 0
+  Tutor: 
+  Tutorchosen: 0
+  Assid: 
+  Aprov: 
+  Manager: {fileID: 114971049363573234}
   userId: 3
   userName: ricardo123
   courseId: 17
@@ -74,25 +73,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2eb40571f84d5534e8962a73f0cb66cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  user: {fileID: 114975577667233684}
-  getURunning: 0
---- !u!114 &114975577667233684
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1273351105714802}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98f898526d22606478c99766690e587f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 0
-  userName: 
-  fullName: 
-  email: 
-  lang: 
-  imgSmall: 
-  imgProf: 
-  datelast: 0
-  readyForRead: 0
+  _user:
+    id: 0
+    userName: 
+    fullName: 
+    email: 
+    lang: 
+    imgSmall: 
+    imgProf: 
+    datelast: 0
+    readyForRead: 0
