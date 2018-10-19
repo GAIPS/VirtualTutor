@@ -52,16 +52,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccac3a4746cc5e0429f7d002b431f28c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Success: 0
-  Tutor: 
-  Tutorchosen: 0
-  Assid: 
-  Aprov: 
+  Tokens: {fileID: 4900000, guid: 331adbc58dcc65e4481ecbb9b5e8176a, type: 3}
   Manager: {fileID: 114971049363573234}
-  userId: 3
-  userName: ricardo123
-  courseId: 17
-  password: Ricardo@123
+  Username: ricardo123
+  Password: Ricardo@123
+  CourseId: 17
 --- !u!114 &114971049363573234
 MonoBehaviour:
   m_ObjectHideFlags: 1

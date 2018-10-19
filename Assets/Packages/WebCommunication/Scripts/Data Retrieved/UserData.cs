@@ -24,7 +24,7 @@ namespace UserInfo
         //time of last access
         public int datelast;
         //current localtime
-        DateTime localTime = DateTime.Now;
+//        DateTime localTime = DateTime.Now;
         TimeSpan diff;
         public Boolean readyForRead;
         

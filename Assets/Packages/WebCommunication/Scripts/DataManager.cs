@@ -33,7 +33,7 @@ public class DataManager : MonoBehaviour
 
     public Course GetCourseById(int id)
     {
-        foreach (Course co in _courses)
+        foreach (var co in _courses)
         {
             if (co.id == id)
                 return co;
@@ -57,11 +57,9 @@ public class DataManager : MonoBehaviour
      */
     public void ReceiveCourses(List<jsonValues.Courses> c, Boolean multiCourses, int courseId)
     {
-        Course template;
-
-
-        foreach (jsonValues.Courses co in c)
+        foreach (var co in c)
         {
+            Course template;
             if (!multiCourses) // Caso seja uma cadeira
             {
                 if (co.id == courseId)
@@ -98,15 +96,13 @@ public class DataManager : MonoBehaviour
         */
     public void ReceiveGrades(List<jsonValues.Grades> g)
     {
-        Course template;
-        double n;
-        bool isNumeric;
-        foreach (jsonValues.Grades gr in g)
+        foreach (var gr in g)
         {
-            template = GetCourseById(gr.courseid);
+            var template = GetCourseById(gr.courseid);
             if (template != null)
             {
-                isNumeric = double.TryParse(gr.grade, out n);
+                double n;
+                var isNumeric = double.TryParse(gr.grade, out n);
                 if (gr.grade != null && isNumeric)
                 {
                     template.grade = double.Parse(gr.grade);

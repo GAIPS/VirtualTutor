@@ -43,59 +43,36 @@ public class WebserviceLogin
         public List<jsonValues.notes> notes;
     }
 
+    [Serializable]
+    public class Tokens
+    {
+        public string url;
+        public string userToken;
+        public string adminToken;
+        public string mobileToken;
+    }
+
+    private Tokens _tokens;
 
     private DateTime _lastUpdate;
 
-    int tutorID = 0;
-    public Boolean UserVerified = false;
-    private string _userToken = "14ab94c8af25f6b426fc61cde1ed090b";
-    private string _adminToken = "fff2866b7aa75ca34556714df5e2c173";
-    private string _mobileToken = "e31456840389b6093b0119a6d07229d4";
+    public bool UserVerified;
     // http://ec2-34-240-43-90.eu-west-1.compute.amazonaws.com/moodleFCUL/webservice/rest/server.php?wstoken=fff2866b7aa75ca34556714df5e2c173&wsfunction=get_data&moodlewsrestformat=json&courseid=16
     // http://ec2-34-240-43-90.eu-west-1.compute.amazonaws.com/moodleFCUL/course/view.php?id=17 <--- ID 17
 
     private DataManager _dataM;
 
-
-    //HUDSize hud; ONDE VAI BUSCAR OS VALORES INSERIDOS PELO USER
-
-
-    private string moodleUrl = "http://ec2-34-240-43-90.eu-west-1.compute.amazonaws.com/moodleFCUL";
-
-    int _cycle = 0; // saber o nº de vezes que tentou ver actualizações
+    private int _cycle; // saber o nº de vezes que tentou ver actualizações
 
     // usado para separar multiplas cadeiras de so uma
     public bool MultiCourses = true;
     int courseId = 0;
 
-    private DateTime _beginning;
-
-    public void compareTime()
-    {
-        TimeSpan span = DateTime.UtcNow.Subtract(_beginning);
-        StringBuilder timeString = new StringBuilder();
-        if (span.Minutes > 0)
-        {
-            timeString.Append(span.Minutes + "minutos ");
-        }
-
-        timeString.Append(span.Seconds + "segundos");
-        Debug.Log("Differença de tempo: " + timeString.ToString());
-    }
-
-    DateTime last = DateTime.UtcNow, current, lastCheck;
-
-    public WebserviceLogin(DataManager manager)
+    public WebserviceLogin(DataManager manager, string jsonTokens)
     {
         _dataM = manager;
+        _tokens = JsonUtility.FromJson<Tokens>(jsonTokens);
     }
-
-    public IEnumerator BeginConnection(string username, string password)
-    {
-        _beginning = DateTime.UtcNow;
-        return GetUserDataMobile(username, password);
-    }
-
 
     // Metodo que organiza a busca de informação feita na aplicação mobile
     IEnumerator GetUserDataMobile(String username, string password)
@@ -103,7 +80,6 @@ public class WebserviceLogin
         yield return Login(username, password);
         if (UserVerified)
         {
-            //yield return RetrieveToken(username, password);
             yield return RetrieveUser(username);
             yield return
                 RetrieveCourses(); // busca as cadeiras que o aluno esta inscrito, tem em conta se são varias cadeiras
@@ -115,39 +91,21 @@ public class WebserviceLogin
             yield return RetrieveCourseGrades();
             yield return RetrieveUserGrades();
             yield return RetrieveForumData();
-            _lastUpdate =
-                new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddSeconds(_dataM.GetUser().datelast);
+            UpdateTime();
 
             _dataM.GetUser().doneWriting(); // marca o final da captacao de dados do user
         }
     }
 
-    /*
-     * Metodo que comunica com o servidor e vai buscar a informacao do user, nao utiliza sockets
-     */
-    IEnumerator RetrieveUser(String username)
+    public void UpdateTime()
     {
-        WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + _userToken +
-                          "&wsfunction=core_user_get_users&criteria[0][key]=username&criteria[0][value]=" + username +
-                          "&moodlewsrestformat=json");
-        yield return www;
-        String content = www.text;
-
-        Values v = JsonUtility.FromJson<Values>(content);
-
-        if (v.users.Count > 0)
-        {
-            _dataM.GetUser().receiveUsers(v.users[0]);
-
-            UserVerified = true;
-        }
-        else
-            UserVerified = false;
+        _lastUpdate =
+            new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddSeconds(_dataM.GetUser().datelast);
     }
 
     public IEnumerator Login(String username, string password)
     {
-        string formUrl = moodleUrl + "/login/index.php";
+        string formUrl = _tokens.url + "/login/index.php";
 
         WWWForm loginFields = new WWWForm();
 
@@ -168,14 +126,38 @@ public class WebserviceLogin
         }
     }
 
+    /*
+     * Metodo que comunica com o servidor e vai buscar a informacao do user, nao utiliza sockets
+     */
+    public IEnumerator RetrieveUser(String username)
+    {
+        string url = _tokens.url + "/webservice/rest/server.php" + "?wstoken=" + _tokens.userToken +
+                     "&wsfunction=core_user_get_users&criteria[0][key]=username&criteria[0][value]=" + username +
+                     "&moodlewsrestformat=json";
+        WWW www = new WWW(url);
+        yield return www;
+        String content = www.text;
+
+        Values v = JsonUtility.FromJson<Values>(content);
+
+        if (v.users.Count > 0)
+        {
+            _dataM.GetUser().receiveUsers(v.users[0]);
+
+            UserVerified = true;
+        }
+        else
+            UserVerified = false;
+    }
+
     /**
      *  Metodo que comunica com o servidor e busca a informacao dos cursos a que o utilizador esta inscrito, nao utiliza sockets
      */
-    IEnumerator RetrieveCourses()
+    public IEnumerator RetrieveCourses()
     {
-        String token = _userToken;
+        String token = _tokens.userToken;
 
-        WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+        WWW www = new WWW(_tokens.url + "/webservice/rest/server.php" + "?wstoken=" + token +
                           "&wsfunction=core_enrol_get_users_courses&userid=" + _dataM.GetUser().id +
                           "&moodlewsrestformat=json");
         yield return www;
@@ -194,10 +176,10 @@ public class WebserviceLogin
         }
     }
 
-    IEnumerator RetrieveUsersInCourse(int courseId)
+    public IEnumerator RetrieveUsersInCourse(int courseId)
     {
-        String token = _userToken;
-        WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+        String token = _tokens.userToken;
+        WWW www = new WWW(_tokens.url + "/webservice/rest/server.php" + "?wstoken=" + token +
                           "&wsfunction=core_enrol_get_enrolled_users&courseid=" + courseId +
                           "&moodlewsrestformat=json");
         yield return www;
@@ -206,19 +188,13 @@ public class WebserviceLogin
         StringBuilder por = new StringBuilder();
         por.Append("{\"users\":");
         por.Append(content + "}");
-//        Values v = UnityEngine.JsonUtility.FromJson<Values>(por.ToString());
-        //tutorID = v.users[0].id;
-        //foreach(jsonValues.users u in v.users)
-        //{
-        //    Debug.Log(u.id);
-        //} 
     }
 
-    IEnumerator
+    public IEnumerator
         RetrieveUserGrades() // gradereport_overview_get_course_grades, vai buscar as notas do aluno relativamente a cadeira no geral
     {
-        String token = _userToken;
-        WWW www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+        String token = _tokens.userToken;
+        WWW www = new WWW(_tokens.url + "/webservice/rest/server.php" + "?wstoken=" + token +
                           "&wsfunction=gradereport_overview_get_course_grades&userid=" + _dataM.GetUser().id +
                           "&moodlewsrestformat=json");
         yield return www;
@@ -228,9 +204,9 @@ public class WebserviceLogin
         _dataM.ReceiveGrades(v.grades);
     }
 
-    IEnumerator RetrieveCourseTopics()
+    public IEnumerator RetrieveCourseTopics()
     {
-        String token = _userToken;
+        String token = _tokens.userToken;
         WWW www;
         String content;
         StringBuilder por;
@@ -238,7 +214,7 @@ public class WebserviceLogin
 
         foreach (Course c in _dataM.GetCourses())
         {
-            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+            www = new WWW(_tokens.url + "/webservice/rest/server.php" + "?wstoken=" + token +
                           "&wsfunction=core_course_get_contents&courseid=" + c.id +
                           "&moodlewsrestformat=json"); // NAO sera utilizado de forma primaria para identificar conteudo na cadeira, eh necessario avaliar o aluno de acordo com o grupo a que pertence (avaliacao continua)
             yield return www;
@@ -252,9 +228,9 @@ public class WebserviceLogin
         }
     }
 
-    private IEnumerator RetrieveCourseGrades() // mod_assign_get_assignments, busca as tentativas (attemptgrades)
+    public IEnumerator RetrieveCourseGrades() // mod_assign_get_assignments, busca as tentativas (attemptgrades)
     {
-        String token = _userToken;
+        String token = _tokens.userToken;
         WWW www;
         String content;
         StringBuilder sb;
@@ -263,7 +239,7 @@ public class WebserviceLogin
 
         foreach (Course c in _dataM.GetCourses())
         {
-            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+            www = new WWW(_tokens.url + "/webservice/rest/server.php" + "?wstoken=" + token +
                           "&wsfunction=mod_assign_get_assignments&courseids[0]=" + c.id + "&moodlewsrestformat=json");
             yield return www;
             content = www.text;
@@ -279,7 +255,7 @@ public class WebserviceLogin
                 count++;
             }
 
-            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+            www = new WWW(_tokens.url + "/webservice/rest/server.php" + "?wstoken=" + token +
                           "&wsfunction=mod_assign_get_grades" + sb + "&moodlewsrestformat=json");
             yield return www;
             content = www.text;
@@ -288,7 +264,7 @@ public class WebserviceLogin
             c.receiveAssignmentsGrade(v.assignments, _dataM.GetUser().id);
 
 
-            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+            www = new WWW(_tokens.url + "/webservice/rest/server.php" + "?wstoken=" + token +
                           "&wsfunction=gradereport_user_get_grade_items&courseid=" + c.id + "&userid=" +
                           _dataM.GetUser().id + "&groupid=0&moodlewsrestformat=json");
             yield return www;
@@ -299,17 +275,12 @@ public class WebserviceLogin
             {
                 c.receiveGrades(ug);
             }
-
-            c.currentAprov = c.currentAproveitamento();
-            c.maxCurrentAprov = c.maxCurrentAproveitamento();
-            Debug.Log(c.fullName + " Aproveitamento: " + c.currentAprov + " out of " + c.maxCurrentAprov + " " +
-                      (Convert.ToDouble(c.currentAprov) / Convert.ToDouble(c.maxCurrentAprov)) * 100 + "%");
         }
     }
 
-    private IEnumerator RetrieveForumData()
+    public IEnumerator RetrieveForumData()
     {
-        String token = _userToken;
+        String token = _tokens.userToken;
         String content;
         StringBuilder por;
         Values v;
@@ -317,7 +288,7 @@ public class WebserviceLogin
         // report_competency_data_for_report
         foreach (Course c in _dataM.GetCourses())
         {
-            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+            www = new WWW(_tokens.url + "/webservice/rest/server.php" + "?wstoken=" + token +
                           "&wsfunction=mod_forum_get_forums_by_courses&courseids[0]=" + c.id +
                           "&moodlewsrestformat=json");
             yield return www;
@@ -332,7 +303,7 @@ public class WebserviceLogin
 
             foreach (var f in _dataM.GetCourseById(c.id).forums)
             {
-                www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+                www = new WWW(_tokens.url + "/webservice/rest/server.php" + "?wstoken=" + token +
                               "&wsfunction=mod_forum_get_forum_discussions_paginated&forumid=" + f.id +
                               "&moodlewsrestformat=json"); // vem organizados pelo mais recentemente alterado
                 yield return www;
@@ -343,7 +314,7 @@ public class WebserviceLogin
 
                 foreach (var d in f.discussions)
                 {
-                    www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+                    www = new WWW(_tokens.url + "/webservice/rest/server.php" + "?wstoken=" + token +
                                   "&wsfunction=mod_forum_get_forum_discussion_posts&discussionid=" + d.id +
                                   "&moodlewsrestformat=json"); // vem organizados pelo mais recentemente alterado
                     yield return www;
@@ -352,6 +323,25 @@ public class WebserviceLogin
                     _dataM.GetCourseById(c.id).receivePosts(v.posts, f.id, d.id);
                 }
             }
+        }
+    }
+
+    public IEnumerator RetrieveCourseGroups()
+    {
+        String token = _tokens.userToken;
+        WWW www;
+        String content;
+        Values v;
+        foreach (var c in _dataM.GetCourses())
+        {
+            www = new WWW(_tokens.url + "/webservice/rest/server.php" + "?wstoken=" + token +
+                          "&wsfunction=core_group_get_course_user_groups&courseid=" + c.id + "&userid=" +
+                          _dataM.GetUser().id + "&moodlewsrestformat=json");
+            yield return www;
+            content = www.text;
+
+            v = JsonUtility.FromJson<Values>(content);
+            c.receiveGroups(v.groups);
         }
     }
 
@@ -366,7 +356,7 @@ public class WebserviceLogin
      * */
     private IEnumerator CheckNewInfo(int timestamp)
     {
-        String token = _userToken;
+        String token = _tokens.userToken;
         TimeSpan s = _lastUpdate - new DateTime(1970, 1, 1);
         Debug.Log("Verificar updates: " + _cycle);
         _cycle++;
@@ -378,8 +368,8 @@ public class WebserviceLogin
 
         foreach (Course c in _dataM.GetCourses())
         {
-            //UnityEngine.Debug.Log(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token + "&wsfunction=core_course_get_updates_since&courseid=" + c.id + "&since=" + (int)s.TotalSeconds + "&moodlewsrestformat=json");
-            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+            //UnityEngine.Debug.Log(_tokens.url + "/webservice/rest/server.php" + "?wstoken=" + token + "&wsfunction=core_course_get_updates_since&courseid=" + c.id + "&since=" + (int)s.TotalSeconds + "&moodlewsrestformat=json");
+            www = new WWW(_tokens.url + "/webservice/rest/server.php" + "?wstoken=" + token +
                           "&wsfunction=core_course_get_updates_since&courseid=" + c.id + "&since=" +
                           (int) s.TotalSeconds + "&moodlewsrestformat=json");
             yield return www;
@@ -401,7 +391,7 @@ public class WebserviceLogin
 
     private IEnumerator HasUpdates()
     {
-        String token = _userToken;
+        String token = _tokens.userToken;
         TimeSpan s = _lastUpdate - new DateTime(1970, 1, 1);
         Debug.Log("Verificar updates: " + _cycle);
         _cycle++;
@@ -411,7 +401,7 @@ public class WebserviceLogin
 
         foreach (Course c in _dataM.GetCourses())
         {
-            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
+            www = new WWW(_tokens.url + "/webservice/rest/server.php" + "?wstoken=" + token +
                           "&wsfunction=core_course_get_updates_since&courseid=" + c.id + "&since=" +
                           (int) s.TotalSeconds + "&moodlewsrestformat=json");
             yield return www;
@@ -470,24 +460,5 @@ public class WebserviceLogin
         }
 
         _dataM.GetUser().doneWriting();
-    }
-
-    private IEnumerator RetrieveCourseGroups()
-    {
-        String token = _userToken;
-        WWW www;
-        String content;
-        Values v;
-        foreach (var c in _dataM.GetCourses())
-        {
-            www = new WWW(moodleUrl + "/webservice/rest/server.php" + "?wstoken=" + token +
-                          "&wsfunction=core_group_get_course_user_groups&courseid=" + c.id + "&userid=" +
-                          _dataM.GetUser().id + "&moodlewsrestformat=json");
-            yield return www;
-            content = www.text;
-
-            v = JsonUtility.FromJson<Values>(content);
-            c.receiveGroups(v.groups);
-        }
     }
 }

@@ -47,3 +47,6 @@ Assets/Plugins/Editor/JetBrains*
 
 BuildAssets/*/Yarn/
 BuildAssets/Mac/Yarn.app
+
+Assets/Packages/WebCommunication/tokens\.json
+Assets/Packages/WebCommunication/tokens\.json\.meta
