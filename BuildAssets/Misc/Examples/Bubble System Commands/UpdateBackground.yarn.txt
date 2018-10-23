@@ -1,0 +1,14 @@
+﻿title: Start.UpdateBackground
+tags:
+colorID: 2
+position: 499,273
+---
+
+<<UpdateBackground Joao Anger 0.5 Challenge>>
+<<UpdateBackground Maria Happiness 1 None>>
+Joao: A situação parece complicada.
+Maria: Até agora, tens tido um bom desempenho.
+
+<<exit>>
+
+===

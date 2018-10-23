@@ -1,0 +1,12 @@
+﻿title: Start.Start
+tags: Joao.Emotion.Happiness.0,4 Maria.Emotion.Happiness.0,4
+colorID: 1
+position: 858,378
+---
+
+
+Joao: A situação parece complicada.
+<<SetBalloonDuration 3>>
+Maria: Até agora, tens tido um bom desempenho.
+
+===

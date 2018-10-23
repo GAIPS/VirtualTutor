@@ -1,0 +1,22 @@
+﻿title: Start.Start
+tags: Joao.Emotion.Happiness.0,4 Maria.Emotion.Happiness.0,4
+colorID: 1
+position: 858,378
+---
+
+
+Maria: As opções vão desaparecer em 7 segundos.
+<<SetOptionsDuration 7>>
+	->Escolher.
+	->BLANK
+Maria: Agora vão desaparecer em 3 segundos.
+<<SetOptionsDuration 3>>
+	->Escolher.
+	->BLANK
+<<wait 3>>
+Maria: Agora não vão desaparecer, até escolheres.
+<<SetOptionsDuration -1>>
+	->Escolher.
+	->BLANK
+
+===

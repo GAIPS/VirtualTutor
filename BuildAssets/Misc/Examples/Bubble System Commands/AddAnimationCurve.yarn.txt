@@ -1,11 +1,11 @@
-title: Start.OverrideTextEffects
+﻿title: Start.AddAnimationCurve
 tags: Joao.Emotion.Happiness.1,0 Maria.Emotion.Happiness.1,0
 colorID: 2
 position: 499,273
 ---
 
 <<AddAnimationCurve halfFadeCurve 0 0 1 0.5>>
-<<OverrideTextEffects Happiness 1 showEffects FadeIn fadeCurve>>
+<<OverrideTextEffects Happiness 1 showEffects FadeIn linearCurve>>
 Joao: A situação parece complicada.
 <<OverrideTextEffects Happiness 1 showEffects FadeIn halfFadeCurve>>
 Maria: Até agora, tens tido um bom desempenho.
