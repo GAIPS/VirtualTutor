@@ -61,7 +61,7 @@ namespace BubbleSystem {
                 if (data.Peek().tutor.GetString().Equals("User")) {
                     data.Peek().balloonData.options = true;
                 }
-                data.Peek().balloonData.text.Add("There are only 2 genders!");
+                data.Peek().balloonData.text.Add("Hello world!");
                 UpdateScene();
                 emotion.Enqueue(first);
             }
