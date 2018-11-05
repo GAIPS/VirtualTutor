@@ -21,8 +21,10 @@ public class VT_Main : MonoBehaviour
 
     public bool Playing;
 
-    // TESTING
     [SerializeField] private GameObject _activityMenuPrefab;
+    [SerializeField] private GameObject _loginMenuPrefab;
+    
+    [SerializeField] private WebManager _webManager;
 
     // Use this for initialization
     void Start()
@@ -165,11 +167,14 @@ public class VT_Main : MonoBehaviour
 
         ActivityMenuController activityMenuController = new ActivityMenuController();
         activityMenuController.MenuPrefab = _activityMenuPrefab;
-//        activityMenuController.Show();
+        
+        MoodleLoginController loginController = new MoodleLoginController(_webManager);
+        loginController.MenuPrefab = _loginMenuPrefab;
 
         if (_commandHandler)
         {
             _commandHandler.controllers.Add(activityMenuController);
+            _commandHandler.controllers.Add(loginController);
         }
 
         Playing = true;

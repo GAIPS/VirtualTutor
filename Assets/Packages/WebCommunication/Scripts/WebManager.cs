@@ -10,7 +10,7 @@ using Random = System.Random;
 public class WebManager : MonoBehaviour
 {
     public TextAsset Tokens;
-    
+
     //DB
     private WebserviceLogin _login;
 
@@ -28,7 +28,9 @@ public class WebManager : MonoBehaviour
     // TODO Remove username and password storage.
     public string Username = "";
     public string Password = "";
+
     public int CourseId;
+
     // COMUNICACAO COM O MOODLE
     public void MakeConnection()
     {
@@ -38,48 +40,61 @@ public class WebManager : MonoBehaviour
 
     public void Login(string username, string password)
     {
-        StartCoroutine(LoginCoroutine(username, password));
-        
+        StartCoroutine(LoginCoroutine(username, password, success => { }));
     }
 
-    private IEnumerator LoginCoroutine(string username, string password)
+    public delegate void LoginCallback(bool success);
+
+    public void Login(string username, string password, LoginCallback callback)
+    {
+        StartCoroutine(LoginCoroutine(username, password, callback));
+    }
+
+    private IEnumerator LoginCoroutine(string username, string password, LoginCallback callback)
     {
         yield return _login.Login(username, password);
         if (_login.UserVerified)
         {
-            Debug.Log("Logging Successful!");
             _login.UpdateTime();
+        }
 
-            yield return RetrieveData(username);
-        }
-        else
-        {
-            Debug.Log("Logging failed...");
-        }
+        callback(_login.UserVerified);
     }
 
-    private IEnumerator RetrieveData(string username)
+    public void RetrieveData(string username)
     {
-        Debug.Log("Retrieving User Informations...");
+        StartCoroutine(RetrieveDataCoroutine(username, (percentage, message) => { }));
+    }
+
+    public delegate void ProgressCallback(float percentage, string message);
+
+    public void RetrieveData(string username, ProgressCallback callback)
+    {
+        StartCoroutine(RetrieveDataCoroutine(username, callback));
+    }
+
+    private IEnumerator RetrieveDataCoroutine(string username, ProgressCallback callback)
+    {
+        callback(0f, "Retrieving User Informations...");
         yield return _login.RetrieveUser(username);
-        Debug.Log("Retrieving Courses...");
+        callback(1.0f / 7.0f, "Retrieving Courses...");
         yield return
             _login.RetrieveCourses(); // busca as cadeiras que o aluno esta inscrito, tem em conta se são varias cadeiras
 
-        Debug.Log("Retrieving Course Groups...");
+        callback(2.0f / 7.0f, "Retrieving Course Groups...");
         yield return _login.RetrieveCourseGroups();
-        Debug.Log("Retrieving Course Topics...");
+        callback(3.0f / 7.0f, "Retrieving Course Topics...");
         yield return _login.RetrieveCourseTopics();
 
-        Debug.Log("Retrieving Course Grades...");
+        callback(4.0f / 7.0f, "Retrieving Course Grades...");
         yield return _login.RetrieveCourseGrades();
-        Debug.Log("Retrieving User Grades...");
+        callback(5.0f / 7.0f, "Retrieving User Grades...");
         yield return _login.RetrieveUserGrades();
-        Debug.Log("Retrieving Forum Data...");
+        callback(6.0f / 7.0f, "Retrieving Forum Data...");
         yield return _login.RetrieveForumData();
         _login.UpdateTime();
         Manager.GetUser().doneWriting();
-        Debug.Log("Retrieved Everything.");
+        callback(1f, "Retrieved All Data.");
     }
 
 

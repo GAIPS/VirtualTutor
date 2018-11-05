@@ -94,8 +94,11 @@ Joao: Já sabes a tua nota?
 title: welcome
 tags: 
 colorID: 0
-position: 351,248
+position: 351,249
 ---
+<<if $loggedIn is false>>
+    <<menu LoginMenu>>
+<<endif>>
 <<if $initialWelcome is false>>
     <<Feel Maria Happiness 0.5 None>>
     <<Feel Joao Happiness 0.5 None>>

@@ -65,6 +65,9 @@ MonoBehaviour:
   Playing: 0
   _activityMenuPrefab: {fileID: 1602143297698298, guid: 1f4af5e9a7019864ba211a6fcfa29253,
     type: 2}
+  _loginMenuPrefab: {fileID: 1960030583484248, guid: abe7359a66004124897564d3f6c0293b,
+    type: 2}
+  _webManager: {fileID: 0}
 --- !u!114 &114426145877066238
 MonoBehaviour:
   m_ObjectHideFlags: 1

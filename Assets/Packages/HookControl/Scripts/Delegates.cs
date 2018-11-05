@@ -13,4 +13,6 @@ namespace HookControl
     public delegate void GameObjectFunc(GameObject gameObj);
 
     public delegate void FloatFunc(float value);
+    
+    public delegate void LoginFunc(string username, string password);
 }
