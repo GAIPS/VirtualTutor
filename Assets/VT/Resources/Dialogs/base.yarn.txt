@@ -155,3 +155,84 @@ Maria: Em relação ao teus estudos, gostávamos de saber como te sentes.
 
 Maria: Muito obrigado.
 ===
+title: summary-01
+tags: task-strategy summary
+colorID: 1
+position: 8,1141
+---
+Joao: Como sabes a matéria aumenta progressivamente a complexidade.
+Maria: Aconselhamos-te a leres e releres os materiais.
+Joao: Fazeres até um resumo esquematizado da matéria mais importante.
+Maria: Vais ver que consegues obter melhores resultados.
+===
+title: summary-02
+tags: task-strategy summary
+colorID: 1
+position: 235,1139
+---
+Maria: Como sabes a matéria vai ficando mais complicada.
+Joao: Que tal fazeres uma boa revisão dos conteúdos abordados?
+Maria: Isso iria ajudar-te a melhorar as tuas classificações.
+===
+title: rest-01
+tags: distraction-strategy rest
+colorID: 2
+position: 473,1147
+---
+Maria: Acompanhando os teus estudos, é bom descansares bem.
+Joao: Sem bom descanso é mais difícil aprenderes.
+Maria: Não só dormir, mas também relaxares um pouco.
+===
+title: capabilities-01
+tags: target-focused-strategy capabilities subjective-challenging reward-greater
+colorID: 2
+position: 702,1150
+---
+Joao: Como tem corrido os teus estudos?
+Maria: Notamos que tens excelentes aptidões.
+Joao: Continua o bom trabalho!
+Maria: Verás que as tuas classificações vão reflectir isso.
+===
+title: help-01
+tags: attention-strategy help
+colorID: 2
+position: 924,1152
+---
+Maria: Quero que saibas que estamos aqui para te ajudar.
+Joao: Sabemos que és capaz de conseguir cumprir os teus objectivos.
+===
+title: talk-to-tutor-01
+tags: attention-strategy talk-to-tutor
+colorID: 2
+position: 1156,1154
+---
+Joao: Sentimos que estás com muitas dificuldades.
+Maria: Achamos que devias falar com um professor ou tutor.
+Joao: Talvez te consigam dar indicações mais detalhadas.
+===
+title: capabilities-02
+tags: target-focused-strategy capabilities subjective-enjoyment reward-greater reward-as-expected
+colorID: 2
+position: 700,1369
+---
+Maria: Estamos a ver que tens gosto pela disciplina.
+Joao: Mantém essa dedicação, essa postura contribuirá para o sucesso que procuras.
+===
+title: change-view-01
+tags: cognitive-engagement-strategy chage-view
+colorID: 2
+position: 1385,1148
+---
+Maria: Notámos que estás com alguns problemas.
+Joao: Por vezes basta mudar um pouco as tuas estratégias.
+Maria: Novas perspectivas podem ser a receita para o sucesso.
+Joao: Tenta algumas estratégias novas e vais vê o que acontece.
+===
+title: believe-you-01
+tags: valuing-strategy believe-you
+colorID: 2
+position: 924,1373
+---
+Joao: Acreditamos nas tuas capacidades.
+Maria: E estamos aqui para te ajudar.
+===
