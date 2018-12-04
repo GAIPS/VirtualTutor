@@ -1,10 +1,7 @@
-﻿#if UNITY_ANDROID
-
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AndroidCalendarPlugin
 {
-
     private static AndroidCalendarPlugin _instance;
 
     public static AndroidCalendarPlugin Instance
@@ -15,9 +12,11 @@ public class AndroidCalendarPlugin
             {
                 _instance = new AndroidCalendarPlugin();
             }
+
             return _instance;
         }
     }
+#if UNITY_ANDROID
     private AndroidJavaClass calendar;
 
     private bool _hasPermissions;
@@ -44,6 +43,5 @@ public class AndroidCalendarPlugin
         Debug.Log(somestring);
         return somestring;
     }
-}
-
 #endif
+}
