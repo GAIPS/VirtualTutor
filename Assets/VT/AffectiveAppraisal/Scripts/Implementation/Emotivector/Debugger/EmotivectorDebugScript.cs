@@ -25,11 +25,11 @@ public class EmotivectorDebugScript : MonoBehaviour
 
         if (PopulateEmotivector)
         {
-            emotivector = new Emotivector(predictor, Values);
+            emotivector = new Emotivector("Data", predictor, Values);
         }
         else
         {
-            emotivector = new Emotivector(predictor);
+            emotivector = new Emotivector("Data", predictor);
         }
 
 

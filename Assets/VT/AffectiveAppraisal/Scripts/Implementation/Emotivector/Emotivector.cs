@@ -20,6 +20,8 @@ public class Emotivector
             BetterThanExpected
         }
 
+        public Emotivector Owner;
+
         public Valence valence;
         public Change change;
         public float salience;
@@ -30,18 +32,21 @@ public class Emotivector
         }
     }
 
+    public string Name;
+
     private List<float> _values, _predictions;
 
     private IPredictor _predictor;
-    
+
     public float Epsilon = 0.1f;
 
-    public Emotivector(IPredictor predictor) : this(predictor, new List<float>())
+    public Emotivector(string name, IPredictor predictor) : this(name, predictor, new List<float>())
     {
     }
 
-    public Emotivector(IPredictor predictor, List<float> values)
+    public Emotivector(string name, IPredictor predictor, List<float> values)
     {
+        Name = name;
         _predictor = predictor;
         _values = new List<float>();
         _predictions = new List<float>();
@@ -57,6 +62,7 @@ public class Emotivector
     {
         Expectancy expectancy = new Expectancy
         {
+            Owner = this,
             valence = Expectancy.Valence.Reward,
             change = Expectancy.Change.AsExpected,
             salience = 0
@@ -110,7 +116,7 @@ public class Emotivector
     {
         return _values.ToList();
     }
-    
+
     public List<float> GetPredictions()
     {
         return _predictions.ToList();

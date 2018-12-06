@@ -16,7 +16,7 @@ public class BasicStrategy : IEmpathicStrategy
         return Intentions;
     }
 
-    public bool IsValid()
+    public virtual bool IsValid()
     {
         return true;
     }

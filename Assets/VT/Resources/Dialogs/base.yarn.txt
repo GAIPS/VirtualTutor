@@ -26,10 +26,10 @@ Maria: Gostavamos de saber quantas horas despendeste para estudo da primeira ava
     <<menu inputHours>>
     <<set $af1studyhoursComplete to true>>
 ===
-title: exit
-tags: 
+title: exit-01
+tags: exit
 colorID: 0
-position: 813,254
+position: 590,786
 ---
 Joao: Parece já termos falado de tudo por hoje.
 Maria: Esperaremos por ti. Volta quando tiveres novidades.
@@ -91,14 +91,11 @@ Joao: Já sabes a tua nota?
     <<menu inputGrade>>
     <<set $af3gradesComplete to true>>
 ===
-title: welcome
-tags: 
+title: welcome-01
+tags: welcome
 colorID: 0
-position: 351,249
+position: 340,786
 ---
-<<if $loggedIn is false>>
-    <<menu LoginMenu>>
-<<endif>>
 <<if $initialWelcome is false>>
     <<Feel Maria Happiness 0.5 None>>
     <<Feel Joao Happiness 0.5 None>>
@@ -118,20 +115,23 @@ position: 351,249
         <<set $randomWelcome to false>>
     <<endif>>
 <<endif>>
+
+#[[user-login]]
 ===
-title: UserID
+title: user-login
 tags: 
 colorID: 0
-position: 574,246
+position: 340,1036
 ---
-Joao: Para começarmos vamos precisar do teu número de identificação.
-Maria: Deves ter recebido um ao preencher o formulário.
+<<if $loggedIn is false>>
+Joao: Para começarmos vamos precisar que te identifiques.
+Maria: Usa o teu nome de utilizador e password do Moodle.
 
-<<menu inputId>>
+    <<menu LoginMenu>>
+    <<set $loggedIn to true>>
 
 Joao: Muito obrigado.
-
-<<set $UserIDComplete to true>>
+<<endif>>
 ===
 title: coherentEmotions
 tags: 
@@ -158,7 +158,7 @@ Maria: Muito obrigado.
 title: summary-01
 tags: task-strategy summary
 colorID: 1
-position: 8,1141
+position: 840,786
 ---
 Joao: Como sabes a matéria aumenta progressivamente a complexidade.
 Maria: Aconselhamos-te a leres e releres os materiais.
@@ -168,7 +168,7 @@ Maria: Vais ver que consegues obter melhores resultados.
 title: summary-02
 tags: task-strategy summary
 colorID: 1
-position: 235,1139
+position: 840,1036
 ---
 Maria: Como sabes a matéria vai ficando mais complicada.
 Joao: Que tal fazeres uma boa revisão dos conteúdos abordados?
@@ -177,7 +177,7 @@ Maria: Isso iria ajudar-te a melhorar as tuas classificações.
 title: rest-01
 tags: distraction-strategy rest
 colorID: 2
-position: 473,1147
+position: 1090,786
 ---
 Maria: Acompanhando os teus estudos, é bom descansares bem.
 Joao: Sem bom descanso é mais difícil aprenderes.
@@ -186,17 +186,17 @@ Maria: Não só dormir, mas também relaxares um pouco.
 title: capabilities-01
 tags: target-focused-strategy capabilities subjective-challenging reward-greater
 colorID: 2
-position: 702,1150
+position: 1090,1036
 ---
 Joao: Como tem corrido os teus estudos?
-Maria: Notamos que tens excelentes aptidões.
+Maria: Sabemos que tens excelentes aptidões.
 Joao: Continua o bom trabalho!
 Maria: Verás que as tuas classificações vão reflectir isso.
 ===
 title: help-01
 tags: attention-strategy help
 colorID: 2
-position: 924,1152
+position: 1340,786
 ---
 Maria: Quero que saibas que estamos aqui para te ajudar.
 Joao: Sabemos que és capaz de conseguir cumprir os teus objectivos.
@@ -204,7 +204,7 @@ Joao: Sabemos que és capaz de conseguir cumprir os teus objectivos.
 title: talk-to-tutor-01
 tags: attention-strategy talk-to-tutor
 colorID: 2
-position: 1156,1154
+position: 1586,786
 ---
 Joao: Sentimos que estás com muitas dificuldades.
 Maria: Achamos que devias falar com um professor ou tutor.
@@ -213,15 +213,15 @@ Joao: Talvez te consigam dar indicações mais detalhadas.
 title: capabilities-02
 tags: target-focused-strategy capabilities subjective-enjoyment reward-greater reward-as-expected
 colorID: 2
-position: 700,1369
+position: 1090,1286
 ---
 Maria: Estamos a ver que tens gosto pela disciplina.
 Joao: Mantém essa dedicação, essa postura contribuirá para o sucesso que procuras.
 ===
 title: change-view-01
-tags: cognitive-engagement-strategy chage-view
+tags: cognitive-engagement-strategy change-view
 colorID: 2
-position: 1385,1148
+position: 1590,1036
 ---
 Maria: Notámos que estás com alguns problemas.
 Joao: Por vezes basta mudar um pouco as tuas estratégias.
@@ -231,8 +231,119 @@ Joao: Tenta algumas estratégias novas e vais vê o que acontece.
 title: believe-you-01
 tags: valuing-strategy believe-you
 colorID: 2
-position: 924,1373
+position: 1340,1036
 ---
 Joao: Acreditamos nas tuas capacidades.
 Maria: E estamos aqui para te ajudar.
+===
+title: subjective-challenging-intro-01
+tags: subjective-challenging-intro
+colorID: 3
+position: 1840,786
+---
+Maria: Gostávamos de saber a tua opinião.
+Joao: Quão díficil tens achado a disciplina?
+
+<<menu inputChallenging>>
+===
+title: subjective-enjoyment-intro-01
+tags: subjective-enjoyment-intro
+colorID: 3
+position: 2090,786
+---
+Joao: Por vezes as disciplinas pode ser complexa.
+Maria: Mas o nosso gosto pela disciplina também é importante.
+Joao: Quão gostas deste disciplina?
+
+<<menu inputEnjoyment>>
+===
+title: subjective-importance-intro-01
+tags: subjective-importance-intro
+colorID: 3
+position: 2340,786
+---
+Maria: Importância é algo que por vezes ignoramos.
+Joao: No entanto é algo que nos guia no dia-a-dia.
+Maria: Quão importante consideras esta disciplina?
+
+<<menu inputImportance>>
+===
+title: objective-performance-intro-01
+tags: objective-performance-intro online
+colorID: 3
+position: 1840,1036
+---
+Maria: Gostávamos de saber sobre as tuas notas.
+Joao: Tens alguma novidades desde a nossa última conversa?
+
+-> Não.
+    Joao: Está bem. Mais tarde perguntaremos de novo.
+-> Sim.
+    Maria: Vamos procurar actualizações online.
+    <<updateGrades>>
+    Joao: Será que temos novidades? Vamos ver...
+===
+title: objective-performance-intro-02
+tags: objective-performance-intro offline
+colorID: 3
+position: 1840,1286
+---
+Maria: Gostávamos de saber sobre as tuas notas.
+Joao: Tens alguma novidades desde a nossa última conversa?
+
+-> Não.
+    Joao: Está bem. Mais tarde perguntaremos de novo.
+-> Sim.
+    <<menu inputGrades>>
+    Joao: Obrigado. Vamos tentar dar-te algumas dicas.
+===
+title: objective-effort-intro-01
+tags: objective-effort-intro online
+colorID: 3
+position: 2090,1036
+---
+Maria: Gostávamos de saber sobre os teus estudos.
+Joao: Vamos procurar actualizações online.
+<<updateEffort>>
+Joao: Será que temos novidades?
+Maria: Vamos tentar dar-te algumas dicas.
+===
+title: objective-effort-intro-02
+tags: objective-effort-intro offline
+colorID: 3
+position: 2090,1286
+---
+Maria: Gostávamos de saber sobre os teus estudos.
+Joao: Tens alguma novidades desde a nossa última conversa?
+
+-> Não.
+    Joao: Está bem. Mais tarde perguntaremos de novo.
+-> Sim.
+    <<menu inputHours>>
+    Joao: Obrigado. Vamos tentar dar-te algumas dicas.
+===
+title: objective-engagement-intro-01
+tags: objective-engagement-intro online
+colorID: 3
+position: 2340,1036
+---
+Maria: Gostávamos de saber sobre a tua assiduidade.
+Joao: Vamos procurar actualizações online.
+<<updateEngagement>>
+Joao: Será que temos novidades?
+Maria: Vamos tentar dar-te algumas dicas.
+===
+title: objective-engagement-intro-02
+tags: objective-engagement-intro offline
+colorID: 3
+position: 2340,1286
+---
+Maria: Gostávamos de saber sobre a tua assiduidade.
+Joao: Tens alguma novidades desde a nossa última conversa?
+
+-> Não.
+    Joao: Está bem. Mais tarde perguntaremos de novo.
+-> Sim.
+    <<menu inputEngagement>>
+    Joao: Obrigado. Vamos tentar dar-te algumas dicas.
 ===

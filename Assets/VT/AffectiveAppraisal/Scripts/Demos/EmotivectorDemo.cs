@@ -41,11 +41,11 @@ public class EmotivectorDemo : MonoBehaviour
             IPredictor predictor = new AdditiveSecondDerivativePredictor(new WeightedMovingAveragePredictor(),
                 new WeightedMovingAveragePredictor(), new WeightedMovingAveragePredictor());
             {
-                AffectiveUpdater updater = new GradesAffectiveUpdater {Emotivector = new Emotivector(predictor)};
+                AffectiveUpdater updater = new GradesAffectiveUpdater {Emotivector = new Emotivector("Grades", predictor)};
                 appraisal.AddUpdater(updater);
             }
             {
-                AffectiveUpdater updater = new StudyHoursAffectiveUpdater {Emotivector = new Emotivector(predictor)};
+                AffectiveUpdater updater = new StudyHoursAffectiveUpdater {Emotivector = new Emotivector("StudyHours", predictor)};
                 appraisal.AddUpdater(updater);
             }
             _manager.AffectiveAppraisal = appraisal;

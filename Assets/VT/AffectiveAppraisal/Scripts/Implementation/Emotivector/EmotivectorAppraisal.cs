@@ -49,6 +49,7 @@ public class EmotivectorAppraisal : IAffectiveAppraisal
         if (expectancies.Count > 0)
         {
             _strongestExpectancy = expectancies[0];
+            history.Set("Expectancy", _strongestExpectancy);
         }
 
         // Predict new values
