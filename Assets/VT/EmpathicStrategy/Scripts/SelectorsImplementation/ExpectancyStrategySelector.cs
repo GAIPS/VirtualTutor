@@ -37,6 +37,7 @@ public class ExpectancyStrategySelector : IEmpathicStrategySelector
         else
         {
             // IF emotivector woke then choose strategy
+            // TODO Deal with emotivector
             
             // ELSE choose interaction strategy
             if (_shownStrategies > NumStrategiesPerDay)

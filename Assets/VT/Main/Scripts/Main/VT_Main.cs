@@ -58,12 +58,12 @@ public class VT_Main : MonoBehaviour
                 new WeightedMovingAveragePredictor(), new WeightedMovingAveragePredictor());
             {
                 AffectiveUpdater updater = new GradesAffectiveUpdater
-                    {Emotivector = new Emotivector("Grades", predictor)};
+                    {Emotivector = new Emotivector("objective-performance", predictor)};
                 appraisal.AddUpdater(updater);
             }
             {
                 AffectiveUpdater updater = new StudyHoursAffectiveUpdater
-                    {Emotivector = new Emotivector("StudyHours", predictor)};
+                    {Emotivector = new Emotivector("objective-engagement", predictor)};
                 appraisal.AddUpdater(updater);
             }
             // TODO Add updaters to all the metrics
