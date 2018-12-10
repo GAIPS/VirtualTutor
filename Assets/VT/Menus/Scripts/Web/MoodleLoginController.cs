@@ -68,13 +68,23 @@ public class MoodleLoginController : IControl
             _webManager.Login(username, password, success =>
             {
                 DebugLog.Log("Logged in successefully? " + success.ToString());
-                if (!success) return;
+                if (!success)
+                {
+                    _hook.CompleteLogin("O nome de utlizador ou password estão incorrectos.");
+                    return;
+                }
+                
+                var state = PersistentDataStorage.Instance.GetState();
+
+                state["UserID"] = username;
+                PersistentDataStorage.Instance.SaveState();
                 
                 _webManager.RetrieveData(username, (percentage, message) =>
                 {
                     DebugLog.Log("Progress: " + percentage * 100f + " | " + message);
                     if (percentage == 1f)
                     {
+                        _hook.CompleteLogin();
                         Disable();
                     }
                 });

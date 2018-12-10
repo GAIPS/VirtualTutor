@@ -116,7 +116,7 @@ position: 340,786
     <<endif>>
 <<endif>>
 
-#[[user-login]]
+[[user-login]]
 ===
 title: user-login
 tags: 
@@ -271,7 +271,7 @@ Maria: Quão importante consideras esta disciplina?
 title: objective-performance-intro-01
 tags: objective-performance-intro online
 colorID: 3
-position: 1840,1036
+position: 1840,1035
 ---
 Maria: Gostávamos de saber sobre as tuas notas.
 Joao: Tens alguma novidades desde a nossa última conversa?

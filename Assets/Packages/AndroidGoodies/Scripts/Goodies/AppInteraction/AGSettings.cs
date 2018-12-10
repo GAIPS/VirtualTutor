@@ -488,7 +488,7 @@ namespace DeadMosquito.AndroidGoodies {
             }
         }
 
-        // TODO Window Brightness
+        // aTODO Window Brightness
         // WindowManager.LayoutParams layout = getWindow().getAttributes();
         // layout.screenBrightness = 1F;
         // getWindow().setAttributes(layout);

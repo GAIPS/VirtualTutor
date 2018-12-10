@@ -44,7 +44,7 @@
  *   parsing now happens at parsing time and not when you actually access one of the casting properties.
  * 
  * [2017-04-11 Update]
- * - Fixed parsing bug where empty string values have been ignored.
+ * - Fixed parsing abug where empty string values have been ignored.
  * - Optimised "ToString" by using a StringBuilder internally. This should heavily improve performance for large files
  * - Changed the overload of "ToString(string aIndent)" to "ToString(int aIndent)"
  * 

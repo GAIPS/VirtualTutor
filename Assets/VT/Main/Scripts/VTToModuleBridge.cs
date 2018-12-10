@@ -274,10 +274,11 @@ public class VTToModuleBridge : MonoBehaviour
             Debug.Log(String.Format("[{0}] are not valid arguments for this command", string.Join(", ", arguments)));
     }
 
+    // TODO Implement MoveEyes method
     private void MoveEyes(string[] arguments)
     {
         throw new NotImplementedException();
-    } //TODO
+    }
 
     public void Feel(Tutor tutor)
     {

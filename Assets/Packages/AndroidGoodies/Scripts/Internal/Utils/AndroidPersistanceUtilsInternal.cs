@@ -13,7 +13,7 @@ namespace DeadMosquito.AndroidGoodies.Internal {
 
         public static AndroidJavaObject SaveShareImageToExternalStorage(Texture2D tex2D)
         {
-            // TODO update : http://stackoverflow.com/questions/38200282/android-os-fileuriexposedexception-file-storage-emulated-0-test-txt-exposed
+            // aTODO update : http://stackoverflow.com/questions/38200282/android-os-fileuriexposedexception-file-storage-emulated-0-test-txt-exposed
             string saveFilePath = SaveImageToPictures(tex2D, GoodiesShareImageFileName, GoodiesFileFolder, ImageFormat.PNG);
             AndroidJavaObject uri;
             if (AGDeviceInfo.SDK_INT >= AGDeviceInfo.VersionCodes.N)

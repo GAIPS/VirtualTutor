@@ -139,14 +139,14 @@ public class WebserviceLogin
         yield return www;
         String content = www.text;
 
-        var storage = PersistentDataStorage.Instance;
-        var state = storage.GetState();
-        state["Moodle"].AsObject["Users"] = JSONNode.Parse(content);
-        JSONNode users = JSONNode.Parse(content)["users"];
-        if (users != null && users.Count > 0)
-        {
-            state["Moodle"].AsObject["users"].AsObject.Add(users["users"][0]["id"],users["users"][0]);
-        }
+//        var storage = PersistentDataStorage.Instance;
+//        var state = storage.GetState();
+//        state["Moodle"].AsObject["Users"] = JSONNode.Parse(content);
+//        JSONNode users = JSONNode.Parse(content)["users"];
+//        if (users != null && users.Count > 0)
+//        {
+//            state["Moodle"].AsObject["users"].AsObject.Add(users["users"][0]["id"],users["users"][0]);
+//        }
 
         Values v = JsonUtility.FromJson<Values>(content);
 

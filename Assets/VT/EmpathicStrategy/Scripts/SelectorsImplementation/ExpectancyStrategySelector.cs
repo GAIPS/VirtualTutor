@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
+using Utilities;
 
 public class ExpectancyStrategySelector : IEmpathicStrategySelector
 {
@@ -38,25 +40,32 @@ public class ExpectancyStrategySelector : IEmpathicStrategySelector
         {
             // IF emotivector woke then choose strategy
             // TODO Deal with emotivector
-            
-            // ELSE choose interaction strategy
-            if (_shownStrategies > NumStrategiesPerDay)
+            var expectancy = history.Get<Emotivector.Expectancy>("Expectancy");
+            if (expectancy != null)
             {
-                SelectedStrategy = GetStrategyByName(strategies, "exit");
+                DebugLog.Log("Received Expectancy");
             }
             else
             {
-                List<IEmpathicStrategy> introStrategies = GetStrategiesContainsName(strategies, "intro");
-                // Randomize List
-                introStrategies = introStrategies.OrderBy(a => Guid.NewGuid()).ToList();
-                foreach (var introStrategy in introStrategies)
+                // ELSE choose interaction strategy
+                if (_shownStrategies >= NumStrategiesPerDay)
                 {
-                    if (introStrategy.IsValid() && !PlayedStrategies.Contains(introStrategy.Name))
+                    SelectedStrategy = GetStrategyByName(strategies, "exit");
+                }
+                else
+                {
+                    List<IEmpathicStrategy> introStrategies = GetStrategiesContainsName(strategies, "intro");
+                    // Randomize List
+                    introStrategies = introStrategies.OrderBy(a => Guid.NewGuid()).ToList();
+                    foreach (var introStrategy in introStrategies)
                     {
-                        PlayedStrategies.Add(introStrategy.Name);
-                        ++_shownStrategies;
-                        SelectedStrategy = introStrategy;
-                        break;
+                        if (introStrategy.IsValid() && !PlayedStrategies.Contains(introStrategy.Name))
+                        {
+                            PlayedStrategies.Add(introStrategy.Name);
+                            ++_shownStrategies;
+                            SelectedStrategy = introStrategy;
+                            break;
+                        }
                     }
                 }
             }

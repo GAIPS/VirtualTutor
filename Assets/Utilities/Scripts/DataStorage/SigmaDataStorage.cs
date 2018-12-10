@@ -33,9 +33,9 @@ public class SigmaDataStorage : IDataStorage
         if (state["UserID"] == null) return;
 
         // TODO Refractor code
-        int id = state["UserID"];
+        string id = state["UserID"];
         string file = state.ToString();
-        string filename = "user" + id + ".json";
+        string filename = "user-" + id + ".json";
         string urlAddress = "http://web.tecnico.ulisboa.pt/ist173960/VTUploadFiles/FileReceiver.php?filename=" +
                             filename + "&file=" +
                             file;

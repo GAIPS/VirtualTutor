@@ -25,7 +25,7 @@ namespace DeadMosquito.AndroidGoodies {
             return theme == ThemeDefault;
         }
 
-        // Bug with date picker: http://stackoverflow.com/questions/38315419/unity-android-datepicker-size-on-nexus-7-2-gen
+        // aBug with date picker: http://stackoverflow.com/questions/38315419/unity-android-datepicker-size-on-nexus-7-2-gen
         public static int GetDialogTheme(AGDialogTheme theme)
         {
             if (theme == AGDialogTheme.Default) { return ThemeDefault; }

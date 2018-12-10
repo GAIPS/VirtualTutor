@@ -6,7 +6,7 @@ using Utilities;
 
 namespace YarnDialog
 {
-    public class TagYarnDialogSelector: IDialogSelector
+    public class TagYarnDialogSelector : IDialogSelector
     {
         public Yarn.VariableStorage VariableStorage;
 
@@ -17,14 +17,8 @@ namespace YarnDialog
             VariableStorage = variableStorage;
             Dialogue = new Yarn.Dialogue(VariableStorage)
             {
-                LogDebugMessage = delegate (string message)
-                {
-                    DebugLog.Log(message);
-                },
-                LogErrorMessage = delegate (string message)
-                {
-                    DebugLog.Err(message);
-                }
+                LogDebugMessage = delegate(string message) { DebugLog.Log(message); },
+                LogErrorMessage = delegate(string message) { DebugLog.Err(message); }
             };
         }
 
@@ -51,6 +45,7 @@ namespace YarnDialog
                 DebugLog.Warn("Intention is null. Returning null.");
                 return null;
             }
+
             // Get all nodes
             IEnumerable<string> allNodes = Dialogue.allNodes;
             // Select a dialog tree
@@ -59,6 +54,7 @@ namespace YarnDialog
             {
                 DebugLog.Warn("No Dialog Tree was created. Returning null. Given intention is " + intention.Name);
             }
+
             return dialogTree;
         }
 
@@ -73,25 +69,31 @@ namespace YarnDialog
         /// <returns>Dialog tree that contains information on which start node to begin from.</returns>
         protected virtual YarnDialogTree SelectDialogYarn(History history, Intention intention, List<string> startNodes)
         {
-            var potencialNodes = new List<string>(); 
+            var potencialNodes = new List<string>();
             // Filter by name
             foreach (string node in startNodes)
             {
                 var tags = Dialogue.GetTagsForNode(node);
-                foreach (var tag in tags)
+                var tagsList = tags.ToList();
+                // TODO Remove to use Moodle
+                if (tagsList.Contains("online")) continue;
+                foreach (var tag in tagsList)
                 {
                     if (intention.Name.ToLower().Contains(tag.ToLower()))
                     {
+                        // a node can be inserted several times, the more tags that match with the name the more it is inserted.
                         potencialNodes.Add(node);
                     }
                 }
             }
 
             if (potencialNodes.Count == 0) return null;
-            
+
+            // Shuffle list
             potencialNodes = potencialNodes.OrderBy(a => Guid.NewGuid()).ToList();
+            // pick first
             string n = potencialNodes[0];
-            
+
             return new YarnDialogTree(Dialogue, n);
         }
     }
