@@ -63,6 +63,11 @@ public class VT_Main : MonoBehaviour
             }
             {
                 AffectiveUpdater updater = new StudyHoursAffectiveUpdater
+                    {Emotivector = new Emotivector("objective-effort", predictor)};
+                appraisal.AddUpdater(updater);
+            }
+            {
+                AffectiveUpdater updater = new VisitsAffectiveUpdater
                     {Emotivector = new Emotivector("objective-engagement", predictor)};
                 appraisal.AddUpdater(updater);
             }

@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d002bc32eb050e84287d63fa0c99ea88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StoreDataOnline: 0
+  StoreDataOnline: 1
   TutorsPersonality:
   - {fileID: 4900000, guid: e819de7e2b4f37f488d6d83ac0ba3faf, type: 3}
   - {fileID: 4900000, guid: 5c0b2ca391cc02d4da2e8869cf965a44, type: 3}
@@ -82,8 +82,7 @@ MonoBehaviour:
   _menuPrefabs:
   - {fileID: 1175077800959060, guid: b36251713e8648e4cb1a47caccfa9b3a, type: 2}
   - {fileID: 1699554924246076, guid: 844dfc1443153b44b92484ac4e25a3d1, type: 2}
-  - {fileID: 1178870396667558, guid: b315464972f4e2f48abb87a1ca26e968, type: 2}
-  - {fileID: 1722327480681398, guid: 4f90ce190eb5c93439563fd04d301841, type: 2}
+  - {fileID: 1520171941591598, guid: 43ad13757030c45248828b263173028e, type: 2}
+  - {fileID: 1368588589422096, guid: a2ba5d75d3b7c45b89b836433b8cd417, type: 2}
   - {fileID: 1486620034221576, guid: 84065411419274ecabf9c6f2a0fdb538, type: 2}
   - {fileID: 1887858068553942, guid: 0d76a34c812ce467093a76f184799430, type: 2}
-  - {fileID: 1368588589422096, guid: a2ba5d75d3b7c45b89b836433b8cd417, type: 2}

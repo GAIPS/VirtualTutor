@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(AnimationHook))]
-public class InputHoursMenu : MonoBehaviour
+public class InputVisitsMenu : MonoBehaviour
 {
-    private float _hours;
+    private float _visits;
 
     [SerializeField] private GameObject _confirmButton;
 
@@ -18,14 +18,14 @@ public class InputHoursMenu : MonoBehaviour
 
         if (_confirmButton) _confirmButton.SetActive(true);
 
-        _hours = Convert.ToSingle(gradeString);
-        if (_hours > 16)
+        _visits = Convert.ToSingle(gradeString);
+        if (_visits > 50)
         {
-            _hours = 16;
+            _visits = 50;
         }
-        else if (_hours < 0)
+        else if (_visits < 0)
         {
-            _hours = 0;
+            _visits = 0;
         }
     }
 
@@ -36,7 +36,7 @@ public class InputHoursMenu : MonoBehaviour
         {
             var state = PersistentDataStorage.Instance.GetState();
 
-            state["Hours"].AsArray.Add(_hours);
+            state["Visits"].AsArray.Add(_visits);
             PersistentDataStorage.Instance.SaveState();
         }
 

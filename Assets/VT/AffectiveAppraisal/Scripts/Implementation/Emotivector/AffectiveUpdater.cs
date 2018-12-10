@@ -66,12 +66,12 @@ public class ValuesCheckAffectiveUpdater : AffectiveUpdater
 
 public class GradesAffectiveUpdater : AffectiveUpdater
 {
-    private int _gradesCount = 0;
+    private int _gradesCount;
 
     public override Emotivector Update(History history, User user)
     {
         if (Emotivector == null || history == null) return null;
-        
+
         var state = PersistentDataStorage.Instance.GetState();
         JSONArray grades = state["Grades"].AsArray;
 
@@ -87,8 +87,6 @@ public class GradesAffectiveUpdater : AffectiveUpdater
             // Don't predict the last addition
             Emotivector.AddValue(MathUtils.Normalize(grades[i], 0f, 20f));
             _gradesCount = grades.Count;
-            
-            DebugLog.Log("Found new Grades!");
 
             return Emotivector;
         }
@@ -99,7 +97,7 @@ public class GradesAffectiveUpdater : AffectiveUpdater
 
 public class StudyHoursAffectiveUpdater : AffectiveUpdater
 {
-    private int _hoursCount = 0;
+    private int _hoursCount;
 
     public override Emotivector Update(History history, User user)
     {
@@ -110,7 +108,6 @@ public class StudyHoursAffectiveUpdater : AffectiveUpdater
 
         if (_hoursCount < hours.Count)
         {
-
             int i;
             for (i = _hoursCount; i < hours.Count - 1; i++)
             {
@@ -121,6 +118,37 @@ public class StudyHoursAffectiveUpdater : AffectiveUpdater
             // Don't predict the last addition
             Emotivector.AddValue(MathUtils.Normalize(hours[i], 0f, 16f));
             _hoursCount = hours.Count;
+
+            return Emotivector;
+        }
+
+        return null;
+    }
+}
+
+public class VisitsAffectiveUpdater : AffectiveUpdater
+{
+    private int _hoursCount;
+
+    public override Emotivector Update(History history, User user)
+    {
+        if (Emotivector == null || history == null) return null;
+
+        var state = PersistentDataStorage.Instance.GetState();
+        JSONArray visits = state["Visits"].AsArray;
+
+        if (_hoursCount < visits.Count)
+        {
+            int i;
+            for (i = _hoursCount; i < visits.Count - 1; i++)
+            {
+                Emotivector.AddValue(MathUtils.Normalize(visits[i], 0f, 50f));
+                Emotivector.Predict();
+            }
+
+            // Don't predict the last addition
+            Emotivector.AddValue(MathUtils.Normalize(visits[i], 0f, 50f));
+            _hoursCount = visits.Count;
 
             return Emotivector;
         }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using Utilities;
 
 public class ExpectancyStrategySelector : IEmpathicStrategySelector
@@ -9,10 +8,26 @@ public class ExpectancyStrategySelector : IEmpathicStrategySelector
     public int NumStrategiesPerDay = 2;
     private bool _shownIntro = false;
     private int _shownStrategies;
-    
+
+    public int ShownStrategies
+    {
+        get { return _shownStrategies; }
+        set
+        {
+            _shownStrategies = value;
+
+            var state = PersistentDataStorage.Instance.GetState();
+            state["DailyTask"].AsObject["ShownStrategies"].AsObject[DateTime.Now.ToShortDateString()] =
+                Convert.ToInt32(_shownStrategies);
+
+            PersistentDataStorage.Instance.SaveState();
+        }
+    }
+
     public HashSet<string> PlayedStrategies = new HashSet<string>();
 
     private IEmpathicStrategy _selectedStrategy;
+
     private IEmpathicStrategy SelectedStrategy
     {
         get { return _selectedStrategy; }
@@ -22,15 +37,24 @@ public class ExpectancyStrategySelector : IEmpathicStrategySelector
             _selectIntentIndex = 0;
         }
     }
+
     private int _selectIntentIndex;
-    
+
+    public ExpectancyStrategySelector()
+    {
+        // TODO remove comments for release
+//        var state = PersistentDataStorage.Instance.GetState();
+//        _shownStrategies = state["DailyTask"].AsObject["ShownStrategies"].AsObject[DateTime.Now.ToShortDateString()]
+//            .AsInt;
+    }
+
     public Intention SelectIntention(History history, ICollection<IEmpathicStrategy> strategies, User user)
     {
         if (SelectedStrategy != null)
         {
             return GetNextIntention();
         }
-        
+
         if (!_shownIntro)
         {
             SelectedStrategy = GetStrategyByName(strategies, "welcome");
@@ -43,7 +67,27 @@ public class ExpectancyStrategySelector : IEmpathicStrategySelector
             var expectancy = history.Get<Emotivector.Expectancy>("Expectancy");
             if (expectancy != null)
             {
-                DebugLog.Log("Received Expectancy");
+                string name = expectancy.Owner.Name.ToLower(),
+                    valence = expectancy.valence.ToString().ToLower(),
+                    change;
+                switch (expectancy.change)
+                {
+                    case Emotivector.Expectancy.Change.BetterThanExpected:
+                        change = "greater";
+                        break;
+                    case Emotivector.Expectancy.Change.WorseThanExpected:
+                        change = "lesser";
+                        break;
+                    case Emotivector.Expectancy.Change.AsExpected:
+                    // Waterfall
+                    default:
+                        change = "as-expected";
+                        break;
+                }
+
+                SelectedStrategy = GetStrategyByName(strategies,
+                    name + "-" + valence + "-" + change);
+                history.Set("Expectancy", null);
             }
             else
             {
@@ -62,7 +106,7 @@ public class ExpectancyStrategySelector : IEmpathicStrategySelector
                         if (introStrategy.IsValid() && !PlayedStrategies.Contains(introStrategy.Name))
                         {
                             PlayedStrategies.Add(introStrategy.Name);
-                            ++_shownStrategies;
+                            ++ShownStrategies;
                             SelectedStrategy = introStrategy;
                             break;
                         }
@@ -70,7 +114,7 @@ public class ExpectancyStrategySelector : IEmpathicStrategySelector
                 }
             }
         }
-        
+
         return GetNextIntention();
     }
 

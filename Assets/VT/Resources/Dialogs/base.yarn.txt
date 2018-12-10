@@ -184,7 +184,7 @@ Joao: Sem bom descanso é mais difícil aprenderes.
 Maria: Não só dormir, mas também relaxares um pouco.
 ===
 title: capabilities-01
-tags: target-focused-strategy capabilities subjective-challenging reward-greater
+tags: target-focused-strategy capabilities subjective-challenging-wip reward-greater-wip
 colorID: 2
 position: 1090,1036
 ---
@@ -211,7 +211,7 @@ Maria: Achamos que devias falar com um professor ou tutor.
 Joao: Talvez te consigam dar indicações mais detalhadas.
 ===
 title: capabilities-02
-tags: target-focused-strategy capabilities subjective-enjoyment reward-greater reward-as-expected
+tags: target-focused-strategy capabilities subjective-enjoyment-wip reward-greater-wip reward-as-expected-wip
 colorID: 2
 position: 1090,1286
 ---
@@ -294,7 +294,7 @@ Joao: Tens alguma novidades desde a nossa última conversa?
 -> Não.
     Joao: Está bem. Mais tarde perguntaremos de novo.
 -> Sim.
-    <<menu inputGrades>>
+    <<menu inputGrade>>
     Joao: Obrigado. Vamos tentar dar-te algumas dicas.
 ===
 title: objective-effort-intro-01
@@ -336,7 +336,7 @@ Maria: Vamos tentar dar-te algumas dicas.
 title: objective-engagement-intro-02
 tags: objective-engagement-intro offline
 colorID: 3
-position: 2340,1286
+position: 2339,1286
 ---
 Maria: Gostávamos de saber sobre a tua assiduidade.
 Joao: Tens alguma novidades desde a nossa última conversa?
@@ -344,6 +344,6 @@ Joao: Tens alguma novidades desde a nossa última conversa?
 -> Não.
     Joao: Está bem. Mais tarde perguntaremos de novo.
 -> Sim.
-    <<menu inputEngagement>>
+    <<menu inputVisits>>
     Joao: Obrigado. Vamos tentar dar-te algumas dicas.
 ===
