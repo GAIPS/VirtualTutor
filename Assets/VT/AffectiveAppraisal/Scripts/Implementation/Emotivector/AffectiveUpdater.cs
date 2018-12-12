@@ -64,29 +64,42 @@ public class ValuesCheckAffectiveUpdater : AffectiveUpdater
     }
 }
 
-public class GradesAffectiveUpdater : AffectiveUpdater
+public class NamedArrayAffectiveUpdater : AffectiveUpdater
 {
-    private int _gradesCount;
+    private int _count;
+
+    public string Name { get; set; }
+
+    public float Min { get; set; }
+
+    public float Max { get; set; }
+
+    public NamedArrayAffectiveUpdater(string name, float min, float max)
+    {
+        Name = name;
+        Min = min;
+        Max = max;
+    }
 
     public override Emotivector Update(History history, User user)
     {
-        if (Emotivector == null || history == null) return null;
+        if (Emotivector == null) return null;
 
         var state = PersistentDataStorage.Instance.GetState();
-        JSONArray grades = state["Grades"].AsArray;
+        JSONArray values = state[Name].AsArray;
 
-        if (_gradesCount < grades.Count)
+        if (_count < values.Count)
         {
             int i;
-            for (i = _gradesCount; i < grades.Count - 1; i++)
+            for (i = _count; i < values.Count - 1; i++)
             {
-                Emotivector.AddValue(MathUtils.Normalize(grades[i], 0f, 20f));
+                Emotivector.AddValue(MathUtils.Normalize(values[i], Min, Max));
                 Emotivector.Predict();
             }
 
             // Don't predict the last addition
-            Emotivector.AddValue(MathUtils.Normalize(grades[i], 0f, 20f));
-            _gradesCount = grades.Count;
+            Emotivector.AddValue(MathUtils.Normalize(values[i], Min, Max));
+            _count = values.Count;
 
             return Emotivector;
         }
@@ -95,64 +108,63 @@ public class GradesAffectiveUpdater : AffectiveUpdater
     }
 }
 
-public class StudyHoursAffectiveUpdater : AffectiveUpdater
+public class NamedDatedArrayAffectiveUpdater : AffectiveUpdater
 {
-    private int _hoursCount;
+    private int _count;
+
+    public string Name { get; set; }
+
+    public float Min { get; set; }
+
+    public float Max { get; set; }
+
+    public NamedDatedArrayAffectiveUpdater(string name, float min, float max)
+    {
+        Name = name;
+        Min = min;
+        Max = max;
+    }
 
     public override Emotivector Update(History history, User user)
     {
-        if (Emotivector == null || history == null) return null;
+        if (Emotivector == null) return null;
 
-        var state = PersistentDataStorage.Instance.GetState();
-        JSONArray hours = state["Hours"].AsArray;
+        var values = GetListFromValues();
 
-        if (_hoursCount < hours.Count)
+        if (_count < values.Count)
         {
             int i;
-            for (i = _hoursCount; i < hours.Count - 1; i++)
+            for (i = _count; i < values.Count - 1; i++)
             {
-                Emotivector.AddValue(MathUtils.Normalize(hours[i], 0f, 16f));
+                Emotivector.AddValue(MathUtils.Normalize(values[i], Min, Max));
                 Emotivector.Predict();
             }
 
             // Don't predict the last addition
-            Emotivector.AddValue(MathUtils.Normalize(hours[i], 0f, 16f));
-            _hoursCount = hours.Count;
+            Emotivector.AddValue(MathUtils.Normalize(values[i], Min, Max));
+            _count = values.Count;
 
             return Emotivector;
         }
 
         return null;
     }
-}
 
-public class VisitsAffectiveUpdater : AffectiveUpdater
-{
-    private int _hoursCount;
-
-    public override Emotivector Update(History history, User user)
+    private List<float> GetListFromValues()
     {
-        if (Emotivector == null || history == null) return null;
-
         var state = PersistentDataStorage.Instance.GetState();
-        JSONArray visits = state["Visits"].AsArray;
+        var jsonValues = state["DailyTask"].AsObject["InputSubjective"].AsObject;
+        var values = new List<float>();
 
-        if (_hoursCount < visits.Count)
+        for (int i = 0; i < jsonValues.Count; i++)
         {
-            int i;
-            for (i = _hoursCount; i < visits.Count - 1; i++)
+            JSONNode node = jsonValues[i];
+            if (node[Name] != null)
             {
-                Emotivector.AddValue(MathUtils.Normalize(visits[i], 0f, 50f));
-                Emotivector.Predict();
+                values.Add(node[Name]);
             }
-
-            // Don't predict the last addition
-            Emotivector.AddValue(MathUtils.Normalize(visits[i], 0f, 50f));
-            _hoursCount = visits.Count;
-
-            return Emotivector;
         }
 
-        return null;
+        return values;
     }
 }

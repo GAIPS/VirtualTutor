@@ -63,7 +63,6 @@ public class ExpectancyStrategySelector : IEmpathicStrategySelector
         else
         {
             // IF emotivector woke then choose strategy
-            // TODO Deal with emotivector
             var expectancy = history.Get<Emotivector.Expectancy>("Expectancy");
             if (expectancy != null)
             {

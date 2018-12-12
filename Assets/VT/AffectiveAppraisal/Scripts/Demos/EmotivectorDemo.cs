@@ -41,11 +41,13 @@ public class EmotivectorDemo : MonoBehaviour
             IPredictor predictor = new AdditiveSecondDerivativePredictor(new WeightedMovingAveragePredictor(),
                 new WeightedMovingAveragePredictor(), new WeightedMovingAveragePredictor());
             {
-                AffectiveUpdater updater = new GradesAffectiveUpdater {Emotivector = new Emotivector("Grades", predictor)};
+                AffectiveUpdater updater = new NamedArrayAffectiveUpdater("Grades", 0, 20)
+                    {Emotivector = new Emotivector("Grades", predictor)};
                 appraisal.AddUpdater(updater);
             }
             {
-                AffectiveUpdater updater = new StudyHoursAffectiveUpdater {Emotivector = new Emotivector("StudyHours", predictor)};
+                AffectiveUpdater updater = new NamedArrayAffectiveUpdater("Hours", 0, 16)
+                    {Emotivector = new Emotivector("StudyHours", predictor)};
                 appraisal.AddUpdater(updater);
             }
             _manager.AffectiveAppraisal = appraisal;
@@ -58,7 +60,7 @@ public class EmotivectorDemo : MonoBehaviour
             strategy.Intentions.Add(new Intention("demo"));
             _manager.Strategies.Add(strategy);
         }
-        
+
         // Setup Dialog Selector
         if (YarnDialogDatabase != null)
         {

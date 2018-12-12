@@ -57,21 +57,35 @@ public class VT_Main : MonoBehaviour
             IPredictor predictor = new AdditiveSecondDerivativePredictor(new WeightedMovingAveragePredictor(),
                 new WeightedMovingAveragePredictor(), new WeightedMovingAveragePredictor());
             {
-                AffectiveUpdater updater = new GradesAffectiveUpdater
+                AffectiveUpdater updater = new NamedArrayAffectiveUpdater("Grades", 0, 20)
                     {Emotivector = new Emotivector("objective-performance", predictor)};
                 appraisal.AddUpdater(updater);
             }
             {
-                AffectiveUpdater updater = new StudyHoursAffectiveUpdater
+                AffectiveUpdater updater = new NamedArrayAffectiveUpdater("Hours", 0, 16)
                     {Emotivector = new Emotivector("objective-effort", predictor)};
                 appraisal.AddUpdater(updater);
             }
             {
-                AffectiveUpdater updater = new VisitsAffectiveUpdater
+                AffectiveUpdater updater = new NamedArrayAffectiveUpdater("Visits", 0, 50)
                     {Emotivector = new Emotivector("objective-engagement", predictor)};
                 appraisal.AddUpdater(updater);
             }
-            // TODO Add updaters to all the metrics
+            {
+                AffectiveUpdater updater = new NamedDatedArrayAffectiveUpdater("Challenge", 0, 4)
+                    {Emotivector = new Emotivector("subjective-challenging", predictor)};
+                appraisal.AddUpdater(updater);
+            }
+            {
+                AffectiveUpdater updater = new NamedDatedArrayAffectiveUpdater("Enjoyment", 0, 4)
+                    {Emotivector = new Emotivector("subjective-enjoyment", predictor)};
+                appraisal.AddUpdater(updater);
+            }
+            {
+                AffectiveUpdater updater = new NamedDatedArrayAffectiveUpdater("Importance", 0, 4)
+                    {Emotivector = new Emotivector("subjective-importance", predictor)};
+                appraisal.AddUpdater(updater);
+            }
             _manager.AffectiveAppraisal = appraisal;
         }
 
