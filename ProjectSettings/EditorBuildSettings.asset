@@ -8,12 +8,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/VT/Main/Scenes/Preview.unity
     guid: 849f7c10f567cd64fab9408fe8430d46
-  - enabled: 0
-    path: Assets/VT/Main/Scenes/VT_Main_Old.unity
-    guid: dfa2586220dbc45e0ac8e6db7d7640ef
+  - enabled: 1
+    path: Assets/VT/Main/Scenes/VT_Main.unity
+    guid: 46bfd26c07ea7ed42bf405f7ed312f60
   - enabled: 0
     path: Assets/VT/AffectiveAppraisal/Scenes/Emotivector/EmotivectorDemo.unity
     guid: 14e73153781966b47a4ec83f5b1d4c5d
-  - enabled: 1
+  - enabled: 0
     path: Assets/Packages/AndroidCalendarPlugin/Scenes/Example.unity
     guid: cfa791fbe978b01479f115c14025acc4

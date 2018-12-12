@@ -34,6 +34,8 @@ position: 590,786
 Joao: Parece já termos falado de tudo por hoje.
 Maria: Esperaremos por ti. Volta quando tiveres novidades.
 
+<<wait 3>>
+
 <<exit>>
 ===
 title: af2grades
@@ -188,7 +190,6 @@ tags: target-focused-strategy capabilities subjective-challenging-wip reward-gre
 colorID: 2
 position: 1090,1036
 ---
-Joao: Como tem corrido os teus estudos?
 Maria: Sabemos que tens excelentes aptidões.
 Joao: Continua o bom trabalho!
 Maria: Verás que as tuas classificações vão reflectir isso.

@@ -79,6 +79,11 @@ public class NamedArrayAffectiveUpdater : AffectiveUpdater
         Name = name;
         Min = min;
         Max = max;
+        
+        
+        var state = PersistentDataStorage.Instance.GetState();
+        JSONArray values = state[Name].AsArray;
+        _count = values.Count;
     }
 
     public override Emotivector Update(History history, User user)
@@ -86,6 +91,7 @@ public class NamedArrayAffectiveUpdater : AffectiveUpdater
         if (Emotivector == null) return null;
 
         var state = PersistentDataStorage.Instance.GetState();
+        // TODO HACK
         JSONArray values = state[Name].AsArray;
 
         if (_count < values.Count)
@@ -123,6 +129,10 @@ public class NamedDatedArrayAffectiveUpdater : AffectiveUpdater
         Name = name;
         Min = min;
         Max = max;
+        
+        
+        var values = GetListFromValues();
+        _count = values.Count;
     }
 
     public override Emotivector Update(History history, User user)
@@ -153,6 +163,7 @@ public class NamedDatedArrayAffectiveUpdater : AffectiveUpdater
     private List<float> GetListFromValues()
     {
         var state = PersistentDataStorage.Instance.GetState();
+        // TODO HACK
         var jsonValues = state["DailyTask"].AsObject["InputSubjective"].AsObject;
         var values = new List<float>();
 
