@@ -43,9 +43,9 @@ public class ExpectancyStrategySelector : IEmpathicStrategySelector
     public ExpectancyStrategySelector()
     {
         // TODO remove comments for release
-//        var state = PersistentDataStorage.Instance.GetState();
-//        _shownStrategies = state["DailyTask"].AsObject["ShownStrategies"].AsObject[DateTime.Now.ToShortDateString()]
-//            .AsInt;
+        var state = PersistentDataStorage.Instance.GetState();
+        _shownStrategies = state["DailyTask"].AsObject["ShownStrategies"].AsObject[DateTime.Now.ToShortDateString()]
+            .AsInt;
     }
 
     public Intention SelectIntention(History history, ICollection<IEmpathicStrategy> strategies, User user)

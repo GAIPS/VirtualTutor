@@ -27,6 +27,8 @@ public class VT_Main : MonoBehaviour
 
     [SerializeField] private WebManager _webManager;
 
+    [SerializeField] private int _strategyVersion = 1;
+
     // Use this for initialization
     void Start()
     {
@@ -105,7 +107,7 @@ public class VT_Main : MonoBehaviour
         {
             // Setup Empathic Strategy
             _manager.EmpathicStrategySelector = new ExpectancyStrategySelector();
-            
+
             // Welcoming and Goodbye
             {
                 var strategy = new BasicStrategy();
@@ -119,7 +121,7 @@ public class VT_Main : MonoBehaviour
                 strategy.Intentions.Add(new Intention("exit"));
                 _manager.Strategies.Add(strategy);
             }
-            
+
             // Theme Introduction
             {
                 var strategy = new BasicStrategy();
@@ -158,260 +160,517 @@ public class VT_Main : MonoBehaviour
                 _manager.Strategies.Add(strategy);
             }
 
-            // Subjective - Challenging
-            // Reward
+            // Version 01
+            if (_strategyVersion == 1)
             {
-                var strategy = new BasicStrategy();
-                strategy.Name = "subjective-challenging-reward-as-expected";
-                strategy.Intentions.Add(new Intention("summary"));
-                _manager.Strategies.Add(strategy);
-            }
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "subjective-challenging-reward-greater";
-                strategy.Intentions.Add(new Intention("summary"));
-                strategy.Intentions.Add(new Intention("rest"));
-                strategy.Intentions.Add(new Intention("capabilities"));
-                _manager.Strategies.Add(strategy);
-            }
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "subjective-challenging-reward-lesser";
-                strategy.Intentions.Add(new Intention("summary"));
-                strategy.Intentions.Add(new Intention("help"));
-                _manager.Strategies.Add(strategy);
-            }
-            // Punishment
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "subjective-challenging-punishment-as-expected";
-                strategy.Intentions.Add(new Intention("summary"));
-                strategy.Intentions.Add(new Intention("change-view"));
-                _manager.Strategies.Add(strategy);
-            }
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "subjective-challenging-punishment-lesser";
-                strategy.Intentions.Add(new Intention("summary"));
-                strategy.Intentions.Add(new Intention("rest"));
-                _manager.Strategies.Add(strategy);
-            }
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "subjective-challenging-punishment-greater";
-                strategy.Intentions.Add(new Intention("summary"));
-                strategy.Intentions.Add(new Intention("believe-you"));
-                _manager.Strategies.Add(strategy);
-            }
+                // Subjective - Challenging
+                // Reward
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-challenging-reward-as-expected";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-challenging-reward-greater";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    strategy.Intentions.Add(new Intention("rest"));
+                    strategy.Intentions.Add(new Intention("capabilities"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-challenging-reward-lesser";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    strategy.Intentions.Add(new Intention("help"));
+                    _manager.Strategies.Add(strategy);
+                }
+                // Punishment
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-challenging-punishment-as-expected";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    strategy.Intentions.Add(new Intention("change-view"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-challenging-punishment-lesser";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    strategy.Intentions.Add(new Intention("rest"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-challenging-punishment-greater";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    strategy.Intentions.Add(new Intention("believe-you"));
+                    _manager.Strategies.Add(strategy);
+                }
 
-            // Subjective - Enjoyment
-            // Reward
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "subjective-enjoyment-reward-as-expected";
-                strategy.Intentions.Add(new Intention("capabilities"));
-                _manager.Strategies.Add(strategy);
-            }
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "subjective-enjoyment-reward-greater";
-                strategy.Intentions.Add(new Intention("believe-you"));
-                _manager.Strategies.Add(strategy);
-            }
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "subjective-enjoyment-reward-lesser";
-                strategy.Intentions.Add(new Intention("change-view"));
-                strategy.Intentions.Add(new Intention("believe-you"));
-                _manager.Strategies.Add(strategy);
-            }
-            // Punishment
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "subjective-enjoyment-punishment-as-expected";
-                strategy.Intentions.Add(new Intention("summary"));
-                strategy.Intentions.Add(new Intention("believe-you"));
-                _manager.Strategies.Add(strategy);
-            }
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "subjective-enjoyment-punishment-lesser";
-                strategy.Intentions.Add(new Intention("capabilities"));
-                _manager.Strategies.Add(strategy);
-            }
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "subjective-enjoyment-punishment-greater";
-                strategy.Intentions.Add(new Intention("help"));
-                _manager.Strategies.Add(strategy);
-            }
+                // Subjective - Enjoyment
+                // Reward
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-enjoyment-reward-as-expected";
+                    strategy.Intentions.Add(new Intention("capabilities"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-enjoyment-reward-greater";
+                    strategy.Intentions.Add(new Intention("believe-you"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-enjoyment-reward-lesser";
+                    strategy.Intentions.Add(new Intention("change-view"));
+                    strategy.Intentions.Add(new Intention("believe-you"));
+                    _manager.Strategies.Add(strategy);
+                }
+                // Punishment
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-enjoyment-punishment-as-expected";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    strategy.Intentions.Add(new Intention("believe-you"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-enjoyment-punishment-lesser";
+                    strategy.Intentions.Add(new Intention("capabilities"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-enjoyment-punishment-greater";
+                    strategy.Intentions.Add(new Intention("help"));
+                    _manager.Strategies.Add(strategy);
+                }
 
-            // Subjective - Importance
-            // Reward
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "subjective-importance-reward-as-expected";
-                strategy.Intentions.Add(new Intention("capabilities"));
-                _manager.Strategies.Add(strategy);
-            }
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "subjective-importance-reward-greater";
-                strategy.Intentions.Add(new Intention("believe-you"));
-                _manager.Strategies.Add(strategy);
-            }
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "subjective-importance-reward-lesser";
-                strategy.Intentions.Add(new Intention("help"));
-                _manager.Strategies.Add(strategy);
-            }
-            // Punishment
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "subjective-importance-punishment-as-expected";
-                strategy.Intentions.Add(new Intention("change-view"));
-                strategy.Intentions.Add(new Intention("help"));
-                _manager.Strategies.Add(strategy);
-            }
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "subjective-importance-punishment-lesser";
-                strategy.Intentions.Add(new Intention("believe-you"));
-                _manager.Strategies.Add(strategy);
-            }
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "subjective-importance-punishment-greater";
-                strategy.Intentions.Add(new Intention("help"));
-                _manager.Strategies.Add(strategy);
-            }
+                // Subjective - Importance
+                // Reward
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-importance-reward-as-expected";
+                    strategy.Intentions.Add(new Intention("capabilities"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-importance-reward-greater";
+                    strategy.Intentions.Add(new Intention("believe-you"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-importance-reward-lesser";
+                    strategy.Intentions.Add(new Intention("help"));
+                    _manager.Strategies.Add(strategy);
+                }
+                // Punishment
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-importance-punishment-as-expected";
+                    strategy.Intentions.Add(new Intention("change-view"));
+                    strategy.Intentions.Add(new Intention("help"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-importance-punishment-lesser";
+                    strategy.Intentions.Add(new Intention("believe-you"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-importance-punishment-greater";
+                    strategy.Intentions.Add(new Intention("help"));
+                    _manager.Strategies.Add(strategy);
+                }
 
-            // Objective - Performance
-            // Reward
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "objective-performance-reward-as-expected";
-                strategy.Intentions.Add(new Intention("capabilities"));
-                _manager.Strategies.Add(strategy);
-            }
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "objective-performance-reward-greater";
-                strategy.Intentions.Add(new Intention("believe-you"));
-                _manager.Strategies.Add(strategy);
-            }
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "objective-performance-reward-lesser";
-                strategy.Intentions.Add(new Intention("capabilities"));
-                _manager.Strategies.Add(strategy);
-            }
-            // Punishment
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "objective-performance-punishment-as-expected";
-                strategy.Intentions.Add(new Intention("change-view"));
-                _manager.Strategies.Add(strategy);
-            }
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "objective-performance-punishment-lesser";
-                strategy.Intentions.Add(new Intention("summary"));
-                strategy.Intentions.Add(new Intention("believe-you"));
-                _manager.Strategies.Add(strategy);
-            }
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "objective-performance-punishment-greater";
-                strategy.Intentions.Add(new Intention("change-view"));
-                _manager.Strategies.Add(strategy);
-            }
+                // Objective - Performance
+                // Reward
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-performance-reward-as-expected";
+                    strategy.Intentions.Add(new Intention("capabilities"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-performance-reward-greater";
+                    strategy.Intentions.Add(new Intention("believe-you"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-performance-reward-lesser";
+                    strategy.Intentions.Add(new Intention("capabilities"));
+                    _manager.Strategies.Add(strategy);
+                }
+                // Punishment
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-performance-punishment-as-expected";
+                    strategy.Intentions.Add(new Intention("change-view"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-performance-punishment-lesser";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    strategy.Intentions.Add(new Intention("believe-you"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-performance-punishment-greater";
+                    strategy.Intentions.Add(new Intention("change-view"));
+                    _manager.Strategies.Add(strategy);
+                }
 
-            // Objective - Effort
-            // Reward
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "objective-effort-reward-as-expected";
-                strategy.Intentions.Add(new Intention("capabilities"));
-                _manager.Strategies.Add(strategy);
-            }
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "objective-effort-reward-greater";
-                strategy.Intentions.Add(new Intention("believe-you"));
-                _manager.Strategies.Add(strategy);
-            }
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "objective-effort-reward-lesser";
-                strategy.Intentions.Add(new Intention("summary"));
-                strategy.Intentions.Add(new Intention("believe-you"));
-                _manager.Strategies.Add(strategy);
-            }
-            // Punishment
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "objective-effort-punishment-as-expected";
-                strategy.Intentions.Add(new Intention("summary"));
-                strategy.Intentions.Add(new Intention("help"));
-                _manager.Strategies.Add(strategy);
-            }
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "objective-effort-punishment-lesser";
-                strategy.Intentions.Add(new Intention("summary"));
-                strategy.Intentions.Add(new Intention("capabilities"));
-                _manager.Strategies.Add(strategy);
-            }
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "objective-effort-punishment-greater";
-                strategy.Intentions.Add(new Intention("summary"));
-                strategy.Intentions.Add(new Intention("change-view"));
-                _manager.Strategies.Add(strategy);
-            }
+                // Objective - Effort
+                // Reward
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-effort-reward-as-expected";
+                    strategy.Intentions.Add(new Intention("capabilities"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-effort-reward-greater";
+                    strategy.Intentions.Add(new Intention("believe-you"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-effort-reward-lesser";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    strategy.Intentions.Add(new Intention("believe-you"));
+                    _manager.Strategies.Add(strategy);
+                }
+                // Punishment
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-effort-punishment-as-expected";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    strategy.Intentions.Add(new Intention("help"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-effort-punishment-lesser";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    strategy.Intentions.Add(new Intention("capabilities"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-effort-punishment-greater";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    strategy.Intentions.Add(new Intention("change-view"));
+                    _manager.Strategies.Add(strategy);
+                }
 
-            // Objective - Engagement
-            // Reward
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "objective-engagement-reward-as-expected";
-                strategy.Intentions.Add(new Intention("capabilities"));
-                _manager.Strategies.Add(strategy);
+                // Objective - Engagement
+                // Reward
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-engagement-reward-as-expected";
+                    strategy.Intentions.Add(new Intention("capabilities"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-engagement-reward-greater";
+                    strategy.Intentions.Add(new Intention("believe-you"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-engagement-reward-lesser";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    strategy.Intentions.Add(new Intention("believe-you"));
+                    _manager.Strategies.Add(strategy);
+                }
+                // Punishment
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-engagement-punishment-as-expected";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    strategy.Intentions.Add(new Intention("capabilities"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-engagement-punishment-lesser";
+                    strategy.Intentions.Add(new Intention("capabilities"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-engagement-punishment-greater";
+                    strategy.Intentions.Add(new Intention("change-view"));
+                    _manager.Strategies.Add(strategy);
+                }
             }
+            
+            // Version 02
+            if (_strategyVersion == 2)
             {
-                var strategy = new BasicStrategy();
-                strategy.Name = "objective-engagement-reward-greater";
-                strategy.Intentions.Add(new Intention("believe-you"));
-                _manager.Strategies.Add(strategy);
-            }
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "objective-engagement-reward-lesser";
-                strategy.Intentions.Add(new Intention("summary"));
-                strategy.Intentions.Add(new Intention("believe-you"));
-                _manager.Strategies.Add(strategy);
-            }
-            // Punishment
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "objective-engagement-punishment-as-expected";
-                strategy.Intentions.Add(new Intention("summary"));
-                strategy.Intentions.Add(new Intention("capabilities"));
-                _manager.Strategies.Add(strategy);
-            }
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "objective-engagement-punishment-lesser";
-                strategy.Intentions.Add(new Intention("capabilities"));
-                _manager.Strategies.Add(strategy);
-            }
-            {
-                var strategy = new BasicStrategy();
-                strategy.Name = "objective-engagement-punishment-greater";
-                strategy.Intentions.Add(new Intention("change-view"));
-                _manager.Strategies.Add(strategy);
+                // Subjective - Challenging
+                // Reward
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-challenging-reward-as-expected";
+                    strategy.Intentions.Add(new Intention("change-view"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-challenging-reward-greater";
+                    strategy.Intentions.Add(new Intention("help"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-challenging-reward-lesser";
+                    strategy.Intentions.Add(new Intention("rest"));
+                    _manager.Strategies.Add(strategy);
+                }
+                // Punishment
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-challenging-punishment-as-expected";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    strategy.Intentions.Add(new Intention("change-view"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-challenging-punishment-lesser";
+                    strategy.Intentions.Add(new Intention("capabilities"));
+                    strategy.Intentions.Add(new Intention("summary"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-challenging-punishment-greater";
+                    strategy.Intentions.Add(new Intention("rest"));
+                    _manager.Strategies.Add(strategy);
+                }
+
+                // Subjective - Enjoyment
+                // Reward
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-enjoyment-reward-as-expected";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-enjoyment-reward-greater";
+                    strategy.Intentions.Add(new Intention("believe-you"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-enjoyment-reward-lesser";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    strategy.Intentions.Add(new Intention("believe-you"));
+                    _manager.Strategies.Add(strategy);
+                }
+                // Punishment
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-enjoyment-punishment-as-expected";
+                    strategy.Intentions.Add(new Intention("change-view"));
+                    strategy.Intentions.Add(new Intention("believe-you"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-enjoyment-punishment-lesser";
+                    strategy.Intentions.Add(new Intention("help"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-enjoyment-punishment-greater";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    strategy.Intentions.Add(new Intention("believe-you"));
+                    _manager.Strategies.Add(strategy);
+                }
+
+                // Subjective - Importance
+                // Reward
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-importance-reward-as-expected";
+                    strategy.Intentions.Add(new Intention("believe-you"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-importance-reward-greater";
+                    strategy.Intentions.Add(new Intention("capabilities"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-importance-reward-lesser";
+                    strategy.Intentions.Add(new Intention("capabilities"));
+                    _manager.Strategies.Add(strategy);
+                }
+                // Punishment
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-importance-punishment-as-expected";
+                    strategy.Intentions.Add(new Intention("believe-you"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-importance-punishment-lesser";
+                    strategy.Intentions.Add(new Intention("help"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "subjective-importance-punishment-greater";
+                    strategy.Intentions.Add(new Intention("help"));
+                    _manager.Strategies.Add(strategy);
+                }
+
+                // Objective - Performance
+                // Reward
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-performance-reward-as-expected";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    strategy.Intentions.Add(new Intention("believe-you"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-performance-reward-greater";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    strategy.Intentions.Add(new Intention("change-view"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-performance-reward-lesser";
+                    strategy.Intentions.Add(new Intention("believe-you"));
+                    _manager.Strategies.Add(strategy);
+                }
+                // Punishment
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-performance-punishment-as-expected";
+                    strategy.Intentions.Add(new Intention("believe-you"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-performance-punishment-lesser";
+                    strategy.Intentions.Add(new Intention("change-view"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-performance-punishment-greater";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    _manager.Strategies.Add(strategy);
+                }
+
+                // Objective - Effort
+                // Reward
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-effort-reward-as-expected";
+                    strategy.Intentions.Add(new Intention("believe-you"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-effort-reward-greater";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-effort-reward-lesser";
+                    strategy.Intentions.Add(new Intention("capabilities"));
+                    _manager.Strategies.Add(strategy);
+                }
+                // Punishment
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-effort-punishment-as-expected";
+                    strategy.Intentions.Add(new Intention("capabilities"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-effort-punishment-lesser";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    strategy.Intentions.Add(new Intention("change-view"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-effort-punishment-greater";
+                    strategy.Intentions.Add(new Intention("help"));
+                    _manager.Strategies.Add(strategy);
+                }
+
+                // Objective - Engagement
+                // Reward
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-engagement-reward-as-expected";
+                    strategy.Intentions.Add(new Intention("believe-you"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-engagement-reward-greater";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-engagement-reward-lesser";
+                    strategy.Intentions.Add(new Intention("capabilities"));
+                    _manager.Strategies.Add(strategy);
+                }
+                // Punishment
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-engagement-punishment-as-expected";
+                    strategy.Intentions.Add(new Intention("change-view"));
+                    strategy.Intentions.Add(new Intention("capabilities"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-engagement-punishment-lesser";
+                    strategy.Intentions.Add(new Intention("summary"));
+                    _manager.Strategies.Add(strategy);
+                }
+                {
+                    var strategy = new BasicStrategy();
+                    strategy.Name = "objective-engagement-punishment-greater";
+                    strategy.Intentions.Add(new Intention("capabilities"));
+                    _manager.Strategies.Add(strategy);
+                }
             }
         }
 

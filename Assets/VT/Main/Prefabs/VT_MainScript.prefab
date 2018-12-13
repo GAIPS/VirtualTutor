@@ -68,6 +68,7 @@ MonoBehaviour:
   _loginMenuPrefab: {fileID: 1960030583484248, guid: abe7359a66004124897564d3f6c0293b,
     type: 2}
   _webManager: {fileID: 0}
+  _strategyVersion: 1
 --- !u!114 &114426145877066238
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -86,3 +87,4 @@ MonoBehaviour:
   - {fileID: 1368588589422096, guid: a2ba5d75d3b7c45b89b836433b8cd417, type: 2}
   - {fileID: 1486620034221576, guid: 84065411419274ecabf9c6f2a0fdb538, type: 2}
   - {fileID: 1887858068553942, guid: 0d76a34c812ce467093a76f184799430, type: 2}
+  - {fileID: 1774539992708338, guid: 51c0fe3c283145749a14c78bc80e0089, type: 2}

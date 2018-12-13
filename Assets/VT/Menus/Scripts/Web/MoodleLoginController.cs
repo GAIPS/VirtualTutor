@@ -79,15 +79,16 @@ public class MoodleLoginController : IControl
                 state["UserID"] = username;
                 PersistentDataStorage.Instance.SaveState();
                 
-                _webManager.RetrieveData(username, (percentage, message) =>
-                {
-                    DebugLog.Log("Progress: " + percentage * 100f + " | " + message);
-                    if (percentage == 1f)
-                    {
-                        _hook.CompleteLogin();
-                        Disable();
-                    }
-                });
+                Disable();
+//                _webManager.RetrieveData(username, (percentage, message) =>
+//                {
+//                    DebugLog.Log("Progress: " + percentage * 100f + " | " + message);
+//                    if (percentage == 1f)
+//                    {
+//                        _hook.CompleteLogin();
+//                        Disable();
+//                    }
+//                });
             });
         };
 
