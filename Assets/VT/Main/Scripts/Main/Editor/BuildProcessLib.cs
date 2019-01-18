@@ -26,7 +26,7 @@ public static class BuildProcessLib
                 buildPath += "Linux/" + subfolder;
                 extention = "x86_64";
                 break;
-            case BuildTarget.StandaloneOSXIntel64:
+            case BuildTarget.StandaloneOSX:
                 buildPath += "Mac/";
                 extention = "app";
                 break;
@@ -70,7 +70,7 @@ public static class BuildProcessLib
             case BuildTarget.StandaloneLinux64:
                 buildPath += "Linux/";
                 break;
-            case BuildTarget.StandaloneOSXIntel64:
+            case BuildTarget.StandaloneOSX:
                 buildPath += "Mac/";
                 break;
         }
@@ -96,7 +96,7 @@ public static class BuildProcessLib
                 buildPath += "Linux/";
                 os += "Linux/";
                 break;
-            case BuildTarget.StandaloneOSXIntel64:
+            case BuildTarget.StandaloneOSX:
                 buildPath += "Mac/";
                 os += "Mac/";
                 break;
@@ -160,7 +160,7 @@ public static class BuildProcessLib
                 buildPath += "Linux/";
                 filename += " Linux";
                 break;
-            case BuildTarget.StandaloneOSXIntel64:
+            case BuildTarget.StandaloneOSX:
                 buildPath += "Mac/";
                 filename += " Mac";
                 break;

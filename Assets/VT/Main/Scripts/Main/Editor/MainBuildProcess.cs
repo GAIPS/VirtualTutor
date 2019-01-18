@@ -66,7 +66,7 @@ public class MainBuildProcess : MonoBehaviour
     public static bool BuildGameForMac()
     {
         if (!bplib.BuildGameForPlatform(mainLevels, Path, string.Empty, "VirtualTutoring",
-            BuildTarget.StandaloneOSXIntel64))
+            BuildTarget.StandaloneOSX))
         {
             Debug.LogError("Failed to build to Mac.");
             return false;
@@ -114,7 +114,7 @@ public class MainBuildProcess : MonoBehaviour
     [MenuItem("VT Tools/Main Build Tools/Zip Mac Build", false, 24)]
     public static void ZipForMac()
     {
-        bplib.ZipForPlatform(Path, ZipName, BuildTarget.StandaloneOSXIntel64);
+        bplib.ZipForPlatform(Path, ZipName, BuildTarget.StandaloneOSX);
     }
 
     [MenuItem("VT Tools/Main Build Tools/Clean All Builds", false, 40)]

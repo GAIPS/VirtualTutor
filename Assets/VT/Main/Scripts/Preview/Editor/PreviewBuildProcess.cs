@@ -54,7 +54,7 @@ public class PreviewBuildProcess : MonoBehaviour
     [MenuItem("VT Tools/Preview Build Tools/Build For Mac", false, 3)]
     public static bool BuildGameForMac()
     {
-        if (!bplib.BuildGameForPlatform(previewLevels, Path, "Preview/", "Preview", BuildTarget.StandaloneOSXIntel64))
+        if (!bplib.BuildGameForPlatform(previewLevels, Path, "Preview/", "Preview", BuildTarget.StandaloneOSX))
         {
             Debug.LogError("Failed to build to Mac.");
             return false;
@@ -95,8 +95,8 @@ public class PreviewBuildProcess : MonoBehaviour
     [MenuItem("VT Tools/Preview Build Tools/Copy Build Assets For Mac", false, 23)]
     public static void CopyBuildAssetsForMac()
     {
-        bplib.CopyBuildAssetsForPlatform(Path, BuildTarget.StandaloneOSXIntel64);
-        string buildPath = bplib.GetBuildPath(Path, BuildTarget.StandaloneOSXIntel64);
+        bplib.CopyBuildAssetsForPlatform(Path, BuildTarget.StandaloneOSX);
+        string buildPath = bplib.GetBuildPath(Path, BuildTarget.StandaloneOSX);
         FileUtil.ReplaceFile("preview.yarn.txt", buildPath + "preview.yarn.txt");
         Debug.Log("Copied build assets for Mac to " + Path);
     }
@@ -133,7 +133,7 @@ public class PreviewBuildProcess : MonoBehaviour
     [MenuItem("VT Tools/Preview Build Tools/Zip Mac Build", false, 43)]
     public static void ZipForMac()
     {
-        bplib.ZipForPlatform(Path, ZipName, BuildTarget.StandaloneOSXIntel64);
+        bplib.ZipForPlatform(Path, ZipName, BuildTarget.StandaloneOSX);
     }
 
     [MenuItem("VT Tools/Preview Build Tools/Clean All Builds", false, 60)]
