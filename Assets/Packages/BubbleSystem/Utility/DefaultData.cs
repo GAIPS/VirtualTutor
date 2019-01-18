@@ -650,7 +650,7 @@ namespace BubbleSystem
 
         private void SetTextData()
         {
-            TMPro.TMP_FontAsset neutralFont = (TMPro.TMP_FontAsset)Resources.Load("Text/TextMesh_Fonts/arial");
+            TMPro.TMP_FontAsset neutralFont = Resources.Load<TMPro.TMP_FontAsset>("Text/TextMesh_Fonts/arial");
             float initialSize = 40.0f;
             TextData text = new TextData();
             Dictionary<float, TextData> dict = new Dictionary<float, TextData>();

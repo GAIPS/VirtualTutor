@@ -10,7 +10,8 @@ namespace BubbleSystem
 
         public override IEnumerator Run(ImageEffectData data)
         {
-            Color32 initialColor = data.renderer.material.color, finalColor;
+            Color32 initialColor = data.renderer.material.color;
+            Color finalColor;
             int red, green, blue, alpha;
 
             float initialTime = Time.time;

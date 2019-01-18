@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 using UnityEditor;
+using UnityEditor.Build.Reporting;
 using UnityEngine;
 
 public static class BuildProcessLib
@@ -44,13 +45,15 @@ public static class BuildProcessLib
             options = BuildOptions.None
         };
         // Build player.
-        string result = BuildPipeline.BuildPlayer(buildPlayerOptions);
-        if (!string.IsNullOrEmpty(result))
+        var result = BuildPipeline.BuildPlayer(buildPlayerOptions);
+        BuildSummary summary = result.summary;
+        
+        if (summary.result == BuildResult.Succeeded)
         {
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     public static string GetBuildPath(string path, BuildTarget target)

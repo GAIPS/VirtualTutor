@@ -24,7 +24,8 @@ namespace BubbleSystem
 
             TMP_TextInfo textInfo = data.hooks.textData.m_TextComponent.textInfo;
             Color32[] newVertexColors;
-            Color32 initialColor, finalColor;
+            Color32 initialColor;
+            Color finalColor;
             int red, green, blue, alpha;
 
             int characterCount = textInfo.characterCount;

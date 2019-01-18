@@ -21,7 +21,8 @@ namespace BubbleSystem
             Clean(data);
             data.hooks.textData.m_TextComponent.ForceMeshUpdate();
 
-            Color32 initialColor = data.hooks.textData.m_TextComponent.color, finalColor;
+            Color32 initialColor = data.hooks.textData.m_TextComponent.color;
+            Color finalColor;
             int red, green, blue, alpha;
 
             float initialTime = Time.time;
