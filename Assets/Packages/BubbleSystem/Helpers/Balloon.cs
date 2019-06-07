@@ -41,7 +41,9 @@ namespace BubbleSystem
         {
             if (!data.tutor.GetString().Equals(balloonData._name)) return;
             foreach (IEnumerator coroutine in coroutines)
-                StopCoroutine(coroutine);
+                EffectsManager.Instance.Stop(coroutine);
+
+            coroutines.Clear();
 
             if (data.balloonData.show)
                 ShowBalloon(data);

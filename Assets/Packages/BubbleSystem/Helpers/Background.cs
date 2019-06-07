@@ -18,6 +18,7 @@ namespace BubbleSystem
             foreach (IEnumerator coroutine in coroutines)
                 EffectsManager.Instance.Stop(coroutine);
             StopAllCoroutines();
+            coroutines.Clear();
             StartCoroutine(ChangeImage(data));
         }
 
