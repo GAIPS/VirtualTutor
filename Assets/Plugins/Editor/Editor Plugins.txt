@@ -1,3 +1,0 @@
-Any editor plugin should be added here.
-
-Currently used for JetBrains Rider IDE, although it is not included in the repo.
